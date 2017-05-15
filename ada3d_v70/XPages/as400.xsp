@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	style="margin-left:10.0%;margin-right:10.0%"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar">
+
+	<xp:this.resources>
+		<xp:dojoModule name="dojo.store.JsonRest"></xp:dojoModule>
+		<xp:dojoModule name="dojo.data.ObjectStore"></xp:dojoModule>
+		<xp:script src="/dojoAs400.jss" clientSide="false"></xp:script>
+	</xp:this.resources>
+	<xp:this.beforePageLoad><![CDATA[#{javascript:getAS();}]]></xp:this.beforePageLoad>
+	
+	<xe:restService id="restService1" pathInfo="gridData">
+		<xe:this.service>
+			<xe:customRestService contentType="application/json"
+				requestVar="customData2" requestContentType="application/json">
+				<xe:this.doGet><![CDATA[#{javascript:var temp = viewScope.get("selectAS");
+return temp;}]]></xe:this.doGet>
+			</xe:customRestService>
+		</xe:this.service>
+
+
+	</xe:restService>
+
+
+	<script>
+		var pagina =
+		window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);var
+		jsonStore = new dojo.store.JsonRest( {target:pagina
+		+"/gridData"} ); var dataStore =
+		dojo.data.ObjectStore({objectStore: jsonStore});
+	</script>
+	<xp:br></xp:br>
+	<xp:label
+		value="El problema que tengo es que el beforePageLoad ejecuta 3 veces el agente"
+		id="label2"
+		style="background-color:rgb(255,255,128);font-weight:bold;text-decoration:underline">
+	</xp:label>
+	<xp:br></xp:br>
+	
+	<xp:messages id="messages1"></xp:messages>
+	<xp:br />
+	<xc:ccFxServerSideJsMessages></xc:ccFxServerSideJsMessages>
+	AAA<xp:br />
+	<xp:label
+		value="Falta hacer un combo que traiga datos de una columna"
+		id="label3"
+		style="background-color:rgb(0,255,0);font-weight:bold;text-decoration:underline">
+	</xp:label>
+	--&gt;
+	<xp:label id="label1" value="Usuarios:"></xp:label>
+
+	<xe:djComboBox id="djComboBox1">
+		<xe:this.dojoAttributes>
+			<xp:dojoAttribute name="placeHolder" value="Usuario"></xp:dojoAttribute>
+		</xe:this.dojoAttributes>
+		<xp:selectItems id="selectItems4" rendered="false">
+			<xp:this.value>
+				<![CDATA[#{javascript:
+			
+			
+			var valor="181";
+			importPackage(com.consorciosenred.ada.connect);
+			var jce:GetArrayFromQueryAS400 = new GetArrayFromQueryAS400();
+
+
+//			jce.getSelectAS("SELECT * From QS36F.PH_MAIL WHERE ESTADO = ' ' AND unid = 010", "EDIF");
+
+
+
+			jce.getSelectAS("SELECT * From QS36F.PH_MAIL WHERE ESTADO = ' ' AND unid = " +  valor ,"EDIF");
+			
+			}]]>
+
+
+
+
+			</xp:this.value>
+		</xp:selectItems>
+	</xe:djComboBox>
+	<xp:button value="Label" id="button1">
+		<xp:eventHandler event="onclick" submit="true"
+			refreshMode="complete">
+			<xp:this.action><![CDATA[#{javascript: viewScope.MessageType="Info"; 
+ viewScope.MessageText="Operation Completed Successfully..."; }]]></xp:this.action>
+		</xp:eventHandler></xp:button>
+	<xp:br></xp:br>
+	<xp:label id="label4">
+		<xp:this.value><![CDATA[#{javascript:"Registros: " + viewScope.get("selectCount")}]]></xp:this.value>
+	</xp:label>
+	<xp:br />
+	<xe:djxDataGrid id="djxDataGrid1" store="dataStore" title="pepe"
+		autoHeight="30">
+
+		<xe:djxDataGridColumn id="djxDataGridColumn1" field="USUARI"></xe:djxDataGridColumn>
+		<xe:djxDataGridColumn id="djxDataGridColumn2" field="EDIF"></xe:djxDataGridColumn>
+		<xe:djxDataGridColumn id="djxDataGridColumn3" field="UNI"></xe:djxDataGridColumn>
+		<xe:djxDataGridColumn id="djxDataGridColumn4" field="DPTO"></xe:djxDataGridColumn>
+		<xe:djxDataGridColumn id="djxDataGridColumn5" width="200"
+			field="PIN">
+		</xe:djxDataGridColumn>
+	</xe:djxDataGrid>
+
+	</xp:view>

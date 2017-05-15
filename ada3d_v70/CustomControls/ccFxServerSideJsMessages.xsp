@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <xp:view xmlns:xp="http://www.ibm.com/xsp/core"><xp:div role="alert" rendered="#{javascript:viewScope.MessageText!=null || sessionScope.MessageText!=null }">
+		<xp:this.styleClass><![CDATA[#{javascript:var msgtype = severity=viewScope.MessageType || sessionScope.MessageType || "";
+var result = null;
+switch (msgtype) {
+case "Error": result = 'lotusMessage'; break;
+case "Warning": result = "lotusMessage lotusWarning"; break;
+case "Info": result = "lotusMessage lotusInfo"; break;
+case "Confirmation": result = "lotusMessage lotusConfirm"; break;
+default: result = 'unknown';
+}
+result;}]]>
+		</xp:this.styleClass>
+		<xp:image id="image3" disableTheme="true">
+			<xp:this.url>
+				<![CDATA[#{javascript:severity=viewScope.MessageType || sessionScope.MessageType || "";
+viewScope.remove("MessageType");
+sessionScope.remove("MessageType");
+return "/.ibmxspres/domino/oneuiv2/images/icon"+ severity + "16.png";}]]>
+			</xp:this.url>
+		</xp:image>
+		<xp:span>
+			<xp:text escape="true" id="computedField4" disableTheme="true">
+				<xp:this.value>
+					<![CDATA[#{javascript:message=viewScope.MessageText || sessionScope.MessageText;
+viewScope.remove("MessageText");
+sessionScope.remove("MessageText");
+return message;}]]>
+				</xp:this.value>
+			</xp:text>
+		</xp:span>
+	</xp:div>
+ </xp:view>

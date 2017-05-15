@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
+ replicaid='832580D00002DACB'>
+<noteinfo noteid='1ee' unid='F2EFF7485D4CB7DD832580E4007D7557' sequence='4'>
+<created><datetime dst='true'>20170315T205020,39-02</datetime></created>
+<modified><datetime dst='true'>20170315T205421,20-02</datetime></modified>
+<revised><datetime dst='true'>20170315T205421,19-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170315T205421,20-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20170315T205020,44-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
+<wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+X/8QAAIADwAHAAAAAAAAAA==
+</rawitemdata></item>
+<item name='$TITLE'><textlist><text>Configuracion</text><text>f.Config</text></textlist></item>
+<item name='$Comment' sign='true'><text>Documento de Configuracion</text></item>
+<item name='$Info' sign='true'>
+<rawitemdata type='1'>
+hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
+</rawitemdata></item>
+<item name='$WindowTitle' sign='true'><formula>"Config. " + conf_base</formula></item>
+<item name='$Flags'><text>CD</text></item>
+<item name='$DesignerVersion'><text>8.5.3</text></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>f.Config</text></item>
+<item name='conf_base' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
+<item name='conf_server' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
+<item name='conf_path' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
+<item name='$Fields'><textlist><text>conf_path</text><text>conf_server</text><text
+>conf_base</text></textlist></item>
+<item name='$Body' sign='true'>
+<rawitemdata type='1'>
+gQKC/1oAAQAAAAAAAAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAABAAAAAJSHAAAAAAAAAAAAAAAAAQAAAAQAAACDBAEAhf8IAAEAAAqBAoL/WgACAAAA
+AAAAAAAAoAUAAKAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA
+AAAAlIUAAAAAoAUIAAAAAAABAAAABAAAAIMEAgDdBgEA+//7/ywAAAAAAAIDAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAEAAAAAAAAAAAAAAFz/PgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAOAAAAAAAAAAEAAAoAAAAAAQAAAAAA3gYBAPv/ow6gBSgAPAAAAAAAAgCkEgAAoAUJFAAA
+VQIREQEBAACBAoL/WgADAAAAAAAAAAAArwUJFK8FAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAhgEAAAAAVIcAAAAAAAAAAAAAAAABAAAABAAAAIMEAwCF/wwAAQAACkJh
+c2WkEgABCRRyIgAAVQIREQEBAACBAoL/WgAEAAAAAAAAAAAAGBRyIhgUAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhgEAAAAAVIcAAAAAAAAAAAAAAAABAAAABAAAAIME
+BACF/xAAAQAAClNlcnZpZG9ypBIAAnIi2zAAAFUCEREBAQAAgQKC/1oABQAAAAAAAAAAAIEi2zCB
+IgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIYBAAAAAFSHAAAAAAAA
+AAAAAAAAAQAAAAQAAACDBAUAhf8MAAEAAApQYXRopBIBAKAFCRQAAFUCEREBAQAAgQKDBAMAhf8I
+AAEAAArdBgAAiv/+/1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4AHgAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIr/LgCKAAAFADACAAAAAAAAAgEAAAoA
+AAAAAAAAAAkAAAAAAGNvbmZfYmFzZQBiDgEAhAAAAAAAAAAAAN4GAACK/4X/CAABAAAKpBIBAQkU
+ciIAAFUCEREBAQAAgQKDBAQAhf8IAAEAAArdBgAAiv/+/1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAB4AHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIr/
+MACKAAAFADACAAAAAAAAAgEAAAoAAAAAAAAAAAsAAAAAAGNvbmZfc2VydmVyAGIOAQCEAAAAAAAA
+AAAA3gYAAIr/hf8IAAEAAAqkEgECciLbMAAAVQIREQEBAACBAoMEBQCF/wgAAQAACt0GAACK//7/
+UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHgAeAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAiv8uAIoAAAUAMAIAAAAAAAACAQAACgAAAAAAAAAACQAAAAAA
+Y29uZl9wYXRoAGIOAQCEAAAAAAAAAAAA3gYAAIr/hf8IAAEAAAqlBgAAAACBAoMEAQCF/wgAAQAA
+Cg==
+</rawitemdata></item></note>
+

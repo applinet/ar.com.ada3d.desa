@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xp:label value="Pagina de Inicio" id="label1"
+		style="font-weight:bold;color:rgb(64,0,128);font-size:36pt">
+	</xp:label>
+
+	<xp:br></xp:br>
+	<xc:ccFxServerSideJsMessages></xc:ccFxServerSideJsMessages>
+	<xp:br></xp:br>
+	<xp:button value="Label" id="button1">
+		<xp:eventHandler event="onclick" submit="true"
+			refreshMode="complete">
+			<xp:this.action><![CDATA[#{javascript: viewScope.MessageType="Info"; 
+ viewScope.MessageText="Operation Completed Successfully..."; }]]></xp:this.action>
+		</xp:eventHandler>
+	</xp:button>
+</xp:view>

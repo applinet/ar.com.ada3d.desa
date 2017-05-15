@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	style="margin-left:10.0%;margin-right:10.0%"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar">
+
+	<xp:this.resources>
+		<xp:dojoModule name="dojo.store.JsonRest"></xp:dojoModule>
+		<xp:dojoModule name="dojo.data.ObjectStore"></xp:dojoModule>
+		<xp:script src="/dojoAs400.jss" clientSide="false"></xp:script>
+	</xp:this.resources>
+	<xp:this.beforePageLoad><![CDATA[#{javascript:getSAS();}]]></xp:this.beforePageLoad>
+	
+	<xe:restService id="restService1" pathInfo="gridData">
+		<xe:this.service>
+			<xe:customRestService contentType="application/json"
+				requestVar="customData2" requestContentType="application/json">
+				<xe:this.doGet><![CDATA[#{javascript:var temp = viewScope.get("selectAS");
+return temp;}]]></xe:this.doGet>
+			</xe:customRestService>
+		</xe:this.service>
+
+
+	</xe:restService>
+
+
+	<script>
+		var pagina =
+		window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);var
+		jsonStore = new dojo.store.JsonRest( {target:pagina
+		+"/gridData"} ); var dataStore =
+		dojo.data.ObjectStore({objectStore: jsonStore});
+	</script>
+	
+	<xp:br />
+	<xp:label value="Select: " id="label2"></xp:label>
+	<xp:inputText id="select" value="PROXIMAMENTE"
+		style="height:auto;width:80.0%" disabled="true">
+	</xp:inputText>
+	<xp:br></xp:br>
+	<xp:label value="Update: " id="label1"></xp:label>
+	<xp:inputText id="update" style="height:auto;width:80.0%"></xp:inputText>
+	
+	<xp:button value="Ejecutar" id="ejecutarSTRSQL">
+		<xp:eventHandler event="onclick" submit="true"
+			refreshMode="complete">
+
+			<xp:this.action><![CDATA[#{javascript:var dummyDoc:NotesDocument = database.createDocument();
+
+dummyDoc.replaceItemValue("TestField",getComponent("update").getValue());
+dummyDoc.replaceItemValue("count","");
+var agent:NotesAgent = database.getAgent("a.update");
+if(agent!=null){
+		agent.runWithDocumentContext(dummyDoc);
+}
+}]]></xp:this.action>
+		</xp:eventHandler>
+	</xp:button>
+	<xp:br></xp:br>
+	<xp:label id="label4">
+		<xp:this.value><![CDATA[#{javascript:"Registros: " + viewScope.get("selectCount")}]]></xp:this.value>
+	</xp:label>
+	<xp:br />
+	<xe:djxDataGrid id="djxDataGrid1" store="dataStore" title="GridData"
+		autoHeight="30">
+
+		<xe:djxDataGridColumn id="djxDataGridColumn1" field="CODADM"></xe:djxDataGridColumn>
+		<xe:djxDataGridColumn id="djxDataGridColumn2" field="ESTADO"></xe:djxDataGridColumn>
+		<xe:djxDataGridColumn id="djxDataGridColumn3" field="ERROR"></xe:djxDataGridColumn>
+		<xe:djxDataGridColumn id="djxDataGridColumn4" field="FECPRO" width="300"></xe:djxDataGridColumn>
+		<xe:djxDataGridColumn id="djxDataGridColumn5" field="USER"></xe:djxDataGridColumn>
+		<xe:djxDataGridColumn id="djxDataGridColumn6" field="PASSW"></xe:djxDataGridColumn>
+	</xe:djxDataGrid>
+
+	</xp:view>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="832580D00002DACB" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="19e" sequence="10" unid="47D584232396468E032580BF0082F301">
+<created><datetime>20170206T205018,89-03</datetime></created>
+<modified><datetime dst="true">20170315T230712,65-02</datetime></modified>
+<revised><datetime dst="true">20170315T230712,64-02</datetime></revised>
+<lastaccessed><datetime dst="true">20170315T230712,65-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20170222T223112,13-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Administrador/O=Sasa</name><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
+<wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+<item name="$TITLE"><text>com/consorciosenred/ada/connect/GetArrayFromQueryAS400.java</text></item>
+
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>com/consorciosenred/ada/connect/GetArrayFromQueryAS400.java</text></item>
+
+</note>

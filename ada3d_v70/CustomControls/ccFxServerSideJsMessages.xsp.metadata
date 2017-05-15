@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="832580D00002DACB" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="192" sequence="26" unid="CDB0597EA7E13DCD032580BF007D1BE7">
+<created><datetime>20170206T194631,43-03</datetime></created>
+<modified><datetime dst="true">20170412T193859,07-02</datetime></modified>
+<revised><datetime dst="true">20170412T193859,06-02</datetime></revised>
+<lastaccessed><datetime dst="true">20170412T193859,07-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20170222T223112,07-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Administrador/O=Sasa</name><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
+<wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
+<item name="$TITLE"><text>ccFxServerSideJsMessages.xsp</text></item>
+<item name="$Flags"><text>gC~4;</text></item>
+
+
+
+
+
+<item name="$FileNames" sign="true"><text>ccFxServerSideJsMessages.xsp</text></item>
+<item name="$DesignerVersion"><text>8.5.2</text></item>
+
+
+
+</note>
