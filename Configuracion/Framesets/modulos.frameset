@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
+ replicaid='03258121007CD104'>
+<noteinfo noteid='256' unid='66F85159293138058325810E0076E1C1' sequence='38'>
+<created><datetime dst='true'>20170426T193830,41-02</datetime></created>
+<modified><datetime dst='true'>20170515T202314,45-02</datetime></modified>
+<revised><datetime dst='true'>20170501T192612,19-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170515T202314,45-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20170515T202314,45-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pedro Marcano/O=SASA</name><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
+<wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
+<item name='$TITLE' sign='true'><text>modulos</text></item>
+<item name='$Comment' sign='true'><text/></item>
+<item name='$FrameSet' sign='true'>
+<rawitemdata type='1'>
+7/8YAAIAAwAAAAAAAAAAAAAAAAAAAAAA8P8+AAEAAAAAAAAAAAAMAAwAAAAAAAUAAAAAAAUAAAAA
+AAEAAgAAAAAABQAAAAAAAAADAAEAAgAOAAIAVgDx/zsAAQAAAABAAAADAAEAAQAAAAAABwAAAAAA
+AQAAAAAAAABmcm1fbW51AQD///8AAQAACgEAAAAAAD/2/ygAAAAAAAMABwAGAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAaW5pY2lv8f9BAAEAAAAAQAAAAwABAAEAAAAAAA0AAAAAAAEAAAAAAAAAZnJtX2Nv
+bnRlbmlkbwEA////AAEAAAoBAAAAAAA/9v82AAAAAAADAAIAFAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AHYuVUkuTW9kdWxvcy5HZW5lcmFs
+</rawitemdata></item>
+<item name='$Flags'><text>#34CQ</text></item>
+<item name='$DesignerVersion'><text>8.5.3</text></item></note>
+

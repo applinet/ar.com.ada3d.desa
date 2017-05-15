@@ -1,0 +1,2796 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex">
+
+		<xp:this.beforePageLoad>
+			<xp:executeScript>
+				<xp:this.script><![CDATA[#{javascript:viewScope.modulo="ADMINISTRACION"}]]></xp:this.script>
+			</xp:executeScript>
+		</xp:this.beforePageLoad>
+		<xp:panel id="TITULO" style="background-color:rgb(0,128,192);margin-bottom:10.0px"><xp:label id="label1" style="font-weight:bold;font-size:20pt;margin-left:0.0px;color:rgb(0,0,0);margin-bottom:0.0px;margin-right:20.0px" value="SISTEMA ADA3D">
+		</xp:label>&#160;<xp:label value="MODULO DE SEGURIDAD" id="label14" style="font-weight:bold;font-size:20pt;margin-left:0.0px;color:rgb(255,255,255);margin-bottom:0.0px;margin-right:20.0px">
+		</xp:label></xp:panel>
+<xp:label value="Usuario Seleccionado:" id="label15" style="font-size:11pt;font-weight:bold;margin-top:20.0px"></xp:label>
+		<xp:label id="label16" style="font-size:11pt;font-weight:bold;color:rgb(0,128,192);margin-left:10.0px" value="#{javascript:@UserName()}"></xp:label><xp:tabbedPanel id="tabbedPanel1" selectedTab="tabPanel2">
+
+			<xp:tabPanel label="Usuarios" id="tabPanel1"
+				style="background-color:rgb(209,225,239)" image="/people2.gif">
+				<xp:span style="font-size:22pt;font-weight:bold"></xp:span>
+
+
+				<xp:span
+					style="font-size:22pt;font-weight:bold;margin-left:0.0px">
+				</xp:span>
+				<xp:span style="font-size:22pt;font-weight:bold">
+					&#160;&#160;&#160;&#160;&#160;&#160;
+				</xp:span>
+				<xp:br></xp:br>
+				<xp:span style="font-size:22pt;font-weight:bold"></xp:span>
+				<xp:br></xp:br>
+				<xp:span style="font-size:22pt;font-weight:bold"></xp:span>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br><xp:div style="text-align:center">
+				<xp:span style="font-size:22pt;font-weight:bold"></xp:span>
+		<xp:span style="font-size:26pt;font-weight:bold">		USUARIOS CARGADOS DESDE UNA TABLA</xp:span></xp:div>
+				<xp:span style="font-size:22pt;font-weight:bold"></xp:span>
+				<xp:br></xp:br>
+				<xp:span style="font-size:22pt;font-weight:bold"></xp:span>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+			</xp:tabPanel>
+			<xp:tabPanel label="Autorizar Módulos" id="tabPanel2"
+				style="background-color:rgb(214,224,235)" image="/expandir.gif">
+
+
+				<xp:br></xp:br>
+				<xp:label value="Seleccione Módulo:" id="label17" style="font-size:12pt;font-weight:bold"></xp:label>
+				<xp:comboBox id="combo_modulos" style="width:200px">
+					<xp:selectItem itemLabel="Pulsar Aqui ..."
+						itemValue="  ">
+					</xp:selectItem>
+					<xp:selectItems>
+						<xp:this.value><![CDATA[#{javascript:@Unique(@DbColumn("", "v.UI.Modulos", 1))}]]></xp:this.value>
+					</xp:selectItems>
+				<xp:eventHandler event="onchange" submit="true" refreshMode="complete">
+					<xp:this.action>
+						<xp:executeScript>
+							<xp:this.script><![CDATA[#{javascript:viewScope.valor=getComponent("combo_modulos").value;
+}]]></xp:this.script>
+						</xp:executeScript>
+					</xp:this.action></xp:eventHandler></xp:comboBox>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:label id="label2" value="ADMINISTRACION">
+					<xp:this.style><![CDATA[#{javascript:
+if (viewScope.modulo=="ADMINISTRACION")
+{
+	style="width:150px;background-color:rgb(148,172,209);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+}
+else
+{
+	style="width:150px;background-color:rgb(0,128,192);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+
+}
+
+
+
+}]]></xp:this.style>
+
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:executeScript>
+								<xp:this.script><![CDATA[#{javascript:viewScope.modulo="ADMINISTRACION"}]]></xp:this.script>
+							</xp:executeScript>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:label>
+
+
+
+
+				<xp:label id="label13" value="EDIFICIOS">
+					<xp:this.style><![CDATA[#{javascript:
+if (viewScope.modulo=="EDIFICIOS")
+{
+	style="width:150px;background-color:rgb(148,172,209);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+}
+else
+{
+	style="width:150px;background-color:rgb(0,128,192);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+
+}
+
+
+
+}]]></xp:this.style>
+
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:executeScript>
+								<xp:this.script><![CDATA[#{javascript:viewScope.modulo="EDIFICIOS"}]]></xp:this.script>
+							</xp:executeScript>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:label>
+				<xp:label id="label3" value="PROPIETARIOS">
+					<xp:this.style><![CDATA[#{javascript:
+if (viewScope.modulo=="PROPIETARIOS")
+{
+	style="width:150px;background-color:rgb(148,172,209);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+}
+else
+{
+	style="width:150px;background-color:rgb(0,128,192);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+
+}
+
+
+
+}]]></xp:this.style>
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:executeScript>
+								<xp:this.script><![CDATA[#{javascript:viewScope.modulo="PROPIETARIOS"}]]></xp:this.script>
+							</xp:executeScript>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:label>
+				<xp:label id="label4" value="GASTOS">
+					<xp:this.style><![CDATA[#{javascript:
+if (viewScope.modulo=="GASTOS")
+{
+	style="width:150px;background-color:rgb(148,172,209);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+}
+else
+{
+	style="width:150px;background-color:rgb(0,128,192);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+
+}
+
+
+
+}]]></xp:this.style>
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:executeScript>
+								<xp:this.script><![CDATA[#{javascript:viewScope.modulo="GASTOS"}]]></xp:this.script>
+							</xp:executeScript>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:label>
+				<xp:label id="label5" value="LIQUIDACIONES">
+					<xp:this.style><![CDATA[#{javascript:
+if (viewScope.modulo=="LIQUIDACIONES")
+{
+	style="width:150px;background-color:rgb(148,172,209);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+}
+else
+{
+	style="width:150px;background-color:rgb(0,128,192);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+
+}
+
+
+
+}]]></xp:this.style>
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:executeScript>
+								<xp:this.script><![CDATA[#{javascript:viewScope.modulo="LIQUIDACIONES"}]]></xp:this.script>
+							</xp:executeScript>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:label>
+				<xp:label id="label6" value="POLIZA DE SEGUROS">
+					<xp:this.style><![CDATA[#{javascript:
+if (viewScope.modulo=="POLIZA DE SEGUROS")
+{
+	style="width:150px;background-color:rgb(148,172,209);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+}
+else
+{
+	style="width:150px;background-color:rgb(0,128,192);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+
+}
+
+
+
+}]]></xp:this.style>
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:executeScript>
+								<xp:this.script><![CDATA[#{javascript:viewScope.modulo="POLIZA DE SEGUROS"}]]></xp:this.script>
+							</xp:executeScript>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:label>
+				<xp:label id="label7" value="PROVEEDORES">
+					<xp:this.style><![CDATA[#{javascript:
+if (viewScope.modulo=="PROVEEDORES")
+{
+	style="width:150px;background-color:rgb(148,172,209);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+}
+else
+{
+	style="width:150px;background-color:rgb(0,128,192);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+
+}
+
+
+
+}]]></xp:this.style>
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:executeScript>
+								<xp:this.script><![CDATA[#{javascript:viewScope.modulo="PROVEEDORES"}]]></xp:this.script>
+							</xp:executeScript>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:label>
+				<xp:label id="label8" value="SUELDOS">
+					<xp:this.style><![CDATA[#{javascript:
+if (viewScope.modulo=="SUELDOS")
+{
+	style="width:150px;background-color:rgb(148,172,209);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+}
+else
+{
+	style="width:150px;background-color:rgb(0,128,192);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+
+}
+
+
+
+}]]></xp:this.style>
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:executeScript>
+								<xp:this.script><![CDATA[#{javascript:viewScope.modulo="SUELDOS"}]]></xp:this.script>
+							</xp:executeScript>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:label>
+				<xp:label id="label9" value="RECLAMOS">
+					<xp:this.style><![CDATA[#{javascript:
+if (viewScope.modulo=="RECLAMOS")
+{
+	style="width:150px;background-color:rgb(148,172,209);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+}
+else
+{
+	style="width:150px;background-color:rgb(0,128,192);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+
+}
+
+
+
+}]]></xp:this.style>
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:executeScript>
+								<xp:this.script><![CDATA[#{javascript:viewScope.modulo="RECLAMOS"}]]></xp:this.script>
+							</xp:executeScript>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:label>
+				<xp:label id="label10" value="INFORMES">
+					<xp:this.style><![CDATA[#{javascript:
+if (viewScope.modulo=="INFORMES")
+{
+	style="width:150px;background-color:rgb(148,172,209);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+}
+else
+{
+	style="width:150px;background-color:rgb(0,128,192);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+
+}
+
+
+
+}]]></xp:this.style>
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:executeScript>
+								<xp:this.script><![CDATA[#{javascript:viewScope.modulo="INFORMES"}]]></xp:this.script>
+							</xp:executeScript>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:label>
+				<xp:label id="label11" value="PROCESOS">
+					<xp:this.style><![CDATA[#{javascript:
+if (viewScope.modulo=="PROCESOS")
+{
+	style="width:150px;background-color:rgb(148,172,209);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+}
+else
+{
+	style="width:150px;background-color:rgb(0,128,192);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+
+}
+
+
+
+}]]></xp:this.style>
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:executeScript>
+								<xp:this.script><![CDATA[#{javascript:viewScope.modulo="PROCESOS"}]]></xp:this.script>
+							</xp:executeScript>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:label>
+				<xp:label id="label12" value="SEGURIDAD">
+					<xp:this.style><![CDATA[#{javascript:
+if (viewScope.modulo=="SEGURIDAD")
+{
+	style="width:150px;background-color:rgb(148,172,209);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+}
+else
+{
+	style="width:150px;background-color:rgb(0,128,192);text-align:center;color:rgb(255,255,255);font-weight:bold;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px;margin-left:5.0px"
+
+}
+
+
+
+}]]></xp:this.style>
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:executeScript>
+								<xp:this.script><![CDATA[#{javascript:viewScope.modulo="SEGURIDAD"}]]></xp:this.script>
+							</xp:executeScript>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:label>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				
+				<xp:panel id="modulo_administracion"
+					style="margin-top:0.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if (viewScope.valor=="ADMINISTRACION")
+//if (viewScope.modulo=="ADMINISTRACION")
+
+	{
+		true
+	}
+else
+
+	{
+		false
+	}
+
+	
+//	getComponent("inputText2").getValue())}]]></xp:this.rendered>
+					
+					<xp:viewPanel id="viewPanel1" rows="100"
+						var="rowData" rowClasses="red">
+						<xp:this.facets>
+
+						</xp:this.facets>
+
+
+
+
+
+
+						<xp:this.data>
+							<xp:dominoView var="vista_modulos"
+								viewName="v.UI.M_ADM">
+							</xp:dominoView>
+						</xp:this.data>
+
+
+
+						<xp:viewColumn columnName="modApp_nombre"
+							id="viewColumn4" displayAs="link" iconSrc="/people2.gif">
+							<xp:this.style><![CDATA[#{javascript:if (viewScope.opcion=="1")
+{
+	style="color:rgb(255, 51, 0);font-weigth:bold;font-size:10pt;text-align:right; width:200px"
+	
+	
+	
+	
+}
+else
+{
+	style="color:rgb(0, 102, 204);font-size:10pt;text-align:right; width:200px"
+}
+}]]></xp:this.style>
+							<xp:viewColumnHeader id="viewColumnHeader4"
+								iconSrc="/folder_new.gif" value=" MODULO">
+							</xp:viewColumnHeader>
+
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:sessionScope.valores=rowData.getUniversalID();
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppItem_nombre"
+							id="viewColumn5" indentResponses="true"
+							style="text-align:left;width:300px" displayAs="link">
+							<xp:viewColumnHeader
+								id="viewColumnHeader5">
+							</xp:viewColumnHeader>
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler2">
+								<xp:this.action>
+									<xp:executeScript
+										script="#{javascript:sessionScope.valores=rowData.getUniversalID()}">
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppSubitem_nombre"
+							id="viewColumn7" style="background-color:rgb(233,240,245)"
+							displayAs="link" showCheckbox="true">
+							<xp:viewColumnHeader
+								value=" Seleccionar Todo" id="viewColumnHeader7"
+								showCheckbox="true" iconSrc="/expandir.gif">
+							</xp:viewColumnHeader>
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:rowData.getNoteID();
+//sessionScope.valores=rowData.getNoteID()
+//sessionScope.valores=rowData.getUniversalID()
+
+
+viewScope.seleccion=rowData.getColumnValue('modApp_nombre');
+//viewScope.codigo=registros.getColumnValue('modApp_CU');
+
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+					</xp:viewPanel>
+					<xp:button value="Guardar" id="button3"
+						style="margin-left:0.0px;margin-top:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="computedField10">
+							<xp:this.action>
+								<xp:executeScript>
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+var vista=getComponent("viewPanel1");
+var seleccion=vista.getSelectedIds();
+
+var i;
+if(seleccion.length>0)
+{
+ for(i=0;i<seleccion.length;i++)
+ {
+ if(seleccion[i]!="")
+  {
+   viewScope.docid=viewScope.docid + "," + seleccion[i];
+
+  }
+ }
+}
+
+
+
+/*
+
+	var noteid:string = requestScope.query;
+	if (noteid.startsWith("NT")) { // in case it comes from @NoteID 
+		noteid = noteid.substring(3);
+	}
+	var doc:NotesDocument = database.getDocumentByID(noteid);
+	requestScope.status = doc.getItemValueString("subject");
+	
+*/
+}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action></xp:eventHandler>
+					</xp:button>
+					<xp:button value="  Cancelar  " id="button5"
+						style="margin-left:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:executeScript>
+
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+//var noteid:string = requestScope.query; // el codigo si funciona
+//var doc:NotesDocument = database.getDocumentByID("9BA");   // el codigo si funciona
+//	var doc:NotesDocument = database.getDocumentByID(noteid); recupera el doc usando el noteid
+
+//var modulo = doc.getItemValueString("modApp_nombre");// si funciona el codigo
+//viewScope.ver=modulo // funciona el codigo coloca el valor del campo modApp_nomnre
+	
+	}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:text escape="true" id="computedField10"
+						style="margin-left:10.0px">
+						<xp:this.value><![CDATA[#{javascript:"Selección: " +  viewScope.docid
+
+
+/*
+
+
+var a = new Array();
+a[0] = "one";
+a[1] = true;
+a[2] = 3;
+var display = "";
+for(var i=0; i<a.length; i++) {
+	display = display + a[i] + " ";
+}
+
+*/
+}]]></xp:this.value>
+					</xp:text>
+
+				</xp:panel>
+				
+				<xp:panel id="modulo_edificios"
+					style="margin-left:0.0px;margin-top:0.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if (viewScope.valor=="EDIFICIOS")
+//if (viewScope.modulo=="EDIFICIOS")
+	{
+		true
+	}
+else
+
+	{
+		false
+	}
+}]]></xp:this.rendered>
+					<xp:viewPanel id="viewPanel2" rows="100"
+						var="rowData" rowClasses="red">
+						<xp:this.facets>
+
+						</xp:this.facets>
+
+
+
+
+
+
+						<xp:this.data>
+							<xp:dominoView var="vista_modulos"
+								viewName="v.UI.M_EDF">
+							</xp:dominoView>
+						</xp:this.data>
+
+
+
+						<xp:viewColumn columnName="modApp_nombre"
+							id="viewColumn6" displayAs="link" iconSrc="/people2.gif">
+							<xp:this.style><![CDATA[#{javascript:if (viewScope.opcion=="1")
+{
+	style="color:rgb(255, 51, 0);font-weigth:bold;font-size:10pt;text-align:right; width:200px"
+	
+	
+	
+	
+}
+else
+{
+	style="color:rgb(0, 102, 204);font-size:10pt;text-align:right; width:200px"
+}
+}]]></xp:this.style>
+							<xp:viewColumnHeader id="viewColumnHeader6"
+								iconSrc="/folder_new.gif" value=" MODULO">
+							</xp:viewColumnHeader>
+
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:sessionScope.valores=rowData.getUniversalID();
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppItem_nombre"
+							id="viewColumn11" indentResponses="true"
+							style="text-align:left;width:300px" displayAs="link">
+							<xp:viewColumnHeader
+								id="viewColumnHeader11">
+							</xp:viewColumnHeader>
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler1">
+								<xp:this.action>
+									<xp:executeScript
+										script="#{javascript:sessionScope.valores=rowData.getUniversalID()}">
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppSubitem_nombre"
+							id="viewColumn12" style="background-color:rgb(233,240,245)"
+							displayAs="link" showCheckbox="true">
+							<xp:viewColumnHeader
+								value=" Seleccionar Todo" id="viewColumnHeader12"
+								showCheckbox="true" iconSrc="/expandir.gif">
+							</xp:viewColumnHeader>
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:rowData.getNoteID();
+//sessionScope.valores=rowData.getNoteID()
+//sessionScope.valores=rowData.getUniversalID()
+
+
+viewScope.seleccion=rowData.getColumnValue('modApp_nombre');
+//viewScope.codigo=registros.getColumnValue('modApp_CU');
+
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+					</xp:viewPanel>
+					<xp:button value="Guardar" id="button6"
+						style="margin-left:0.0px;margin-top:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="computedField2">
+							<xp:this.action>
+								<xp:executeScript>
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+var vista=getComponent("viewPanel2");
+var seleccion=vista.getSelectedIds();
+
+var i;
+if(seleccion.length>0)
+{
+ for(i=0;i<seleccion.length;i++)
+ {
+ if(seleccion[i]!="")
+  {
+   viewScope.docid=viewScope.docid + "," + seleccion[i];
+
+  }
+ }
+}
+
+
+
+/*
+
+	var noteid:string = requestScope.query;
+	if (noteid.startsWith("NT")) { // in case it comes from @NoteID 
+		noteid = noteid.substring(3);
+	}
+	var doc:NotesDocument = database.getDocumentByID(noteid);
+	requestScope.status = doc.getItemValueString("subject");
+	
+*/
+}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action></xp:eventHandler>
+					</xp:button>
+					<xp:button value="  Cancelar  " id="button7"
+						style="margin-left:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:executeScript>
+
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+//var noteid:string = requestScope.query; // el codigo si funciona
+//var doc:NotesDocument = database.getDocumentByID("9BA");   // el codigo si funciona
+//	var doc:NotesDocument = database.getDocumentByID(noteid); recupera el doc usando el noteid
+
+//var modulo = doc.getItemValueString("modApp_nombre");// si funciona el codigo
+//viewScope.ver=modulo // funciona el codigo coloca el valor del campo modApp_nomnre
+	
+	}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:text escape="true" id="computedField2"
+						style="margin-left:10.0px">
+						<xp:this.value><![CDATA[#{javascript:"Selección: " +  viewScope.docid
+
+
+/*
+
+
+var a = new Array();
+a[0] = "one";
+a[1] = true;
+a[2] = 3;
+var display = "";
+for(var i=0; i<a.length; i++) {
+	display = display + a[i] + " ";
+}
+
+*/
+}]]></xp:this.value>
+					</xp:text>
+
+				</xp:panel>
+
+				<xp:panel id="modulo_propietarios" style="margin-top:0.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if (viewScope.valor=="PROPIETARIOS")
+//if (viewScope.modulo=="PROPIETARIOS")
+	{
+		true
+	}
+else
+
+	{
+		false
+	}
+}]]></xp:this.rendered>
+					<xp:viewPanel id="viewPanel3" rows="100"
+						var="rowData" rowClasses="red">
+						<xp:this.facets>
+
+						</xp:this.facets>
+
+
+
+
+
+
+						<xp:this.data>
+							<xp:dominoView var="vista_modulos"
+								viewName="v.UI.M_PROP">
+							</xp:dominoView>
+						</xp:this.data>
+
+
+
+						<xp:viewColumn columnName="modApp_nombre"
+							id="viewColumn13" displayAs="link" iconSrc="/people2.gif">
+							<xp:this.style><![CDATA[#{javascript:if (viewScope.opcion=="1")
+{
+	style="color:rgb(255, 51, 0);font-weigth:bold;font-size:10pt;text-align:right; width:200px"
+	
+	
+	
+	
+}
+else
+{
+	style="color:rgb(0, 102, 204);font-size:10pt;text-align:right; width:200px"
+}
+}]]></xp:this.style>
+							<xp:viewColumnHeader id="viewColumnHeader13"
+								iconSrc="/folder_new.gif" value=" MODULO">
+							</xp:viewColumnHeader>
+
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:sessionScope.valores=rowData.getUniversalID();
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppItem_nombre"
+							id="viewColumn14" indentResponses="true"
+							style="text-align:left;width:300px" displayAs="link">
+							<xp:viewColumnHeader
+								id="viewColumnHeader14">
+							</xp:viewColumnHeader>
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler3">
+								<xp:this.action>
+									<xp:executeScript
+										script="#{javascript:sessionScope.valores=rowData.getUniversalID()}">
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppSubitem_nombre"
+							id="viewColumn15" style="background-color:rgb(233,240,245)"
+							displayAs="link" showCheckbox="true">
+							<xp:viewColumnHeader
+								value=" Seleccionar Todo" id="viewColumnHeader15"
+								showCheckbox="true" iconSrc="/expandir.gif">
+							</xp:viewColumnHeader>
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:rowData.getNoteID();
+//sessionScope.valores=rowData.getNoteID()
+//sessionScope.valores=rowData.getUniversalID()
+
+
+viewScope.seleccion=rowData.getColumnValue('modApp_nombre');
+//viewScope.codigo=registros.getColumnValue('modApp_CU');
+
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+					</xp:viewPanel>
+					<xp:button value="Guardar" id="button8"
+						style="margin-left:0.0px;margin-top:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="computedField11">
+							<xp:this.action>
+								<xp:executeScript>
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+var vista=getComponent("viewPanel3");
+var seleccion=vista.getSelectedIds();
+
+var i;
+if(seleccion.length>0)
+{
+ for(i=0;i<seleccion.length;i++)
+ {
+ if(seleccion[i]!="")
+  {
+   viewScope.docid=viewScope.docid + "," + seleccion[i];
+
+  }
+ }
+}
+
+
+
+/*
+
+	var noteid:string = requestScope.query;
+	if (noteid.startsWith("NT")) { // in case it comes from @NoteID 
+		noteid = noteid.substring(3);
+	}
+	var doc:NotesDocument = database.getDocumentByID(noteid);
+	requestScope.status = doc.getItemValueString("subject");
+	
+*/
+}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:button value="  Cancelar  " id="button9"
+						style="margin-left:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:executeScript>
+
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+//var noteid:string = requestScope.query; // el codigo si funciona
+//var doc:NotesDocument = database.getDocumentByID("9BA");   // el codigo si funciona
+//	var doc:NotesDocument = database.getDocumentByID(noteid); recupera el doc usando el noteid
+
+//var modulo = doc.getItemValueString("modApp_nombre");// si funciona el codigo
+//viewScope.ver=modulo // funciona el codigo coloca el valor del campo modApp_nomnre
+	
+	}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:text escape="true" id="computedField11"
+						style="margin-left:10.0px">
+						<xp:this.value><![CDATA[#{javascript:"Selección: " +  viewScope.docid
+
+
+/*
+
+
+var a = new Array();
+a[0] = "one";
+a[1] = true;
+a[2] = 3;
+var display = "";
+for(var i=0; i<a.length; i++) {
+	display = display + a[i] + " ";
+}
+
+*/
+}]]></xp:this.value>
+					</xp:text>
+
+				</xp:panel>
+				<xp:panel id="modulo_gastos" style="margin-top:0.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if (viewScope.valor=="GASTOS")
+//if (viewScope.modulo=="GASTOS")
+	{
+		true
+	}
+else
+
+	{
+		false
+	}
+}]]></xp:this.rendered>
+					<xp:viewPanel id="viewPanel4" rows="100"
+						var="rowData" rowClasses="red">
+						<xp:this.facets>
+
+						</xp:this.facets>
+
+
+
+
+
+
+						<xp:this.data>
+							<xp:dominoView var="vista_modulos"
+								viewName="v.UI.M_GASTOS">
+							</xp:dominoView>
+						</xp:this.data>
+
+
+
+						<xp:viewColumn columnName="modApp_nombre"
+							id="viewColumn16" displayAs="link" iconSrc="/people2.gif">
+							<xp:this.style><![CDATA[#{javascript:if (viewScope.opcion=="1")
+{
+	style="color:rgb(255, 51, 0);font-weigth:bold;font-size:10pt;text-align:right; width:200px"
+	
+	
+	
+	
+}
+else
+{
+	style="color:rgb(0, 102, 204);font-size:10pt;text-align:right; width:200px"
+}
+}]]></xp:this.style>
+							<xp:viewColumnHeader id="viewColumnHeader16"
+								iconSrc="/folder_new.gif" value=" MODULO">
+							</xp:viewColumnHeader>
+
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:sessionScope.valores=rowData.getUniversalID();
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppItem_nombre"
+							id="viewColumn17" indentResponses="true"
+							style="text-align:left;width:300px" displayAs="link">
+							<xp:viewColumnHeader
+								id="viewColumnHeader17">
+							</xp:viewColumnHeader>
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler4">
+								<xp:this.action>
+									<xp:executeScript
+										script="#{javascript:sessionScope.valores=rowData.getUniversalID()}">
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppSubitem_nombre"
+							id="viewColumn18" style="background-color:rgb(233,240,245)"
+							displayAs="link" showCheckbox="true">
+							<xp:viewColumnHeader
+								value=" Seleccionar Todo" id="viewColumnHeader18"
+								showCheckbox="true" iconSrc="/expandir.gif">
+							</xp:viewColumnHeader>
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:rowData.getNoteID();
+//sessionScope.valores=rowData.getNoteID()
+//sessionScope.valores=rowData.getUniversalID()
+
+
+viewScope.seleccion=rowData.getColumnValue('modApp_nombre');
+//viewScope.codigo=registros.getColumnValue('modApp_CU');
+
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+					</xp:viewPanel>
+					<xp:button value="Guardar" id="button10"
+						style="margin-left:0.0px;margin-top:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="computedField12">
+							<xp:this.action>
+								<xp:executeScript>
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+var vista=getComponent("viewPanel4");
+var seleccion=vista.getSelectedIds();
+
+var i;
+if(seleccion.length>0)
+{
+ for(i=0;i<seleccion.length;i++)
+ {
+ if(seleccion[i]!="")
+  {
+   viewScope.docid=viewScope.docid + "," + seleccion[i];
+
+  }
+ }
+}
+
+
+
+/*
+
+	var noteid:string = requestScope.query;
+	if (noteid.startsWith("NT")) { // in case it comes from @NoteID 
+		noteid = noteid.substring(3);
+	}
+	var doc:NotesDocument = database.getDocumentByID(noteid);
+	requestScope.status = doc.getItemValueString("subject");
+	
+*/
+}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:button value="  Cancelar  " id="button11"
+						style="margin-left:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:executeScript>
+
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+//var noteid:string = requestScope.query; // el codigo si funciona
+//var doc:NotesDocument = database.getDocumentByID("9BA");   // el codigo si funciona
+//	var doc:NotesDocument = database.getDocumentByID(noteid); recupera el doc usando el noteid
+
+//var modulo = doc.getItemValueString("modApp_nombre");// si funciona el codigo
+//viewScope.ver=modulo // funciona el codigo coloca el valor del campo modApp_nomnre
+	
+	}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:text escape="true" id="computedField12"
+						style="margin-left:10.0px">
+						<xp:this.value><![CDATA[#{javascript:"Selección: " +  viewScope.docid
+
+
+/*
+
+
+var a = new Array();
+a[0] = "one";
+a[1] = true;
+a[2] = 3;
+var display = "";
+for(var i=0; i<a.length; i++) {
+	display = display + a[i] + " ";
+}
+
+*/
+}]]></xp:this.value>
+					</xp:text>
+				</xp:panel>
+
+				<xp:panel id="modulo_liquidaciones"
+					style="margin-top:0.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if (viewScope.valor=="LIQUIDACIONES")
+//if (viewScope.modulo=="LIQUIDACIONES")
+	{
+		true
+	}
+else
+
+	{
+		false
+	}
+}]]></xp:this.rendered>
+					<xp:viewPanel id="viewPanel5" rows="100"
+						var="rowData" rowClasses="red">
+						<xp:this.facets>
+
+						</xp:this.facets>
+
+
+
+
+
+
+						<xp:this.data>
+							<xp:dominoView var="vista_modulos"
+								viewName="v.UI.M_LIQ">
+							</xp:dominoView>
+						</xp:this.data>
+
+
+
+						<xp:viewColumn columnName="modApp_nombre"
+							id="viewColumn19" displayAs="link" iconSrc="/people2.gif">
+							<xp:this.style><![CDATA[#{javascript:if (viewScope.opcion=="1")
+{
+	style="color:rgb(255, 51, 0);font-weigth:bold;font-size:10pt;text-align:right; width:200px"
+	
+	
+	
+	
+}
+else
+{
+	style="color:rgb(0, 102, 204);font-size:10pt;text-align:right; width:200px"
+}
+}]]></xp:this.style>
+							<xp:viewColumnHeader id="viewColumnHeader19"
+								iconSrc="/folder_new.gif" value=" MODULO">
+							</xp:viewColumnHeader>
+
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:sessionScope.valores=rowData.getUniversalID();
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppItem_nombre"
+							id="viewColumn20" indentResponses="true"
+							style="text-align:left;width:300px" displayAs="link">
+							<xp:viewColumnHeader
+								id="viewColumnHeader20">
+							</xp:viewColumnHeader>
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler5">
+								<xp:this.action>
+									<xp:executeScript
+										script="#{javascript:sessionScope.valores=rowData.getUniversalID()}">
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppSubitem_nombre"
+							id="viewColumn21" style="background-color:rgb(233,240,245)"
+							displayAs="link" showCheckbox="true">
+							<xp:viewColumnHeader
+								value=" Seleccionar Todo" id="viewColumnHeader21"
+								showCheckbox="true" iconSrc="/expandir.gif">
+							</xp:viewColumnHeader>
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:rowData.getNoteID();
+//sessionScope.valores=rowData.getNoteID()
+//sessionScope.valores=rowData.getUniversalID()
+
+
+viewScope.seleccion=rowData.getColumnValue('modApp_nombre');
+//viewScope.codigo=registros.getColumnValue('modApp_CU');
+
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+					</xp:viewPanel>
+					<xp:button value="Guardar" id="button12"
+						style="margin-left:0.0px;margin-top:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="computedField13">
+							<xp:this.action>
+								<xp:executeScript>
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+var vista=getComponent("viewPanel5");
+var seleccion=vista.getSelectedIds();
+
+var i;
+if(seleccion.length>0)
+{
+ for(i=0;i<seleccion.length;i++)
+ {
+ if(seleccion[i]!="")
+  {
+   viewScope.docid=viewScope.docid + "," + seleccion[i];
+
+  }
+ }
+}
+
+
+
+/*
+
+	var noteid:string = requestScope.query;
+	if (noteid.startsWith("NT")) { // in case it comes from @NoteID 
+		noteid = noteid.substring(3);
+	}
+	var doc:NotesDocument = database.getDocumentByID(noteid);
+	requestScope.status = doc.getItemValueString("subject");
+	
+*/
+}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:button value="  Cancelar  " id="button13"
+						style="margin-left:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:executeScript>
+
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+//var noteid:string = requestScope.query; // el codigo si funciona
+//var doc:NotesDocument = database.getDocumentByID("9BA");   // el codigo si funciona
+//	var doc:NotesDocument = database.getDocumentByID(noteid); recupera el doc usando el noteid
+
+//var modulo = doc.getItemValueString("modApp_nombre");// si funciona el codigo
+//viewScope.ver=modulo // funciona el codigo coloca el valor del campo modApp_nomnre
+	
+	}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:text escape="true" id="computedField13"
+						style="margin-left:10.0px">
+						<xp:this.value><![CDATA[#{javascript:"Selección: " +  viewScope.docid
+
+
+/*
+
+
+var a = new Array();
+a[0] = "one";
+a[1] = true;
+a[2] = 3;
+var display = "";
+for(var i=0; i<a.length; i++) {
+	display = display + a[i] + " ";
+}
+
+*/
+}]]></xp:this.value>
+					</xp:text>
+				</xp:panel>
+
+				<xp:panel id="modulo_polizas" style="margin-top:0.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if (viewScope.valor=="POLIZA DE SEGUROS")
+//if (viewScope.modulo=="POLIZA DE SEGUROS")
+	{
+		true
+	}
+else
+
+	{
+		false
+	}
+}]]></xp:this.rendered>
+					<xp:viewPanel id="viewPanel6" rows="100"
+						var="rowData" rowClasses="red">
+						<xp:this.facets>
+
+						</xp:this.facets>
+
+
+
+
+
+
+						<xp:this.data>
+							<xp:dominoView var="vista_modulos"
+								viewName="v.UI.M_POLIZA">
+							</xp:dominoView>
+						</xp:this.data>
+
+
+
+						<xp:viewColumn columnName="modApp_nombre"
+							id="viewColumn22" displayAs="link" iconSrc="/people2.gif">
+							<xp:this.style><![CDATA[#{javascript:if (viewScope.opcion=="1")
+{
+	style="color:rgb(255, 51, 0);font-weigth:bold;font-size:10pt;text-align:right; width:200px"
+	
+	
+	
+	
+}
+else
+{
+	style="color:rgb(0, 102, 204);font-size:10pt;text-align:right; width:200px"
+}
+}]]></xp:this.style>
+							<xp:viewColumnHeader id="viewColumnHeader22"
+								iconSrc="/folder_new.gif" value=" MODULO">
+							</xp:viewColumnHeader>
+
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:sessionScope.valores=rowData.getUniversalID();
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppItem_nombre"
+							id="viewColumn23" indentResponses="true"
+							style="text-align:left;width:300px" displayAs="link">
+							<xp:viewColumnHeader
+								id="viewColumnHeader23">
+							</xp:viewColumnHeader>
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler6">
+								<xp:this.action>
+									<xp:executeScript
+										script="#{javascript:sessionScope.valores=rowData.getUniversalID()}">
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppSubitem_nombre"
+							id="viewColumn24" style="background-color:rgb(233,240,245)"
+							displayAs="link" showCheckbox="true">
+							<xp:viewColumnHeader
+								value=" Seleccionar Todo" id="viewColumnHeader24"
+								showCheckbox="true" iconSrc="/expandir.gif">
+							</xp:viewColumnHeader>
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:rowData.getNoteID();
+//sessionScope.valores=rowData.getNoteID()
+//sessionScope.valores=rowData.getUniversalID()
+
+
+viewScope.seleccion=rowData.getColumnValue('modApp_nombre');
+//viewScope.codigo=registros.getColumnValue('modApp_CU');
+
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+					</xp:viewPanel>
+					<xp:button value="Guardar" id="button14"
+						style="margin-left:0.0px;margin-top:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="computedField14">
+							<xp:this.action>
+								<xp:executeScript>
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+var vista=getComponent("viewPanel6");
+var seleccion=vista.getSelectedIds();
+
+var i;
+if(seleccion.length>0)
+{
+ for(i=0;i<seleccion.length;i++)
+ {
+ if(seleccion[i]!="")
+  {
+   viewScope.docid=viewScope.docid + "," + seleccion[i];
+
+  }
+ }
+}
+
+
+
+/*
+
+	var noteid:string = requestScope.query;
+	if (noteid.startsWith("NT")) { // in case it comes from @NoteID 
+		noteid = noteid.substring(3);
+	}
+	var doc:NotesDocument = database.getDocumentByID(noteid);
+	requestScope.status = doc.getItemValueString("subject");
+	
+*/
+}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:button value="  Cancelar  " id="button15"
+						style="margin-left:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:executeScript>
+
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+//var noteid:string = requestScope.query; // el codigo si funciona
+//var doc:NotesDocument = database.getDocumentByID("9BA");   // el codigo si funciona
+//	var doc:NotesDocument = database.getDocumentByID(noteid); recupera el doc usando el noteid
+
+//var modulo = doc.getItemValueString("modApp_nombre");// si funciona el codigo
+//viewScope.ver=modulo // funciona el codigo coloca el valor del campo modApp_nomnre
+	
+	}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:text escape="true" id="computedField14"
+						style="margin-left:10.0px">
+						<xp:this.value><![CDATA[#{javascript:"Selección: " +  viewScope.docid
+
+
+/*
+
+
+var a = new Array();
+a[0] = "one";
+a[1] = true;
+a[2] = 3;
+var display = "";
+for(var i=0; i<a.length; i++) {
+	display = display + a[i] + " ";
+}
+
+*/
+}]]></xp:this.value>
+					</xp:text>
+				</xp:panel>
+				<xp:panel id="modulo_proveedores" style="margin-top:0.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if (viewScope.valor=="PROVEEDORES")
+//if (viewScope.modulo=="PROVEEDORES")
+	{
+		true
+	}
+else
+
+	{
+		false
+	}
+}]]></xp:this.rendered>
+					<xp:viewPanel id="viewPanel7" rows="100"
+						var="rowData" rowClasses="red">
+						<xp:this.facets>
+
+						</xp:this.facets>
+
+
+
+
+
+
+						<xp:this.data>
+							<xp:dominoView var="vista_modulos"
+								viewName="v.UI.M_PROV">
+							</xp:dominoView>
+						</xp:this.data>
+
+
+
+						<xp:viewColumn columnName="modApp_nombre"
+							id="viewColumn25" displayAs="link" iconSrc="/people2.gif">
+							<xp:this.style><![CDATA[#{javascript:if (viewScope.opcion=="1")
+{
+	style="color:rgb(255, 51, 0);font-weigth:bold;font-size:10pt;text-align:right; width:200px"
+	
+	
+	
+	
+}
+else
+{
+	style="color:rgb(0, 102, 204);font-size:10pt;text-align:right; width:200px"
+}
+}]]></xp:this.style>
+							<xp:viewColumnHeader id="viewColumnHeader25"
+								iconSrc="/folder_new.gif" value=" MODULO">
+							</xp:viewColumnHeader>
+
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:sessionScope.valores=rowData.getUniversalID();
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppItem_nombre"
+							id="viewColumn26" indentResponses="true"
+							style="text-align:left;width:300px" displayAs="link">
+							<xp:viewColumnHeader
+								id="viewColumnHeader26">
+							</xp:viewColumnHeader>
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler7">
+								<xp:this.action>
+									<xp:executeScript
+										script="#{javascript:sessionScope.valores=rowData.getUniversalID()}">
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppSubitem_nombre"
+							id="viewColumn27" style="background-color:rgb(233,240,245)"
+							displayAs="link" showCheckbox="true">
+							<xp:viewColumnHeader
+								value=" Seleccionar Todo" id="viewColumnHeader27"
+								showCheckbox="true" iconSrc="/expandir.gif">
+							</xp:viewColumnHeader>
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:rowData.getNoteID();
+//sessionScope.valores=rowData.getNoteID()
+//sessionScope.valores=rowData.getUniversalID()
+
+
+viewScope.seleccion=rowData.getColumnValue('modApp_nombre');
+//viewScope.codigo=registros.getColumnValue('modApp_CU');
+
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+					</xp:viewPanel>
+					<xp:button value="Guardar" id="button16"
+						style="margin-left:0.0px;margin-top:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="computedField15">
+							<xp:this.action>
+								<xp:executeScript>
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+var vista=getComponent("viewPanel7");
+var seleccion=vista.getSelectedIds();
+
+var i;
+if(seleccion.length>0)
+{
+ for(i=0;i<seleccion.length;i++)
+ {
+ if(seleccion[i]!="")
+  {
+   viewScope.docid=viewScope.docid + "," + seleccion[i];
+
+  }
+ }
+}
+
+
+
+/*
+
+	var noteid:string = requestScope.query;
+	if (noteid.startsWith("NT")) { // in case it comes from @NoteID 
+		noteid = noteid.substring(3);
+	}
+	var doc:NotesDocument = database.getDocumentByID(noteid);
+	requestScope.status = doc.getItemValueString("subject");
+	
+*/
+}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:button value="  Cancelar  " id="button17"
+						style="margin-left:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:executeScript>
+
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+//var noteid:string = requestScope.query; // el codigo si funciona
+//var doc:NotesDocument = database.getDocumentByID("9BA");   // el codigo si funciona
+//	var doc:NotesDocument = database.getDocumentByID(noteid); recupera el doc usando el noteid
+
+//var modulo = doc.getItemValueString("modApp_nombre");// si funciona el codigo
+//viewScope.ver=modulo // funciona el codigo coloca el valor del campo modApp_nomnre
+	
+	}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:text escape="true" id="computedField15"
+						style="margin-left:10.0px">
+						<xp:this.value><![CDATA[#{javascript:"Selección: " +  viewScope.docid
+
+
+/*
+
+
+var a = new Array();
+a[0] = "one";
+a[1] = true;
+a[2] = 3;
+var display = "";
+for(var i=0; i<a.length; i++) {
+	display = display + a[i] + " ";
+}
+
+*/
+}]]></xp:this.value>
+					</xp:text>
+				</xp:panel>
+
+				<xp:panel id="modulo_sueldos" style="margin-bottom:0.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if (viewScope.valor=="SUELDOS")
+//if (viewScope.modulo=="SUELDOS")
+	{
+		true
+	}
+else
+
+	{
+		false
+	}
+}]]></xp:this.rendered>
+					<xp:viewPanel id="viewPanel8" rows="100"
+						var="rowData" rowClasses="red">
+						<xp:this.facets>
+
+						</xp:this.facets>
+
+
+
+
+
+
+						<xp:this.data>
+							<xp:dominoView var="vista_modulos"
+								viewName="v.UI.M_SUELDOS">
+							</xp:dominoView>
+						</xp:this.data>
+
+
+
+						<xp:viewColumn columnName="modApp_nombre"
+							id="viewColumn28" displayAs="link" iconSrc="/people2.gif">
+							<xp:this.style><![CDATA[#{javascript:if (viewScope.opcion=="1")
+{
+	style="color:rgb(255, 51, 0);font-weigth:bold;font-size:10pt;text-align:right; width:200px"
+	
+	
+	
+	
+}
+else
+{
+	style="color:rgb(0, 102, 204);font-size:10pt;text-align:right; width:200px"
+}
+}]]></xp:this.style>
+							<xp:viewColumnHeader id="viewColumnHeader28"
+								iconSrc="/folder_new.gif" value=" MODULO">
+							</xp:viewColumnHeader>
+
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:sessionScope.valores=rowData.getUniversalID();
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppItem_nombre"
+							id="viewColumn29" indentResponses="true"
+							style="text-align:left;width:300px" displayAs="link">
+							<xp:viewColumnHeader
+								id="viewColumnHeader29">
+							</xp:viewColumnHeader>
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler8">
+								<xp:this.action>
+									<xp:executeScript
+										script="#{javascript:sessionScope.valores=rowData.getUniversalID()}">
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppSubitem_nombre"
+							id="viewColumn30" style="background-color:rgb(233,240,245)"
+							displayAs="link" showCheckbox="true">
+							<xp:viewColumnHeader
+								value=" Seleccionar Todo" id="viewColumnHeader30"
+								showCheckbox="true" iconSrc="/expandir.gif">
+							</xp:viewColumnHeader>
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:rowData.getNoteID();
+//sessionScope.valores=rowData.getNoteID()
+//sessionScope.valores=rowData.getUniversalID()
+
+
+viewScope.seleccion=rowData.getColumnValue('modApp_nombre');
+//viewScope.codigo=registros.getColumnValue('modApp_CU');
+
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+					</xp:viewPanel>
+
+					<xp:button value="Guardar" id="button18"
+						style="margin-left:0.0px;margin-top:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="computedField16">
+							<xp:this.action>
+								<xp:executeScript>
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+var vista=getComponent("viewPanel8");
+var seleccion=vista.getSelectedIds();
+
+var i;
+if(seleccion.length>0)
+{
+ for(i=0;i<seleccion.length;i++)
+ {
+ if(seleccion[i]!="")
+  {
+   viewScope.docid=viewScope.docid + "," + seleccion[i];
+
+  }
+ }
+}
+
+
+
+/*
+
+	var noteid:string = requestScope.query;
+	if (noteid.startsWith("NT")) { // in case it comes from @NoteID 
+		noteid = noteid.substring(3);
+	}
+	var doc:NotesDocument = database.getDocumentByID(noteid);
+	requestScope.status = doc.getItemValueString("subject");
+	
+*/
+}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:button value="  Cancelar  " id="button19"
+						style="margin-left:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:executeScript>
+
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+//var noteid:string = requestScope.query; // el codigo si funciona
+//var doc:NotesDocument = database.getDocumentByID("9BA");   // el codigo si funciona
+//	var doc:NotesDocument = database.getDocumentByID(noteid); recupera el doc usando el noteid
+
+//var modulo = doc.getItemValueString("modApp_nombre");// si funciona el codigo
+//viewScope.ver=modulo // funciona el codigo coloca el valor del campo modApp_nomnre
+	
+	}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:text escape="true" id="computedField16"
+						style="margin-left:10.0px">
+						<xp:this.value><![CDATA[#{javascript:"Selección: " +  viewScope.docid
+
+
+/*
+
+
+var a = new Array();
+a[0] = "one";
+a[1] = true;
+a[2] = 3;
+var display = "";
+for(var i=0; i<a.length; i++) {
+	display = display + a[i] + " ";
+}
+
+*/
+}]]></xp:this.value>
+					</xp:text>
+				</xp:panel>
+
+				<xp:panel id="modulo_reclamos"
+					style="margin-bottom:0.0px;margin-top:0.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if (viewScope.valor=="RECLAMOS")
+//if (viewScope.modulo=="RECLAMOS")
+	{
+		true
+	}
+else
+
+	{
+		false
+	}
+}]]></xp:this.rendered>
+					<xp:viewPanel id="viewPanel9" rows="100"
+						var="rowData" rowClasses="red">
+						<xp:this.facets>
+
+						</xp:this.facets>
+
+
+
+
+
+
+						<xp:this.data>
+							<xp:dominoView var="vista_modulos"
+								viewName="v.UI.M_RECLAMOS">
+							</xp:dominoView>
+						</xp:this.data>
+
+
+
+						<xp:viewColumn columnName="modApp_nombre"
+							id="viewColumn31" displayAs="link" iconSrc="/people2.gif">
+							<xp:this.style><![CDATA[#{javascript:if (viewScope.opcion=="1")
+{
+	style="color:rgb(255, 51, 0);font-weigth:bold;font-size:10pt;text-align:right; width:200px"
+	
+	
+	
+	
+}
+else
+{
+	style="color:rgb(0, 102, 204);font-size:10pt;text-align:right; width:200px"
+}
+}]]></xp:this.style>
+							<xp:viewColumnHeader id="viewColumnHeader31"
+								iconSrc="/folder_new.gif" value=" MODULO">
+							</xp:viewColumnHeader>
+
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:sessionScope.valores=rowData.getUniversalID();
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppItem_nombre"
+							id="viewColumn32" indentResponses="true"
+							style="text-align:left;width:300px" displayAs="link">
+							<xp:viewColumnHeader
+								id="viewColumnHeader32">
+							</xp:viewColumnHeader>
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler9">
+								<xp:this.action>
+									<xp:executeScript
+										script="#{javascript:sessionScope.valores=rowData.getUniversalID()}">
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppSubitem_nombre"
+							id="viewColumn33" style="background-color:rgb(233,240,245)"
+							displayAs="link" showCheckbox="true">
+							<xp:viewColumnHeader
+								value=" Seleccionar Todo" id="viewColumnHeader33"
+								showCheckbox="true" iconSrc="/expandir.gif">
+							</xp:viewColumnHeader>
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:rowData.getNoteID();
+//sessionScope.valores=rowData.getNoteID()
+//sessionScope.valores=rowData.getUniversalID()
+
+
+viewScope.seleccion=rowData.getColumnValue('modApp_nombre');
+//viewScope.codigo=registros.getColumnValue('modApp_CU');
+
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+					</xp:viewPanel>
+					<xp:button value="Guardar" id="button26"
+						style="margin-left:0.0px;margin-top:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="computedField20">
+							<xp:this.action>
+								<xp:executeScript>
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+var vista=getComponent("viewPanel9");
+var seleccion=vista.getSelectedIds();
+
+var i;
+if(seleccion.length>0)
+{
+ for(i=0;i<seleccion.length;i++)
+ {
+ if(seleccion[i]!="")
+  {
+   viewScope.docid=viewScope.docid + "," + seleccion[i];
+
+  }
+ }
+}
+
+
+
+/*
+
+	var noteid:string = requestScope.query;
+	if (noteid.startsWith("NT")) { // in case it comes from @NoteID 
+		noteid = noteid.substring(3);
+	}
+	var doc:NotesDocument = database.getDocumentByID(noteid);
+	requestScope.status = doc.getItemValueString("subject");
+	
+*/
+}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action></xp:eventHandler>
+					</xp:button>
+					<xp:button value="  Cancelar  " id="button27"
+						style="margin-left:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:executeScript>
+
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+//var noteid:string = requestScope.query; // el codigo si funciona
+//var doc:NotesDocument = database.getDocumentByID("9BA");   // el codigo si funciona
+//	var doc:NotesDocument = database.getDocumentByID(noteid); recupera el doc usando el noteid
+
+//var modulo = doc.getItemValueString("modApp_nombre");// si funciona el codigo
+//viewScope.ver=modulo // funciona el codigo coloca el valor del campo modApp_nomnre
+	
+	}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:text escape="true" id="computedField20"
+						style="margin-left:10.0px">
+						<xp:this.value><![CDATA[#{javascript:"Selección: " +  viewScope.docid
+
+
+/*
+
+
+var a = new Array();
+a[0] = "one";
+a[1] = true;
+a[2] = 3;
+var display = "";
+for(var i=0; i<a.length; i++) {
+	display = display + a[i] + " ";
+}
+
+*/
+}]]></xp:this.value>
+					</xp:text>
+				</xp:panel>
+
+				<xp:panel id="modulo_informes" style="margin-bottom:0.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if (viewScope.valor=="INFORMES")
+//if (viewScope.modulo=="INFORMES")
+	{
+		true
+	}
+else
+
+	{
+		false
+	}
+}]]></xp:this.rendered>
+					<xp:viewPanel id="viewPanel10" rows="100"
+						var="rowData" rowClasses="red">
+						<xp:this.facets>
+
+						</xp:this.facets>
+
+
+
+
+
+
+						<xp:this.data>
+							<xp:dominoView var="vista_modulos"
+								viewName="v.UI.M_INFORMES">
+							</xp:dominoView>
+						</xp:this.data>
+
+
+
+						<xp:viewColumn columnName="modApp_nombre"
+							id="viewColumn34" displayAs="link" iconSrc="/people2.gif">
+							<xp:this.style><![CDATA[#{javascript:if (viewScope.opcion=="1")
+{
+	style="color:rgb(255, 51, 0);font-weigth:bold;font-size:10pt;text-align:right; width:200px"
+	
+	
+	
+	
+}
+else
+{
+	style="color:rgb(0, 102, 204);font-size:10pt;text-align:right; width:200px"
+}
+}]]></xp:this.style>
+							<xp:viewColumnHeader id="viewColumnHeader34"
+								iconSrc="/folder_new.gif" value=" MODULO">
+							</xp:viewColumnHeader>
+
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:sessionScope.valores=rowData.getUniversalID();
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppItem_nombre"
+							id="viewColumn35" indentResponses="true"
+							style="text-align:left;width:300px" displayAs="link">
+							<xp:viewColumnHeader
+								id="viewColumnHeader35">
+							</xp:viewColumnHeader>
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler10">
+								<xp:this.action>
+									<xp:executeScript
+										script="#{javascript:sessionScope.valores=rowData.getUniversalID()}">
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppSubitem_nombre"
+							id="viewColumn36" style="background-color:rgb(233,240,245)"
+							displayAs="link" showCheckbox="true">
+							<xp:viewColumnHeader
+								value=" Seleccionar Todo" id="viewColumnHeader36"
+								showCheckbox="true" iconSrc="/expandir.gif">
+							</xp:viewColumnHeader>
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:rowData.getNoteID();
+//sessionScope.valores=rowData.getNoteID()
+//sessionScope.valores=rowData.getUniversalID()
+
+
+viewScope.seleccion=rowData.getColumnValue('modApp_nombre');
+//viewScope.codigo=registros.getColumnValue('modApp_CU');
+
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+					</xp:viewPanel>
+					<xp:button value="Guardar" id="button20"
+						style="margin-left:0.0px;margin-top:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="computedField17">
+							<xp:this.action>
+								<xp:executeScript>
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+var vista=getComponent("viewPanel10");
+var seleccion=vista.getSelectedIds();
+
+var i;
+if(seleccion.length>0)
+{
+ for(i=0;i<seleccion.length;i++)
+ {
+ if(seleccion[i]!="")
+  {
+   viewScope.docid=viewScope.docid + "," + seleccion[i];
+
+  }
+ }
+}
+
+
+
+/*
+
+	var noteid:string = requestScope.query;
+	if (noteid.startsWith("NT")) { // in case it comes from @NoteID 
+		noteid = noteid.substring(3);
+	}
+	var doc:NotesDocument = database.getDocumentByID(noteid);
+	requestScope.status = doc.getItemValueString("subject");
+	
+*/
+}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action></xp:eventHandler>
+					</xp:button>
+					<xp:button value="  Cancelar  " id="button21"
+						style="margin-left:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:executeScript>
+
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+//var noteid:string = requestScope.query; // el codigo si funciona
+//var doc:NotesDocument = database.getDocumentByID("9BA");   // el codigo si funciona
+//	var doc:NotesDocument = database.getDocumentByID(noteid); recupera el doc usando el noteid
+
+//var modulo = doc.getItemValueString("modApp_nombre");// si funciona el codigo
+//viewScope.ver=modulo // funciona el codigo coloca el valor del campo modApp_nomnre
+	
+	}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:text escape="true" id="computedField17"
+						style="margin-left:10.0px">
+						<xp:this.value><![CDATA[#{javascript:"Selección: " +  viewScope.docid
+
+
+/*
+
+
+var a = new Array();
+a[0] = "one";
+a[1] = true;
+a[2] = 3;
+var display = "";
+for(var i=0; i<a.length; i++) {
+	display = display + a[i] + " ";
+}
+
+*/
+}]]></xp:this.value>
+					</xp:text>
+				</xp:panel>
+
+				<xp:panel id="modulo_procesos" style="margin-bottom:0.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if (viewScope.valor=="PROCESOS")
+//if (viewScope.modulo=="PROCESOS")
+	{
+		true
+	}
+else
+
+	{
+		false
+	}
+}]]></xp:this.rendered>
+					<xp:viewPanel id="viewPanel11" rows="100"
+						var="rowData" rowClasses="red">
+						<xp:this.facets>
+
+						</xp:this.facets>
+
+
+
+
+
+
+						<xp:this.data>
+							<xp:dominoView var="vista_modulos"
+								viewName="v.UI.M_PROC">
+							</xp:dominoView>
+						</xp:this.data>
+
+
+
+						<xp:viewColumn columnName="modApp_nombre"
+							id="viewColumn37" displayAs="link" iconSrc="/people2.gif">
+							<xp:this.style><![CDATA[#{javascript:if (viewScope.opcion=="1")
+{
+	style="color:rgb(255, 51, 0);font-weigth:bold;font-size:10pt;text-align:right; width:200px"
+	
+	
+	
+	
+}
+else
+{
+	style="color:rgb(0, 102, 204);font-size:10pt;text-align:right; width:200px"
+}
+}]]></xp:this.style>
+							<xp:viewColumnHeader id="viewColumnHeader37"
+								iconSrc="/folder_new.gif" value=" MODULO">
+							</xp:viewColumnHeader>
+
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:sessionScope.valores=rowData.getUniversalID();
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppItem_nombre"
+							id="viewColumn38" indentResponses="true"
+							style="text-align:left;width:300px" displayAs="link">
+							<xp:viewColumnHeader
+								id="viewColumnHeader38">
+							</xp:viewColumnHeader>
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler11">
+								<xp:this.action>
+									<xp:executeScript
+										script="#{javascript:sessionScope.valores=rowData.getUniversalID()}">
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppSubitem_nombre"
+							id="viewColumn39" style="background-color:rgb(233,240,245)"
+							displayAs="link" showCheckbox="true">
+							<xp:viewColumnHeader
+								value=" Seleccionar Todo" id="viewColumnHeader39"
+								showCheckbox="true" iconSrc="/expandir.gif">
+							</xp:viewColumnHeader>
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:rowData.getNoteID();
+//sessionScope.valores=rowData.getNoteID()
+//sessionScope.valores=rowData.getUniversalID()
+
+
+viewScope.seleccion=rowData.getColumnValue('modApp_nombre');
+//viewScope.codigo=registros.getColumnValue('modApp_CU');
+
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+					</xp:viewPanel>
+					<xp:button value="Guardar" id="button22"
+						style="margin-left:0.0px;margin-top:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="computedField18">
+							<xp:this.action>
+								<xp:executeScript>
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+var vista=getComponent("viewPanel11");
+var seleccion=vista.getSelectedIds();
+
+var i;
+if(seleccion.length>0)
+{
+ for(i=0;i<seleccion.length;i++)
+ {
+ if(seleccion[i]!="")
+  {
+   viewScope.docid=viewScope.docid + "," + seleccion[i];
+
+  }
+ }
+}
+
+
+
+/*
+
+	var noteid:string = requestScope.query;
+	if (noteid.startsWith("NT")) { // in case it comes from @NoteID 
+		noteid = noteid.substring(3);
+	}
+	var doc:NotesDocument = database.getDocumentByID(noteid);
+	requestScope.status = doc.getItemValueString("subject");
+	
+*/
+}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action></xp:eventHandler>
+					</xp:button>
+					<xp:button value="  Cancelar  " id="button23"
+						style="margin-left:10.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:executeScript>
+
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+//var noteid:string = requestScope.query; // el codigo si funciona
+//var doc:NotesDocument = database.getDocumentByID("9BA");   // el codigo si funciona
+//	var doc:NotesDocument = database.getDocumentByID(noteid); recupera el doc usando el noteid
+
+//var modulo = doc.getItemValueString("modApp_nombre");// si funciona el codigo
+//viewScope.ver=modulo // funciona el codigo coloca el valor del campo modApp_nomnre
+	
+	}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:text escape="true" id="computedField18"
+						style="margin-left:10.0px">
+						<xp:this.value><![CDATA[#{javascript:"Selección: " +  viewScope.docid
+
+
+/*
+
+
+var a = new Array();
+a[0] = "one";
+a[1] = true;
+a[2] = 3;
+var display = "";
+for(var i=0; i<a.length; i++) {
+	display = display + a[i] + " ";
+}
+
+*/
+}]]></xp:this.value>
+					</xp:text>
+				</xp:panel>
+
+				<xp:panel id="modulo_seguridad"
+					style="margin-bottom:300.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if (viewScope.valor=="SEGURIDAD")
+//if (viewScope.modulo=="SEGURIDAD")
+	{
+		true
+	}
+else
+
+	{
+		false
+	}
+}]]></xp:this.rendered>
+					<xp:viewPanel id="viewPanel13" rows="100"
+						var="rowData" rowClasses="red" viewStyle="margin-top:0.0px">
+						<xp:this.facets>
+
+						</xp:this.facets>
+
+
+
+
+
+
+						<xp:this.data>
+							<xp:dominoView var="vista_modulos"
+								viewName="v.UI.M_SEG">
+							</xp:dominoView>
+						</xp:this.data>
+
+
+
+						<xp:viewColumn columnName="modApp_nombre"
+							id="viewColumn40" displayAs="link" iconSrc="/people2.gif">
+							<xp:this.style><![CDATA[#{javascript:if (viewScope.opcion=="1")
+{
+	style="color:rgb(255, 51, 0);font-weigth:bold;font-size:10pt;text-align:right; width:200px"
+	
+	
+	
+	
+}
+else
+{
+	style="color:rgb(0, 102, 204);font-size:10pt;text-align:right; width:200px"
+}
+}]]></xp:this.style>
+							<xp:viewColumnHeader id="viewColumnHeader40"
+								iconSrc="/folder_new.gif" value=" MODULO">
+							</xp:viewColumnHeader>
+
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:sessionScope.valores=rowData.getUniversalID();
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppItem_nombre"
+							id="viewColumn41" indentResponses="true"
+							style="text-align:left;width:300px" displayAs="link">
+							<xp:viewColumnHeader
+								id="viewColumnHeader41">
+							</xp:viewColumnHeader>
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler12">
+								<xp:this.action>
+									<xp:executeScript
+										script="#{javascript:sessionScope.valores=rowData.getUniversalID()}">
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+
+						<xp:viewColumn columnName="modAppSubitem_nombre"
+							id="viewColumn42" style="background-color:rgb(233,240,245)"
+							displayAs="link" showCheckbox="true">
+							<xp:viewColumnHeader
+								value=" Seleccionar Todo" id="viewColumnHeader42"
+								showCheckbox="true" iconSrc="/expandir.gif">
+							</xp:viewColumnHeader>
+
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:executeScript>
+										<xp:this.script><![CDATA[#{javascript:rowData.getNoteID();
+//sessionScope.valores=rowData.getNoteID()
+//sessionScope.valores=rowData.getUniversalID()
+
+
+viewScope.seleccion=rowData.getColumnValue('modApp_nombre');
+//viewScope.codigo=registros.getColumnValue('modApp_CU');
+
+}]]></xp:this.script>
+									</xp:executeScript>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:viewColumn>
+					</xp:viewPanel>
+					<xp:button value="Guardar" id="button24"
+						style="margin-left:0.0px;margin-top:10.0px;margin-bottom:0.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="computedField19">
+							<xp:this.action>
+								<xp:executeScript>
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+var vista=getComponent("viewPanel13");
+var seleccion=vista.getSelectedIds();
+
+var i;
+if(seleccion.length>0)
+{
+ for(i=0;i<seleccion.length;i++)
+ {
+ if(seleccion[i]!="")
+  {
+   viewScope.docid=viewScope.docid + "," + seleccion[i];
+
+  }
+ }
+}
+
+
+
+/*
+
+	var noteid:string = requestScope.query;
+	if (noteid.startsWith("NT")) { // in case it comes from @NoteID 
+		noteid = noteid.substring(3);
+	}
+	var doc:NotesDocument = database.getDocumentByID(noteid);
+	requestScope.status = doc.getItemValueString("subject");
+	
+*/
+}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action></xp:eventHandler>
+					</xp:button>
+					<xp:button value="  Cancelar  " id="button25"
+						style="margin-left:10.0px;margin-bottom:0.0px">
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:executeScript>
+
+									<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+
+//var noteid:string = requestScope.query; // el codigo si funciona
+//var doc:NotesDocument = database.getDocumentByID("9BA");   // el codigo si funciona
+//	var doc:NotesDocument = database.getDocumentByID(noteid); recupera el doc usando el noteid
+
+//var modulo = doc.getItemValueString("modApp_nombre");// si funciona el codigo
+//viewScope.ver=modulo // funciona el codigo coloca el valor del campo modApp_nomnre
+	
+	}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:text escape="true" id="computedField19"
+						style="margin-left:10.0px;margin-bottom:0.0px">
+						<xp:this.value><![CDATA[#{javascript:"Selección: " +  viewScope.docid
+
+
+/*
+
+
+var a = new Array();
+a[0] = "one";
+a[1] = true;
+a[2] = 3;
+var display = "";
+for(var i=0; i<a.length; i++) {
+	display = display + a[i] + " ";
+}
+
+*/
+}]]></xp:this.value>
+					</xp:text>
+
+				</xp:panel>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+
+				<xp:br></xp:br>
+
+				&#160;&#160;
+
+
+
+
+				&#160;
+
+				&#160;
+
+
+				<xp:br></xp:br>
+
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+			</xp:tabPanel>
+			<xp:tabPanel id="tabPanel4" image="/folder_new.gif"
+				label="Salir del Módulo">
+				<xp:viewPanel rows="30" id="viewPanel50"
+					rendered="false">
+					<xp:this.facets>
+						<xp:pager partialRefresh="true"
+							layout="Previous Group Next" xp:key="headerPager" id="pager2">
+						</xp:pager>
+					</xp:this.facets>
+					<xp:this.data>
+						<xp:dominoView var="view1"
+							viewName="v.UI.Modulos.Estructura">
+						</xp:dominoView>
+					</xp:this.data>
+					<xp:viewColumn columnName="modApp_codigo"
+						id="viewColumn1">
+						<xp:viewColumnHeader value="Codigo"
+							id="viewColumnHeader1">
+						</xp:viewColumnHeader>
+					</xp:viewColumn>
+					<xp:viewColumn columnName="modApp_nombre"
+						id="viewColumn2" style="width:250px">
+						<xp:viewColumnHeader value=" Módulo"
+							id="viewColumnHeader2" showCheckbox="true">
+						</xp:viewColumnHeader>
+					</xp:viewColumn>
+					<xp:viewColumn columnName="$25" id="viewColumn3">
+						<xp:viewColumnHeader value="Codigo Item"
+							id="viewColumnHeader3">
+						</xp:viewColumnHeader>
+					</xp:viewColumn>
+
+					<xp:viewColumn columnName="$19" id="viewColumn8">
+						<xp:viewColumnHeader value=" Item"
+							id="viewColumnHeader8">
+						</xp:viewColumnHeader>
+					</xp:viewColumn>
+					<xp:viewColumn columnName="modAppSubItem_codigo"
+						id="viewColumn9">
+						<xp:viewColumnHeader value="Código SubItem"
+							id="viewColumnHeader9">
+						</xp:viewColumnHeader>
+					</xp:viewColumn>
+					<xp:viewColumn columnName="modAppSubitem_nombre"
+						id="viewColumn10">
+						<xp:viewColumnHeader value=" SubItem"
+							id="viewColumnHeader10">
+						</xp:viewColumnHeader>
+					</xp:viewColumn>
+				</xp:viewPanel>
+			</xp:tabPanel>
+</xp:tabbedPanel>
+
+</xp:view>

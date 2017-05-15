@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+
+	<xp:this.resources>
+		<xp:styleSheet href="/seleccion.css"></xp:styleSheet>
+	</xp:this.resources>
+	
+	
+	
+	
+	
+	
+	<xp:this.beforePageLoad>
+		<xp:executeScript>
+			<xp:this.script><![CDATA[#{javascript:sessionScope.ver="9B7,rtrtr,9B6,ererer"}]]></xp:this.script>
+		</xp:executeScript>
+	</xp:this.beforePageLoad>
+	<xe:applicationLayout id="applicationLayout1">
+		<xp:panel
+			style="background-image:url(edf2.jpg);height:610px;width:100%;background-repeat:repeat-x;background-position:center center">
+
+		</xp:panel>
+		<xp:this.facets><xp:text escape="true" id="campo" value="#{sessionScope.docid_modulos}" style="margin-left:10.0px" xp:key="MastHeader" rendered="false"></xp:text>
+			<xp:panel xp:key="SearchBar"
+				style="width:100%;margin-right:0.0%;font-size:8pt">
+				
+				<xp:button value="Administracion" id="button1" style="width:100px;font-size:8pt">
+					<xp:this.rendered><![CDATA[#{javascript:// if(context.getUser().getRoles().contains('[administrador]')){true};  // a nivel de rol de usuario 
+
+//sessionScope.modulo=getComponent("campo").value;
+
+//if(@Contains(sessionScope.modulo,"9B6"))
+
+if(@Contains(sessionScope.docid_modulos,"932"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+
+
+}]]></xp:this.rendered>
+
+					<xp:this.styleClass><![CDATA[#{javascript:"seleccion"}]]></xp:this.styleClass>
+					<xp:eventHandler event="onclick" submit="false">
+						<xp:this.script>
+							<xp:executeClientScript script="XSP.openMenu(thisEvent,#{javascript:getComponent('menu_administracion').getMenuCtor()})">
+
+							</xp:executeClientScript>
+						</xp:this.script>
+					</xp:eventHandler>
+				</xp:button>&#160;<xp:button value="Edificios" id="button2" style="width:100px;font-size:8pt">
+					<xp:this.rendered><![CDATA[#{javascript:// if(context.getUser().getRoles().contains('[edificios]')){true};  // a nivel de rol de usuario 
+
+sessionScope.modulo=getComponent("campo").value;
+
+if(@Contains(sessionScope.modulo,"8FE"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+}]]></xp:this.rendered>
+					
+					<xp:this.styleClass><![CDATA[#{javascript:"seleccion"}]]></xp:this.styleClass><xp:eventHandler event="onclick" submit="false">
+						<xp:this.script>
+							<xp:executeClientScript script="XSP.openMenu(thisEvent,#{javascript:getComponent('menu_edificios').getMenuCtor()})">
+							</xp:executeClientScript>
+						</xp:this.script>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button value="Propietarios" id="button3"
+					style="width:100px;font-size:8pt">
+					<xp:this.rendered><![CDATA[#{javascript://if(context.getUser().getRoles().contains('[propietarios]')){true};  // a nivel de rol de usuario 
+
+sessionScope.modulo=getComponent("campo").value;
+
+if(@Contains(sessionScope.modulo,"906"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+
+
+}]]></xp:this.rendered>
+					<xp:this.styleClass><![CDATA[#{javascript:"seleccion"}]]></xp:this.styleClass>
+					<xp:eventHandler event="onclick" submit="false">
+						<xp:this.script>
+							<xp:executeClientScript
+								script="XSP.openMenu(thisEvent,#{javascript:getComponent('menu_propietarios').getMenuCtor()})">
+							</xp:executeClientScript>
+						</xp:this.script>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button value="Gastos" id="button4"
+					style="width:100px;font-size:8pt">
+					<xp:this.rendered><![CDATA[#{javascript://if(context.getUser().getRoles().contains('[gastos]')){true};  // a nivel de rol de usuario 
+
+sessionScope.modulo=getComponent("campo").value;
+
+if(@Contains(sessionScope.modulo,"912"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+
+
+}]]></xp:this.rendered>
+					<xp:this.styleClass><![CDATA[#{javascript:"seleccion"}]]></xp:this.styleClass>
+					<xp:eventHandler event="onclick" submit="false">
+						<xp:this.script>
+							<xp:executeClientScript
+								script="XSP.openMenu(thisEvent,#{javascript:getComponent('menu_gastos').getMenuCtor()})">
+							</xp:executeClientScript>
+						</xp:this.script>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button value="Liquidacion" id="button5"
+					style="width:100px;font-size:8pt">
+					<xp:this.rendered><![CDATA[#{javascript://if(context.getUser().getRoles().contains('[liquidaciones]')){true};  // a nivel de rol de usuario 
+
+sessionScope.modulo=getComponent("campo").value;
+
+if(@Contains(sessionScope.modulo,"926"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+
+
+}]]></xp:this.rendered>
+					<xp:this.styleClass><![CDATA[#{javascript:"seleccion"}]]></xp:this.styleClass>
+					<xp:eventHandler event="onclick" submit="false">
+						<xp:this.script>
+							<xp:executeClientScript
+								script="XSP.openMenu(thisEvent,#{javascript:getComponent('menu_liquidacion').getMenuCtor()})">
+							</xp:executeClientScript>
+						</xp:this.script>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button value="Polizas" id="button6"
+					style="width:100px;font-size:8pt">
+					<xp:this.rendered><![CDATA[#{javascript://if(context.getUser().getRoles().contains('[polizas]')){true};  // a nivel de rol de usuario 
+
+sessionScope.modulo=getComponent("campo").value;
+
+if(@Contains(sessionScope.modulo,"8FA"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+
+
+}]]></xp:this.rendered>
+					<xp:this.styleClass><![CDATA[#{javascript:"seleccion"}]]></xp:this.styleClass>
+					<xp:eventHandler event="onclick" submit="false">
+						<xp:this.script>
+							<xp:executeClientScript
+								script="XSP.openMenu(thisEvent,#{javascript:getComponent('menu_polizas').getMenuCtor()})">
+							</xp:executeClientScript>
+						</xp:this.script>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button value="Proveedores" id="button7"
+					style="width:100px;font-size:8pt">
+					<xp:this.rendered><![CDATA[#{javascript://if(context.getUser().getRoles().contains('[proveedores]')){true};  // a nivel de rol de usuario 
+
+sessionScope.modulo=getComponent("campo").value;
+
+if(@Contains(sessionScope.modulo,"8F6"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+
+
+}]]></xp:this.rendered>
+					<xp:this.styleClass><![CDATA[#{javascript:"seleccion"}]]></xp:this.styleClass>
+					<xp:eventHandler event="onclick" submit="false">
+						<xp:this.script>
+							<xp:executeClientScript
+								script="XSP.openMenu(thisEvent,#{javascript:getComponent('menu_proveedores').getMenuCtor()})">
+							</xp:executeClientScript>
+						</xp:this.script>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button value="Sueldos" id="button8"
+					style="width:100px;font-size:8pt">
+					<xp:this.rendered><![CDATA[#{javascript://if(context.getUser().getRoles().contains('[sueldos]')){true};  // a nivel de rol de usuario 
+
+sessionScope.modulo=getComponent("campo").value;
+
+if(@Contains(sessionScope.modulo,"98E"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+
+
+}]]></xp:this.rendered>
+					<xp:this.styleClass><![CDATA[#{javascript:"seleccion"}]]></xp:this.styleClass>
+					<xp:eventHandler event="onclick" submit="false">
+						<xp:this.script>
+							<xp:executeClientScript
+								script="XSP.openMenu(thisEvent,#{javascript:getComponent('menu_sueldos').getMenuCtor()})">
+							</xp:executeClientScript>
+						</xp:this.script>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button value="Reclamos" id="button9"
+					style="width:100.0px;font-size:8pt">
+					<xp:this.rendered><![CDATA[#{javascript://if(context.getUser().getRoles().contains('[reclamos]')){true};  // a nivel de rol de usuario 
+
+sessionScope.modulo=getComponent("campo").value;
+
+if(@Contains(sessionScope.modulo,"986"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+
+
+}]]></xp:this.rendered>
+					<xp:this.styleClass><![CDATA[#{javascript:"seleccion"}]]></xp:this.styleClass>
+					<xp:eventHandler event="onclick" submit="false">
+						<xp:this.script>
+							<xp:executeClientScript
+								script="XSP.openMenu(thisEvent,#{javascript:getComponent('menu_reclamos').getMenuCtor()})">
+							</xp:executeClientScript>
+						</xp:this.script>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button value="Informes" id="button10"
+					style="width:100px;font-size:8pt">
+					<xp:this.rendered><![CDATA[#{javascript://if(context.getUser().getRoles().contains('[informes]')){true};  // a nivel de rol de usuario 
+
+sessionScope.modulo=getComponent("campo").value;
+
+if(@Contains(sessionScope.modulo,"9DE"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+
+
+}]]></xp:this.rendered>
+					<xp:this.styleClass><![CDATA[#{javascript:"seleccion"}]]></xp:this.styleClass>
+					<xp:eventHandler event="onclick" submit="false">
+						<xp:this.script>
+							<xp:executeClientScript
+								script="XSP.openMenu(thisEvent,#{javascript:getComponent('menu_informes').getMenuCtor()})">
+							</xp:executeClientScript>
+						</xp:this.script>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button value="Proceso" id="button11"
+					style="width:100px;font-size:8pt">
+					<xp:this.rendered><![CDATA[#{javascript://if(context.getUser().getRoles().contains('[procesos]')){true};  // a nivel de rol de usuario 
+
+sessionScope.modulo=getComponent("campo").value;
+
+if(@Contains(sessionScope.modulo,"91E"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+
+
+}]]></xp:this.rendered>
+					<xp:this.styleClass><![CDATA[#{javascript:"seleccion"}]]></xp:this.styleClass>
+					<xp:eventHandler event="onclick" submit="false">
+						<xp:this.script>
+							<xp:executeClientScript
+								script="XSP.openMenu(thisEvent,#{javascript:getComponent('menu_proceso').getMenuCtor()})">
+							</xp:executeClientScript>
+						</xp:this.script>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button value="Seguridad" id="button12"
+					style="width:100px;font-size:8pt">
+					<xp:this.rendered><![CDATA[#{javascript://if(context.getUser().getRoles().contains('[seguridad]')){true};  // a nivel de rol de usuario 
+
+sessionScope.modulo=getComponent("campo").value;
+
+if(@Contains(sessionScope.modulo,"9AA"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+
+
+}]]></xp:this.rendered>
+					<xp:this.styleClass><![CDATA[#{javascript:"seleccion"}]]></xp:this.styleClass>
+					<xp:eventHandler event="onclick" submit="false">
+						<xp:this.script>
+							<xp:executeClientScript
+								script="XSP.openMenu(thisEvent,#{javascript:getComponent('menu_seguridad').getMenuCtor()})">
+							</xp:executeClientScript>
+						</xp:this.script>
+					</xp:eventHandler>
+				</xp:button>
+				</xp:panel>
+			<xp:panel xp:key="RightColumn"
+				style="height:400px;width:100%;margin-left:7.0px">
+				<xp:image url="/edf7.jpg" id="image2"
+					style="width:100.0%;height:200px;margin-bottom:5.0px;margin-top:0.0px">
+				</xp:image>
+				<xp:br></xp:br>
+				<xp:image url="/edf1.jpg" id="image4"
+					style="width:100.0%;height:200px;margin-bottom:5.0px;margin-top:0.0px">
+				</xp:image>
+				<xp:br></xp:br>
+				<xp:image url="/edf3.png" id="image6"
+					style="width:100.0%;height:200px;margin-bottom:5.0px;margin-top:0.0px">
+				</xp:image>
+				<xp:br></xp:br>
+			</xp:panel>
+			<xp:panel xp:key="LeftColumn" style="margin-left:0.0px">
+				<xp:image url="/logo2.jpg" id="image5"
+					style="width:95%;margin-bottom:5.0px;height:140px;margin-top:0.0px;margin-left:0.0px">
+				</xp:image>
+				<xp:br></xp:br>
+				<xp:image url="/logox.gif" id="image1"
+					style="width:95%;margin-bottom:5.0px;height:90px;margin-top:0.0px;margin-left:0.0px">
+				</xp:image>
+				<xp:br></xp:br>
+				<xp:image url="/logo.png" id="image3"
+					style="width:95%;margin-bottom:5.0px;height:140px;margin-top:0.0px;margin-left:0.0px">
+				</xp:image>
+			</xp:panel>
+		</xp:this.facets>
+		<xe:this.configuration>
+			<xe:applicationConfiguration titleBarName="Sistema ADA3D"
+				placeBar="false" productLogoHeight="7%" productLogoWidth="7%">
+				<xe:this.footerLinks>
+
+
+
+
+
+				</xe:this.footerLinks>
+				<xe:this.searchBar>
+					<xe:appSearchBar pageName="/plantilla0.xsp">
+						<xe:this.options>
+
+						</xe:this.options>
+					</xe:appSearchBar>
+				</xe:this.searchBar>
+				<xe:this.bannerApplicationLinks>
+					<xe:basicLeafNode
+						style="margin-left:0.0%;margin-right:3.0%;margin-top:20.0px">
+						<xe:this.label><![CDATA[#{javascript:"Bienvenido,  " + @UserName()}]]></xe:this.label>
+					</xe:basicLeafNode>
+
+
+
+					<xe:basicLeafNode label="Guia de Proveedores"
+						style="margin-left:1.0%;margin-right:1.0%;margin-top:20.0px">
+					</xe:basicLeafNode>
+					<xe:basicLeafNode label="Listado de Consorcios"
+						style="margin-left:1.0%;margin-right:1.0%;margin-top:20.0px">
+					</xe:basicLeafNode>
+					<xe:basicLeafNode label="Noticias"
+						style="margin-left:1.0%;margin-right:1.0%;margin-top:20.0px">
+					</xe:basicLeafNode>
+
+
+
+					<xe:basicLeafNode label="Links de Interes"
+						style="margin-left:1.0%;margin-right:1.0%;margin-top:20.0px">
+					</xe:basicLeafNode>
+				</xe:this.bannerApplicationLinks>
+				<xe:this.placeBarName><![CDATA[#{javascript:" " + "Usuario: " + @UserName()}]]></xe:this.placeBarName>
+				<xe:this.bannerUtilityLinks>
+
+
+
+
+				</xe:this.bannerUtilityLinks>
+			</xe:applicationConfiguration>
+		</xe:this.configuration>
+	</xe:applicationLayout>
+	<xe:popupMenu id="menu_administracion">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Datos">
+				<xe:this.children>
+					<xe:basicLeafNode label="1" enabled="true">
+
+
+
+					</xe:basicLeafNode>
+
+
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+				</xe:this.children>
+
+
+			</xe:basicContainerNode>
+
+			<xe:basicContainerNode label="Honorarios Administracion">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Prestamos a Edificios">
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Movimientos Propios"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Cartera de Cheques"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Situacion General"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Sistema de Caja Diaria"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Caja Central"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Bancos"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+
+
+	<xe:popupMenu id="menu_edificios">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Datos">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Intereses y Multas">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Fechas de Vencimiento"></xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Formato del Informe de Caja">
+			</xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Sistema de Cuotas Fijas y/o Presupuesto">
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Movimientos Extra de Caja"></xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Egresos de Caja automaticos">
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Libro de Caja"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Agenda"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Asambleas"></xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Configuracion  Mis Expensas ">
+
+			</xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_propietarios">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Cobranzas">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Certificados de Deuda">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Cuentas Corrientes"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Composicion de Saldo"></xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Modificaciones Individuales">
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Modificaciones Grupales"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Morosos"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Correo"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Tarjeta Visa"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_gastos">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Comunes">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Particulares">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="En Cuotas"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Pendientes de Pago"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Vales"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Textos Pregrabados"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Vencimientos"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_liquidacion">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Gastos">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Prorrateo">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Notas al pie del Prorrateo"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Informes de Caja"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Liquidaciones Anteriores"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Libro de Caja"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Buscar"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Estadisticas"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Balance General"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_polizas">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Agregar Poliza de Seguro">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Actualizar Poliza de Seguro">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Suprimir Poliza de Seguro"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Opciones"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_proveedores">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode
+				label="Alta, Baja y Modificaciones">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Facturas">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Cuentas Corrientes"></xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Sistemas Administrativos S.A.">
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Ordenes de Pago"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Vales"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_sueldos">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Legajos">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Convenios">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Borradores"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Libro de Sueldos"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Libro de Horas Extras"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Vales"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_reclamos">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Agregar">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Actualizar">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Suprimir"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Opciones"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_informes">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Módulo">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Rango de Fechas">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Usuario"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_proceso">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Enviar Expensa">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Enviar Sueldos">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Recuperar"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_seguridad">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Responsable">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Usuarios">
+				<xe:this.children>
+					<xe:basicLeafNode label="Registar Nuevo Usuario"></xe:basicLeafNode>
+					<xe:basicLeafNode label="Autorizar Edificios"></xe:basicLeafNode>
+					<xe:basicLeafNode label="Autorizar Modulos"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+</xp:view>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="03258121007CD104" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="21a" sequence="1" unid="1910C37C27CAE39D8325811D007691AF">
+<created><datetime dst="true">20170511T193505,43-02</datetime></created>
+<modified><datetime dst="true">20170515T202314,15-02</datetime></modified>
+<revised><datetime dst="true">20170511T193505,46-02</datetime></revised>
+<lastaccessed><datetime dst="true">20170515T202314,15-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20170515T202314,15-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pedro Marcano/O=SASA</name></updatedby>
+<wassignedby><name>CN=Pedro Marcano/O=SASA</name></wassignedby>
+<item name="$Flags"><text>34CiQ</text></item>
+<item name="$FlagsExt"><text>D</text></item>
+<item name="$ImagesWide" sign="true"><number>1</number></item>
+<item name="$ImagesHigh" sign="true"><number>1</number></item>
+<item name="$ImagesColorize" sign="true"><number>0</number></item>
+
+
+<item name="$MimeType" sign="true"><text>image/png</text></item>
+<item name="$FileModDT" sign="true"><datetime>20170303T145631,40-03</datetime></item>
+<item name="$ImageNames" sign="true"><text>ConsorciosEnRed.png</text></item>
+<item name="$TITLE" sign="true"><textlist><text>logo.png</text></textlist></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item></note>
