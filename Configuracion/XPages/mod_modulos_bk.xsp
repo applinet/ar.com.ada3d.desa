@@ -423,11 +423,11 @@ viewScope.seleccion=rowData.getColumnValue('modApp_nombre');
 				<xp:button value="Guardar" id="button3"
 					style="margin-left:0.0px;margin-top:10.0px">
 
-					<xp:eventHandler event="onclick" submit="true"
-						refreshMode="complete">
-						<xp:this.action>
-							<xp:executeScript>
-								<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
+					
+				<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+					<xp:this.action>
+						<xp:executeScript>
+							<xp:this.script><![CDATA[#{javascript:viewScope.docid=null
 
 var vista=getComponent("viewPanel1");
 var seleccion=vista.getSelectedIds();
@@ -458,10 +458,8 @@ if(seleccion.length>0)
 	
 */
 }]]></xp:this.script>
-							</xp:executeScript>
-						</xp:this.action>
-					</xp:eventHandler>
-				</xp:button>
+						</xp:executeScript>
+					</xp:this.action></xp:eventHandler></xp:button>
 				<xp:button value="  Cancelar  " id="button5"
 					style="margin-left:10.0px">
 
