@@ -3,6 +3,7 @@
 	Library shared
 	Created Feb 1, 2017 by Administrador/Sasa
 	Description: Comments for Library
+	Esta linea se agrega desde gitHub
 %END REM
 Option Public
 Option Declare
