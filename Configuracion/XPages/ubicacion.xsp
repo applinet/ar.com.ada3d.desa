@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+
+	<xp:this.resources>
+		<xp:styleSheet href="/seleccion.css"></xp:styleSheet>
+	</xp:this.resources>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<xp:this.afterPageLoad>
+		<xp:executeScript>
+			<xp:this.script><![CDATA[#{javascript:
+							// Capturando el nombre del usuario
+							  var valor =  getComponent("campo_calculado").getValue();
+								
+							// Obteniendo la vista de la BD 
+							   var vista=database.getView('v.UI.Autorizaciones');
+							
+							// Pase del parametro a buscar en la vista
+							   var dc = database.FTSearch(valor);
+
+							// Puntero posicionado en el primer registro de la vista
+							   var entrada= dc.getFirstDocument();
+							   
+									  
+							// se captura el valor requerido de columna de la vista
+							// var permisos=entrada.getItemValue('autorizaciones_usuario').toString();
+
+							//	sessionScope.permisos=entrada.getItemValue('autorizaciones_usuario').toString();
+								sessionScope.docid_modulos=entrada.getItemValue('autorizaciones_usuario').toString();
+}]]></xp:this.script>
+		</xp:executeScript>
+	</xp:this.afterPageLoad>
+	<xp:panel></xp:panel>
+	<xe:applicationLayout id="applicationLayout1">
+		<xp:panel style="text-align:left;margin-left:0.0%;margin-right:0.0%;margin-top:0.0px">
+
+
+		<xc:mapa></xc:mapa></xp:panel>
+
+
+
+
+
+		<xp:this.facets>
+			<xp:panel xp:key="RightColumn" style="margin-left:5.0px"><xp:image url="/edf7.jpg" id="image2" style="width:100.0%;height:200px;margin-bottom:5.0px;margin-top:0.0px">
+				</xp:image>
+				<xp:br></xp:br><xp:image url="/edf1.jpg" id="image4" style="width:100.0%;height:200px;margin-bottom:5.0px;margin-top:0.0px">
+				</xp:image>
+				<xp:br></xp:br><xp:image url="/edf3.png" id="image6" style="width:100.0%;height:200px;margin-bottom:5.0px;margin-top:0.0px">
+				</xp:image></xp:panel>
+			<xp:br xp:key="MastFooter"></xp:br>
+			<xp:text escape="true" id="campo"
+				value="#{sessionScope.docid_modulos}" style="margin-left:10.0px"
+				xp:key="MastHeader" rendered="false">
+			</xp:text>
+			<xp:panel xp:key="LeftColumn" style="margin-left:0.0px;margin-right:5.0px">
+				
+				<xp:image url="/logo2.jpg" id="image5" style="width:95%;margin-bottom:5.0px;height:140px;margin-top:0.0px;margin-left:0.0px">
+				</xp:image><xp:br></xp:br>
+				
+			<xp:image url="/logox.gif" id="image1" style="width:95%;margin-bottom:5.0px;height:90px;margin-top:0.0px;margin-left:0.0px">
+				</xp:image>
+			<xp:br></xp:br><xp:image url="/logo.png" id="image3" style="width:95%;margin-bottom:5.0px;height:140px;margin-top:0.0px;margin-left:0.0px">
+				</xp:image></xp:panel>
+		</xp:this.facets>
+		<xe:this.configuration>
+			<xe:applicationConfiguration titleBarName="Sistema ADA3D"
+				placeBar="false" productLogoHeight="7%" productLogoWidth="7%">
+				<xe:this.footerLinks>
+
+
+
+
+
+				</xe:this.footerLinks>
+
+				<xe:this.bannerApplicationLinks>
+					<xe:basicLeafNode
+						style="margin-left:0.0%;margin-right:3.0%;margin-top:20.0px"
+						href="http://ada3d:8080/test/configuracion.nsf/home.xsp">
+						<xe:this.label><![CDATA[#{javascript:"Bienvenido,  " + @UserName()}]]></xe:this.label>
+					</xe:basicLeafNode>
+
+
+
+					<xe:basicLeafNode
+						label="Sistemas Administrativos , S.A."
+						style="margin-left:1.0%;margin-right:1.0%;margin-top:20.0px"
+						href="http://www.sisadm.com.ar/">
+					</xe:basicLeafNode>
+					<xe:basicLeafNode label="Ubicacion"
+						style="margin-left:1.0%;margin-right:1.0%;margin-top:20.0px"
+						href="http://ada3d:8080/test/configuracion.nsf/ubicacion.xsp">
+					</xe:basicLeafNode>
+
+
+
+
+
+
+				</xe:this.bannerApplicationLinks>
+				<xe:this.placeBarName><![CDATA[#{javascript:" " + "Usuario: " + @UserName()}]]></xe:this.placeBarName>
+				<xe:this.bannerUtilityLinks>
+
+
+
+
+				</xe:this.bannerUtilityLinks>
+			</xe:applicationConfiguration>
+		</xe:this.configuration>
+	</xe:applicationLayout>
+	<xe:popupMenu id="menu_administracion">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Datos">
+				<xe:this.children>
+					<xe:basicLeafNode enabled="true"
+						label="Actualizar">
+
+
+
+						<xe:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.docid_modulos,"A62")||@Contains(sessionScope.docid_modulos,"93A"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+	
+	
+}]]></xe:this.rendered>
+					</xe:basicLeafNode>
+
+
+					<xe:basicLeafNode label="Crear">
+						<xe:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.docid_modulos,"A2E")||@Contains(sessionScope.docid_modulos,"93A"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}}]]></xe:this.rendered>
+					</xe:basicLeafNode>
+					<xe:basicLeafNode label="Eliminar">
+						<xe:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.docid_modulos,"A0A")||@Contains(sessionScope.docid_modulos,"93A"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}}]]></xe:this.rendered>
+					</xe:basicLeafNode>
+
+				</xe:this.children>
+
+
+				<xe:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.docid_modulos,"93A")||@Contains(sessionScope.docid_modulos,"A62")||
+   @Contains(sessionScope.docid_modulos,"A2E")||@Contains(sessionScope.docid_modulos,"A0A"))		 			
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+}]]></xe:this.rendered>
+			</xe:basicContainerNode>
+
+			<xe:basicContainerNode label="Honorarios Administracion">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+				<xe:this.rendered><![CDATA[#{javascript:
+if(@Contains(sessionScope.docid_modulos,"962"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+}]]></xe:this.rendered>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Prestamos a Edificios">
+				<xe:this.rendered><![CDATA[#{javascript:
+if(@Contains(sessionScope.docid_modulos,"A1E"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+}]]></xe:this.rendered>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Movimientos Propios">
+				<xe:this.rendered><![CDATA[#{javascript:
+if(@Contains(sessionScope.docid_modulos,"936"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+}]]></xe:this.rendered>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Cartera de Cheques">
+				<xe:this.rendered><![CDATA[#{javascript:
+if(@Contains(sessionScope.docid_modulos,"9F6"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+}]]></xe:this.rendered>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Situacion General">
+				<xe:this.rendered><![CDATA[#{javascript:
+if(@Contains(sessionScope.docid_modulos,"9A6"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+}]]></xe:this.rendered>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Sistema de Caja Diaria">
+				<xe:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.docid_modulos,"A8E"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+}]]></xe:this.rendered>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Caja Central">
+				<xe:this.rendered><![CDATA[#{javascript:
+if(@Contains(sessionScope.docid_modulos,"96A"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+}]]></xe:this.rendered>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Bancos">
+				<xe:this.rendered><![CDATA[#{javascript:
+if(@Contains(sessionScope.docid_modulos,"9C2"))
+	{
+		true	
+	}
+else
+	{
+		false
+	}
+}]]></xe:this.rendered>
+			</xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+
+
+	<xe:popupMenu id="menu_edificios">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Datos">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Intereses y Multas">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Fechas de Vencimiento"></xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Formato del Informe de Caja">
+			</xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Sistema de Cuotas Fijas y/o Presupuesto">
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Movimientos Extra de Caja"></xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Egresos de Caja automaticos">
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Libro de Caja"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Agenda"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Asambleas"></xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Configuracion  Mis Expensas ">
+
+			</xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_propietarios">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Cobranzas">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Certificados de Deuda">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Cuentas Corrientes"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Composicion de Saldo"></xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Modificaciones Individuales">
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Modificaciones Grupales"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Morosos"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Correo"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Tarjeta Visa"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_gastos">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Comunes">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Particulares">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="En Cuotas"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Pendientes de Pago"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Vales"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Textos Pregrabados"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Vencimientos"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_liquidacion">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Gastos">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Prorrateo">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Notas al pie del Prorrateo"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Informes de Caja"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Liquidaciones Anteriores"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Libro de Caja"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Buscar"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Estadisticas"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Balance General"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_polizas">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Agregar Poliza de Seguro">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Actualizar Poliza de Seguro">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Suprimir Poliza de Seguro"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Opciones"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_proveedores">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode
+				label="Alta, Baja y Modificaciones">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Facturas">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Cuentas Corrientes"></xe:basicContainerNode>
+			<xe:basicContainerNode
+				label="Sistemas Administrativos S.A.">
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Ordenes de Pago"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Vales"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_sueldos">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Legajos">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Convenios">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Borradores"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Libro de Sueldos"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Libro de Horas Extras"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Vales"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_reclamos">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Agregar">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Actualizar">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Suprimir"></xe:basicContainerNode>
+			<xe:basicContainerNode label="Opciones"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_informes">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Módulo">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Rango de Fechas">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Usuario"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_proceso">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Enviar Expensa">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Enviar Sueldos">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Recuperar"></xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xe:popupMenu id="menu_seguridad">
+		<xe:this.treeNodes>
+			<xe:basicContainerNode label="Responsable">
+				<xe:this.children>
+					<xe:basicLeafNode label="1"></xe:basicLeafNode>
+					<xe:basicLeafNode label="2"></xe:basicLeafNode>
+					<xe:basicLeafNode label="3"></xe:basicLeafNode>
+					<xe:basicLeafNode label="4"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+			<xe:basicContainerNode label="Usuarios">
+				<xe:this.children>
+					<xe:basicLeafNode label="Registar Nuevo Usuario"></xe:basicLeafNode>
+					<xe:basicLeafNode label="Autorizar Edificios"></xe:basicLeafNode>
+					<xe:basicLeafNode label="Autorizar Modulos"></xe:basicLeafNode>
+				</xe:this.children>
+			</xe:basicContainerNode>
+		</xe:this.treeNodes>
+	</xe:popupMenu>
+	<xp:button value="Prueba" id="button13" rendered="false">
+		<xp:eventHandler event="onclick" submit="true"
+			refreshMode="complete">
+			<xp:this.action>
+				<xp:executeScript>
+					<xp:this.script><![CDATA[#{javascript:			
+							//Carga las librerias de Java
+//							importPackage(com.itextpdf);
+//							importPackage(java.io);
+							 
+							//Inicializacion de Variables
+//							var con = facesContext.getExternalContext();
+//							var response:com.ibm.xsp.webapp.XspHttpServletResponse = con.getResponse();
+							
+							// captura del valor introducido en la caja de texto
+							  var valor =  getComponent("campo_calculado").getValue();
+								
+							// Obteniendo la vista de la BD a pasar a PDF
+							   var vista=database.getView('v.UI.Autorizaciones');
+							
+							// Pase del parametro a buscar en la vista
+							   var dc = database.FTSearch(valor);
+
+							// Puntero posicionado en el primer registro de la vista
+							   var entrada= dc.getFirstDocument();
+							   
+									// Se obtienen los títulos de las columnas de la vista 
+									// getColumn(columna), obteniendo asi el valor de cada 
+									// columna en la primera fila que es el título.
+									// var titulo1=vista.getColumn(3).toString(); 							
+									  
+								// se captura el valor de la 1ra columna de la vista
+								  // var permisos=entrada.getItemValue('autorizaciones_usuario').toString();
+								   sessionScope.permisos=entrada.getItemValue('autorizaciones_usuario').toString();
+								
+								// se quitan los caracteres extraños del valor capturado
+//								   var valor_01=pre_valor1.remove(0,1);
+
+								// la variable depurada se pasa a la variable cell para construir la 1ra celda del pdf
+//								    var valor1=valor_01.replace("]",""); 
+
+
+//	APOYARME EN ESTA INSTRUCCION 	var variable = @Name("[CN]", @UserName());
+}]]></xp:this.script>
+				</xp:executeScript>
+			</xp:this.action>
+		</xp:eventHandler>
+	</xp:button>
+	<xp:text escape="true" id="campo_calculado" rendered="false">
+		<xp:this.value><![CDATA[#{javascript:@Name("[CN]",@UserName());
+
+//var usuario = @Name("[CN]",@UserName());
+//usuario}]]></xp:this.value>
+	</xp:text>
+	<xp:label id="label1" value="#{javascript:sessionScope.permisos}"
+		style="margin-left:10.0px;font-weight:bold" rendered="false">
+	</xp:label>
+</xp:view>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.0" replicaid="03258121007CD104" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="3de" sequence="1" unid="61C8E286F7E76A49832581300061A31C">
+<created><datetime dst="true">20170530T154627,48-02</datetime></created>
+<modified><datetime dst="true">20170530T154627,51-02</datetime></modified>
+<revised><datetime dst="true">20170530T154627,49-02</datetime></revised>
+<lastaccessed><datetime dst="true">20170530T154627,51-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20170530T154627,51-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Francisco Gallegos/O=Francisco Gallegos</name><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
+<wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
+<item name="$TITLE" sign="true"><text>googleMapsTestLib</text></item>
+<item name="$Flags"><text>h534Q</text></item>
+<item name="$PublicAccess" sign="true"><text>1</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+</note>

@@ -1,0 +1,4778 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.data>
+		<xp:dominoView var="view1" viewName="v.UI.M_ADM"></xp:dominoView>
+	</xp:this.data>
+
+
+
+	
+	
+	<xp:this.afterPageLoad>
+		<xp:executeScript>
+			<xp:this.script><![CDATA[#{javascript:sessionScope.vista="OK";
+sessionScope.pulsar=null}]]></xp:this.script>
+		</xp:executeScript>
+	</xp:this.afterPageLoad>
+	<xp:panel id="TITULO" style="background-color:rgb(0,128,192)">
+		<xp:image url="/logo.gif" id="image1"></xp:image>
+		<xp:label id="label1"
+			style="font-weight:bold;font-size:28pt;margin-left:0.0px;color:rgb(0,0,0);margin-bottom:0.0px;margin-right:20.0px"
+			value="SISTEMA ADA3D">
+		</xp:label>
+		&#160;
+		<xp:label value="MODULO DE SEGURIDAD" id="label14"
+			style="font-weight:bold;font-size:28pt;margin-left:0.0px;color:rgb(255,255,255);margin-bottom:0.0px;margin-right:20.0px">
+		</xp:label>
+	</xp:panel>
+
+	<xp:tabbedPanel id="tabbedPanel1" selectedTab="tabPanel1" style="background-color:rgb(255,255,255)">
+
+		<xp:tabPanel label="Seleccionar Usuarios" id="tabPanel1"
+			image="/people2.gif" style="background-color:rgb(214,224,235)">
+			<xp:br></xp:br>
+			<xp:label value="Para ver Lista de Usuarios  Pulse Aqui"
+				id="label23"
+				style="font-weight:bold;font-size:12pt;margin-top:30.0px;margin-left:27.0px">
+
+
+				<xp:this.rendered><![CDATA[#{javascript:if (sessionScope.pulsar=="OK")
+	{	
+		true	
+	}
+else
+	{	
+		false	
+	}
+
+
+}]]></xp:this.rendered>
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="complete">
+					<xp:this.action>
+						<xp:executeScript>
+							<xp:this.script><![CDATA[#{javascript:sessionScope.vista="OK";
+sessionScope.datos_usuario="NO";
+//sessionScope.valor_ini=null;
+sessionScope.pulsar=null}]]></xp:this.script>
+						</xp:executeScript>
+					</xp:this.action>
+				</xp:eventHandler>
+			</xp:label>
+			<xp:image url="/down-red.gif" id="image4"
+				style="margin-left:5.0px">
+				<xp:this.rendered><![CDATA[#{javascript:if (sessionScope.pulsar=="OK")
+	{	
+		true	
+	}
+else
+	{	
+		false	
+	}
+}]]></xp:this.rendered>
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="complete">
+					<xp:this.action>
+						<xp:executeScript>
+							<xp:this.script><![CDATA[#{javascript:sessionScope.vista="OK";
+sessionScope.datos_usuario="NO";
+//sessionScope.valor_ini=null
+sessionScope.pulsar=null}]]></xp:this.script>
+						</xp:executeScript>
+					</xp:this.action>
+				</xp:eventHandler>
+			</xp:image>
+			<xp:br></xp:br>
+
+			<xp:viewPanel rows="30" id="viewPanel12"
+				viewStyle="width:100%;font-size:14pt;font-weight:bold"
+				var="rowData">
+				<xp:this.facets>
+
+					<xp:viewTitle xp:key="viewTitle" id="viewTitle3"
+						value="PULSE SOBRE EL NOMBRE DEL USUARIO PARA SELECCIONAR"
+						style="font-size:10pt;font-family:Arial,sans-serif">
+					</xp:viewTitle>
+				</xp:this.facets>
+				<xp:this.data>
+					<xp:dominoView var="view3"
+						viewName="v.UI.Autorizaciones">
+					</xp:dominoView>
+				</xp:this.data>
+
+				<xp:this.rendered><![CDATA[#{javascript:
+if (sessionScope.vista=="OK")
+	{	
+		true	
+	}
+else
+	{	
+		false	
+	}
+
+
+}]]></xp:this.rendered>
+				<xp:viewColumn id="viewColumn76" displayAs="hidden"
+					iconSrc="/administrator1_16x16.gif" style="width:15px">
+					<xp:this.facets>
+						<xp:viewColumnHeader xp:key="header"
+							id="viewColumnHeader76" rendered="false">
+						</xp:viewColumnHeader>
+					</xp:this.facets>
+				</xp:viewColumn>
+				<xp:viewColumn columnName="nombres_usuario"
+					id="viewColumn44" style="font-size:12pt" displayAs="link">
+					<xp:viewColumnHeader value=" Usuario"
+						id="viewColumnHeader44" style="font-weight:bold"
+						rendered="false">
+					</xp:viewColumnHeader>
+
+
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete" id="eventHandler10">
+						<xp:this.action>
+
+
+
+							<xp:actionGroup>
+								<xp:actionGroup>
+									<xp:actionGroup>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										<xp:executeScript>
+											<xp:this.script><![CDATA[#{javascript:sessionScope.docId=rowData.getNoteID();
+sessionScope.check=null;
+sessionScope.datos_usuario="OK"
+
+//*********************************************************************
+sessionScope.usuario=rowData.getColumnValue("nombres_usuario");
+//*********************************************************************
+sessionScope.docid_den_adm=rowData.getColumnValue("den_adm");
+sessionScope.docid_den_edf=rowData.getColumnValue('den_edf').toString();
+sessionScope.docid_den_prop=rowData.getColumnValue('den_prop').toString();
+sessionScope.docid_den_gast=rowData.getColumnValue('den_gast').toString();
+sessionScope.docid_den_inf=rowData.getColumnValue('den_inf').toString();
+sessionScope.docid_den_liq=rowData.getColumnValue('den_liq').toString();
+sessionScope.docid_den_pol=rowData.getColumnValue('den_pol').toString();
+sessionScope.docid_den_proc=rowData.getColumnValue('den_proc').toString();
+sessionScope.docid_den_prov=rowData.getColumnValue('den_prov').toString();
+sessionScope.docid_den_recl=rowData.getColumnValue('den_recl').toString();
+sessionScope.docid_den_suel=rowData.getColumnValue('den_suel').toString();
+sessionScope.docid_den_seg=rowData.getColumnValue('den_seg').toString();
+
+}]]></xp:this.script>
+										</xp:executeScript>
+										<xp:confirm
+											message="Usuario Seleccionado">
+										</xp:confirm>
+
+
+
+									</xp:actionGroup>
+
+								</xp:actionGroup>
+
+
+
+
+
+
+
+
+
+								<xp:openPage
+									name="/mod_seguridad_pro.xsp" target="editDocument"
+									documentId="#{javascript:sessionScope.docId}">
+								</xp:openPage>
+
+
+								<xp:executeScript>
+									<xp:this.script><![CDATA[#{javascript:// estas variables se encargande mostrar y ocultar 
+// la vista y la opcion para cargarla de nuevo
+
+sessionScope.vista="NO";
+sessionScope.pulsar="OK"}]]></xp:this.script>
+								</xp:executeScript>
+							</xp:actionGroup>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:viewColumn>
+				<xp:viewColumn rendered="false" id="viewColumn1">
+					<xp:this.facets>
+						<xp:viewColumnHeader xp:key="header"
+							value="Módulos Autorizados" style="font-weight:bold"
+							id="viewColumnHeader1">
+						</xp:viewColumnHeader>
+					</xp:this.facets>
+					<xp:this.value><![CDATA[#{javascript:viewScope.ver=rowData.getColumnValue("autorizaciones_usuario");
+/*
+if(@Contains(viewScope.ver,"932")){	viewScope.modulo_adm="Administracion"}
+else
+	if(@Contains(viewScope.ver,"8FE")){viewScope.mod_edif= "Edificios"}
+	 else
+		if(@Contains(viewScope.ver,"906")){viewScope.mod_prop= "Propietarios"}
+	 	 else
+	 	 	 if(@Contains(viewScope.ver,"912")){viewScope.mod_gast= "Gastos"}
+				else
+					if(@Contains(viewScope.ver,"926")){viewScope.mod_liq= "Liquidación"}	
+						else
+							 if(@Contains(viewScope.ver,"8FA")){viewScope.mod_pol="Pólizas"}
+								else
+									if(@Contains(viewScope.ver,"8F6")){viewScope.mod_prov="Proveedores"}
+										else
+											 if(@Contains(viewScope.ver,"98E")){viewScope.mod_sldos="Sueldos"}
+												else
+													if(@Contains(viewScope.ver,"986")){viewScope.mod_reclm="Reclamos"}
+														else
+															 if(@Contains(viewScope.ver,"9DE")){viewScope.mod_infms="Informes"}
+																else
+																	if(@Contains(viewScope.ver,"91E")){viewScope.mod_procs="Proceso"}
+																		else
+																 			 if(@Contains(viewScope.ver,"9AA")){viewScope.mod_seg="Seguridad"}					
+																																																
+*/
+
+if(@Contains(viewScope.ver,"932")){	viewScope.modulo_adm="Administracion"};
+if(@Contains(viewScope.ver,"8FE")){viewScope.mod_edif= "Edificios"};
+if(@Contains(viewScope.ver,"906")){viewScope.mod_prop= "Propietarios"};	
+if(@Contains(viewScope.ver,"912")){viewScope.mod_gast= "Gastos"};
+if(@Contains(viewScope.ver,"926")){viewScope.mod_liq= "Liquidación"};
+if(@Contains(viewScope.ver,"8FA")){viewScope.mod_pol="Pólizas"};
+if(@Contains(viewScope.ver,"8F6")){viewScope.mod_prov="Proveedores"};
+if(@Contains(viewScope.ver,"98E")){viewScope.mod_sldos="Sueldos"};
+if(@Contains(viewScope.ver,"986")){viewScope.mod_reclm="Reclamos"};
+if(@Contains(viewScope.ver,"9DE")){viewScope.mod_inf="Informes"};
+if(@Contains(viewScope.ver,"91E")){viewScope.mod_procs="Proceso"};
+if(@Contains(viewScope.ver,"9AA")){viewScope.mod_seg="Seguridad"};
+
+
+
+viewScope.acc_mods = viewScope.modulo_adm + "," + viewScope.mod_edif + ", " + viewScope.mod_prop + ", " + viewScope.mod_gast + ", " + viewScope.mod_liq + ", " + viewScope.mod_pol + ", "  + viewScope.mod_prov + ", " + viewScope.mod_sldos + ", " + viewScope.mod_reclm + ", " +  viewScope.mod_inf + ", " + viewScope.mod_procs + ", " + viewScope.mod_seg;
+}]]></xp:this.value>
+				</xp:viewColumn>
+				<xp:viewColumn columnName="autorizaciones_usuario"
+					id="viewColumn45" style="background-color:rgb(166,192,227)"
+					rendered="false">
+					<xp:viewColumnHeader id="viewColumnHeader45"
+						style="font-weight:bold">
+					</xp:viewColumnHeader>
+				</xp:viewColumn>
+			</xp:viewPanel>
+
+			<xp:panel
+				style="width:100%;font-weight:bold;font-size:8pt;padding-top:5.0px;padding-bottom:20.0px;padding-left:20.0px"
+				id="modulos_usuarios">
+				&#160;
+				<xp:this.rendered><![CDATA[#{javascript:if (sessionScope.datos_usuario=="OK")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+}]]></xp:this.rendered>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:image url="/user9_16x16.gif" id="image15"
+					style="height:25px;width:25px">
+				</xp:image>
+				<xp:label id="label5"
+					style="font-size:12pt;margin-left:0.0px;margin-bottom:px;font-weight:bold"
+					value="USUARIO SELECCIONADO:">
+
+				</xp:label>
+				&#160;
+				<xp:label id="label6"
+					style="font-size:14pt;margin-left:5.0px;margin-bottom:5.0px;color:rgb(0,128,192);font-weight:bold">
+					<xp:this.value><![CDATA[#{javascript://var doc:NotesDocument = database.getDocumentByID(viewScope.usuario);
+//doc.getItemValueString("nombres_usuario");
+//var doc:NotesDocument = rowData.getDocument();
+//return doc.getItemValue("nombres_usuario").elementAt(0);
+//rowData.getColumnValue("nombres_usuario")
+
+
+sessionScope.usuario 
+}]]></xp:this.value>
+					<xp:this.rendered><![CDATA[#{javascript:if (sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}}]]></xp:this.rendered>
+				</xp:label>
+
+
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:label value="Administración" id="label3"
+					style="margin-left:5.0px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;width:100px;text-align:center;font-size:8pt;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.accesos,"932")||@Contains(sessionScope.accesos,"93A")
+			 || @Contains(sessionScope.accesos,"A62")||@Contains(sessionScope.accesos,"A2E")
+			 || @Contains(sessionScope.accesos,"A0A"))
+	{
+		//true;
+		sessionScope.valor_ini=sessionScope.valor_ini + "ADMINISTRACION";
+	}
+	
+	false}]]></xp:this.rendered>
+				</xp:label>
+				<xp:label value="Edificios" id="label7"
+					style="margin-left:5.0px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;width:100px;text-align:center;font-size:8pt;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.accesos,"8FE"))
+	{
+		//true;
+		sessionScope.valor_ini= sessionScope.valor_ini + "EDIFICIOS";
+		sessionScope.modulo2=1;
+		
+	}
+	
+	false}]]></xp:this.rendered>
+				</xp:label>
+				<xp:label value="Propietarios" id="label20"
+					style="margin-left:5.0px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;width:100px;text-align:center;font-size:8pt;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.accesos,"906"))
+	{
+		//true;
+		sessionScope.valor_ini=sessionScope.valor_ini + "PROPIETARIOS";
+		sessionScope.modulo3=1;
+	}
+	
+	false}]]></xp:this.rendered>
+				</xp:label>
+				<xp:label value="Gastos" id="label9"
+					style="margin-left:5.0px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;width:100px;text-align:center;font-size:8pt;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.accesos,"912"))
+	{
+		//true;
+		sessionScope.valor_ini=sessionScope.valor_ini + "GASTOS";
+		sessionScope.modulo4=1;
+	}
+	
+	false}]]></xp:this.rendered>
+				</xp:label>
+				<xp:label value="Liquidación" id="label10"
+					style="margin-left:5.0px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;width:100px;text-align:center;font-size:8pt;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.accesos,"926"))
+	{
+		//true;
+		sessionScope.valor_ini=sessionScope.valor_ini + "LIQUIDACION";
+		sessionScope.modulo5=1;
+	}
+	
+	false}]]></xp:this.rendered>
+				</xp:label>
+				<xp:label value="Pólizas" id="label11"
+					style="margin-left:5.0px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;width:100px;text-align:center;font-size:8pt;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.accesos,"8FA"))
+	{
+		//true;
+		sessionScope.valor_ini=sessionScope.valor_ini + "POLIZA DE SEGUROS";
+		sessionScope.modulo6=1;
+	}
+	
+	false}]]></xp:this.rendered>
+				</xp:label>
+				<xp:label id="label12"
+					style="margin-left:5.0px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;width:100px;text-align:center;font-size:8pt;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px"
+					value="Proveedores">
+					<xp:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.accesos,"8F6"))
+	{
+		//true;
+		sessionScope.valor_ini=sessionScope.valor_ini + "PROVEEDORES";
+		sessionScope.modulo7=1;
+	}
+		false}]]></xp:this.rendered>
+				</xp:label>
+				<xp:label value="Sueldos" id="label13"
+					style="margin-left:5.0px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;width:100px;text-align:center;font-size:8pt;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.accesos,"98E"))
+	{
+		//true;
+		sessionScope.valor_ini=sessionScope.valor_ini + "SUELDOS";
+		sessionScope.modulo8=1;
+	}
+
+		false}]]></xp:this.rendered>
+				</xp:label>
+				<xp:label value="Reclamos" id="label15"
+					style="margin-left:5.0px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;width:100px;text-align:center;font-size:8pt;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.accesos,"986"))
+	{
+		//true;
+		sessionScope.valor_ini=sessionScope.valor_ini + "RECLAMOS";
+		sessionScope.modulo9=1;
+	}
+
+		false}]]></xp:this.rendered>
+				</xp:label>
+				<xp:label value="Informes" id="label17"
+					style="margin-left:5.0px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;width:100px;text-align:center;font-size:8pt;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.accesos,"9DE"))
+	{
+		//true;
+		sessionScope.valor_ini=sessionScope.valor_ini + "INFORMES";
+		sessionScope.modulo10=1;
+	}
+	false}]]></xp:this.rendered>
+				</xp:label>
+				<xp:label value="Proceso" id="label18"
+					style="margin-left:5.0px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;width:100px;text-align:center;font-size:8pt;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.accesos,"91E"))
+	{
+		//true;
+		sessionScope.valor_ini=sessionScope.valor_ini + "PROCESOS";
+		sessionScope.modulo11=1;
+	}
+		false
+}]]></xp:this.rendered>
+				</xp:label>
+				<xp:label value="Seguridad" id="label19"
+					style="margin-left:5.0px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;width:100px;text-align:center;font-size:8pt;padding-left:5.0px;padding-right:5.0px;padding-top:5.0px;padding-bottom:5.0px">
+					<xp:this.rendered><![CDATA[#{javascript:if(@Contains(sessionScope.accesos,"9AE"))
+	{
+		//true;
+		sessionScope.valor_ini=sessionScope.valor_ini + "SEGURIDAD";
+		sessionScope.modulo12=1;
+	}
+		false
+	}]]></xp:this.rendered>
+				</xp:label>
+			</xp:panel>
+			<xp:br></xp:br>
+			<xp:br></xp:br>
+		</xp:tabPanel>
+		
+		
+		<xp:tabPanel label="Gestionar Accesos" id="tabPanel3"
+			image="/colapsar.gif" style="background-color:rgb(214,224,235)">
+			<xp:panel id="panel1">
+				<xp:br></xp:br>
+				<xp:this.data>
+					<xp:dominoDocument formName="f.modFormAut"
+						var="datos_doc_accesos" action="editDocument"
+						documentId="#{javascript:sessionScope.docId}">
+					</xp:dominoDocument>
+				</xp:this.data>
+				&#160;
+				<xp:label value="Usuario:" id="label8"
+					style="font-size:14pt;font-weight:bold;margin-top:0.0px;margin-bottom:5.0px;margin-left:0.0px">
+				</xp:label>
+
+				<xp:label id="label22" style="font-size:14pt;margin-left:5.0px;margin-bottom:5.0px;color:rgb(0,128,192);font-weight:bold" value="#{javascript:sessionScope.usuario }">
+					
+					
+				</xp:label><xp:label id="abel21"
+					style="font-size:14pt;margin-left:10.0px;margin-bottom:5.0px">
+					
+				</xp:label>
+				&#160;
+
+
+
+				 
+
+				 
+
+				<xp:label id="label29" value="______">
+					<xp:this.style><![CDATA[#{javascript:		style="width:200px;heigth:200px;background-color:rgb(65,111,148);color:rgb(65,111,148);font-size:7pt;margin-left:20.0px"
+	}]]></xp:this.style>
+				</xp:label>
+				<xp:label value="Acceso Autorizado" id="label24"
+					style="font-size:10pt;font-weight:bold;margin-top:0.0px;margin-bottom:5.0px;margin-left:5.0px">
+				</xp:label>
+				<xp:label id="label30" value="______">
+					<xp:this.style><![CDATA[#{javascript:		style="width:200px;heigth:200px;background-color:rgb(192,192,192);color:rgb(192,192,192);font-size:7pt;margin-left:20.0px"
+	}]]></xp:this.style>
+				</xp:label>
+				<xp:label value="Acceso No Autorizado" id="label25"
+					style="font-size:10pt;font-weight:bold;margin-top:0.0px;margin-bottom:5.0px;margin-left:5.0px">
+				</xp:label>
+				 
+				<xp:image url="/download-page-yellow.gif" id="image2"
+					style="height:15px;width:15px;margin-left:10.0px;margin-bottom:0.0px">
+
+
+					
+				<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+					<xp:this.action>
+						<xp:saveDocument var="datos_doc_accesos"></xp:saveDocument>
+					</xp:this.action></xp:eventHandler></xp:image>
+				<xp:label value="Guardar" id="label31"
+					style="font-size:10pt;font-weight:bold;margin-top:0.0px;margin-bottom:5.0px;margin-left:5.0px">
+				<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+					<xp:this.action>
+						<xp:saveDocument var="datos_doc_accesos"></xp:saveDocument>
+					</xp:this.action></xp:eventHandler></xp:label>
+				<xp:span style="font-weight:bold"></xp:span>
+
+				<xp:label id="label43" value="#{javascript://sessionScope.docid_den_adm;}"></xp:label>
+				<xp:text escape="true" id="computedField1" value="#{javascript://sessionScope.docid_den_adm_datos}" style="color:rgb(255,0,0);font-weight:bold"></xp:text>
+				
+				<xp:br></xp:br>
+
+
+
+				
+				
+				<xp:panel style="width:90%;margin-top:10.0px">
+
+
+					
+					
+
+					&#160;
+					
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					
+					
+					
+					
+					
+					&#160;
+					
+					
+					
+					&#160;
+					
+					
+					
+					&#160;
+					
+					
+					
+					&#160;
+					
+					
+					
+					&#160;
+					
+					
+					
+					&#160;
+					
+					
+					&#160;
+					
+					
+					
+					&#160;
+					
+					
+					
+					&#160;
+					
+					
+					
+					&#160;
+					
+					<xp:table style="width:100%">
+						<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+				true
+		
+	}
+	}]]></xp:this.rendered><xp:tr>
+							<xp:td align="left" id="td2">
+								<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_adm,"932")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	
+}]]></xp:this.style>
+								
+
+
+								
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:executeScript>
+											<xp:this.script><![CDATA[#{javascript:sessionScope.check="AAA"}]]></xp:this.script>
+										</xp:executeScript>
+									</xp:this.action>
+								</xp:eventHandler>
+								<xp:label id="label21" value="Administracion" rendered="false">
+									<xp:this.style><![CDATA[#{javascript:
+if(@Contains(sessionScope.docid_den_edf,"8FE")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(192,192,192);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}}]]></xp:this.style>
+									
+
+
+
+
+
+
+
+
+
+
+
+									
+								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:executeScript>
+
+											<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_edf="8FE";  // se usa para guardar en la BD lotus
+sessionScope.mod_adm="On" // se usapara mostrar las opciones del modulo Edificios
+
+}]]></xp:this.script>
+										</xp:executeScript>
+									</xp:this.action></xp:eventHandler></xp:label>
+								<xp:checkBox id="checkBox1" value="#{datos_doc_accesos.den_adm}" uncheckedValue="null" style="margin-bottom:px;margin-right:px;margin-left:2.0px;margin-top:2.0px" disabled="true">
+										<xp:this.defaultChecked><![CDATA[#{javascript:
+if(sessionScope.denegar_den_adm==null || sessionScope.denegar_den_adm=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+}]]></xp:this.defaultChecked>
+										<xp:this.rendered><![CDATA[#{javascript:
+
+if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+				true
+	}
+	
+	}]]></xp:this.rendered>
+										<xp:this.checkedValue><![CDATA[#{javascript:
+sessionScope.docid_den_adm
+
+}]]></xp:this.checkedValue>
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+												<xp:this.script><![CDATA[#{javascript:sessionScope.mod_adm="Off"}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:checkBox><xp:panel id="panel2">
+									
+									<xp:br></xp:br>
+									<xp:label id="label2"
+										value="Administracion" style="font-size:8pt">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+	}]]></xp:this.rendered>
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_adm="932";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_adm="On" // se usapara mostrar las opciones del modulo Administracion
+sessionScope.mod_edf="Off" 
+sessionScope.mod_prop="Off"
+sessionScope.mod_gast="Off"
+sessionScope.mod_liq="Off" 
+sessionScope.mod_pol="Off"
+sessionScope.mod_prov="Off"
+sessionScope.mod_suel="Off"
+sessionScope.mod_recl="Off" 
+sessionScope.mod_proc="Off"}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:label><xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_adm,"932")) 
+	{
+		// color autorizado
+		style="padding-top:2px;padding-bottom:2px;padding-right:1px;padding-left:1px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;text-align:center"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:2px;padding-bottom:2px;padding-right:1px;padding-left:1px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;text-align:center"
+
+	}
+	
+}]]></xp:this.style>
+	<xp:br></xp:br><xp:image url="/finances_16x16+%282%29.gif" id="image19" style="width:15px;height:15px;margin-bottom:0.0px;margin-left:2.0px" title="Quitar Acceso">
+										<xp:this.rendered><![CDATA[#{javascript:	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		//if(@Contains(sessionScope.accesos,"8FE")){true}
+				true
+		
+	}
+	}]]></xp:this.rendered>
+
+
+
+										
+									</xp:image></xp:panel>
+							</xp:td>
+							<xp:td>
+								<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_edf,"8FE")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+								
+
+
+
+								<xp:label id="label32"
+									value="Edificios" rendered="false">
+									<xp:this.style><![CDATA[#{javascript:
+if(@Contains(sessionScope.docid_den_edf,"8FE")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(192,192,192);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}}]]></xp:this.style>
+									
+
+
+
+
+
+
+
+
+
+
+
+									
+								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:executeScript>
+
+											<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_edf="8FE";  // se usa para guardar en la BD lotus
+sessionScope.mod_edf="On" // se usapara mostrar las opciones del modulo Edificios
+
+}]]></xp:this.script>
+										</xp:executeScript>
+									</xp:this.action></xp:eventHandler></xp:label><xp:checkBox id="checkBox3" value="#{datos_doc_accesos.den_edf}" uncheckedValue="null" style="margin-bottom:px;margin-right:px;margin-left:5.0px;margin-top:2.0px" disabled="true" checkedValue="#{javascript:sessionScope.docid_den_edf}">
+										<xp:this.defaultChecked><![CDATA[#{javascript:
+if(sessionScope.denegar_den_edf==null || sessionScope.denegar_den_edf=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+
+	}]]></xp:this.defaultChecked>
+										<xp:this.rendered><![CDATA[#{javascript:
+
+	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+		
+	}
+
+}]]></xp:this.rendered>
+
+									</xp:checkBox>
+								<xp:panel>
+									<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_edf,"8FE")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;text-align:center"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;text-align:center"
+
+	}
+	}]]></xp:this.style>
+									<xp:label id="label4"
+										value="Edificios" style="font-size:8pt">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+	}]]></xp:this.rendered>
+
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_edf="8FE";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_edf="On" // se usapara mostrar las opciones del modulo Edificios
+sessionScope.mod_adm="Off";
+sessionScope.mod_prop="Off"
+sessionScope.mod_gast="Off"
+sessionScope.mod_liq="Off" 
+sessionScope.mod_pol="Off"
+sessionScope.mod_prov="Off"
+sessionScope.mod_suel="Off"
+sessionScope.mod_recl="Off" 
+sessionScope.mod_proc="Off"}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:label>
+									<xp:br></xp:br>
+									<xp:image
+										url="/lock_16x16+%282%29.gif" id="image20"
+										style="width:15px;height:15px;margin-bottom:0.0px;margin-left:2.0px"
+										title="Quitar Acceso">
+										<xp:this.rendered><![CDATA[#{javascript:	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		//if(@Contains(sessionScope.accesos,"8FE")){true}
+				true
+		
+	}
+	}]]></xp:this.rendered>
+
+
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+												<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_edf="x";  // se usa para los estilos del boton
+sessionScope.mod_edf="Off"; // cerrar el menu de opciones del módulo
+
+}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:image>
+									
+
+
+									&#160;
+
+								</xp:panel>
+							</xp:td>
+							<xp:td>
+								<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_prop,"906")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+								
+
+								<xp:label id="label33"
+									value="Propietarios" rendered="false">
+									<xp:this.style><![CDATA[#{javascript:
+
+if(@Contains(sessionScope.docid_den_prop,"906")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(192,192,192);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}}]]></xp:this.style>
+									
+
+
+
+
+
+
+
+
+
+
+									
+								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:executeScript>
+
+											<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_prop="906";  // se usa para guardar en la BD lotus
+sessionScope.mod_prop="On" // se usapara mostrar las opciones del modulo Propietarios
+
+
+
+
+}]]></xp:this.script>
+										</xp:executeScript>
+									</xp:this.action></xp:eventHandler></xp:label><xp:checkBox id="checkBox4" value="#{datos_doc_accesos.den_prop}" uncheckedValue="null" style="margin-bottom:px;margin-right:px;margin-left:5.0px;margin-top:2.0px" disabled="true">
+										<xp:this.defaultChecked><![CDATA[#{javascript:
+if(sessionScope.denegar_den_prop==null || sessionScope.denegar_den_prop=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.defaultChecked>
+										<xp:this.rendered><![CDATA[#{javascript:
+	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+
+	}]]></xp:this.rendered>
+
+										<xp:this.checkedValue><![CDATA[#{javascript:sessionScope.docid_den_prop
+
+
+
+
+
+
+
+}]]></xp:this.checkedValue>
+									</xp:checkBox>
+								<xp:panel>
+									<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_prop,"906")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+									<xp:label id="label16" value="Propietarios" style="font-size:8pt">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+	}]]></xp:this.rendered>
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_prop="906";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_prop="On" // se usapara mostrar las opciones del modulo Propietarios
+sessionScope.mod_adm="Off";
+sessionScope.mod_edf="Off" 
+sessionScope.mod_gast="Off"
+sessionScope.mod_liq="Off" 
+sessionScope.mod_pol="Off"
+sessionScope.mod_prov="Off"
+sessionScope.mod_suel="Off"
+sessionScope.mod_recl="Off" 
+sessionScope.mod_proc="Off"}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:label><xp:br></xp:br>
+									<xp:image url="/lock_16x16+%282%29.gif" id="image21" style="width:15px;height:15px;margin-bottom:0.0px;margin-left:2.0px" title="Quitar Acceso">
+										<xp:this.rendered><![CDATA[#{javascript:	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+	//	if(@Contains(sessionScope.accesos,"906")){true}
+			true
+	
+	}
+	}]]></xp:this.rendered>
+
+
+										<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:executeScript>
+													<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_prop="x";  // se usa para guardar en la BD lotus
+sessionScope.mod_prop="Off" // cerrar las opciones de menú del módulo
+
+
+}]]></xp:this.script>
+												</xp:executeScript>
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:image>
+									
+									
+									&#160;
+
+								</xp:panel>
+							</xp:td>
+							<xp:td>
+								<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_gast,"912")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+								
+
+								<xp:label id="label34" value="Gastos" rendered="false">
+									<xp:this.style><![CDATA[#{javascript:
+	
+if(@Contains(sessionScope.docid_den_gast,"912")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(192,192,192);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}	}]]></xp:this.style>
+									
+
+
+
+
+
+
+
+
+									
+								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:executeScript>
+
+											<xp:this.script><![CDATA[#{javascript:
+sessionScope.docid_den_gast="912";  // se usa para guardar en la BD lotus
+sessionScope.mod_gast="On" // se usapara mostrar las opciones del modulo Gastos
+
+}]]></xp:this.script>
+										</xp:executeScript>
+									</xp:this.action></xp:eventHandler></xp:label><xp:checkBox id="checkBox5" value="#{datos_doc_accesos.den_gast}" uncheckedValue="null" style="margin-bottom:px;margin-right:px;margin-left:5.0px;margin-top:2.0px" disabled="true">
+										<xp:this.defaultChecked><![CDATA[#{javascript:
+if(sessionScope.denegar_den_gast==null || sessionScope.denegar_den_gast=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.defaultChecked>
+										<xp:this.rendered><![CDATA[#{javascript:
+if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+
+	}]]></xp:this.rendered>
+
+										<xp:this.checkedValue><![CDATA[#{javascript:sessionScope.docid_den_gast
+
+
+}]]></xp:this.checkedValue>
+									</xp:checkBox>
+								<xp:panel>
+									<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_gast,"912")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+									<xp:label id="label26" value="Gastos" style="font-size:8pt">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+	}]]></xp:this.rendered>
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript:
+sessionScope.docid_den_gast="912";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_gast="On" // se usapara mostrar las opciones del modulo Gastos
+sessionScope.mod_adm="Off";
+sessionScope.mod_edf="Off" 
+sessionScope.mod_prop="Off"
+sessionScope.mod_liq="Off" 
+sessionScope.mod_pol="Off"
+sessionScope.mod_prov="Off"
+sessionScope.mod_suel="Off"
+sessionScope.mod_recl="Off" 
+sessionScope.mod_proc="Off"
+}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:label><xp:br></xp:br>
+									
+									<xp:image
+										url="/lock_16x16+%282%29.gif" id="image22"
+										style="width:15px;height:15px;margin-bottom:0.0px;margin-left:2.0px"
+										title="Quitar Acceso">
+										<xp:this.rendered><![CDATA[#{javascript:	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		//if(@Contains(sessionScope.accesos,"912")){true}
+				true
+		
+	}
+	}]]></xp:this.rendered>
+
+
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:executeScript>
+													<xp:this.script><![CDATA[#{javascript:
+sessionScope.docid_den_gast="x";  // se usa para guardar en la BD lotus
+sessionScope.mod_gast="Off"  // se usa para ocultar las opciones de menú del módulo
+
+
+}]]></xp:this.script>
+												</xp:executeScript>
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:image>
+									
+									&#160;
+
+								</xp:panel>
+							</xp:td>
+							<xp:td>
+								<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_liq,"926")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+								
+
+								<xp:label id="label35"
+									value="Liquidacion" rendered="false">
+									<xp:this.style><![CDATA[#{javascript:
+
+if(@Contains(sessionScope.docid_den_liq,"926")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(192,192,192);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}		}]]></xp:this.style>
+									
+
+
+
+
+
+
+
+
+									
+								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:executeScript>
+
+											<xp:this.script><![CDATA[#{javascript:
+sessionScope.docid_den_liq="926";  // se usa para guardar en la BD lotus
+sessionScope.mod_liq="On" // se usapara mostrar las opciones del modulo Liquidaciones
+}]]></xp:this.script>
+										</xp:executeScript>
+									</xp:this.action></xp:eventHandler></xp:label><xp:checkBox id="checkBox6" value="#{datos_doc_accesos.den_liq}" uncheckedValue="null" style="margin-bottom:px;margin-right:px;margin-left:5.0px;margin-top:2.0px" disabled="true">
+										<xp:this.defaultChecked><![CDATA[#{javascript:
+if(sessionScope.denegar_den_liq==null || sessionScope.denegar_den_liq=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.defaultChecked>
+										<xp:this.rendered><![CDATA[#{javascript:
+
+if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+
+	}]]></xp:this.rendered>
+
+										<xp:this.checkedValue><![CDATA[#{javascript:sessionScope.docid_den_liq
+
+
+}]]></xp:this.checkedValue>
+									</xp:checkBox>
+								<xp:panel>
+									<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_liq,"926")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+									<xp:label id="label27" value="Liquidación" style="font-size:8pt">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+	}]]></xp:this.rendered>
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript:
+sessionScope.docid_den_liq="926";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_liq="On" // se usapara mostrar las opciones del modulo Liquidaciones
+sessionScope.mod_adm="Off";
+sessionScope.mod_edf="Off" 
+sessionScope.mod_prop="Off"
+sessionScope.mod_gast="Off"
+sessionScope.mod_pol="Off"
+sessionScope.mod_prov="Off"
+sessionScope.mod_suel="Off"
+sessionScope.mod_recl="Off" 
+sessionScope.mod_proc="Off"}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:label><xp:br></xp:br>
+									
+									<xp:image
+										url="/lock_16x16+%282%29.gif" id="image23"
+										style="width:15px;height:15px;margin-bottom:0.0px;margin-left:2.0px"
+										title="Quitar Acceso">
+										<xp:this.rendered><![CDATA[#{javascript:	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		//if(@Contains(sessionScope.accesos,"926")){true}
+				true
+		
+	}
+	}]]></xp:this.rendered>
+
+
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:executeScript>
+													<xp:this.script><![CDATA[#{javascript:
+sessionScope.docid_den_liq="x";  // se usa para guardar en la BD lotus
+sessionScope.mod_liq="Off" // se usa para ocultar las opciones de menú del módulo
+
+
+}]]></xp:this.script>
+												</xp:executeScript>
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:image>
+									
+									&#160;
+
+								</xp:panel>
+							</xp:td>
+							<xp:td>
+								<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_pol,"8FA")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+								
+
+								<xp:label id="label36"
+									value="Póliza de Seguros" rendered="false">
+									<xp:this.style><![CDATA[#{javascript:
+
+if(@Contains(sessionScope.docid_den_pol,"8FA")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(192,192,192);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}			}]]></xp:this.style>
+									
+
+
+
+
+
+
+
+
+									
+								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:executeScript>
+
+											<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_pol="8FA";  // se usa para guardar en la BD lotus
+sessionScope.mod_pol="On" // se usapara mostrar las opciones del modulo Poliza de Seguros
+}]]></xp:this.script>
+										</xp:executeScript>
+									</xp:this.action></xp:eventHandler></xp:label><xp:checkBox id="checkBox7" value="#{datos_doc_accesos.den_pol}" uncheckedValue="null" style="margin-bottom:px;margin-right:px;margin-left:5.0px;margin-top:2.0px" disabled="true">
+										<xp:this.defaultChecked><![CDATA[#{javascript:
+if(sessionScope.denegar_den_pol==null || sessionScope.denegar_den_pol=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.defaultChecked>
+										<xp:this.rendered><![CDATA[#{javascript:
+
+if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+
+	}]]></xp:this.rendered>
+
+										<xp:this.checkedValue><![CDATA[#{javascript:sessionScope.docid_den_pol
+
+
+}]]></xp:this.checkedValue>
+									</xp:checkBox>
+								<xp:panel>
+									<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_pol,"8FA")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+									<xp:label id="label28" style="font-size:8pt" value="Pólizas">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+	}]]></xp:this.rendered>
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_pol="8FA";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_pol="On" // se usapara mostrar las opciones del modulo Poliza de Seguros
+sessionScope.mod_adm="Off";
+sessionScope.mod_edf="Off" 
+sessionScope.mod_prop="Off"
+sessionScope.mod_gast="Off"
+sessionScope.mod_liq="Off" 
+sessionScope.mod_prov="Off"
+sessionScope.mod_suel="Off"
+sessionScope.mod_recl="Off" 
+sessionScope.mod_proc="Off"}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:label><xp:br></xp:br>
+									
+									<xp:image
+										url="/lock_16x16+%282%29.gif" id="image24"
+										style="width:15px;height:15px;margin-bottom:0.0px;margin-left:2.0px"
+										title="Quitar Acceso">
+										<xp:this.rendered><![CDATA[#{javascript:	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		//if(@Contains(sessionScope.accesos,"8FA")){true}
+				true
+		
+	}
+	}]]></xp:this.rendered>
+
+
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:executeScript>
+													<xp:this.script><![CDATA[#{javascript:
+sessionScope.docid_den_pol="x";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_pol="Off" // se usa par ocultar las opciones de menúy del módulo
+
+}]]></xp:this.script>
+												</xp:executeScript>
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:image>
+									
+									&#160;
+
+								</xp:panel>
+							</xp:td>
+							<xp:td>
+								<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_prov,"8F6")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+								
+
+								<xp:label id="label37"
+									value="Proveedores" rendered="false">
+									<xp:this.style><![CDATA[#{javascript:
+
+if(@Contains(sessionScope.docid_den_prov,"8F6")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(192,192,192);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}			}]]></xp:this.style>
+									
+
+
+
+
+
+
+
+
+									
+								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:executeScript>
+
+											<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_prov="8F6";  // se usa para guardar en la BD lotus
+sessionScope.mod_prov="On" // se usapara mostrar las opciones del modulo Proveedores
+}]]></xp:this.script>
+										</xp:executeScript>
+									</xp:this.action></xp:eventHandler></xp:label><xp:checkBox id="checkBox8" value="#{datos_doc_accesos.den_prov}" uncheckedValue="null" style="margin-bottom:px;margin-right:px;margin-left:5.0px;margin-top:2.0px" disabled="true">
+										<xp:this.defaultChecked><![CDATA[#{javascript:
+if(sessionScope.denegar_den_prov==null || sessionScope.denegar_den_prov=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.defaultChecked>
+										<xp:this.rendered><![CDATA[#{javascript:
+
+if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+
+	}]]></xp:this.rendered>
+
+										<xp:this.checkedValue><![CDATA[#{javascript:sessionScope.docid_den_prov
+
+
+}]]></xp:this.checkedValue>
+									</xp:checkBox>
+								<xp:panel>
+									<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_prov,"8F6")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+									<xp:label id="label53" value="Proveedores" style="font-size:8pt">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+	}]]></xp:this.rendered>
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_prov="8F6";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_prov="On" // se usapara mostrar las opciones del modulo Proveedores
+sessionScope.mod_adm="Off";
+sessionScope.mod_edf="Off" 
+sessionScope.mod_prop="Off"
+sessionScope.mod_gast="Off"
+sessionScope.mod_liq="Off" 
+sessionScope.mod_pol="Off"
+sessionScope.mod_suel="Off"
+sessionScope.mod_recl="Off" 
+sessionScope.mod_proc="Off"}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:label><xp:br></xp:br>
+									
+									<xp:image
+										url="/lock_16x16+%282%29.gif" id="image25"
+										style="width:15px;height:15px;margin-bottom:0.0px;margin-left:2.0px"
+										title="Quitar Acceso">
+										<xp:this.rendered><![CDATA[#{javascript:	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		//if(@Contains(sessionScope.accesos,"8F6")){true}
+		true
+	}
+	}]]></xp:this.rendered>
+
+
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:executeScript>
+													<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_prov="x";  // se usa para guardar en la BD lotus
+sessionScope.mod_prov="Off"  // se usa para ocultar las opciones de menú del módulo}]]></xp:this.script>
+												</xp:executeScript>
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:image>
+									
+									&#160;
+
+								</xp:panel>
+							</xp:td>
+							<xp:td>
+								<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_suel,"98E")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}}]]></xp:this.style>
+								
+
+								<xp:label id="label38"
+									value="Sueldos" rendered="false">
+									<xp:this.style><![CDATA[#{javascript:
+if(@Contains(sessionScope.docid_den_suel,"98E")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(192,192,192);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}			
+}]]></xp:this.style>
+									
+
+
+
+
+
+
+
+
+									
+								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:executeScript>
+
+											<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_suel="98E";  // se usa para guardar en la BD lotus
+sessionScope.mod_suel="On" // se usapara mostrar las opciones del modulo Sueldos
+}]]></xp:this.script>
+										</xp:executeScript>
+									</xp:this.action></xp:eventHandler></xp:label><xp:checkBox id="checkBox9" value="#{datos_doc_accesos.den_suel}" uncheckedValue="null" style="margin-bottom:px;margin-right:px;margin-left:5.0px;margin-top:2.0px" disabled="true">
+										<xp:this.defaultChecked><![CDATA[#{javascript:
+if(sessionScope.denegar_den_suel==null || sessionScope.denegar_den_suel=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.defaultChecked>
+										<xp:this.rendered><![CDATA[#{javascript:
+
+if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+
+	}]]></xp:this.rendered>
+
+										<xp:this.checkedValue><![CDATA[#{javascript:sessionScope.docid_den_suel
+
+
+}]]></xp:this.checkedValue>
+									</xp:checkBox>
+								<xp:panel>
+									<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_suel,"98E")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+									<xp:label id="label58" value="Sueldos" style="font-size:8pt">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+	}]]></xp:this.rendered>
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_suel="98E";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_suel="On" // se usapara mostrar las opciones del modulo Sueldos
+sessionScope.mod_adm="Off";
+sessionScope.mod_edf="Off" 
+sessionScope.mod_prop="Off"
+sessionScope.mod_gast="Off"
+sessionScope.mod_liq="Off" 
+sessionScope.mod_pol="Off"
+sessionScope.mod_prov="Off"
+sessionScope.mod_recl="Off" 
+sessionScope.mod_proc="Off"}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:label><xp:br></xp:br>
+									
+									<xp:image
+										url="/lock_16x16+%282%29.gif" id="image26"
+										style="width:15px;height:15px;margin-bottom:0.0px;margin-left:2.0px"
+										title="Quitar Acceso">
+										<xp:this.rendered><![CDATA[#{javascript:	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		//if(@Contains(sessionScope.accesos,"98E")){true}
+		true
+	}
+	}]]></xp:this.rendered>
+
+
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:executeScript>
+													<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_suel="x";  // se usa para guardar en la BD lotus
+sessionScope.mod_suel="Off" // se usa para ocultar las opciones del módulo
+
+
+
+}]]></xp:this.script>
+												</xp:executeScript>
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:image>
+									
+									&#160;
+
+								</xp:panel>
+							</xp:td>
+							<xp:td>
+								<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_recl,"986")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+								
+
+								<xp:label id="label39"
+									value="Reclamos" rendered="false">
+									<xp:this.style><![CDATA[#{javascript:
+
+if(@Contains(sessionScope.docid_den_recl,"986")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(192,192,192);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}		}]]></xp:this.style>
+									
+
+
+
+
+
+
+
+
+									
+								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:executeScript>
+
+											<xp:this.script><![CDATA[#{javascript:
+sessionScope.docid_den_recl="986";  // se usa para guardar en la BD lotus
+sessionScope.mod_recl="On" // se usapara mostrar las opciones del modulo Reclamos
+}]]></xp:this.script>
+										</xp:executeScript>
+									</xp:this.action></xp:eventHandler></xp:label><xp:checkBox id="checkBox10" value="#{datos_doc_accesos.den_recl}" uncheckedValue="null" style="margin-bottom:px;margin-right:px;margin-left:5.0px;margin-top:2.0px" disabled="true">
+										<xp:this.defaultChecked><![CDATA[#{javascript:
+if(sessionScope.denegar_den_recl==null || sessionScope.denegar_den_recl=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.defaultChecked>
+										<xp:this.rendered><![CDATA[#{javascript:
+
+if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+
+	}]]></xp:this.rendered>
+
+										<xp:this.checkedValue><![CDATA[#{javascript:sessionScope.docid_den_recl
+
+
+}]]></xp:this.checkedValue>
+									</xp:checkBox>
+								<xp:panel>
+									<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_recl,"986")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+									<xp:label id="label81" value="Reclamos" style="font-size:8pt">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+	}]]></xp:this.rendered>
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript:
+sessionScope.docid_den_recl="986";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_recl="On" // se usapara mostrar las opciones del modulo Reclamos
+sessionScope.mod_adm="Off";
+sessionScope.mod_edf="Off" 
+sessionScope.mod_prop="Off"
+sessionScope.mod_gast="Off"
+sessionScope.mod_liq="Off" 
+sessionScope.mod_pol="Off"
+sessionScope.mod_prov="Off"
+sessionScope.mod_suel="Off"
+sessionScope.mod_proc="Off"
+}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:label><xp:br></xp:br>
+									
+									<xp:image
+										url="/lock_16x16+%282%29.gif" id="image27"
+										style="width:15px;height:15px;margin-bottom:0.0px;margin-left:2.0px"
+										title="Quitar Acceso">
+										<xp:this.rendered><![CDATA[#{javascript:	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		//if(@Contains(sessionScope.accesos,"986")){true}
+		true
+	}
+	}]]></xp:this.rendered>
+
+
+
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:executeScript>
+													<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_recl="x";  // se usa para guardar en la BD lotus
+sessionScope.mod_recl="Off"   // se usa para ocultar las opciones de menú}]]></xp:this.script>
+												</xp:executeScript>
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:image>
+									
+									&#160;
+
+								</xp:panel>
+							</xp:td>
+							<xp:td>
+								<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_inf,"9DE")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+								
+
+								<xp:label id="label40"
+									value="Informes" rendered="false">
+									<xp:this.style><![CDATA[#{javascript:
+
+if(@Contains(sessionScope.docid_den_inf,"9DE")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(192,192,192);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}	
+}]]></xp:this.style>
+									
+
+
+
+
+
+
+
+
+									
+								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:executeScript>
+
+											<xp:this.script><![CDATA[#{javascript:
+sessionScope.docid_den_inf="9DE";  // se usa para guardar en la BD lotus
+sessionScope.mod_inf="On" // se usapara mostrar las opciones del modulo Informes
+}]]></xp:this.script>
+										</xp:executeScript>
+									</xp:this.action></xp:eventHandler></xp:label><xp:checkBox id="checkBox11" value="#{datos_doc_accesos.den_inf}" uncheckedValue="null" style="margin-bottom:px;margin-right:px;margin-left:5.0px;margin-top:2.0px" disabled="true">
+										<xp:this.defaultChecked><![CDATA[#{javascript:
+if(sessionScope.denegar_den_inf==null || sessionScope.denegar_den_inf=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.defaultChecked>
+										<xp:this.rendered><![CDATA[#{javascript:
+
+if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+
+	}]]></xp:this.rendered>
+
+										<xp:this.checkedValue><![CDATA[#{javascript:sessionScope.docid_den_inf
+
+
+}]]></xp:this.checkedValue>
+									</xp:checkBox>
+								<xp:panel>
+
+									<xp:label id="label82" value="Informes" style="font-size:8pt">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+	}]]></xp:this.rendered>
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_inf="9DE";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_inf="On" // se usapara mostrar las opciones del modulo Informes
+sessionScope.mod_adm="Off";
+sessionScope.mod_edf="Off" 
+sessionScope.mod_prop="Off"
+sessionScope.mod_gast="Off"
+sessionScope.mod_liq="Off" 
+sessionScope.mod_pol="Off"
+sessionScope.mod_prov="Off"
+sessionScope.mod_suel="Off"
+sessionScope.mod_recl="Off" 
+sessionScope.mod_proc="Off"
+}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:label>&#160;
+									<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_inf,"9DE")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+									<xp:br></xp:br>
+									
+									<xp:image
+										url="/lock_16x16+%282%29.gif" id="image28"
+										style="width:15px;height:15px;margin-bottom:0.0px;margin-left:2.0px"
+										title="Quitar Acceso">
+										<xp:this.rendered><![CDATA[#{javascript:	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		//if(@Contains(sessionScope.accesos,"9DE")){true}
+		true
+	}
+	}]]></xp:this.rendered>
+
+
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:executeScript>
+													<xp:this.script><![CDATA[#{javascript:
+sessionScope.docid_den_inf="x";  // se usa para guardar en la BD lotus
+
+
+
+}]]></xp:this.script>
+												</xp:executeScript>
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:image>
+									
+								</xp:panel>
+							</xp:td>
+							<xp:td>
+								<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_proc,"91E")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+								
+
+								<xp:label id="label41"
+									value="Proceso" rendered="false">
+									<xp:this.style><![CDATA[#{javascript:
+if(@Contains(sessionScope.docid_den_proc,"91E")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(192,192,192);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}	
+
+}]]></xp:this.style>
+									
+
+
+
+
+
+
+
+
+									
+								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:executeScript>
+
+											<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_proc="91E";  // se usa para guardar en la BD lotus
+sessionScope.mod_proc="On" // se usapara mostrar las opciones del modulo Proceso
+}]]></xp:this.script>
+										</xp:executeScript>
+									</xp:this.action></xp:eventHandler></xp:label><xp:checkBox id="checkBox12" value="#{datos_doc_accesos.den_proc}" uncheckedValue="null" style="margin-bottom:px;margin-right:px;margin-left:5.0px;margin-top:2.0px" disabled="true">
+										<xp:this.defaultChecked><![CDATA[#{javascript:
+if(sessionScope.denegar_den_proc==null || sessionScope.denegar_den_proc=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.defaultChecked>
+										<xp:this.rendered><![CDATA[#{javascript:
+
+if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+
+	}]]></xp:this.rendered>
+
+										<xp:this.checkedValue><![CDATA[#{javascript:sessionScope.docid_den_proc
+
+
+}]]></xp:this.checkedValue>
+									</xp:checkBox>
+								<xp:panel>
+									<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_proc,"91E")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+									<xp:label id="label96" value="Proceso" style="font-size:8pt">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+	}]]></xp:this.rendered>
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_proc="91E";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_proc="On" // se usapara mostrar las opciones del modulo Proceso
+sessionScope.mod_adm="Off";
+sessionScope.mod_edf="Off" 
+sessionScope.mod_prop="Off"
+sessionScope.mod_gast="Off"
+sessionScope.mod_liq="Off" 
+sessionScope.mod_pol="Off"
+sessionScope.mod_prov="Off"
+sessionScope.mod_suel="Off"
+sessionScope.mod_recl="Off" 
+}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:label><xp:br></xp:br>
+									
+									<xp:image
+										url="/lock_16x16+%282%29.gif" id="image29"
+										style="width:15px;height:15px;margin-bottom:0.0px;margin-left:2.0px"
+										title="Quitar Acceso">
+										<xp:this.rendered><![CDATA[#{javascript:	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		//if(@Contains(sessionScope.accesos,"91E")){true}
+		true
+	}
+	}]]></xp:this.rendered>
+
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+												<xp:this.script><![CDATA[#{javascript:
+sessionScope.docid_den_proc="x";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_proc="Off"
+
+
+
+}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:image>
+									
+									&#160;
+
+								</xp:panel>
+							</xp:td>
+							<xp:td>
+								<xp:this.style><![CDATA[#{javascript:
+	if(@Contains(sessionScope.docid_den_seg,"9AA")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(174,188,206);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}	
+	}]]></xp:this.style>
+
+
+
+								<xp:label id="label42"
+									value="Seguridad" rendered="false">
+									<xp:this.style><![CDATA[#{javascript:
+	if(@Contains(sessionScope.docid_den_seg,"9AA")) 
+	{
+
+			// color autorizado
+			style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(65,111,148);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:10px;padding-left:10px;background-color:rgb(192,192,192);color:rgb(255,255,255);font-weight:bold;font-size:8pt;width:200px;margin-left:3px"
+
+	}	
+	}]]></xp:this.style>
+									
+
+
+
+
+
+
+
+
+
+									<xp:eventHandler event="onclick"
+										submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_seg="9AA";  // se usa para guardar en la BD lotus
+sessionScope.mod_seg="On" // se usapara mostrar las opciones del modulo Proceso
+}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action>
+									</xp:eventHandler>
+								</xp:label><xp:checkBox id="checkBox13" value="#{datos_doc_accesos.den_seg}" uncheckedValue="null" style="margin-bottom:px;margin-right:px;margin-left:5.0px;margin-top:2.0px" disabled="true">
+										<xp:this.defaultChecked><![CDATA[#{javascript:
+if(sessionScope.denegar_den_seg==null || sessionScope.denegar_den_seg=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.defaultChecked>
+										<xp:this.rendered><![CDATA[#{javascript:
+
+if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+
+	}]]></xp:this.rendered>
+
+										<xp:this.checkedValue><![CDATA[#{javascript:sessionScope.docid_den_seg
+
+
+}]]></xp:this.checkedValue>
+									</xp:checkBox>
+								<xp:panel>
+									<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.docid_den_seg,"9AA")) 
+	{
+		// color autorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;"
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:5px;padding-bottom:5px;padding-right:5px;padding-left:5px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;"
+
+	}
+	}]]></xp:this.style>
+									<xp:label id="label97" value="Seguridad" style="font-size:8pt">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		true
+	}
+	}]]></xp:this.rendered>
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript://sessionScope.docid_den_seg="x";  // se usa para guardar en la BD lotus
+
+sessionScope.docid_den_seg="9AA";  // se usa para guardar en la BD lotus
+sessionScope.mod_seg="On"   // se usa para mostrar el módulo
+sessionScope.mod_adm="Off";
+sessionScope.mod_edf="Off" 
+sessionScope.mod_prop="Off"
+sessionScope.mod_gast="Off"
+sessionScope.mod_liq="Off" 
+sessionScope.mod_pol="Off"
+sessionScope.mod_prov="Off"
+sessionScope.mod_suel="Off"
+sessionScope.mod_recl="Off" 
+sessionScope.mod_proc="Off"
+
+}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:label><xp:br></xp:br>
+									
+									<xp:image
+										url="/lock_16x16+%282%29.gif" id="image30"
+										style="width:15px;height:15px;margin-bottom:0.0px;margin-left:2.0px"
+										title="Quitar Acceso">
+										<xp:this.rendered><![CDATA[#{javascript:	if(sessionScope.usuario==null)
+	{
+		false
+	}
+else
+	{
+		//if(@Contains(sessionScope.accesos,"9AA")){true}
+		true
+	}
+	}]]></xp:this.rendered>
+
+
+
+										
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+												<xp:this.script><![CDATA[#{javascript:sessionScope.docid_den_seg="x";  // se usa para guardar en la BD lotus
+
+sessionScope.mod_seg="On"   // se usa para ocultar las opciones del módulo
+sessionScope.mod_adm="Off";
+sessionScope.mod_edf="Off" 
+sessionScope.mod_prop="Off"
+sessionScope.mod_gast="Off"
+sessionScope.mod_liq="Off" 
+sessionScope.mod_pol="Off"
+sessionScope.mod_prov="Off"
+sessionScope.mod_suel="Off"
+sessionScope.mod_recl="Off" 
+sessionScope.mod_proc="Off"
+
+
+
+
+}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:image>
+									
+									&#160;
+
+								</xp:panel>
+							</xp:td>
+						</xp:tr>
+						<xp:tr>
+							<xp:td id="td1" style="width:180px">
+								<xp:label id="adm_chk"
+									rendered="false">
+									<xp:this.value><![CDATA[#{javascript:sessionScope.ver=getComponent("checkBox14").value
+
+if (sessionScope.ver==null)
+	{
+		"AAAA"
+	}
+else
+	{
+		"0000"
+	}
+}]]></xp:this.value>
+									<xp:this.style><![CDATA[#{javascript:if(@Contains(sessionScope.aja,"932")) 
+	{
+		// color autorizado
+		style="padding-top:2px;padding-bottom:2px;padding-right:1px;padding-left:1px;background-color:rgb(65,111,148);color:rgb(255,255,255);width:50px;text-align:center"
+
+
+	}
+else
+	{
+		// color desautorizado
+		style="padding-top:2px;padding-bottom:2px;padding-right:1px;padding-left:1px;background-color:rgb(174,188,206);color:rgb(255,255,255);width:50px;text-align:center"
+	}
+	}]]></xp:this.style>
+								</xp:label>
+
+								<xp:panel
+									style="background-color:rgb(65,111,148);height:auto;width:150px;margin-left:0.0px;text-align:left">
+									<xp:this.rendered><![CDATA[#{javascript:
+	
+if(sessionScope.mod_adm=="On")
+	{
+		true
+	}
+else
+	{
+		false
+		
+	}
+	
+}]]></xp:this.rendered>
+
+
+
+
+
+									<xp:checkBox id="checkBox14"
+										value="#{datos_doc_accesos.den_adm_datos}"
+										uncheckedValue="null" style="color:rgb(0,0,0)">
+										<xp:this.checkedValue><![CDATA[#{javascript:"93A"}]]></xp:this.checkedValue>
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+												<xp:this.script><![CDATA[#{javascript:sessionScope.opcion1=getComponent("checkBox14").getValue;
+
+if (sessionScope.opcion1==null)
+	{
+		sessionScope.docid_den_adm=null
+	}
+else
+	{
+		sessionScope.docid_den_adm="932"
+	}
+
+}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image12">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_adm=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Datos"
+										id="label44">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox15"
+										value="#{datos_doc_accesos.den_adm_hon_adm}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"962"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image11">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_adm=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Honorarios Administ." id="label45">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox16"
+										value="#{datos_doc_accesos.den_adm_prest_edf}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A1E"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image10">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_adm=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Préstamos a Edificios" id="label46">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox17"
+										value="#{datos_doc_accesos.den_adm_mov_prop}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"936"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image9">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_adm=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Movimientos Propios" id="label47">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox18"
+										value="#{datos_doc_accesos.den_adm_cart_chq}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9F6"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image8">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_adm=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Cartera de Cheques"
+										id="label48">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox19"
+										value="#{datos_doc_accesos.den_adm_sit_gen}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9A6"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image7">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_adm=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Situación General"
+										id="label49">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox20"
+										value="#{datos_doc_accesos.den_adm_sis_caja_dia}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A8E"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image6">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_adm=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Sistema de Caja Diaria" id="label50">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox21"
+										value="#{datos_doc_accesos.den_adm_caja_centr}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"96A"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image5">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_adm=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Caja Central"
+										id="label51">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox22"
+										value="#{datos_doc_accesos.den_adm_bancos}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9C2"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif"
+										id="image3">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_adm=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image>
+									<xp:label value="Bancos"
+										id="label52">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox
+										text="Seleccionar Todos" id="checkBox46"
+										value="#{datos_doc_accesos.t_adm}"
+										uncheckedValue="#{javascript:null}"
+										style="color:rgb(255,255,0);font-weight:bold;text-align:left;font-size:8pt">
+										<xp:this.checkedValue><![CDATA[#{javascript:"x"}]]></xp:this.checkedValue>
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+
+												<xp:this.script><![CDATA[#{javascript:sessionScope.check_adm=getComponent("checkBox46").value}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:checkBox>
+									<xp:br></xp:br><xp:radioGroup id="radioGroup1"
+										style="font-size:8pt;font-weight:bold;color:rgb(255,255,255);margin-top:0.0px;border-color:rgb(0,128,192)"
+										layout="pageDirection" value="#{datos_doc_accesos.block_adm}">
+										<xp:selectItem
+											itemLabel="Bloquear" itemValue="x">
+										</xp:selectItem>
+										<xp:selectItem
+											itemLabel="Desbloquear" itemValue="null">
+										</xp:selectItem>
+									</xp:radioGroup>
+									</xp:panel>
+							</xp:td>
+							<xp:td style="width:150px">
+								<xp:panel
+									style="background-color:rgb(65,111,148);height:auto;width:170px;margin-left:0.0px;text-align:left">
+									<xp:this.rendered><![CDATA[#{javascript:	
+if(sessionScope.mod_edf=="On" )
+	{
+		true
+	}
+else
+	{
+		false
+		
+	}
+	
+}]]></xp:this.rendered>
+
+
+
+
+
+
+									<xp:checkBox id="checkBox23"
+										value="#{datos_doc_accesos.den_edf_datos}"
+										uncheckedValue="null" style="color:rgb(0,0,0)">
+										<xp:this.checkedValue><![CDATA[#{javascript:"956"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image36">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_edf=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.rendered></xp:image><xp:label value="Datos"
+										id="label54">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox24"
+										value="#{datos_doc_accesos.den_edf_int_multas}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"91A"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image35">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_edf=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.rendered></xp:image><xp:label value="Interes y Multas"
+										id="label55">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+
+
+									<xp:checkBox id="checkBox26"
+										value="#{datos_doc_accesos.den_edf_fec_venc}"
+										uncheckedValue="null">
+
+										<xp:this.checkedValue><![CDATA[#{javascript:"93E"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image34">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_edf=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Fechas de Vencimiento" id="label57">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+
+
+									<xp:checkBox id="checkBox28"
+										value="#{datos_doc_accesos.den_edf_form_inf_caja}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A6A"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image33">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_edf=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Formato Informe Caja" id="label59">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox29"
+										value="#{datos_doc_accesos.den_edf_sis_cuot_fijas_pre}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9CE"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image32">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_edf=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Sist. Cuotas Fijas/Presup." id="label60">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox25"
+										value="#{datos_doc_accesos.den_edf_egr_ext_cajaut}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9D6"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image31">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_edf=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Egresos Extra Caja Aut." id="label56">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox30"
+										value="#{datos_doc_accesos.den_edf_mov_extr_caja}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"902"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image18">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_edf=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Movimientos Extra Caja" id="label61">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox31"
+										value="#{datos_doc_accesos.den_edf_libro_caja}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A22"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image17">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_edf=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Libro de Caja"
+										id="label62">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox122"
+										value="#{datos_doc_accesos.den_edf_agenda}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"96E"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image16">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_edf=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Agenda"
+										id="label164">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox123"
+										value="#{datos_doc_accesos.den_edf_asamb}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"95E"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image14">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_edf=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Asambleas"
+										id="label165">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox124"
+										value="#{datos_doc_accesos.den_edf_mis_exp}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"94A"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image13">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_edf=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Conf. Mis Expensas"
+										id="label166">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									<xp:br></xp:br>
+									<xp:checkBox text="Seleccionar Todos" id="checkBox48" value="#{datos_doc_accesos.t_edf}" uncheckedValue="#{javascript:null}" style="color:rgb(255,255,0);font-weight:bold;font-size:8pt">
+														<xp:this.checkedValue><![CDATA[#{javascript:"x"}]]></xp:this.checkedValue>
+													<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+														<xp:this.action>
+															<xp:executeScript>
+																<xp:this.script><![CDATA[#{javascript:sessionScope.check_edf=getComponent("checkBox48").value}]]></xp:this.script>
+															</xp:executeScript>
+														</xp:this.action></xp:eventHandler></xp:checkBox>
+									<xp:br></xp:br>
+
+
+								</xp:panel></xp:td>
+							<xp:td>
+								<xp:panel
+									style="background-color:rgb(65,111,148);height:auto;width:150px;margin-left:0.0px;text-align:left">
+									<xp:this.rendered><![CDATA[#{javascript:	
+if(sessionScope.mod_prop=="On" )
+	{
+		true
+	}
+else
+	{
+		false
+		
+	}
+	
+}]]></xp:this.rendered>
+
+
+
+
+
+									<xp:checkBox id="checkBox32" value="#{datos_doc_accesos.den_prop_cob}" uncheckedValue="null" style="color:rgb(0,0,0)">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9EE"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image37">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prop=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Cobranzas"
+										id="label64">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox33" value="#{datos_doc_accesos.den_prop_cert_deu}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"966"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image38">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prop=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Certificados de Deuda" id="label65">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox34" value="#{datos_doc_accesos.den_prop_cta_cte}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A92"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image39">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prop=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Cuentas Corrientes" id="label66">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox35" value="#{datos_doc_accesos.den_prop_comp_saldo}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"90A"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image40">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prop=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Composición Saldo" id="label67">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox37" value="#{datos_doc_accesos.den_prop_mod_ind}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9EA"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image41">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prop=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.rendered></xp:image><xp:label value="Modif. Individuales"
+										id="label69">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox38" value="#{datos_doc_accesos.den_prop_mod_grup}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9CA"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image42">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prop=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Modif. Grupales" id="label70">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									
+
+									<xp:checkBox id="checkBox40" value="#{datos_doc_accesos.den_prop_morosos}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A56"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image43">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prop=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Morosos"
+										id="label72">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox125" value="#{datos_doc_accesos.den_prop_correo}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"98A"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image44">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prop=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Correo" id="label167">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox36" value="#{datos_doc_accesos.den_prop_tarj_visa}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"95A"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image45">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prop=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+
+}]]></xp:this.rendered></xp:image><xp:label value="Tarjeta Visa" id="label68">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox39" value="#{datos_doc_accesos.den_prop_438}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"90E"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image46">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prop=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="DDJ Afip F.438" id="label71">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+									
+									<xp:br></xp:br>
+									<xp:checkBox text="Seleccionar Todos" id="checkBox49" value="#{datos_doc_accesos.t_prop}" uncheckedValue="#{javascript:null}" style="color:rgb(255,255,0);font-weight:bold;font-size:8pt">
+													<xp:this.checkedValue><![CDATA[#{javascript:"x"}]]></xp:this.checkedValue>
+												<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+													<xp:this.action>
+														<xp:executeScript>
+															<xp:this.script><![CDATA[#{javascript:sessionScope.check_prop=getComponent("checkBox49").value}]]></xp:this.script>
+														</xp:executeScript>
+													</xp:this.action></xp:eventHandler></xp:checkBox>
+
+								</xp:panel></xp:td>
+							<xp:td>
+								<xp:panel
+									style="background-color:rgb(65,111,148);height:auto;width:150px;margin-left:0.0px;text-align:left">
+									<xp:this.rendered><![CDATA[#{javascript:	
+if(sessionScope.mod_gast=="On" )
+	{
+		true
+	}
+else
+	{
+		false
+		
+	}
+	
+}]]></xp:this.rendered>
+
+
+
+
+
+									<xp:checkBox id="checkBox41" value="#{datos_doc_accesos.den_gast_com}" uncheckedValue="null" style="color:rgb(0,0,0)">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A0E"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image53">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_gast=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	}]]></xp:this.rendered></xp:image><xp:label value="Comunes"
+										id="label74">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox42" value="#{datos_doc_accesos.den_gast_part}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"916"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image52">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_gast=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Particulares" id="label75">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox43" value="#{datos_doc_accesos.den_gast_cuotas}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A9A"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image51">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_gast=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	}]]></xp:this.rendered></xp:image><xp:label
+										value="En Cuotas" id="label76">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox44" value="#{datos_doc_accesos.den_gast_pend_pag}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A96"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image50">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_gast=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Pendientes de Pago" id="label77">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox45" value="#{datos_doc_accesos.den_gast_vales}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A7A"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image49">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_gast=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.rendered></xp:image><xp:label value="Vales"
+										id="label78">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox27" value="#{datos_doc_accesos.den_gast_text_pre}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A2A"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image48">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_gast=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	}]]></xp:this.rendered></xp:image><xp:label value="Textos Pregrabados"
+										id="label79">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+									
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox47" value="#{datos_doc_accesos.den_gast_venc}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A42"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image47">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_gast=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Vencimientos" id="label80">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									
+
+									<xp:checkBox text="Seleccionar Todos" id="checkBox61" value="#{datos_doc_accesos.t_gast}" uncheckedValue="#{javascript:null}" style="color:rgb(255,255,0);font-weight:bold;font-size:8pt">
+													<xp:this.checkedValue><![CDATA[#{javascript:"x"}]]></xp:this.checkedValue>
+												<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+													<xp:this.action>
+														<xp:executeScript>
+															<xp:this.script><![CDATA[#{javascript:sessionScope.check_gast=getComponent("checkBox61").value}]]></xp:this.script>
+														</xp:executeScript>
+													</xp:this.action></xp:eventHandler></xp:checkBox>
+
+								</xp:panel></xp:td>
+							<xp:td>
+								<xp:panel
+									style="background-color:rgb(65,111,148);height:auto;width:160px;margin-left:0.0px;text-align:left">
+									<xp:this.rendered><![CDATA[#{javascript:	
+if(sessionScope.mod_liq=="On"  )
+	{
+		true
+	}
+else
+	{
+		false
+		
+	}
+	
+}]]></xp:this.rendered>
+
+
+
+
+
+									<xp:checkBox id="checkBox50"
+										value="#{datos_doc_accesos.den_liq_gastos}"
+										uncheckedValue="null" style="color:rgb(0,0,0)">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9DA"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image54">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_liq=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Gastos"
+										id="label84">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox51"
+										value="#{datos_doc_accesos.den_liq_prorra}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"982"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image55">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_liq=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Prorrateo"
+										id="label85">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox52"
+										value="#{datos_doc_accesos.den_liq_nota_porra}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A76"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image56">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_liq=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Notas al Pie Prorrateo" id="label86">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox53"
+										value="#{datos_doc_accesos.den_liq_inf_caja}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"972"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image57">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_liq=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Informes de Caja"
+										id="label87">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox54"
+										value="#{datos_doc_accesos.den_liq_ant}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"AA2"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image58">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_liq=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Liquidaciones Anteriores" id="label88">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox55"
+										value="#{datos_doc_accesos.den_liq_libro_caja}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A06"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image59">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_liq=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Libro de Caja"
+										id="label89">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox56"
+										value="#{datos_doc_accesos.den_liq_buscar}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"946"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image60">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_liq=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Buscar"
+										id="label90">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox57"
+										value="#{datos_doc_accesos.den_liq_estadis}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"976"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image61">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_liq=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Estadísticas"
+										id="label91">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox58"
+										value="#{datos_doc_accesos.den_liq_bal_gen}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9A2"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image62">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_liq=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Balance General"
+										id="label92">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox
+										text="Seleccionar Todos" id="checkBox62"
+										value="#{datos_doc_accesos.t_liq}"
+										uncheckedValue="#{javascript:null}"
+										style="color:rgb(255,255,0);font-weight:bold;font-size:8pt">
+										<xp:this.checkedValue><![CDATA[#{javascript:"x"}]]></xp:this.checkedValue>
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+												<xp:this.script><![CDATA[#{javascript:sessionScope.check_liq=getComponent("checkBox62").value}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:checkBox>
+
+								</xp:panel></xp:td>
+							<xp:td>
+								<xp:panel
+									style="background-color:rgb(65,111,148);height:auto;width:160px;margin-left:0.0px;text-align:left">
+									<xp:this.rendered><![CDATA[#{javascript:	
+if(sessionScope.mod_pol=="On"  )
+	{
+		true
+	}
+else
+	{
+		false
+		
+	}
+	
+}]]></xp:this.rendered>
+
+
+
+
+
+									<xp:checkBox id="checkBox59"
+										value="#{datos_doc_accesos.den_pol_trab_seg}"
+										uncheckedValue="null" style="color:rgb(0,0,0)">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A32"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image64">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_pol=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Trabajar con Seguros" id="label94">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox60"
+										value="#{datos_doc_accesos.den_pol_opc}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9E2"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image63">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_pol=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Opciones"
+										id="label95">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+
+
+
+									<xp:checkBox
+										text="Seleccionar Todos" id="checkBox63"
+										value="#{datos_doc_accesos.t_pol}"
+										uncheckedValue="#{javascript:null}"
+										style="color:rgb(255,255,0);font-weight:bold;font-size:8pt">
+										<xp:this.checkedValue><![CDATA[#{javascript:"x"}]]></xp:this.checkedValue>
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+												<xp:this.script><![CDATA[#{javascript:sessionScope.check_pol=getComponent("checkBox63").value}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:checkBox>
+
+								</xp:panel></xp:td>
+							<xp:td>
+								<xp:panel
+									style="background-color:rgb(65,111,148);height:auto;width:170px;margin-left:0.0px;text-align:left">
+									<xp:this.rendered><![CDATA[#{javascript:	
+if(sessionScope.mod_prov=="On" )
+	{
+		true
+	}
+else
+	{
+		false
+		
+	}
+	
+}]]></xp:this.rendered>
+
+
+
+
+
+									<xp:checkBox id="checkBox68"
+										value="#{datos_doc_accesos.den_prov_alt_baj_mod}"
+										uncheckedValue="null" style="color:rgb(0,0,0)">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A1A"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image70">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prov=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Alta, Baja y Modifics." id="label104">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox69"
+										value="#{datos_doc_accesos.den_prov_fact}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A66"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image69">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prov=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Facturas"
+										id="label105">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox70"
+										value="#{datos_doc_accesos.den_prov_ctas_ctes}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A9E"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image68">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prov=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Cuentas Corrientes"
+										id="label106">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox71"
+										value="#{datos_doc_accesos.den_prov_sasa}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9FE"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image67">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prov=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Sist. Administ. S.A" id="label107">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox72"
+										value="#{datos_doc_accesos.den_prov_ord_pag}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A72"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image66">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prov=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Ordenes de Pago"
+										id="label108">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox73"
+										value="#{datos_doc_accesos.den_prov_vales}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"97A"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image65">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_prov=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Vales"
+										id="label109">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+
+
+
+									<xp:checkBox
+										text="Seleccionar Todos" id="checkBox64"
+										value="#{datos_doc_accesos.t_prov}"
+										uncheckedValue="#{javascript:null}"
+										style="color:rgb(255,255,0);font-weight:bold;font-size:8pt">
+										<xp:this.checkedValue><![CDATA[#{javascript:"x"}]]></xp:this.checkedValue>
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+												<xp:this.script><![CDATA[#{javascript:sessionScope.check_prov=getComponent("checkBox64").value}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:checkBox>
+
+								</xp:panel></xp:td>
+							<xp:td>
+								<xp:panel
+									style="background-color:rgb(65,111,148);height:auto;width:160px;margin-left:0.0px;text-align:left">
+									<xp:this.rendered><![CDATA[#{javascript:	
+if(sessionScope.mod_suel=="On" )
+	{
+		true
+	}
+else
+	{
+		false
+		
+	}
+	
+}]]></xp:this.rendered>
+
+
+
+
+
+									<xp:checkBox id="checkBox77"
+										value="#{datos_doc_accesos.den_suel_leg}"
+										uncheckedValue="null" style="color:rgb(0,0,0)">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A02"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image77">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_suel=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Legajos"
+										id="label114">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox78"
+										value="#{datos_doc_accesos.den_suel_conv}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A3E"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image76">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_suel=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Convenios"
+										id="label115">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox79"
+										value="#{datos_doc_accesos.den_suel_borr}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"992"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image75">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_suel=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Borradores"
+										id="label116">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox80"
+										value="#{datos_doc_accesos.den_suel_931}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A6E"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image74">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_suel=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="DDJ Afip F.931"
+										id="label117">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox81"
+										value="#{datos_doc_accesos.den_suel_lib_suel}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A26"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image73">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_suel=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Libro de Sueldos"
+										id="label118">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox82"
+										value="#{datos_doc_accesos.den_suel_horextr}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A8A"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image72">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_suel=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Libro de Horas Extras" id="label119">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox83"
+										value="#{datos_doc_accesos.den_suel_vales}"
+										uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A4A"}]]></xp:this.checkedValue>
+									</xp:checkBox>
+									<xp:image url="/vote-user-red.gif" id="image71">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_suel=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Vales"
+										id="label120">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+
+
+									<xp:br></xp:br>
+									<xp:checkBox
+										text="Seleccionar Todos" id="checkBox65"
+										value="#{datos_doc_accesos.t_suel}"
+										uncheckedValue="#{javascript:null}"
+										style="color:rgb(255,255,0);font-weight:bold;font-size:8pt">
+										<xp:this.checkedValue><![CDATA[#{javascript:"x"}]]></xp:this.checkedValue>
+									<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:executeScript>
+												<xp:this.script><![CDATA[#{javascript:sessionScope.check_suel=getComponent("checkBox65").value}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:this.action></xp:eventHandler></xp:checkBox>
+
+								</xp:panel></xp:td>
+							<xp:td>
+								<xp:panel
+									style="background-color:rgb(65,111,148);height:auto;width:160px;margin-left:0.0px;text-align:left">
+									<xp:this.rendered><![CDATA[#{javascript:	
+if(sessionScope.mod_recl=="On" )
+	{
+		true
+	}
+else
+	{
+		false
+		
+	}
+	
+}]]></xp:this.rendered>
+
+
+
+
+
+									
+
+									
+									<xp:checkBox id="checkBox93" value="#{datos_doc_accesos.den_recl_trab_recl}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9E6"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image78">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_rec=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Trabajar con Reclamos"
+										id="label131">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox94" value="#{datos_doc_accesos.den_recl_opc}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"9D2"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image79">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_rec=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label value="Opciones"
+										id="label132">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox text="Seleccionar Todos" id="checkBox66" value="#{datos_doc_accesos.t_recl}" uncheckedValue="#{javascript:null}" style="color:rgb(255,255,0);font-weight:bold;font-size:8pt">
+													<xp:this.checkedValue><![CDATA[#{javascript:"x"}]]></xp:this.checkedValue>
+												<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+													<xp:this.action>
+														<xp:executeScript>
+															<xp:this.script><![CDATA[#{javascript:sessionScope.check_rec=getComponent("checkBox66").value}]]></xp:this.script>
+														</xp:executeScript>
+													</xp:this.action></xp:eventHandler></xp:checkBox>
+
+								</xp:panel></xp:td>
+							<xp:td>
+								</xp:td>
+							<xp:td>
+								<xp:panel
+									style="background-color:rgb(65,111,148);height:auto;width:160px;margin-left:0.0px;text-align:left">
+									<xp:this.rendered><![CDATA[#{javascript:	
+if(sessionScope.mod_proc=="On" )
+	{
+		true
+	}
+else
+	{
+		false
+		
+	}
+	
+}]]></xp:this.rendered>
+
+
+
+
+
+									<xp:checkBox id="checkBox104" value="#{datos_doc_accesos.den_proc_env_exp}" uncheckedValue="null" style="color:rgb(0,0,0)">
+										<xp:this.checkedValue><![CDATA[#{javascript:"922"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image82">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_proc=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.rendered></xp:image><xp:label value="Enviar Expensas"
+										id="label144">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox105" value="#{datos_doc_accesos.den_proc_env_sueld}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A4E"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image81">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_proc=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Enviar Sueldos" id="label145">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									<xp:checkBox id="checkBox106" value="#{datos_doc_accesos.den_proc_recup}" uncheckedValue="null">
+										<xp:this.checkedValue><![CDATA[#{javascript:"A5E"}]]></xp:this.checkedValue>
+									</xp:checkBox><xp:image url="/vote-user-red.gif" id="image80">
+									<xp:this.rendered><![CDATA[#{javascript:if(sessionScope.check_proc=="x")
+	{
+		true
+	}
+else
+	{
+		false
+	}
+	
+
+}]]></xp:this.rendered></xp:image><xp:label
+										value="Recuperar" id="label146">
+										<xp:this.style><![CDATA[#{javascript:		style="background-color:rgb(65,111,148);color:rgb(255,255,255);font-size:8pt;"
+}]]></xp:this.style>
+									</xp:label>
+
+									
+									<xp:br></xp:br>
+									
+
+									
+									<xp:checkBox text="Seleccionar Todos" id="checkBox67" value="#{datos_doc_accesos.t_proc}" uncheckedValue="#{javascript:null}" style="color:rgb(255,255,0);font-weight:bold;font-size:8pt">
+													<xp:this.checkedValue><![CDATA[#{javascript:"x"}]]></xp:this.checkedValue>
+												<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+													<xp:this.action>
+														<xp:executeScript>
+															<xp:this.script><![CDATA[#{javascript:sessionScope.check_proc=getComponent("checkBox67").value}]]></xp:this.script>
+														</xp:executeScript>
+													</xp:this.action></xp:eventHandler></xp:checkBox>
+
+								</xp:panel></xp:td>
+							<xp:td>
+								</xp:td>
+						</xp:tr>
+					</xp:table></xp:panel>
+
+
+
+
+
+
+				&#160;&#160;
+			</xp:panel>
+		</xp:tabPanel>
+		<xp:tabPanel id="tabPanel4" image="/folder_new.gif"
+			label="Verificar Accesos" rendered="false">
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="partial" refreshId="tabPanel4" id="eventHandler78">
+				<xp:this.action>
+					<xp:openPage name="/home.xsp"></xp:openPage>
+				</xp:this.action>
+			</xp:eventHandler>
+		</xp:tabPanel>
+
+	</xp:tabbedPanel>
+
+
+</xp:view>

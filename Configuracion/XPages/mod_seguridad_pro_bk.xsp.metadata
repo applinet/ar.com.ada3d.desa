@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="03258121007CD104" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1ee2" sequence="21" unid="7BE32F7C7820C17F83258138007C96D7">
+<created><datetime dst="true">20170607T204050,79-02</datetime></created>
+<modified><datetime dst="true">20170607T205327,31-02</datetime></modified>
+<revised><datetime dst="true">20170607T205327,30-02</datetime></revised>
+<lastaccessed><datetime dst="true">20170607T205327,31-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20170607T204050,80-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
+<wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
+<item name="$Flags"><text>gC~4K</text></item>
+<item name="$TITLE" sign="true"><text>mod_seguridad_pro_bk.xsp</text></item>
+
+
+
+<item name="$DesignerVersion"><text>8.5</text></item>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<item name="$FileNames" sign="true"><text>mod_seguridad_pro_bk.xsp</text></item>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</note>
