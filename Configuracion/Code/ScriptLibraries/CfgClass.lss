@@ -1,0 +1,62 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+Option Public
+Option Declare
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Class cfg
+Declare Function FilePath( db As NotesDatabase ) As String
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+Class cfg
+	Private db As NotesDatabase
+	Private view As NotesView
+	Private doc As NotesDocument
+	
+	Sub New
+		Dim session As New NotesSession
+		Dim dbCurrent As NotesDatabase
+		Dim Path As String
+		Dim nPos As Integer
+		Set dbCurrent = session.currentDatabase
+		
+		Path$ = FilePath( dbCurrent )
+		
+		Set Me.db = New NotesDatabase( dbCurrent.Server, Path$ + "configuracion.nsf" )
+		Set Me.view = Me.db.GetView( "v.Sys.Opciones.Clave" )
+	End Sub
+	
+	Function GetValue( code ) 
+		getValue = ""
+		
+		If code = "" Then
+			Exit Function
+		End If
+		
+		Set Me.doc = Me.view.GetDocumentByKey( code )
+		If Not ( Me.doc Is Nothing ) Then
+			Select Case Me.doc.opt_TipoDato_des(0)
+			Case "T" 
+				getValue = Me.doc.opt_Codigo_des(0)
+			Case "N"
+				getValue = Cint(Me.doc.opt_Codigo_des(0))
+			Case "S"
+				getValue = Csng(Me.doc.opt_Codigo_des(0))
+			End Select
+		End If
+		
+	End Function
+	
+End Class
+'++LotusScript Development Environment:2:1:FilePath:1:8
+Function FilePath( db As NotesDatabase ) As String
+	Dim nPos As Integer
+	
+	FilePath = ""
+	nPos = Instr( db.FilePath, db.FileName )
+	If nPos <> 0 Then
+		FilePath = Left( db.FilePath, nPos -1 )
+	End If
+	
+End Function
+
+

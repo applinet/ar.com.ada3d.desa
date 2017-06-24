@@ -10,6 +10,7 @@ Option Declare
 
 '++LotusScript Development Environment:2:5:(Forward):0:1
 Declare Sub Initialize
+Declare Function getDbByKey (strKey)
 Declare Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As NotesDatabase )
 Declare Sub AddUserToNab
 
@@ -21,6 +22,42 @@ Sub Initialize
 End Sub
 
 
+
+
+'++LotusScript Development Environment:2:1:getDbByKey:5:8
+%REM
+	Function getDbByKey
+	Description: Comments for Function
+%END REM
+Function getDbByKey (strKey)
+	Dim viewCfg As NotesView
+	Dim ns As New NotesSession
+	Dim docCfg As NotesDocument
+	
+	Set viewCfg = ns.Currentdatabase.Getview("v.Sys.Opciones.Clave")
+	Set docCfg = viewCfg.Getdocumentbykey(strKey, True)
+	If Not docCfg Is Nothing Then
+		Dim strServer As String
+		Dim strPath As String
+		
+		strServer = docCfg.opt_Codigo_des(0)
+		strServer = docCfg.opt_Codigo_des(0)
+		
+	End If
+	%REM
+		
+	
+	var viewCfg:NotesView = session.getCurrentDatabase().getView("v.Sys.Cfg");
+
+	var docCfg:NotesDocument = viewCfg.getDocumentByKey(strKey)
+	var strServer:String = docCfg.getItemValueString("conf_server");
+	var strPath:String = docCfg.getItemValueString("conf_path");
+
+	Return session.getDatabase(strServer, strPath, False);
+	%END REM
+	
+	
+End Function
 
 '++LotusScript Development Environment:2:2:AddUserToGroup:1:8
 Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As NotesDatabase )
