@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='832581A1004C0C0C'>
-<noteinfo noteid='61a' unid='B3E82C5B87ED11A4832581A10063C4EC' sequence='8'>
+<noteinfo noteid='61a' unid='B3E82C5B87ED11A4832581A10063C4EC' sequence='10'>
 <created><datetime dst='true'>20170920T160944,76-02</datetime></created>
-<modified><datetime dst='true'>20170920T165152,88-02</datetime></modified>
-<revised><datetime dst='true'>20170920T165152,87-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170920T165152,88-02</datetime></lastaccessed>
+<modified><datetime dst='true'>20170925T110337,06-02</datetime></modified>
+<revised><datetime dst='true'>20170925T110337,05-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170925T110337,06-02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170920T160944,79-02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
-<wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
+<updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
+<wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$FormulaClass' sign='true'><text>1</text></item>
 <item name='TmpViewDesignCollation' sign='true'><text>es-AR</text></item>
 <item name='$TITLE' sign='true'><text>(Sys\Lookup Menu por Usuarios)|v.Sys.lkupMenu.porUsuario</text></item>

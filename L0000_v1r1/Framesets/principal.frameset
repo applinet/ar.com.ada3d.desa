@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='832581A1004C0C0C'>
-<noteinfo noteid='652' unid='2838AB507EB7A6F7832581A200479CCC' sequence='3'>
+<noteinfo noteid='652' unid='2838AB507EB7A6F7832581A200479CCC' sequence='5'>
 <created><datetime dst='true'>20170921T110211,96-02</datetime></created>
-<modified><datetime dst='true'>20170921T110320,94-02</datetime></modified>
-<revised><datetime dst='true'>20170921T110320,93-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170921T110320,94-02</datetime></lastaccessed>
+<modified><datetime dst='true'>20170925T120305,75-02</datetime></modified>
+<revised><datetime dst='true'>20170925T120305,74-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170925T120305,75-02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170921T110211,99-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$TITLE' sign='true'><text>principal</text></item>
-<item name='$WindowTitle' sign='true'><formula>"Diseño Base ADA3D"</formula></item>
+<item name='$WindowTitle' sign='true'><formula>@DbTitle</formula></item>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$FrameSet' sign='true'>
 <rawitemdata type='1'>
@@ -18,8 +18,8 @@
 AAEAAgAAAAAAAQAAnDMAAAADAAEAAgASAAIAUgDx/0AAEQAAAABAAAECAAEAAQAAAAAAAwAAAAkA
 AQAAnDMAAABOYXZQcmluY2lwYWwBAP///wABAAAKAQAAAAAA9v8pAAAAAAADAAcABwAAAAAAAAAA
 AAAAAAAAAAAAAAAAAE91dGxpbmU/8f89AAEAAAAAQAAAAwABAAEAAAAAAAkAAAAAAAEAAJwzAAAA
-UHJpbmNpcGFsAQD///8AAQAACgEAAAAAAD/2/1QAAAAAAAMAAgAZAAoADwAAAAAAAAAAAEFEQTNE
-L1NBU0FBREEzRFxMMDAwMC5uc2YAAAAAAAAAAHYuU3lzLmxrdXBNZW51LnBvclVzdWFyaW8=
+UHJpbmNpcGFsAQD///8AAQAACgEAAAAAAD/2/zsAAAAAAAMAAgAZAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAdi5TeXMubGt1cE1lbnUucG9yVXN1YXJpbz8=
 </rawitemdata></item>
 <item name='$Flags'><text>#34CQP</text></item>
 <item name='$DesignerVersion'><text>8.5.3</text></item></note>

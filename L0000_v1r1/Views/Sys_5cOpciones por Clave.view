@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='832581A1004C0C0C'>
-<noteinfo noteid='55e' unid='2343701E8701BA45032581550078199C' sequence='7'>
+<noteinfo noteid='55e' unid='2343701E8701BA45032581550078199C' sequence='9'>
 <created><datetime>20170706T185148,76-03</datetime></created>
-<modified><datetime dst='true'>20170920T115044,08-02</datetime></modified>
-<revised><datetime dst='true'>20170919T143927,64-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170920T115516,91-02</datetime></lastaccessed>
+<modified><datetime dst='true'>20170925T110337,22-02</datetime></modified>
+<revised><datetime dst='true'>20170925T110337,21-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170925T110337,22-02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170920T115044,08-02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Fernando Rodriguez/O=axin</name><name>CN=Notes Standard Control/O=SASA</name></updatedby>
+<updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$FormulaClass' sign='true'><text>1</text></item>
 <item name='TmpViewDesignCollation' sign='true'><text>es-AR</text></item>

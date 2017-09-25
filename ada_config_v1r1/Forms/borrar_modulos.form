@@ -1,28 +1,26 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='832581A1004F6F08'>
-<noteinfo noteid='15e' unid='C2A197E7A6DA37CD8325819F00605F20' sequence='23'>
+<noteinfo noteid='15e' unid='C2A197E7A6DA37CD8325819F00605F20' sequence='25'>
 <created><datetime dst='true'>20170918T153238,08-02</datetime></created>
-<modified><datetime dst='true'>20170920T122738,35-02</datetime></modified>
-<revised><datetime dst='true'>20170919T122030,11-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170920T122738,35-02</datetime></lastaccessed>
+<modified><datetime dst='true'>20170925T121346,48-02</datetime></modified>
+<revised><datetime dst='true'>20170925T121346,47-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170925T121346,48-02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170920T122738,35-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$Comment' sign='true'><text/></item>
-<item name='modulo_Orden_nro' summary='false'><number>0</number></item>
+<item name='modulo_Orden_nro' summary='false' sign='true'><number>0</number></item>
 <item name='$HTMLCode' sign='true'>
 <rawitemdata type='1'>
 X/8QAAIADwAHAAAAAAAAAA==
 </rawitemdata></item>
-<item name='$TITLE'><textlist><text>modulos</text><text>f.CfgModulos</text></textlist></item>
 <item name='$Info' sign='true'>
 <rawitemdata type='1'>
 hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 </rawitemdata></item>
 <item name='$WindowTitle' sign='true'><formula>modulo_Descripcion_des</formula></item>
 <item name='$Flags'><text/></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$Fonts'>
 <rawitemdata type='1'>
 i/8oAAEABSZWZXJkYW5hAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
@@ -315,5 +313,8 @@ AAAAAABf/xAAAgABAAcAAAAAAAAAX/8QAAIAAgAHAAAAAAAAAF//EAACAAsABwAAAAAAAABf/xAA
 AgAUAAcAAAAAAAAAX/8QAAIACQAHAAAAAAAAAF//EAACAAgABwAAAAAAAABf/xAAAgAKAAcAAAAA
 AAAAX/8QAAIAAwAHAAAAAAAAAF//EAACAAYABwAAAAAAAABf/xAAAgAHAAcAAAAAAAAAX/8QAAIA
 BQAHAAAAAAAAAF//EAACAAQABwAAAAAAAAA=
-</rawitemdata></item></note>
+</rawitemdata></item>
+<item name='$TITLE' sign='true'><textlist><text>borrar_modulos</text><text
+>f.CfgModulos</text></textlist></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item></note>
 
