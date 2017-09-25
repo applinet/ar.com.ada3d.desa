@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
+ replicaid='832581A1004C0C0C'>
+<noteinfo noteid='62e' unid='FF2173F4D2E918E8832581A1006E521A' sequence='3'>
+<created><datetime dst='true'>20170920T180459,78-02</datetime></created>
+<modified><datetime dst='true'>20170920T180513,30-02</datetime></modified>
+<revised><datetime dst='true'>20170920T180513,29-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20170921T114843,08-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20170920T180501,40-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
+<wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
+<item name='$FormulaClass' sign='true'><text>1</text></item>
+<item name='TmpViewDesignCollation' sign='true'><text>es-AR</text></item>
+<item name='$Index' sign='true'><text/></item>
+<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
+ogACADgAAgAkNwUADgBvcHRfTm9tYnJlX2RlcwEAAQB8ACICBQAOAG9wdF9Db2RpZ29fZGVzIgID
+AAUAOgA1AAUADQACAAsACQAEAG9wdF9DbGF2ZV9kZXMkN29wdF92ZXJfZGVzJENvbmZsaWN0JFJF
+RgAEAAQAAAAcAAUABABGb3JtAQAIAGYuQ2ZnT3B0CgIDAAcADgAIAAlMMVMyUzNT
+</formula></item>
+<item name='$Collation' summary='true'>
+<rawitemdata type='2'>
+NQADAABECGYHAAANAIBmAA0AAgCAZgAPAAsAb3B0X0NsYXZlX2RlcyQ3b3B0X3Zlcl9kZXM=
+</rawitemdata></item>
+<item name='$ViewFormat' summary='true' sign='true'>
+<rawitemdata type='5'>
+AQADAAgAiAQAAFZDAwQNAAUAAAAAACkABQEACAABAAAAAAAAAAICAAAAVkMBAAIADwBKAAAAagAG
+AQAIAAAAAAAAAAAAAgIAAABWQwEACwAPAAAAAABqAAcBAAgAAAAAAAAAAAACAgAAAG9wdF9DbGF2
+ZV9kZXNDbGF2ZSQ3Tm9tYnJlIHwgQ6JkaWdvSgACADgAAgAkNwUADgBvcHRfTm9tYnJlX2RlcwEA
+AQB8ACICBQAOAG9wdF9Db2RpZ29fZGVzIgIDAAcAEAAJAAkxUzJTM1M0UwBvcHRfdmVyX2Rlc05v
+bWJyZSB8IEOiZGlnbyYAAQAAAAEBAAkBAAAKAQEOCgAAFQCtKwEAAQABAAAAAAAAAAAAV0MBAQAJ
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAAAAAAAAAAAAAAAAAFdDAQEACQAAAAAAAAAAAAAA
+AAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABXQwEBAAkAAAAAAAAAAAAAAAAAAAAAAAAEAAAA
+AAD//wAAAAAAAAAAAAAAAAAAQgAAAAAAAQD///8AAQDd/+kAAQAAAAAAAAAAAAAAAAABAP///wAB
+AIj/rgAAAAEAAAAAAAEAAAAAAAEAAAAAAAAACAAAAAAAAQA=
+</rawitemdata></item>
+<item name='$Fonts'><textlist><text>5</text><text>38</text><text>Verdana</text><text
+>6</text><text>38</text><text>Verdana</text><text>7</text><text>38</text><text
+>Verdana</text></textlist></item>
+<item name='$Comment' sign='true'><text/></item>
+<item name='$V5ACTIONS' sign='true'>
+<rawitemdata type='1'>
+vRyVAAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAACcMwABAAAAAAAJAAAAAAABAN3/6QAA
+AB8AAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/OgAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/0gAAAABAB4AngEAAAUAAAAAAAAATnVldm84LAAAAB4A
+AgDoAwAAAAAAAAEACABmLkNmZ09wdO0CAwAHAAwABQAJMVM0UwA=
+</rawitemdata></item>
+<item name='$Flags'><text>YP</text></item>
+<item name='$TITLE' sign='true'><text>Test Clave|clave2</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item></note>
+

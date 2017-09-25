@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="832581A1004C0C0C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="47a" sequence="6" unid="80959CE052004F6B03258146006BF351">
+<created><datetime>20170621T163906,41-03</datetime></created>
+<modified><datetime dst="true">20170920T115043,04-02</datetime></modified>
+<revised><datetime dst="true">20170919T143921,38-02</datetime></revised>
+<lastaccessed><datetime dst="true">20170920T115043,04-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20170920T115043,04-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pepe Administrator/O=axin</name><name>CN=Notes Standard Control/O=SASA</name></updatedby>
+<wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
+<item name="$TITLE"><text>material-design.theme</text></item>
+<item name="$Flags"><text>34567Cg~`P</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>material-design.theme</text></item>
+<item name="$CSSFiles"><textlist><text>bootstrap-matdesign/css/material-wfont.css</text><text>bootstrap-matdesign/css/ripples.min.css</text></textlist></item></note>

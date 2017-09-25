@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar">
+	
+
+	<xp:this.resources>
+		<xp:script src="/MenuTools.jss" clientSide="false"></xp:script>
+		<xp:styleSheet href="/bootstrapSubmenu.css"></xp:styleSheet>
+		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
+	</xp:this.resources>
+
+
+	<xc:ccDebugToolbar defaultCollapsed="false" collapseTo="left"></xc:ccDebugToolbar>
+	<xp:panel>
+		
+		<xp:text escape="true" id="computedField1"
+			value="#{javascript:sessionScope.menuList}">
+		</xp:text>
+		<xp:button value="Clear cache" id="button1">
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="complete">
+				<xp:this.action><![CDATA[#{javascript:sessionScope.remove('menuList');}]]></xp:this.action>
+			</xp:eventHandler>
+		</xp:button>
+	</xp:panel>
+	<xe:applicationLayout id="applicationLayout1">
+		<!-- Bootstrap configuration object for the app layout -->
+		<xe:this.configuration>
+			<xe:bootstrapResponsiveConfiguration banner="true"
+				collapseLeftColumn="true" footer="false" legal="false"
+				placeBar="false" titleBar="false" pageWidth="fluid"
+				invertedNavbar="true" fixedNavbar="fixed-top"
+				productLogo="/ddc-icon-32x32.png">
+				<xe:this.bannerApplicationLinks>
+					<xe:repeatTreeNode loaded="true" var="tree"
+						indexVar="index">
+						<xe:this.children>
+							<xe:basicContainerNode style="menu-item">
+								<xe:this.label><![CDATA[#{javascript:requestScope.currNode = tree; tree.name}]]></xe:this.label>
+								<xe:this.children>
+									<xe:repeatTreeNode loaded="true"
+										var="subtree" indexVar="subindex"
+										value="#{javascript:requestScope.currNode.items}">
+										<xe:this.children>
+											<xe:basicContainerNode
+												label="#{subtree}">
+												<xe:this.children>
+													<xe:basicLeafNode
+														loaded="true">
+														<xe:this.label><![CDATA[#{javascript:requestScope.currNode = tree; tree.name}]]></xe:this.label>
+													</xe:basicLeafNode>
+												</xe:this.children>
+											</xe:basicContainerNode>
+										</xe:this.children>
+									</xe:repeatTreeNode>
+								</xe:this.children>
+							</xe:basicContainerNode>
+						</xe:this.children>
+						<xe:this.value><![CDATA[#{javascript:var dbConf:NotesDatabase = getDbCfg();//base configuracion
+if (dbConf != null){
+	menuTools.getMenu(dbConf,'Menu');
+}}]]></xe:this.value>
+					</xe:repeatTreeNode>
+				</xe:this.bannerApplicationLinks>
+				<xe:this.bannerUtilityLinks>
+					<xe:loginTreeNode></xe:loginTreeNode>
+				</xe:this.bannerUtilityLinks>
+
+
+			</xe:bootstrapResponsiveConfiguration>
+		</xe:this.configuration>
+	</xe:applicationLayout>
+</xp:view>
