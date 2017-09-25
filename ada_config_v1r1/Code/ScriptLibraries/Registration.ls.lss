@@ -1,0 +1,228 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM
+	Library registration
+	Created Jun 24, 2017 by Fernando Rodriguez/SASA
+	Description: Comments for Library
+%END REM
+Option Public
+Option Declare
+
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Class usr
+Declare Sub Initialize
+Declare Function getDbByKey (strKey)
+Declare Sub AddUserToNab(dbPeople As NotesDatabase, usuario As usr)
+Declare Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As NotesDatabase )
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+%REM
+	Class usr
+	Description: Comments for Class
+%END REM
+Class usr
+		Private LastName As String
+		Private FirstName As String
+		Private UserName As String
+		Private PhoneNumber As String
+		Private MailAddress As String
+		Private HTTPPassword As String
+		Private Profiles As String
+	%REM
+		Sub New
+		Description: Comments for Sub
+	%END REM
+	Sub New(strLastName As String,strFirstName As String, strUserName As String ,strPhoneNumber As String, strMailAddress As String, strHTTPPassword As String, strProfiles As String)
+		Me.LastName = strLastName
+		Me.FirstName = strFirstName
+		Me.UserName = strUserName
+		Me.PhoneNumber = strPhoneNumber
+		Me.MailAddress = strMailAddress
+		Me.HTTPPassword = strHTTPPassword
+		Me.Profiles = strProfiles 
+	End Sub
+	
+	%REM
+		Function getLastName
+		Description: Comments for Function
+	%END REM
+	Function getLastName() As String
+		getLastName= LastName
+	End Function
+	
+	Function getFirstName() As String
+		getFirstName= FirstName
+	End Function
+	
+	Function getUserName() As String
+		getUserName= UserName
+	End Function
+	
+	Function getPhoneNumber() As String
+		getPhoneNumber= PhoneNumber
+	End Function
+	
+	Function getMailAddress() As String
+		getMailAddress= MailAddress
+	End Function
+	
+	Function getHTTPPassword() As String
+		getHTTPPassword= HTTPPassword
+	End Function
+	
+	Function getProfiles As String
+		getProfiles= Profiles
+	End Function
+End Class
+'++LotusScript Development Environment:2:2:Initialize:1:10
+Sub Initialize
+	
+End Sub
+
+
+
+
+
+'++LotusScript Development Environment:2:1:getDbByKey:5:8
+%REM
+	Function getDbByKey
+	Description: Comments for Function
+%END REM
+Function getDbByKey (strKey)
+	Dim viewCfg As NotesView
+	Dim ns As New NotesSession
+	Dim docCfg As NotesDocument
+	
+	Set viewCfg = ns.Currentdatabase.Getview("v.Sys.Opciones.Clave")
+	Set docCfg = viewCfg.Getdocumentbykey(strKey, True)
+	If Not docCfg Is Nothing Then
+		Dim strServer As String
+		Dim strPath As String
+		
+		strServer = docCfg.opt_Codigo_des(0)
+		strServer = docCfg.opt_Codigo_des(0)
+		
+	End If
+	
+End Function
+
+'++LotusScript Development Environment:2:2:AddUserToNab:5:8
+%REM
+	Sub AddUserToNab
+	Description: Comments for Sub
+%END REM
+Sub AddUserToNab(dbPeople As NotesDatabase, usuario As usr)
+	Dim docPerson As NotesDocument
+	
+	Set docPerson = New NotesDocument( dbPeople )
+	docPerson.Form = "Person"
+	docPerson.Type = "Person"
+	docPerson.LastName		= usuario.getLastName()
+	docPerson.FirstName		= usuario.getFirstName()
+	docPerson.FullName		= usuario.getUserName()
+	docPerson.PhoneNumber	= usuario.getPhoneNumber()
+	docPerson.MailAddress	= usuario.getMailAddress()
+	docPerson.HTTPPassword	= usuario.getHTTPPassword()
+	docPerson.Profiles		= usuario.getProfiles()
+	Call docPerson.ComputeWithForm( False, False )
+	Call docPerson.Save( False, True )
+End Sub
+
+
+
+'++LotusScript Development Environment:2:2:AddUserToGroup:1:8
+Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As NotesDatabase )
+     
+     ' Load up our static groups view
+     
+     Dim groups As NotesView
+     
+     Set groups = nab.GetView( "Groups" )
+     
+     Dim groupMainDoc As NotesDocument
+     Set groupMainDoc = groups.GetDocumentByKey( group )
+     Dim saveGroupMainDoc As Integer
+     saveGroupMainDoc = False
+     
+     If groupMainDoc Is Nothing Then
+          Set groupMainDoc = New NotesDocument( nab )
+          groupMainDoc.Form = "Group"
+          groupMainDoc.ListName = group
+          groupMainDoc.Members = group & " 1"
+          groupMainDoc.GroupType = "0"
+          Call groupMainDoc.ComputeWithForm( False, False )
+          saveGroupMainDoc = True
+     End If
+     
+     Dim groupMainMembers As NotesItem
+     Set groupMainMembers = groupMainDoc.GetFirstItem( "Members" )
+     
+     ' Find last subgroup entry in the members list
+     
+     Dim subGroup As String
+     subGroup = ""
+     ForAll s In groupMainMembers.Values
+          If Left$( s, Len( group ) ) = group Then
+               subGroup = s
+          End If
+     End ForAll
+     
+     ' Open the subgroup, and keep trying until we find one with room
+     
+     Dim groupNum As Integer
+     groupNum = 0
+     
+     ' Which subgroup was the last one
+     If subGroup <> "" Then
+          groupNum = Val( Right( subGroup, Len( subGroup ) - Len( group ) - 1 ) )
+     Else
+          groupNum = 1
+          subGroup = group & " 1"
+     End If
+     
+     Dim groupSubDoc As NotesDocument
+     
+     Do
+          Set groupSubDoc = groups.GetDocumentByKey( subGroup )
+          
+          If groupSubDoc Is Nothing Then
+               ' Create a new subgroup document
+               Set groupSubDoc = New NotesDocument( nab )
+               groupSubDoc.Form = "Group"
+               groupSubDoc.ListName = subGroup
+               groupSubDoc.GroupType = "0"
+               Call groupSubDoc.ComputeWithForm( False, False )
+               
+               ' Add it to the main group if needed
+               If Not groupMainMembers.Contains( subGroup ) Then
+                    Call groupMainMembers.AppendToTextList( subGroup )
+                    saveGroupMainDoc = True
+               End If
+          End If
+          
+          ' See if the subgroup still has room, if so, we've found our subgroup
+          
+          Dim groupSubMembers As NotesItem
+          Set groupSubMembers = groupSubDoc.GetFirstItem( "Members" )
+          
+          If groupSubMembers.ValueLength < 10000 Then
+               Exit Do
+          End If
+          
+          ' If no room, try the next one
+          
+          groupNum = groupNum + 1
+          subGroup = group & " " & groupNum
+     Loop
+     
+     ' Finally: add the user to the subgroup
+     Call groupSubMembers.AppendToTextList( fullname )
+     Call groupSubDoc.Save( False, True )
+     
+     If saveGroupMainDoc Then
+          Call groupMainDoc.Save( False, True )
+     End If
+     
+End Sub
+
+
