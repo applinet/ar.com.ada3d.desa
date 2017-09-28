@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+
+	
+	<xc:ccAppLayout>
+		<xp:this.facets>
+			<xe:navigator id="navMenu" xp:key="facetLeft">
+				<xe:this.treeNodes>
+					<xe:pageTreeNode label="Todos" page="/dashboard.xsp"></xe:pageTreeNode>
+					<xe:pageTreeNode label="Activos" page="/todos.xsp"></xe:pageTreeNode>
+					<xe:pageTreeNode label="Inactivos" page="/complete.xsp"></xe:pageTreeNode>
+				</xe:this.treeNodes>
+			</xe:navigator>
+			<xp:panel id="PNL_Content" xp:key="facetMiddle"
+				style="padding-right:20.0%">
+				
+				<xe:dataView id="todosDataView" openDocAsReadonly="true"
+				pageName="/frmConfigUsrSeg.xsp" collapsibleDetail="false"
+				expandedDetail="false" var="viewEntry" showCheckbox="true"
+				showHeaderCheckbox="true" columnTitles="true" rows="10">
+				<xe:this.data>
+						<xp:dominoView var="view1"
+							ignoreRequestParams="true" viewName="v.UI.Menu.porUsuario">
+						</xp:dominoView>
+					</xe:this.data>
+					<xe:this.summaryColumn>
+						<xe:viewSummaryColumn columnTitle="Nombre"
+							columnName="usr_NombreyApellido_des">
+						</xe:viewSummaryColumn>
+					</xe:this.summaryColumn>
+					<xe:this.extraColumns>
+						<xe:viewExtraColumn columnTitle="autor"
+							>
+						</xe:viewExtraColumn>
+						<xe:viewExtraColumn
+							columnName="usr_UserName_des" columnTitle="Usuario"
+							>
+						</xe:viewExtraColumn>
+						<xe:viewExtraColumn columnName="usr_USRSEG_opt"
+							columnTitle="Usuario Seguridad" style="text-align:center">
+							<xe:this.value><![CDATA[#{javascript:var usrSeg = viewEntry.getColumnValue('usr_USRSEG_opt');
+if(usrSeg == "1") {return "Si"}
+return ""
+}]]></xe:this.value>
+						</xe:viewExtraColumn>
+					</xe:this.extraColumns>
+
+					<xp:this.facets>
+						<xp:panel id="noRowsPanel" xp:key="noRows">
+							<xp:button value="Alta de nuevo usuario"
+								id="newTodoBtn" styleClass="btn-primary dashBtn">
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:openPage
+											name="/frmConfigUsrSeg.xsp" target="newDocument">
+										</xp:openPage>
+									</xp:this.action>
+								</xp:eventHandler>
+							</xp:button>
+							<xp:div
+								style="margin: 10px 0px 40px 0px;">
+								<xp:label id="noOverdueLabel"
+									value="No existen usuarios, presionar alta de usuario.">
+								</xp:label>
+							</xp:div>
+						</xp:panel>
+						<xp:panel id="iconPanel" xp:key="icon">
+							<xp:div id="icon">
+							<xp:this.styleClass>
+								<![CDATA[#{javascript:
+									var base = "glyphicon glyphicon-";
+									var usrSeg = viewEntry.getColumnValue('usr_USRSEG_opt');
+									if(usrSeg == "1") {
+										return base + "star-empty";
+									}else {
+										return base + "user";
+									}
+								}]]>
+							</xp:this.styleClass>
+						</xp:div>
+						</xp:panel>
+						<xp:panel id="authorCol" xp:key="extra0">
+							<xp:text id="author">
+								<xe:this.value><![CDATA[#{javascript:
+								var author = viewEntry.getColumnValue("autor");
+								
+								if(null != author) {
+									if (typeof author === "string") {
+										return author;
+									}else if (typeof author === "java.util.Vector") {
+										return author.get(0);
+									}
+								}
+								return "";
+								}]]>
+								</xe:this.value>
+							</xp:text>
+						</xp:panel>
+						<xp:pager layout="Previous Group Next"
+							id="overduePager" xp:key="pagerBottomRight" partialRefresh="true"
+							partialExecute="true" styleClass="dashPager">
+						</xp:pager>
+						<xp:div xp:key="detail" id="overdueDetail">
+							<xp:div id="description"
+								style="padding:4px 8px;">
+								<xp:text id="descriptionText"
+									escape="true"
+									value="#{javascript:viewEntry.getColumnValue('Description')}">
+								</xp:text>
+							</xp:div>
+						</xp:div>
+						<xc:ccbuttonPanel id="buttonPanel" xp:key="pagerBottomLeft"></xc:ccbuttonPanel>
+					</xp:this.facets>
+				</xe:dataView>
+			</xp:panel>
+		</xp:this.facets>
+	</xc:ccAppLayout>
+
+</xp:view>

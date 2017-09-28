@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+
+	<xp:this.resources>
+		<xp:dojoModule name="dijit.ProgressBar"></xp:dojoModule>
+		<xp:script src="/xProgress.js" clientSide="true"></xp:script>
+	</xp:this.resources>
+	
+	<div style="width: 250px;">
+		<xp:div id="progressBar"></xp:div>
+	</div>
+
+	<xp:scriptBlock id="scriptBlock1">
+		<xp:this.value><![CDATA[dojo.addOnLoad( function() {
+	xProgress.targetNodeId = "#{id:progressBar}";
+} );]]></xp:this.value>
+	</xp:scriptBlock></xp:view>

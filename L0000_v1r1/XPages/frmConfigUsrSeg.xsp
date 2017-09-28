@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xc:ccAppLayout>
+		<xp:this.facets>
+			<xp:panel id="PNL_usrSegForm" xp:key="facetMiddle"
+				style="padding-left:20.0%;padding-right:20.0%">
+				<xp:this.data>
+					<xp:dominoDocument var="docUsrSeg" formName="f.CfgUserMenu"
+						ignoreRequestParams="true"
+						action="#{javascript: null == param.documentId ? 'newDocument' : 'openDocument';}"
+						documentId="#{javascript: null != param.documentId ? param.documentId : null;}" />
+				</xp:this.data>
+				<xe:formTable id="tblUsrSeg">
+					<xe:formRow id="rowNombreYApellido" label="Nombre y apellido"
+						labelPosition="left">
+						<xp:inputText id="usr_NombreyApellido_des" value="#{docUsrSeg.usr_NombreyApellido_des}"
+							required="true">
+							<xp:this.validators>
+								<xp:validateRequired message="El nombre y apellido es un campo requerido.">
+								</xp:validateRequired>
+							</xp:this.validators>
+						</xp:inputText>
+					</xe:formRow>
+					<xe:formRow id="rowUserName" label="Usuario" labelPosition="left">
+						<xp:inputText id="usr_UserName_des" value="#{docUsrSeg.usr_UserName_des}"
+							required="true">
+							<xp:this.validators>
+								<xp:validateRequired message="El nombre de usuario es un campo requerido.">
+								</xp:validateRequired>
+							</xp:this.validators>
+						</xp:inputText>
+					</xe:formRow>
+					<xe:formRow id="authorRow" label="Crea este documento"
+						labelPosition="left">
+						<xp:text id="author">
+							<xe:this.value>
+							<![CDATA[#{javascript:
+								if(docUsrSeg.isNewNote()) {
+									return userBean.commonName;
+								}else{
+									return @Name("[CN]", @Author());
+								}
+							}]]>
+							</xe:this.value>
+						</xp:text>
+					</xe:formRow>
+					<xe:formRow id="rowUsrSeg" label="Es Usuario de Seguridad?"
+						labelPosition="left">
+						<div id="switch" class="btn-group span4" data-toggle="buttons-radio">
+							<xp:button styleClass="btn-success active" id="button1" value="No">
+								<xp:eventHandler event="onclick" submit="true"
+									refreshMode="partial" refreshId="PNL_HiddenFields">
+									<xp:this.action><![CDATA[#{javascript:getComponent("usr_USRSEG_opt").setValue("0");}]]></xp:this.action>
+								</xp:eventHandler>
+							</xp:button>
+							<xp:button id="btnSi" value="Si">
+								<xp:eventHandler event="onclick" submit="true"
+									refreshMode="partial" refreshId="PNL_HiddenFields">
+									<xp:this.action><![CDATA[#{javascript:getComponent("usr_USRSEG_opt").setValue("1");}]]></xp:this.action>
+								</xp:eventHandler>
+							</xp:button>
+						</div>
+						<xp:scriptBlock id="scriptBlock1">
+							<xp:this.value><![CDATA[$("#switch .btn").on("click", function() {$(this)	.addClass("btn-success")	.siblings()	.removeClass("btn-success");});]]></xp:this.value>
+						</xp:scriptBlock>
+					</xe:formRow>
+				</xe:formTable>
+				<xp:panel id="PNL_HiddenFields"
+					rendered="#{javascript:docUsrSeg.isEditable()}">
+					<!-- Panel con campos temporales, no se visualizan -->
+					<xp:inputText id="usr_USRSEG_opt"
+						value="#{docUsrSeg.usr_USRSEG_opt}" defaultValue="0"
+						style="display:none">
+					</xp:inputText>
+				</xp:panel>
+
+				<!-- PANEL DE BOTONES  -->
+				<xp:panel id="buttonPanelRow" styleClass="buttonPanel">
+					<xp:button value="Grabar" id="saveBtn" styleClass="btn-primary">
+						<xp:this.rendered><![CDATA[#{javascript:return docUsrSeg.isEditable();}]]>
+						</xp:this.rendered>
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:actionGroup>
+									<xp:saveDocument var="docUsrSeg"></xp:saveDocument>
+									<xp:openPage name="/viewConfigUsrSeg.xsp"></xp:openPage>
+								</xp:actionGroup>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:button value="Editar" id="editTaskBtn">
+						<xp:this.rendered>
+						<![CDATA[#{javascript:return (userBean.accessLevel >= lotus.domino.ACL.LEVEL_EDITOR) && !docUsrSeg.isEditable();}]]>
+						</xp:this.rendered>
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:changeDocumentMode mode="edit" var="docUsrSeg">
+								</xp:changeDocumentMode>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:button value="Eliminar Usuario" id="deleteBtn" styleClass="btn-danger">
+						<xp:this.rendered>
+						<![CDATA[#{javascript:return userBean.canDeleteDocs && !viewScope.isNew;}]]>
+						</xp:this.rendered>
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:deleteDocument name="/viewConfigUsrSeg.xsp"
+									message="Está seguro que desea eliminar este usuario?" var="docUsrSeg">
+								</xp:deleteDocument>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:button value="Cancelar" id="cancelBtn" styleClass="btn-warning">
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete" immediate="true">
+							<xp:this.action>
+								<xp:openPage name="/viewConfigUsrSeg.xsp"></xp:openPage>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+				</xp:panel>
+			</xp:panel>
+		</xp:this.facets>
+	</xc:ccAppLayout>
+</xp:view>

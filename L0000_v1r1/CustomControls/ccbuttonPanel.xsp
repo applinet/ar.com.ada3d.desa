@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:panel id="innerButtonPanel" styleClass="buttonPanel">
+		<xp:button value="Nuevo Usuario" id="newBtn" styleClass="btn-primary dashBtn">
+			<xp:this.rendered><![CDATA[#{javascript:
+				return userBean.canCreateDocs;
+			}]]></xp:this.rendered>
+			<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+				<xp:this.action>
+					<xp:openPage name="/frmConfigUsrSeg.xsp" target="newDocument">
+					</xp:openPage>
+				</xp:this.action>
+			</xp:eventHandler>
+		</xp:button>
+		
+		
+		<xp:button value="Eliminar Usuarios" id="deleteBtn" styleClass="btn-danger dashBtn">
+			<xp:this.rendered><![CDATA[#{javascript:
+				return userBean.canDeleteDocs;
+			}]]></xp:this.rendered>
+			
+		<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+			<xp:this.action>
+				<xp:deleteSelectedDocuments
+					message="Está seguro de eliminar los usuarios?"
+					view="todosDataView">
+				</xp:deleteSelectedDocuments>
+			</xp:this.action></xp:eventHandler></xp:button>
+	</xp:panel>
+</xp:view>
