@@ -48,30 +48,34 @@
 					<xe:formRow id="rowUsrSeg" label="Es Usuario de Seguridad?"
 						labelPosition="left">
 						<div id="switch" class="btn-group span4" data-toggle="buttons-radio">
-							<xp:button styleClass="btn-success active" id="button1" value="No">
+							<xp:button id="btnNo" value="No">
+								<xp:this.styleClass><![CDATA[#{javascript:if (getComponent("usr_USRSEG_opt").getValue() == "0"){return "btn-success active"};
+return "";}]]></xp:this.styleClass>
 								<xp:eventHandler event="onclick" submit="true"
 									refreshMode="partial" refreshId="PNL_HiddenFields">
 									<xp:this.action><![CDATA[#{javascript:getComponent("usr_USRSEG_opt").setValue("0");}]]></xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
 							<xp:button id="btnSi" value="Si">
+								<xp:this.styleClass><![CDATA[#{javascript:if (getComponent("usr_USRSEG_opt").getValue() == "1"){return "btn-success active"};
+return "";}]]></xp:this.styleClass>
 								<xp:eventHandler event="onclick" submit="true"
 									refreshMode="partial" refreshId="PNL_HiddenFields">
 									<xp:this.action><![CDATA[#{javascript:getComponent("usr_USRSEG_opt").setValue("1");}]]></xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
 						</div>
+      
+
 						<xp:scriptBlock id="scriptBlock1">
 							<xp:this.value><![CDATA[$("#switch .btn").on("click", function() {$(this)	.addClass("btn-success")	.siblings()	.removeClass("btn-success");});]]></xp:this.value>
 						</xp:scriptBlock>
 					</xe:formRow>
 				</xe:formTable>
-				<xp:panel id="PNL_HiddenFields"
-					rendered="#{javascript:docUsrSeg.isEditable()}">
+				<xp:panel id="PNL_HiddenFields">
 					<!-- Panel con campos temporales, no se visualizan -->
-					<xp:inputText id="usr_USRSEG_opt"
-						value="#{docUsrSeg.usr_USRSEG_opt}" defaultValue="0"
-						style="display:none">
+					<xp:inputText id="usr_USRSEG_opt" value="#{docUsrSeg.usr_USRSEG_opt}"
+						defaultValue="0">
 					</xp:inputText>
 				</xp:panel>
 
@@ -85,7 +89,8 @@
 							<xp:this.action>
 								<xp:actionGroup>
 									<xp:saveDocument var="docUsrSeg"></xp:saveDocument>
-									<xp:openPage name="/viewConfigUsrSeg.xsp"></xp:openPage>
+									<xp:openPage name="/viewConfigUsrSeg.xsp">
+									</xp:openPage>
 								</xp:actionGroup>
 							</xp:this.action>
 						</xp:eventHandler>

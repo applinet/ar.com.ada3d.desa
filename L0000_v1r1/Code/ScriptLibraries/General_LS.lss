@@ -1,0 +1,646 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM
+	Library Generales
+	Description: Libreria de funciones generales LotusScript
+%END REM
+Option Public
+Option Declare
+
+Use "IncludeLSConst"
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Sub Initialize
+Declare Function unirDestinatarios (vec1 As Variant, vec2 As Variant) As Variant
+Declare Function ArrDateAsTextInSpanish(dateToConvert As String ) As Variant
+Declare Function Explode( Cadena As Variant, separador As Variant) As Variant
+Declare Function getDbConfigDoc (strKey_param As String) As NotesDocument
+Declare Function getMailsDB () As NotesDatabase
+Declare Function IsMember ( Valor As Variant, ArrayValores As Variant) As Variant
+Declare Sub NumerarForm (doc As NotesDocument)
+Declare Function TieneRol( Rol As Variant )
+Declare Function DeletePos ( Array As Variant, Pos As Variant) As Variant
+Declare Function Word ( Source As String, Separator As String, Palabra As Long ) As String
+Declare Function InsertLog (Doc, Mensaje, dato)As Integer
+Declare Function getCfgDB () As NotesDatabase
+Declare Function evaluateFormula (strFormula_param As String, docTarget_param As NotesDocument) As Variant
+Declare Function getInsDB () As NotesDatabase
+Declare Function Member ( Valor As Variant, ArrayValores As Variant) As Integer
+Declare Function evaluateFormulaBoolean (strFormula_param As String, docTarget_param As NotesDocument) As Boolean
+Declare Function Ordenar( ArraySource As Variant , Orden As Variant , Index As Variant) As Variant     
+Declare Function ReplaceSubString( Source As String , CadenaBuscar As String, CadenaRemplazo As String) As String
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+
+
+
+'++LotusScript Development Environment:2:2:Initialize:1:10
+Sub Initialize
+		
+End Sub
+
+
+'++LotusScript Development Environment:2:1:unirDestinatarios:5:8
+%REM
+	Function unirDestinatarios
+	Description: Comments for Function
+%END REM
+Function unirDestinatarios (vec1 As Variant, vec2 As Variant) As Variant
+	On Error GoTo errHandler
+	
+	Dim varTemp As Variant
+	
+	varTemp = ArrayAppend (vec1, vec1)
+	varTemp = ArrayUnique (varTemp)
+	varTemp = FullTrim (varTemp)
+	
+	unirDestinatarios = varTemp
+	
+	Exit Function
+errHandler:
+	Error Err, Error$ + Chr (13) + CStr (GetThreadInfo (LSI_THREAD_PROC)) + " - Line " + CStr (Erl)
+	Exit Function
+End Function
+
+'++LotusScript Development Environment:2:1:ArrDateAsTextInSpanish:24:8
+%REM
+	Function ArrDateAsTextInSpanish
+	---------------------------------------------------------------------------------------------
+	Description: Devuelve un array con dia, mes , año y dia de la semana como texto en español
+					y dia, mes y año como Integer
+					 
+	---------------------------------------------------------------------------------------------
+	Parametros:	
+				dateToConvert    : Es la fecha que voy a convertir en texto
+							
+	---------------------------------------------------------------------------------------------
+	Devuelve:
+			Esta funcion devuelve el siguiente array mixto tomando el parametro
+				ArrDateAsTextInSpanish(0)= dd (dia) -->texto
+				ArrDateAsTextInSpanish(1)= mm (mes) -->texto
+				ArrDateAsTextInSpanish(2)= mmmm (mes en español) -->texto
+				ArrDateAsTextInSpanish(3)= yyyy (año) -->texto
+				ArrDateAsTextInSpanish(4)= wwww (dia de la semana en español) -->texto
+				ArrDateAsTextInSpanish(5)= dd (dia) -->integer
+				ArrDateAsTextInSpanish(6)= mm (mes) -->integer
+				ArrDateAsTextInSpanish(7)= yyyy (año) -->integer
+	---------------------------------------------------------------------------------------------		
+%END REM
+Function ArrDateAsTextInSpanish(dateToConvert As String ) As Variant
+	
+	Dim diadesemana(6)As Variant
+	diadesemana(0)= "Domingo"
+	diadesemana(1) = "Lunes"
+	diadesemana(2) = "Martes"
+	diadesemana(3) = "Miercoles"
+	diadesemana(4) = "Jueves"
+	diadesemana(5) = "Viernes"
+	diadesemana(6) = "Sabado"
+	
+	Dim mes(11)As Variant
+	mes(0)= "Enero"
+	mes(1) = "Febrero"
+	mes(2) = "Marzo"
+	mes(3) = "Abril"
+	mes(4) = "Mayo"
+	mes(5) = "Junio"
+	mes(6) = "Julio"
+	mes(7) = "Agosto"
+	mes(8) = "Septiembre"
+	mes(9) = "Octubre"
+	mes(10) = "Noviembre"
+	mes(11) = "Diciembre"
+	
+	Dim ArrTemp(7) As Variant
+	ArrTemp(0)= Format$ ( dateToConvert , "dd" )
+	ArrTemp(1)= Format$ ( dateToConvert , "mm" )
+	ArrTemp(2)= mes(CInt(Format$ ( dateToConvert , "mm" ))-1)
+	ArrTemp(3)= Format$ ( dateToConvert , "yyyy" )
+	ArrTemp(4)= diadesemana(CInt(Format$ ( dateToConvert , "w" ))-1)
+	ArrTemp(5)= CInt(Format$ ( dateToConvert , "dd" ))
+	ArrTemp(6)= CInt(Format$ ( dateToConvert , "mm" ))
+	ArrTemp(7)= CInt(Format$ ( dateToConvert , "yyyy" ))
+	
+	ArrDateAsTextInSpanish=ArrTemp
+End Function
+
+'++LotusScript Development Environment:2:1:Explode:1:8
+Function Explode( Cadena As Variant, separador As Variant) As Variant
+'------------------------------------------------------------------------------------------------------
+' Descripcion:
+'                      Funciona igual que el @Explode
+'                      Transforma una cadena de caracteres en una lista de cadenas, tomando como parametro de separacion el valor indicado
+'------------------------------------------------------------------------------------------------------
+' Parametros:
+'                      Cadenas        : Es la cadena de caracteres que se quiere separar para transformar en una lista
+'                      Separador     : Es el separador que se va a utilizar para dividir la cadena
+'------------------------------------------------------------------------------------------------------
+' Devuelve:     
+'                  Un array o vector (Variant) con las divisiones de la cadena de caracteres, segun el separador indicado
+'------------------------------------------------------------------------------------------------------     
+	
+	Dim arreglo As Variant
+	Dim cont As Integer
+	Dim pos As Integer
+	Dim NuevoValor As Variant
+	Dim aux As Variant
+	Dim CadenaAux As Variant
+	
+	
+	CadenaAux = Cadena
+	
+	ReDim arreglo(0)
+	arreglo(0) = CadenaAux     
+	cont = 0 
+	pos = 1              
+	Do While pos <> 0 
+		Pos = InStr( CadenaAux, separador)
+		If Pos <> 0 Then
+			cont = cont + 1
+			NuevoValor = Left( CadenaAux ,pos-1) 
+			aux = Len(CadenaAux) - pos
+			CadenaAux = Right( CadenaAux , aux)
+			If cont <> 1 Then
+				ReDim Preserve arreglo(UBound(arreglo)+1)
+			End If
+			arreglo(UBound(arreglo)) = NuevoValor
+		ElseIf cont >= 1 And Len(CadenaAux) > 0 Then    
+              ' Cuando llego al ultimo, no encuentra el separador .. pero igual lo tengo que agregar a la lista (no esta vacio)
+			ReDim Preserve arreglo(UBound(arreglo)+1)
+			arreglo(UBound(arreglo)) = CadenaAux
+		End If
+	Loop
+'     ReplaceSubString = Resultado
+	Explode  = arreglo
+End Function
+
+
+'++LotusScript Development Environment:2:1:getDbConfigDoc:6:8
+%REM
+	Function getConfigDoc
+	Description: Le pasas un key y te devuelve el documento de configuración
+				de la base de datos que coincide con ese key.
+%END REM
+Function getDbConfigDoc (strKey_param As String) As NotesDocument
+	On Error GoTo errHandler
+	
+	Dim s As New NotesSession
+	Dim vCfg As NotesView
+		
+	Set vCfg = s.Currentdatabase.Getview("v.Sys.Cfg")
+	If vCfg Is Nothing Then Error 9999, "No existe la vista v.Sys.Cfg"
+	
+	If strKey_param = "" Then Error 9999, "Se recibió un parámetro vacío"
+	
+	Set getDbConfigDoc = vCfg.Getdocumentbykey(strKey_param, True)
+	
+	
+	Exit Function
+errHandler:
+	Error Err, Error$ + Chr (13) + CStr (GetThreadInfo (LSI_THREAD_PROC)) + " - Line " + CStr (Erl)
+	Exit Function
+End Function
+
+'++LotusScript Development Environment:2:1:getMailsDB:5:8
+%REM
+	Function getMailsDb
+	Description: Comments for Function
+%END REM
+Function getMailsDB () As NotesDatabase
+	On Error GoTo errHandler
+	
+	Dim dbTarget As New NotesDatabase ("", "")
+	Dim docCfg As NotesDocument
+	Dim strServer As String
+	Dim strPath As String
+	
+	Set docCfg = getDbConfigDoc ("Mails")
+	
+	If Not docCfg Is Nothing Then
+		strServer = docCfg.Getitemvalue("conf_server")(0)
+		strPath = docCfg.Getitemvalue("conf_path")(0)
+		Call dbTarget.Open(strServer, strPath)
+		
+		Set getMailsDB = dbTarget
+	End If
+	
+	Exit Function
+errHandler:
+	Error Err, Error$ + Chr (13) + CStr (GetThreadInfo (LSI_THREAD_PROC)) + " - Line " + CStr (Erl)
+	Exit Function
+End Function
+
+'++LotusScript Development Environment:2:1:IsMember:1:8
+Function IsMember ( Valor As Variant, ArrayValores As Variant) As Variant
+'---------------------------------------------------------------------------------------------
+' Descripcion:
+'                    Devuelve verdadero o falso dependiendo si un valor se encuentra en la lista
+'                     Igual que el ismember de @Function
+'---------------------------------------------------------------------------------------------
+' Parametros:     
+'                     Valor                    : Es el valor a buscar dentro de ArrayValores
+'                     ArrayValoresValor: Es la lista de valores en donde se quiere buscar Valor.
+'---------------------------------------------------------------------------------------------     
+' Devuelve:
+'                    Esta funcion devuelve verdadero o falso
+'---------------------------------------------------------------------------------------------     	
+	
+	Dim a As Integer
+	Dim ret As Integer
+	ret = False
+	For a = 0 To UBound(ArrayValores)
+		If Valor = ArrayValores(a) Then
+			ret = True
+			Exit For
+		End If
+	Next
+	IsMember = ret
+	
+End Function
+
+
+'++LotusScript Development Environment:2:2:NumerarForm:5:8
+%REM
+	Sub NumerarForm
+	Description: Comments for Sub
+%END REM
+Sub NumerarForm (doc As NotesDocument)
+	Dim session As New NotesSession
+	Dim agCorr As NotesAgent
+	
+	Set agCorr = session.CurrentDatabase.Getagent("a.ObtCorr")
+	Call agCorr.RunOnServer(doc.Noteid)
+End Sub
+
+'++LotusScript Development Environment:2:1:TieneRol:1:8
+Function TieneRol( Rol As Variant )
+	
+	Dim ListaRoles As Variant
+	Dim Resultado As Variant
+	
+	ListaRoles = Evaluate( "@UserRoles" )
+	
+	If ismember(Rol, ListaRoles) Then
+		Resultado = True
+	Else     
+		Resultado = False
+	End If
+	TieneRol = Resultado
+	
+End Function
+
+'++LotusScript Development Environment:2:1:DeletePos:1:8
+Function DeletePos ( Array As Variant, Pos As Variant) As Variant
+'-----------------------------------------------------------------------------------------------------     
+'    Dado un array, elimina del mismo la posicion deseada
+'-----------------------------------------------------------------------------------------------------          
+'    Parametros:     
+'                       Array es un variant de tipo array que contiene la lista de valores  
+'                       Pos   es un variant de tipo numerico entero, contiene la posicion a eliminar
+'-----------------------------------------------------------------------------------------------------
+	Dim ret           As Variant
+	Dim cont        As Variant 'Contiene la cantidad de posiciones de array
+	Dim b             As Integer
+	
+	If Not(IsArray(Array)) Then 'Si el parametro pasado no es un arreglo
+		ReDim ret(0)
+		ret(0) = Array
+		DeletePos = ret
+		Exit Function
+	Else
+		cont = UBound(Array)
+	End If
+	
+	If pos > cont Or pos < 0 Then 'Si el parametro pos es absurdo
+		DeletePos = Array
+		Exit Function
+	End If
+	
+	For b = ( pos ) To cont - 1
+		Array(b) = Array(b+1)
+	Next
+	
+	If b = 0  Then
+		ReDim Array(0)
+	Else
+		ReDim Preserve Array(b-1)
+	End If
+	
+	DeletePos = Array
+	
+End Function
+
+
+'++LotusScript Development Environment:2:1:Word:1:8
+Function Word ( Source As String, Separator As String, Palabra As Long ) As String
+%REM
+	
+	Igual que la funcion @Word
+	
+%END REM
+	Dim pos 				As Long
+	Dim NroPalabra 	As Long
+	Dim start 			As Long
+	
+	NroPalabra 	= 1
+	start 			= 1     
+	pos = InStr( Source, Separator )
+	Do Until pos = 0      
+		If NroPalabra = Palabra Then Exit Do
+		start			= pos + Len( Separator )
+		pos			= InStr( start, Source, Separator)
+		NroPalabra 	= NroPalabra + 1
+	Loop
+	
+	If NroPalabra = Palabra Then
+		If pos <> 0 Then
+			Word = Mid( Source, start, pos - start )
+		Else
+			Word = Mid( Source, start )
+		End If
+	Else
+		Word = ""
+	End If 
+	
+End Function
+
+
+
+'++LotusScript Development Environment:2:1:InsertLog:5:8
+%REM
+	Function InsertLog
+	Description: Comments for Function
+%END REM
+Function InsertLog (Doc, Mensaje, dato)As Integer
+		InsertLog=0
+	If Not doc Is Nothing Then
+		Dim result As Variant
+		ReDim result(0)
+		Dim count As Integer
+		Dim Item As NotesItem
+		Set Item = doc.GetFirstItem(dato)
+		result(count) = Mensaje
+		ForAll m In item.Values
+			count = count + 1
+			ReDim Preserve result(count) 
+			result(count) = m
+		End ForAll
+	
+		
+		Call doc.replaceItemValue(dato, result) 
+		doc.save True, True
+		InsertLog=1
+	End If
+End Function
+
+
+'++LotusScript Development Environment:2:1:getCfgDB:5:8
+%REM
+	Function getParameterDoc
+	Description: Comments for Function
+%END REM
+Function getCfgDB () As NotesDatabase
+	On Error GoTo errHandler
+	
+	Dim dbTarget As New NotesDatabase ("", "")
+	Dim docCfg As NotesDocument
+	Dim strServer As String
+	Dim strPath As String
+	
+	Set docCfg = getDbConfigDoc ("Configuracion")
+	
+	If Not docCfg Is Nothing Then
+		strServer = docCfg.Getitemvalue("conf_server")(0)
+		strPath = docCfg.Getitemvalue("conf_path")(0)
+		Call dbTarget.Open(strServer, strPath)
+		
+		Set getCfgDB = dbTarget
+	End If
+	
+	Exit Function
+errHandler:
+	Error Err, Error$ + Chr (13) + CStr (GetThreadInfo (LSI_THREAD_PROC)) + " - Line " + CStr (Erl)
+	Exit Function
+End Function
+
+'++LotusScript Development Environment:2:1:evaluateFormula:5:8
+%REM
+	Function evaluateFormula
+	Description: Comments for Function
+%END REM
+Function evaluateFormula (strFormula_param As String, docTarget_param As NotesDocument) As Variant
+	
+	On Error GoTo errHandler
+	Dim strArray (0 To 0) As String
+	
+	If (strFormula_param <> "") Then
+		If (Not docTarget_param Is Nothing) Then 
+			evaluateFormula = Evaluate(strFormula_param, docTarget_param)
+			Exit Function
+		Else 
+			evaluateFormula = Evaluate(strFormula_param)
+			Exit Function
+		End If
+	End If
+	
+	evaluateFormula = strArray
+	
+	Exit Function
+errHandler:
+	Error Err, Error$ + Chr (13) + CStr (GetThreadInfo (LSI_THREAD_PROC)) + " - Line " + CStr (Erl)
+	Exit Function
+End Function
+
+'++LotusScript Development Environment:2:1:getInsDB:5:8
+%REM
+	Function getParameterDoc
+	Description: Comments for Function
+%END REM
+Function getInsDB () As NotesDatabase
+	On Error GoTo errHandler
+	
+	Dim dbTarget As New NotesDatabase ("", "")
+	Dim docCfg As NotesDocument
+	Dim strServer As String
+	Dim strPath As String
+	
+	Set docCfg = getDbConfigDoc ("Inspecciones")
+	
+	If Not docCfg Is Nothing Then
+		strServer = docCfg.Getitemvalue("conf_server")(0)
+		strPath = docCfg.Getitemvalue("conf_path")(0)
+		Call dbTarget.Open(strServer, strPath)
+		
+		Set getInsDB = dbTarget
+	End If
+	
+	Exit Function
+errHandler:
+	Error Err, Error$ + Chr (13) + CStr (GetThreadInfo (LSI_THREAD_PROC)) + " - Line " + CStr (Erl)
+	Exit Function
+End Function
+
+'++LotusScript Development Environment:2:1:Member:1:8
+Function Member ( Valor As Variant, ArrayValores As Variant) As Integer
+'---------------------------------------------------------------------------------------------
+' Descripcion:
+'                    Devuelve verdadero ls posicion en que se encuentr un valor en una lista de valores
+'                     Si no encuentra el valor devuelve -1     
+'                     Igual que el member de @Function
+'---------------------------------------------------------------------------------------------
+' Parametros:     
+'                     Valor                    : Es el valor a buscar dentro de ArrayValores
+'                     ArrayValoresValor: Es la lista de valores en donde se quiere buscar Valor.
+'---------------------------------------------------------------------------------------------     
+' Devuelve:
+'                    Esta funcion devuelve la posicion en que se encuentra un valor dentro de una lista de valores
+'                    Si no lo encuentra devuelve -1
+'---------------------------------------------------------------------------------------------     
+	Dim a As Integer
+	Dim ret As Integer
+	ret = -1
+	If Not( IsArray(ArrayValores)) Then
+		Member = -1
+		Exit Function
+	End If
+	For a = 0 To UBound(ArrayValores)
+		If Valor = ArrayValores(a) Then
+			ret = a 
+			Exit For
+		End If
+	Next
+	Member = ret
+End Function
+
+
+'++LotusScript Development Environment:2:1:evaluateFormulaBoolean:5:8
+%REM
+	Function evaluateFormulaBoolean
+	Description: Comments for Function
+%END REM
+Function evaluateFormulaBoolean (strFormula_param As String, docTarget_param As NotesDocument) As Boolean
+	On Error GoTo errHandler
+	
+	Dim vecResult As Variant
+	
+	vecResult = evaluateFormula (strFormula_param, docTarget_param)
+	If (vecResult (0) = "0")  Then 
+		evaluateFormulaBoolean = False
+	Else
+		evaluateFormulaBoolean = True
+	End If
+	
+	Exit Function
+errHandler:
+	Error Err, Error$ + Chr (13) + CStr (GetThreadInfo (LSI_THREAD_PROC)) + " - Line " + CStr (Erl)
+	Exit Function
+End Function
+
+'++LotusScript Development Environment:2:1:Ordenar:5:8
+%REM
+	Function Ordenar
+	Description: Comments for Function
+%END REM
+Function Ordenar( ArraySource As Variant , Orden As Variant , Index As Variant) As Variant     
+	%REM
+	Descripcion
+			Esta funcion se utiliza para ordenar arreglos en forma Ascendente o Descendente
+	Parametros
+			ArrayOriginal : Contiene el array con los datos que se quieren ordenar
+			Orden           : Contiene de que forma si quiere ordenar( true = Ascendent, false Descendente)
+			Index            : Dependiendo de este valor la funcion retorna el arreglo ordenado o un Incice del arreglo
+	Devuelve
+			Si Index = True ===>>>Un array (Numerico) con las posiciones de ArregloOriginar si estuviera ordanado (como si fuera un indice)
+			Si Index = False ===>>>Un array con el arreglo ya ordenado
+ Explicación de codigo:
+         Recorro el arreglo cambiando las posiciones para ordenarlo una ves que no cambio mas posiciones quiere decir 
+         que el arreglo ya esta ordenado  (para saber si ya deje de ordenar utilizo un flag)
+	%END REM
+	Dim ArrayOriginal 			As Variant
+	Dim ArrayOriginalIndex 	As Variant
+	Dim auxiliar 					As Variant
+	Dim cont 					As Variant
+	Dim x 						As Integer
+	ArrayOriginal          = ArraySource
+	If Not(IsArray( ArrayOriginal )) Then ' Si el parametro pasado no es un array o vector => Salgo de la funcion
+		If Index Then ' Si lo quiere como indice
+			ReDim ArrayOriginalIndex(0)
+			ArrayOriginalIndex(0) = 0 
+		Else
+			Ordenar = ArrayOriginal
+		End If
+		Exit Function
+	End If
+	If IsEmpty ( Orden ) Then  ' Si no se le paso el orden, lo defino por default como Ascendente
+		Orden = True
+	End If
+	ReDim ArrayOriginalIndex( UBound(ArrayOriginal))
+	For x = 0 To UBound(ArrayOriginalIndex) ' Aca inicialiso el areglo de indice con las posiciones actuales
+		ArrayOriginalIndex( x ) = x
+	Next
+	If Orden Then  'si es verdadero => Ordeno Ascendente
+		cont = True
+		Do While cont  
+			cont = False
+			For x = 0 To UBound(ArrayOriginal) - 1
+				If  (ArrayOriginal( x ) > ArrayOriginal( x + 1 )) Then
+					cont = True
+					Auxiliar 					= ArrayOriginal( x )
+					ArrayOriginal( x ) 		= ArrayOriginal( x + 1 )
+					ArrayOriginal( x + 1 ) 	= Auxiliar
+					' Ordeno arreglo y modifico las posiciones del Indice
+					Auxiliar 							= ArrayOriginalIndex( x )
+					ArrayOriginalIndex( x ) 		= ArrayOriginalIndex( x + 1 )
+					ArrayOriginalIndex( x + 1 ) 	= Auxiliar
+				End If
+			Next
+		Loop
+	Else 'si es falso => Ordeno Descendente
+		cont = True
+		Do While cont  
+			cont = False
+			For x = 0 To UBound(ArrayOriginal) - 1
+				If  (ArrayOriginal( x ) < ArrayOriginal( x + 1 )) Then
+					cont = True
+					Auxiliar 						= ArrayOriginal(x)
+					ArrayOriginal( x ) 			= ArrayOriginal(x+1)
+					ArrayOriginal( x + 1 )	 	= Auxiliar
+					' Ordeno arreglo y modifico las posiciones del Indice
+					Auxiliar 						= ArrayOriginalIndex( x )
+					ArrayOriginalIndex( x ) 	= ArrayOriginalIndex( x + 1 )
+					ArrayOriginalIndex( x + 1 ) = Auxiliar
+				End If
+			Next
+		Loop
+	End If
+	If Index Then
+		Ordenar = ArrayOriginalIndex
+	Else          
+		Ordenar = ArrayOriginal
+	End If
+End Function
+
+'++LotusScript Development Environment:2:1:ReplaceSubString:1:8
+Function ReplaceSubString( Source As String , CadenaBuscar As String, CadenaRemplazo As String) As String
+'--------------------------------------------------------------------------------------
+' Descripcion:
+'             Esta funcion equivale al @ReplaceSubString
+'--------------------------------------------------------------------------------------
+' Parametros:     
+'                 Source: contiene la cadena string original     
+'                 CadenaBuscar: contiene la cadena string a buscar
+'                 CadenaRemplazo: contiene la cadena string que se colocara en lugar de "CadenaBuscar" en caso que esta se encuentre
+'--------------------------------------------------------------------------------------          
+' Devuelve:
+'                Devuelve la cadena transformada segun los valores entontrados y reemplazados
+'--------------------------------------------------------------------------------------
+	Dim pos As Variant
+	Dim resultado As Variant
+	Resultado = Source
+	Pos = InStr(Resultado, CadenaBuscar)
+	Do While Pos > 0
+		Resultado = Left(Resultado,pos-1) + CadenaRemplazo + Mid(Resultado,pos+Len(CadenaBuscar))
+		Pos = InStr(Resultado, CadenaBuscar)
+	Loop
+	ReplaceSubString = Resultado
+End Function
+
