@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='832581A1004F6F08'>
-<noteinfo noteid='23a' unid='75C4FDF6BD7E03D4832581A20047DFD1' sequence='1'>
+<noteinfo noteid='23a' unid='75C4FDF6BD7E03D4832581A20047DFD1' sequence='4'>
 <created><datetime dst='true'>20170921T110503,53-02</datetime></created>
-<modified><datetime dst='true'>20170921T110505,60-02</datetime></modified>
-<revised><datetime dst='true'>20170921T110505,59-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170921T110505,60-02</datetime></lastaccessed>
+<modified><datetime dst='true'>20171005T165642,63-02</datetime></modified>
+<revised><datetime dst='true'>20171005T165642,62-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171005T165642,63-02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170921T110505,60-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name><name>CN=Notes Standard Control/O=SASA</name></updatedby>
-<wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
+<wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$HTMLCode' sign='true'>
 <rawitemdata type='1'>
@@ -24,6 +24,7 @@ hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 <rawitemdata type='1'>
 i/8oAAEABSZWZXJkYW5hAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
 </rawitemdata></item>
+<item name='$Flags'><text>C34WQP</text></item>
 <item name='$$ScriptName' summary='false' sign='true'><text>Outline</text></item>
 <item name='$Body' sign='true'>
 <rawitemdata type='1'>
@@ -37,6 +38,5 @@ BQD///8ABQD///8ABQD///8AAQDd/+kAAQDd/+kABQD///8AAQDd/+kAAQDd/+kAAQAAAAAAAQAA
 nDMAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAEA
 AAAAAAEAAAAAAAEAAAAAAAEAAJwzAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHByaW5j
 aXBhbACuAt4GAACuAIX/CAABAAAK
-</rawitemdata></item>
-<item name='$Flags'><text>C34WQP</text></item></note>
+</rawitemdata></item></note>
 

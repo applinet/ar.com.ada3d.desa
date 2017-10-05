@@ -1,22 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='832581A1004C0C0C'>
-<noteinfo noteid='5fe' unid='EA39F43EF405B9CB832581A100624924' sequence='7'>
+<noteinfo noteid='5fe' unid='EA39F43EF405B9CB832581A100624924' sequence='8'>
 <created><datetime dst='true'>20170920T155332,52-02</datetime></created>
-<modified><datetime dst='true'>20170927T010114,11-02</datetime></modified>
-<revised><datetime dst='true'>20170925T110336,94-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170927T010114,11-02</datetime></lastaccessed>
+<modified><datetime dst='true'>20171005T191328,82-02</datetime></modified>
+<revised><datetime dst='true'>20171005T120732,96-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171005T191328,82-02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170920T155332,55-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$Flags'><text>34yQC</text></item>
 <item name='$TITLE'><text>$ACTIONS</text></item>
-<item name='$Body' sign='true' seal='true'>
-<rawitemdata type='1'>
-gv9GAAIAAAAAAAAAAACgBQAAoAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAKYsAAAAAAIATm9ybWFsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-gQKDBAIAhf8IAAEAAAo=
-</rawitemdata></item>
 <item name='$V5ACTIONS' sign='true'>
 <rawitemdata type='1'>
 vRw/AAAAAQABAAAAAQAAAAQAAAAAAAAACAACAHn/bAABAPDw8AABAAAAAAAJAAAAAAABAPDw8AAA
@@ -47,5 +41,12 @@ AgAUAAcAAAAAAAAAX/8QAAIACQAHAAAAAAAAAF//EAACAAgABwAAAAAAAABf/xAAAgAKAAcAAAAA
 AAAAX/8QAAIAAwAHAAAAAAAAAF//EAACAAYABwAAAAAAAABf/xAAAgAHAAcAAAAAAAAAX/8QAAIA
 BQAHAAAAAAAAAF//EAACAAQABwAAAAAAAAA=
 </rawitemdata></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item></note>
+<item name='$DesignerVersion'><text>8.5.3</text></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>$ACTIONS</text></item>
+<item name='$Body' sign='true' seal='true'>
+<rawitemdata type='1'>
+gv9GAAIAAAAAAAAAAACgBQAAoAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAKYsAAAAAAIATm9ybWFsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+gQKDBAIAhf8IAAEAAAo=
+</rawitemdata></item></note>
 

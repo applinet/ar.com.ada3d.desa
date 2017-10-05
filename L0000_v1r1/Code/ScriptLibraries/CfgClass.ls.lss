@@ -36,11 +36,13 @@ Class cfg
 	End Sub
 	
 	%REM
-	Function GetValue
-	Description: Obtiene un valor de la vista Opciones Clave de la base de configuración
-	@param Recibe como parámetro la clave a buscar en la vista
-	@Return El codigo de la clave buscada
+		Function GetDbConfig
+		@Return: NotesDabase
 	%END REM
+	Function GetDbConfig()
+			Set getDbConfig = Me.db
+	End Function
+	
 	Function GetValue( code ) 
 		getValue = ""
 		
@@ -67,7 +69,6 @@ End Class
 Sub Initialize
 	
 End Sub
-
 
 
 '++LotusScript Development Environment:2:1:FilePath:9:8
@@ -116,8 +117,6 @@ Function getDataSourceDoc(key As String) As NotesDocument
 		Set getDataSourceDoc = Nothing
 	End If	
 End Function
-
-
 
 
 

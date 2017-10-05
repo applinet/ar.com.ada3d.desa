@@ -27,9 +27,10 @@ return v ? "Hide Document" : "Show Document"}]]></xp:this.text>
 			&#160;&#160;
 			<xe:dumpObject id="dumpObject1" objectNames="workflowContext" rendered="false">
 			</xe:dumpObject>
-			<xe:dumpObject id="dumpObject2" objectNames="document" rendered="false">
+			<xe:dumpObject id="dumpObject2"
+				objectNames="#{javascript:compositeData.propertyFormName}"
+				rendered="false">
 			</xe:dumpObject>
-			
 			<xp:br></xp:br>
 			</xp:panel>
 			</xp:view>

@@ -24,6 +24,7 @@ public class DocUsr {
 	private void updateDocUsr() {
 		Session session = JSFUtil.getSession();
 		Database currentDB = JSFUtil.getCurrentDatabase();
+
 		Document docUsuario = null;
 		try {
 			docUsuario = getUserDocument(session.getEffectiveUserName(),
@@ -40,6 +41,8 @@ public class DocUsr {
 							.getItemValueString("usr_Status_des"));
 					this._map.put("userSeg", docUsuario
 							.getItemValueString("usr_USRSEG_opt"));
+					this._map.put("userDB", currentDB.getFileName().substring(
+							currentDB.getFileName().length() - 8, 5));
 				}
 				setUsrSelected(docUsuario.getItemValue("usr_MenuSelected_cod"));
 				/* getItemValue definirlo como Vector=import java.util.Vector */
@@ -88,6 +91,14 @@ public class DocUsr {
 		boolean ret = false;
 		synchronized (this._map) {
 			ret = this._map.get("userSeg").equals("1");
+		}
+		return ret;
+	}
+
+	public String getUserDB() {
+		String ret;
+		synchronized (this._map) {
+			ret = this._map.get("userDB");
 		}
 		return ret;
 	}

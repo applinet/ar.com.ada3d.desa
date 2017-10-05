@@ -11,27 +11,25 @@ Option Declare
 '++LotusScript Development Environment:2:5:(Forward):0:1
 Declare Class usr
 Declare Sub Initialize
-Declare Function getDbByKey (strKey)
 Declare Sub AddUserToNab(dbPeople As NotesDatabase, usuario As usr)
 Declare Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As NotesDatabase )
 
 '++LotusScript Development Environment:2:5:(Declarations):0:10
 %REM
 	Class usr
-	Description: Comments for Class
+	Description: Clase usuario 
+	Esta clase luego se pasa a la funcion AddUserToNab y crea el usuario con los datos
 %END REM
 Class usr
-		Private LastName As String
-		Private FirstName As String
-		Private UserName As String
-		Private PhoneNumber As String
-		Private MailAddress As String
-		Private HTTPPassword As String
-		Private Profiles As String
-	%REM
-		Sub New
-		Description: Comments for Sub
-	%END REM
+	Private LastName As String
+	Private FirstName As String
+	Private UserName As String
+	Private PhoneNumber As String
+	Private MailAddress As String
+	Private HTTPPassword As String
+	Private Profiles As String
+	Private CodigoAdministracion As String
+
 	Sub New(strLastName As String,strFirstName As String, strUserName As String ,strPhoneNumber As String, strMailAddress As String, strHTTPPassword As String, strProfiles As String)
 		Me.LastName = strLastName
 		Me.FirstName = strFirstName
@@ -39,40 +37,85 @@ Class usr
 		Me.PhoneNumber = strPhoneNumber
 		Me.MailAddress = strMailAddress
 		Me.HTTPPassword = strHTTPPassword
-		Me.Profiles = strProfiles 
+		Me.Profiles = strProfiles
+		Me.CodigoAdministracion = "" 
 	End Sub
 	
 	%REM
 		Function getLastName
-		Description: Comments for Function
+		@return: el apellido del usuario
 	%END REM
 	Function getLastName() As String
 		getLastName= LastName
 	End Function
 	
+	%REM
+		Function getFirstName
+		@return: el nombre del usuario
+	%END REM
 	Function getFirstName() As String
 		getFirstName= FirstName
 	End Function
 	
+	%REM
+		Function getUserName
+		@return: el usuario del usuario
+	%END REM
 	Function getUserName() As String
 		getUserName= UserName
 	End Function
 	
+	%REM
+		Function getPhoneNumber
+		@return: el telefono del usuario
+	%END REM
 	Function getPhoneNumber() As String
 		getPhoneNumber= PhoneNumber
 	End Function
 	
+	%REM
+		Function getMailAddress
+		@return: el mail del usuario
+	%END REM
 	Function getMailAddress() As String
 		getMailAddress= MailAddress
 	End Function
 	
+	%REM
+		Function getHTTPPassword
+		@return: la contraseña del usuario
+	%END REM
 	Function getHTTPPassword() As String
 		getHTTPPassword= HTTPPassword
 	End Function
 	
-	Function getProfiles As String
+	%REM
+		Function getProfiles
+		@return: Si es el usuario de seguridad
+	%END REM
+	Function getProfiles() As String
 		getProfiles= Profiles
 	End Function
+	
+	
+	%REM
+		Function getCodigoAdministracion
+		@return: el codigo de administración
+	%END REM
+	Function getCodigoAdministracion() As String
+		getCodigoAdministracion = CodigoAdministracion
+	End Function
+	
+
+	%REM
+		Sub setCodigoAdministracion
+		Setea el codigo de administracion
+	%END REM
+	Sub setCodigoAdministracion(codigo)
+		Me.CodigoAdministracion = codigo
+	End Sub
+	
+	
 End Class
 '++LotusScript Development Environment:2:2:Initialize:1:10
 Sub Initialize
@@ -83,33 +126,13 @@ End Sub
 
 
 
-'++LotusScript Development Environment:2:1:getDbByKey:5:8
-%REM
-	Function getDbByKey
-	Description: Comments for Function
-%END REM
-Function getDbByKey (strKey)
-	Dim viewCfg As NotesView
-	Dim ns As New NotesSession
-	Dim docCfg As NotesDocument
-	
-	Set viewCfg = ns.Currentdatabase.Getview("v.Sys.Opciones.Clave")
-	Set docCfg = viewCfg.Getdocumentbykey(strKey, True)
-	If Not docCfg Is Nothing Then
-		Dim strServer As String
-		Dim strPath As String
-		
-		strServer = docCfg.opt_Codigo_des(0)
-		strServer = docCfg.opt_Codigo_des(0)
-		
-	End If
-	
-End Function
-
-'++LotusScript Development Environment:2:2:AddUserToNab:5:8
+'++LotusScript Development Environment:2:2:AddUserToNab:8:8
 %REM
 	Sub AddUserToNab
-	Description: Comments for Sub
+	Description: Agrega los datos del objeto usuario a un nuevo usuario del NAB adicional
+	@Param: Database ADA3D names adicional
+	@Param: Objeto con datos de usuario  
+	@Return: no tiene es un sub
 %END REM
 Sub AddUserToNab(dbPeople As NotesDatabase, usuario As usr)
 	Dim docPerson As NotesDocument
@@ -124,13 +147,31 @@ Sub AddUserToNab(dbPeople As NotesDatabase, usuario As usr)
 	docPerson.MailAddress	= usuario.getMailAddress()
 	docPerson.HTTPPassword	= usuario.getHTTPPassword()
 	docPerson.Profiles		= usuario.getProfiles()
+	docPerson.CompanyName	= usuario.getCodigoAdministracion()
+	
 	Call docPerson.ComputeWithForm( False, False )
 	Call docPerson.Save( False, True )
+	
 End Sub
 
 
 
-'++LotusScript Development Environment:2:2:AddUserToGroup:1:8
+
+
+
+
+
+
+
+'++LotusScript Development Environment:2:2:AddUserToGroup:9:8
+%REM
+	TODO: documentar
+	AddUserToGroup
+	Description: Agrega un usuario a un grupo
+	@Param: fullname ??
+	@Param: group ??  
+	@Return: nab - cual?
+%END REM
 Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As NotesDatabase )
      
      ' Load up our static groups view
@@ -224,5 +265,3 @@ Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As Note
      End If
      
 End Sub
-
-

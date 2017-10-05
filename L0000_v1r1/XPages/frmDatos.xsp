@@ -37,7 +37,7 @@
 					</xe:basicContainerNode>
 				</xe:this.treeNodes>
 			</xe:accordion>
-		</xp:this.facets>
+			</xp:this.facets>
 	</xc:ccAppLayout>
 
 
