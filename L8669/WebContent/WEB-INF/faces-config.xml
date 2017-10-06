@@ -17,12 +17,6 @@
     <managed-bean-class>ar.com.ada3d.utilidades.DocLock</managed-bean-class>
     <managed-bean-scope>application</managed-bean-scope>
   </managed-bean>
-  <managed-bean>
-    <description>Datos de usuario</description>
-    <managed-bean-name>DocUsr</managed-bean-name>
-    <managed-bean-class>ar.com.ada3d.utilidades.DocUsr</managed-bean-class>
-    <managed-bean-scope>session</managed-bean-scope>
-  </managed-bean>
   <!-- phase listener for the alerts demo -->
   <lifecycle>
     <phase-listener>com.bootstrap4xpages.MultiPageMessages</phase-listener>
