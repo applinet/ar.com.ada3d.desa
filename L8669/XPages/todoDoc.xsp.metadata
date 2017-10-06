@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="8325819F007B7B18" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="2da" sequence="15" unid="1AA40B638CE7B804832581A800587709">
+<created><datetime dst="true">20170927T140616,41-02</datetime></created>
+<modified><datetime dst="true">20170927T141717,06-02</datetime></modified>
+<revised><datetime dst="true">20170927T141717,05-02</datetime></revised>
+<lastaccessed><datetime dst="true">20170927T141717,06-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20170927T140616,42-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
+<wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
+<item name="$TITLE"><text>todoDoc.xsp</text></item>
+<item name="$Flags"><text>gC~4K</text></item>
+
+
+
+<item name="$FileNames" sign="true"><text>todoDoc.xsp</text></item>
+<item name="$DesignerVersion"><text>9.0.1</text></item>
+
+
+
+</note>

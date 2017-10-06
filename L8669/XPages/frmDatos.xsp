@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+
+	<xc:ccAppLayout>
+		<xp:this.facets>
+			
+			<xe:accordion id="accordion1" styleClass="col-lg-3"
+				xp:key="facetMiddle">
+				<xe:this.treeNodes>
+					<xe:basicContainerNode label="Menu 1"
+						styleClass="fa fa-bell">
+						<xe:this.children>
+							<xe:basicLeafNode label="1"></xe:basicLeafNode>
+							<xe:basicLeafNode label="2" styleClass="fa fa-wifi">
+							</xe:basicLeafNode>
+							<xe:basicLeafNode label="3"></xe:basicLeafNode>
+						</xe:this.children>
+					</xe:basicContainerNode>
+					<xe:basicContainerNode label="Menu 2"
+						styleClass="fa fa-database ">
+						<xe:this.children>
+							<xe:basicLeafNode label="1"></xe:basicLeafNode>
+							<xe:basicLeafNode label="2"></xe:basicLeafNode>
+							<xe:basicLeafNode label="3"></xe:basicLeafNode>
+						</xe:this.children>
+					</xe:basicContainerNode>
+					<xe:basicContainerNode label="Menu 3">
+						<xe:this.children>
+							<xe:basicLeafNode label="1"></xe:basicLeafNode>
+							<xe:basicLeafNode label="2"></xe:basicLeafNode>
+							<xe:basicLeafNode label="3"></xe:basicLeafNode>
+						</xe:this.children>
+					</xe:basicContainerNode>
+					<xe:basicContainerNode label="Menu 4"
+						styleClass="fa fa-lg fa-link">
+					</xe:basicContainerNode>
+				</xe:this.treeNodes>
+			</xe:accordion>
+			</xp:this.facets>
+	</xc:ccAppLayout>
+
+
+</xp:view>

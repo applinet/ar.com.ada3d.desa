@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xc:ccAppLayout><xp:this.facets>
+	<xp:text escape="true" id="computedField1"
+		value="#{javascript:view.getPageName()}"
+		style="font-size:14pt;font-weight:bold" xp:key="facetMiddle">
+	</xp:text></xp:this.facets></xc:ccAppLayout>
+	
+
+</xp:view>
