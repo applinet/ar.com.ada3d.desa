@@ -48,7 +48,7 @@ Class cfg
 			Exit Function
 		End If
 		
-		Set Me.doc = Me.view.GetDocumentByKey( code )
+		Set Me.doc = Me.view.GetDocumentByKey( code, true )
 		If Not ( Me.doc Is Nothing ) Then
 			Select Case Me.doc.opt_TipoDato_des(0)
 			Case "T" 
@@ -116,6 +116,7 @@ Function getDataSourceDoc(key As String) As NotesDocument
 		Set getDataSourceDoc = Nothing
 	End If	
 End Function
+
 
 
 

@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.0" replicaid="832581A1004F6F08" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="1a2" sequence="9" unid="96F4C7EDA4D1F3428325819F0072E3CC">
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.9" replicaid="832581A1004F6F08" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1a2" sequence="12" unid="96F4C7EDA4D1F3428325819F0072E3CC">
 <created><datetime dst="true">20170918T185454,20-02</datetime></created>
-<modified><datetime dst="true">20170920T122738,65-02</datetime></modified>
-<revised><datetime dst="true">20170918T200948,41-02</datetime></revised>
-<lastaccessed><datetime dst="true">20170920T122738,65-02</datetime></lastaccessed>
+<modified><datetime dst="true">20171005T165642,27-02</datetime></modified>
+<revised><datetime dst="true">20171005T165642,26-02</datetime></revised>
+<lastaccessed><datetime dst="true">20171005T165642,27-02</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20170920T122738,65-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Fernando Rodriguez/O=SASA</name><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>

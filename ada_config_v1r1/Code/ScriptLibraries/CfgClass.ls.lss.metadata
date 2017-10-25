@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.0" replicaid="832581A1004F6F08" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="182" sequence="11" unid="3BCB03C0E7DBF9668325819F006B9030">
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.9" replicaid="832581A1004F6F08" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="182" sequence="24" unid="3BCB03C0E7DBF9668325819F006B9030">
 <created><datetime dst="true">20170918T173452,64-02</datetime></created>
-<modified><datetime dst="true">20170920T122738,49-02</datetime></modified>
-<revised><datetime dst="true">20170918T181730,75-02</datetime></revised>
-<lastaccessed><datetime dst="true">20170920T122738,49-02</datetime></lastaccessed>
+<modified><datetime dst="true">20171018T201948,30-02</datetime></modified>
+<revised><datetime dst="true">20171018T201948,29-02</datetime></revised>
+<lastaccessed><datetime dst="true">20171018T201948,30-02</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20170920T122738,49-02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Fernando Rodriguez/O=SASA</name><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
+<updatedby><name>CN=Fernando Rodriguez/O=SASA</name><name>CN=ADMINISTRADOR DOMINO/O=SASA</name><name>CN=Notes Standard Control/O=SASA</name><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
 <wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
 <item name="$PublicAccess" sign="true"><text>1</text></item>
 <item name="$Flags"><text>s34Q</text></item>

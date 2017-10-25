@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.0" replicaid="832581A1004F6F08" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="186" sequence="1" unid="ACE3F9917AE7F5788325819F006B9031">
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.9" replicaid="832581A1004F6F08" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="186" sequence="2" unid="ACE3F9917AE7F5788325819F006B9031">
 <created><datetime dst="true">20170918T173452,65-02</datetime></created>
-<modified><datetime dst="true">20170920T122738,51-02</datetime></modified>
-<revised><datetime dst="true">20170918T173453,30-02</datetime></revised>
-<lastaccessed><datetime dst="true">20170920T122738,51-02</datetime></lastaccessed>
+<modified><datetime dst="true">20171018T202046,37-02</datetime></modified>
+<revised><datetime dst="true">20171018T202046,36-02</datetime></revised>
+<lastaccessed><datetime dst="true">20171018T202046,37-02</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20170920T122738,51-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Fernando Rodriguez/O=SASA</name><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
 <wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
+<item name="$TITLE" sign="true"><text>common.ssjs</text></item>
 <item name="$Flags"><text>.5834Q</text></item>
 <item name="$PublicAccess" sign="true"><text>1</text></item>
-
-<item name="$TITLE" sign="true"><text>common.ssjs</text></item>
-<item name="$DesignerVersion" sign="true"><text>8.5.3</text></item></note>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+</note>

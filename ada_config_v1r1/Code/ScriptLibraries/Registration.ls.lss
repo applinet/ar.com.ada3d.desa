@@ -7,12 +7,13 @@
 Option Public
 Option Declare
 
+Use "ErrorLogClass.ls"
 
 '++LotusScript Development Environment:2:5:(Forward):0:1
 Declare Class usr
 Declare Sub Initialize
-Declare Sub AddUserToNab(dbPeople As NotesDatabase, usuario As usr)
 Declare Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As NotesDatabase )
+Declare Sub AddUserToNab(dbPeople As NotesDatabase, usuario As usr)
 
 '++LotusScript Development Environment:2:5:(Declarations):0:10
 %REM
@@ -126,6 +127,113 @@ End Sub
 
 
 
+'++LotusScript Development Environment:2:2:AddUserToGroup:8:8
+%REM
+	TODO: documentar
+	AddUserToGroup
+	Description: Agrega un usuario a un grupo
+	@Param: fullname, es el nombre de usuario??
+	@Param: group, es el grupo al que voy a aagregar el usuario  
+%END REM
+Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As NotesDatabase )
+	Dim errorLog As New ErrorLog( "AddUserToGroup" )
+	On Error GoTo ErrorHandler
+	
+	' Load up our static groups view
+	
+	Dim groups As NotesView
+	
+	Set groups = nab.GetView( "Groups" )
+	
+	Dim groupMainDoc As NotesDocument
+	Set groupMainDoc = groups.GetDocumentByKey( group )
+	Dim saveGroupMainDoc As Integer
+	saveGroupMainDoc = False
+	
+	If groupMainDoc Is Nothing Then
+		Set groupMainDoc = New NotesDocument( nab )
+		groupMainDoc.Form = "Group"
+		groupMainDoc.ListName = group
+		groupMainDoc.Members = group & " 1"
+		groupMainDoc.GroupType = "0"
+		Call groupMainDoc.ComputeWithForm( False, False )
+		saveGroupMainDoc = True
+	End If
+	
+	Dim groupMainMembers As NotesItem
+	Set groupMainMembers = groupMainDoc.GetFirstItem( "Members" )
+	
+	' Find last subgroup entry in the members list
+	
+	Dim subGroup As String
+	subGroup = ""
+	ForAll s In groupMainMembers.Values
+		If Left$( s, Len( group ) ) = group Then
+			subGroup = s
+		End If
+	End ForAll
+	
+	' Open the subgroup, and keep trying until we find one with room
+	
+	Dim groupNum As Integer
+	groupNum = 0
+	
+	' Which subgroup was the last one
+	If subGroup <> "" Then
+		groupNum = Val( Right( subGroup, Len( subGroup ) - Len( group ) - 1 ) )
+	Else
+		groupNum = 1
+		subGroup = group & " 1"
+	End If
+	
+	Dim groupSubDoc As NotesDocument
+	
+	Do
+		Set groupSubDoc = groups.GetDocumentByKey( subGroup )
+		
+		If groupSubDoc Is Nothing Then
+			' Create a new subgroup document
+			Set groupSubDoc = New NotesDocument( nab )
+			groupSubDoc.Form = "Group"
+			groupSubDoc.ListName = subGroup
+			groupSubDoc.GroupType = "0"
+			Call groupSubDoc.ComputeWithForm( False, False )
+			
+			' Add it to the main group if needed
+			If Not groupMainMembers.Contains( subGroup ) Then
+				Call groupMainMembers.AppendToTextList( subGroup )
+				saveGroupMainDoc = True
+			End If
+		End If
+		
+		' See if the subgroup still has room, if so, we've found our subgroup
+		
+		Dim groupSubMembers As NotesItem
+		Set groupSubMembers = groupSubDoc.GetFirstItem( "Members" )
+		
+		If groupSubMembers.ValueLength < 10000 Then
+			Exit Do
+		End If
+		
+		' If no room, try the next one
+		
+		groupNum = groupNum + 1
+		subGroup = group & " " & groupNum
+	Loop
+	
+	' Finally: add the user to the subgroup
+	Call groupSubMembers.AppendToTextList( fullname )
+	Call groupSubDoc.Save( False, True )
+	
+	If saveGroupMainDoc Then
+		Call groupMainDoc.Save( False, True )
+	End If
+	Exit Sub
+ErrorHandler:
+	Call errorLog.PrintError( Err(), Erl(), Error )	
+End Sub
+
+
 '++LotusScript Development Environment:2:2:AddUserToNab:8:8
 %REM
 	Sub AddUserToNab
@@ -135,6 +243,9 @@ End Sub
 	@Return: no tiene es un sub
 %END REM
 Sub AddUserToNab(dbPeople As NotesDatabase, usuario As usr)
+	Dim errorLog As New ErrorLog( "AddUserToNab" )
+	On Error GoTo ErrorHandler
+	
 	Dim docPerson As NotesDocument
 	
 	Set docPerson = New NotesDocument( dbPeople )
@@ -151,7 +262,10 @@ Sub AddUserToNab(dbPeople As NotesDatabase, usuario As usr)
 	
 	Call docPerson.ComputeWithForm( False, False )
 	Call docPerson.Save( False, True )
+	Exit Sub
 	
+ErrorHandler:
+	Call errorLog.PrintError( Err(), Erl(), Error )	
 End Sub
 
 
@@ -163,105 +277,6 @@ End Sub
 
 
 
-'++LotusScript Development Environment:2:2:AddUserToGroup:9:8
-%REM
-	TODO: documentar
-	AddUserToGroup
-	Description: Agrega un usuario a un grupo
-	@Param: fullname ??
-	@Param: group ??  
-	@Return: nab - cual?
-%END REM
-Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As NotesDatabase )
-     
-     ' Load up our static groups view
-     
-     Dim groups As NotesView
-     
-     Set groups = nab.GetView( "Groups" )
-     
-     Dim groupMainDoc As NotesDocument
-     Set groupMainDoc = groups.GetDocumentByKey( group )
-     Dim saveGroupMainDoc As Integer
-     saveGroupMainDoc = False
-     
-     If groupMainDoc Is Nothing Then
-          Set groupMainDoc = New NotesDocument( nab )
-          groupMainDoc.Form = "Group"
-          groupMainDoc.ListName = group
-          groupMainDoc.Members = group & " 1"
-          groupMainDoc.GroupType = "0"
-          Call groupMainDoc.ComputeWithForm( False, False )
-          saveGroupMainDoc = True
-     End If
-     
-     Dim groupMainMembers As NotesItem
-     Set groupMainMembers = groupMainDoc.GetFirstItem( "Members" )
-     
-     ' Find last subgroup entry in the members list
-     
-     Dim subGroup As String
-     subGroup = ""
-     ForAll s In groupMainMembers.Values
-          If Left$( s, Len( group ) ) = group Then
-               subGroup = s
-          End If
-     End ForAll
-     
-     ' Open the subgroup, and keep trying until we find one with room
-     
-     Dim groupNum As Integer
-     groupNum = 0
-     
-     ' Which subgroup was the last one
-     If subGroup <> "" Then
-          groupNum = Val( Right( subGroup, Len( subGroup ) - Len( group ) - 1 ) )
-     Else
-          groupNum = 1
-          subGroup = group & " 1"
-     End If
-     
-     Dim groupSubDoc As NotesDocument
-     
-     Do
-          Set groupSubDoc = groups.GetDocumentByKey( subGroup )
-          
-          If groupSubDoc Is Nothing Then
-               ' Create a new subgroup document
-               Set groupSubDoc = New NotesDocument( nab )
-               groupSubDoc.Form = "Group"
-               groupSubDoc.ListName = subGroup
-               groupSubDoc.GroupType = "0"
-               Call groupSubDoc.ComputeWithForm( False, False )
-               
-               ' Add it to the main group if needed
-               If Not groupMainMembers.Contains( subGroup ) Then
-                    Call groupMainMembers.AppendToTextList( subGroup )
-                    saveGroupMainDoc = True
-               End If
-          End If
-          
-          ' See if the subgroup still has room, if so, we've found our subgroup
-          
-          Dim groupSubMembers As NotesItem
-          Set groupSubMembers = groupSubDoc.GetFirstItem( "Members" )
-          
-          If groupSubMembers.ValueLength < 10000 Then
-               Exit Do
-          End If
-          
-          ' If no room, try the next one
-          
-          groupNum = groupNum + 1
-          subGroup = group & " " & groupNum
-     Loop
-     
-     ' Finally: add the user to the subgroup
-     Call groupSubMembers.AppendToTextList( fullname )
-     Call groupSubDoc.Save( False, True )
-     
-     If saveGroupMainDoc Then
-          Call groupMainDoc.Save( False, True )
-     End If
-     
-End Sub
+
+
+
