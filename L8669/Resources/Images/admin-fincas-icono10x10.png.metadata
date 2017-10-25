@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="8325819F007B7B18" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="1ae" sequence="2" unid="65783F51479A4E48832581A3005C961F">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581C400577E0E" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="12e" sequence="2" unid="65783F51479A4E48832581A3005C961F">
 <created><datetime dst="true">20170922T145117,43-02</datetime></created>
-<modified><datetime dst="true">20170925T112940,24-02</datetime></modified>
+<modified><datetime dst="true">20171025T135542,53-02</datetime></modified>
 <revised><datetime dst="true">20170922T145117,44-02</datetime></revised>
-<lastaccessed><datetime dst="true">20170925T112940,24-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20170925T112940,24-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst="true">20171025T135542,53-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171025T135542,53-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$TITLE"><text>admin-fincas-icono10x10.png</text></item>

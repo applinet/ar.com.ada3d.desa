@@ -13,7 +13,6 @@ public class DocUsr {
 	private static final long serialVersionUID = 1L;
 	private final HashMap<String, String> _map;
 	private Vector usrSelected;
-	private boolean booChangeUsr;
 
 	public DocUsr() {
 		System.out.println("Constructor DocUsr");
@@ -31,8 +30,11 @@ public class DocUsr {
 					currentDB);
 			if (docUsuario != null) {
 				synchronized (this._map) {
+					this._map.put("userName", docUsuario
+							.getItemValueString("usr_UserName_des"));					
 					this._map.put("nombreyApellido", docUsuario
-							.getItemValueString("usr_NombreyApellido_des"));
+							.getItemValueString("usr_Nombre_des") + " " + docUsuario
+							.getItemValueString("usr_Apellido_des"));
 					this._map.put("userMaskName", docUsuario
 							.getItemValueString("usr_UserMaskName_des"));
 					this._map.put("userSequential", docUsuario
@@ -48,6 +50,13 @@ public class DocUsr {
 				/* getItemValue definirlo como Vector=import java.util.Vector */
 				docUsuario.recycle();
 				currentDB.recycle();
+			}else{
+				synchronized (this._map) {
+					this._map.put("userName", session.getEffectiveUserName());
+					this._map.put("userDB", currentDB.getFileName().substring(
+							currentDB.getFileName().length() - 8, 5));
+				}
+				
 			}
 		} catch (NotesException e) {
 			e.printStackTrace();
@@ -55,6 +64,14 @@ public class DocUsr {
 
 	}
 
+	public String getUser() {
+		String ret;
+		synchronized (this._map) {
+			ret = this._map.get("userName");
+		}
+		return ret;
+	}
+	
 	public String getNombre() {
 		String ret;
 		synchronized (this._map) {
@@ -118,7 +135,7 @@ public class DocUsr {
 				return null;
 			}
 			viewMenuPorUsuario = currentDB.getView(nombreVista);
-			docUsuario = viewMenuPorUsuario.getDocumentByKey(userName);
+			docUsuario = viewMenuPorUsuario.getDocumentByKey(userName, true);
 			if (docUsuario != null) {
 				viewMenuPorUsuario.recycle();
 				return docUsuario;
@@ -139,11 +156,4 @@ public class DocUsr {
 		return usrSelected;
 	}
 
-	public boolean isBooChangeUsr() {
-		return booChangeUsr;
-	}
-
-	public void setBooChangeUsr(boolean booChangeUsr) {
-		this.booChangeUsr = booChangeUsr;
-	}
 }

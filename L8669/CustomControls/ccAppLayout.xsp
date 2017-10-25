@@ -6,16 +6,19 @@
 		<xp:styleSheet href="/bootstrapSubmenu.css"></xp:styleSheet>
 		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
 	</xp:this.resources>
-	<xp:panel>
-		<xp:button value="Clear cache" id="button1" rendered="false">
-			<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
-				<xp:this.action><![CDATA[#{javascript:sessionScope.remove('menuList');}]]></xp:this.action>
-			</xp:eventHandler>
-		</xp:button>
-	</xp:panel>
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if (sessionScope.DocUsr) {
+	// Si el usuario cambió, reseteo la scope invalidandola
+	var currentUserName = DocUsr.getUser();
+	var userName = session.getEffectiveUserName();
+	if( currentUserName && userName !== currentUserName ){
+		facesContext.getExternalContext().getSession( false ).invalidate();
+	}   
+}}]]></xp:this.beforePageLoad>
+	
 	<xc:ccRolDesarrollo_Debug>
 		<xc:this.propertyFormName><![CDATA[#{javascript:"docUsrSeg"}]]></xc:this.propertyFormName>
 	</xc:ccRolDesarrollo_Debug>
+	
 	<xe:applicationLayout id="applicationLayout1">
 		<xp:callback facetName="facetMiddle" id="facetMiddle"></xp:callback>
 		<xe:this.facets>
@@ -52,8 +55,8 @@ if (dbConf != null){
 					</xe:repeatTreeNode>
 				</xe:this.bannerApplicationLinks>
 				<xe:this.bannerUtilityLinks>
-					<xe:basicContainerNode title="Configuración Usuario"
-						label="#{javascript:DocUsr.getUserMask();}">
+					<xe:basicContainerNode
+						label="#{javascript:return DocUsr.getUserMask();}">
 						<xe:this.children>
 							<xe:basicLeafNode>
 								<xe:this.href><![CDATA[#{javascript:var uName:NotesName = session.createName(session.getEffectiveUserName())
@@ -61,23 +64,23 @@ if(uName.getCommon() == "Anonymous") {
 	href = facesContext.getExternalContext().getRequest().getContextPath() + 
 	"?opendatabase&login=1"
 } else {
-	sessionScope.remove("DocUsr");
-	print("Scope Removida");
 	sessionScope.remove("menuList");
 	href = facesContext.getExternalContext().getRequest().getContextPath() + 
 	"?Logout&redirectTo=" + facesContext.getExternalContext().getRequest().getContextPath()
-//	href = facesContext.getExternalContext().getRequest().getContextPath() + 
-//	"?Logout&redirectTo=" + applicationScope.get("urlNavegador");
 }}]]></xe:this.href>
 								<xe:this.label><![CDATA[#{javascript:var uName:NotesName = session.createName(session.getEffectiveUserName())
 if(uName.getCommon() == "Anonymous"){
-return "Login"
+	return "Login"
 }else{
-return "Desconectar usuario: " + DocUsr.getUserMask()}
+	return "Desconectar usuario: " + DocUsr.getUserMask(); 
+}
 }]]></xe:this.label>
 							</xe:basicLeafNode>
-							<xe:basicLeafNode label="Cambiar contraseña"></xe:basicLeafNode>
+							<xe:basicLeafNode
+								label="Cambiar contraseña">
+							</xe:basicLeafNode>
 						</xe:this.children>
+
 					</xe:basicContainerNode>
 				</xe:this.bannerUtilityLinks>
 				<xe:this.placeBarActions></xe:this.placeBarActions>

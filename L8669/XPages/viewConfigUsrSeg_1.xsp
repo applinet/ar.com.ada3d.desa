@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!--
+		Datasource - Vista: v.UI.Menu.porEstadoUsuario - Form asociado:
+		frmConfigUsrSeg.xsp
+	-->
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if (!viewScope.categoriaEstadoUsuarios) {
+	viewScope.put("categoriaEstadoUsuarios", "1");
+}}]]></xp:this.beforePageLoad>
+	<xe:this.data>
+		<xp:dominoView var="view1" ignoreRequestParams="true"
+			viewName="v.UI.Menu.porEstadoUsuario">
+			<xp:this.categoryFilter><![CDATA[#{javascript:if(!viewScope.categoriaEstadoUsuarios || viewScope.categoriaEstadoUsuarios == '-')
+return "";
+viewScope.get("categoriaEstadoUsuarios");}]]></xp:this.categoryFilter>
+
+		</xp:dominoView>
+	</xe:this.data>
+	<xp:this.resources>
+		<xp:styleSheet href="/cuadros.css"></xp:styleSheet>
+	</xp:this.resources>
+	<xc:ccAppLayout>
+		<xp:this.facets>
+			<xe:navigator id="navMenu" xp:key="facetLeft">
+				<xe:this.treeNodes>
+					<xe:basicLeafNode label="Activos" submitValue="1"
+						selected="#{javascript:viewScope.categoriaEstadoUsuarios.equals('1')}">
+					</xe:basicLeafNode>
+					<xe:basicLeafNode label="Inactivos" submitValue="0"
+						selected="#{javascript:viewScope.categoriaEstadoUsuarios.equals('0')}">
+					</xe:basicLeafNode>
+					<xe:basicLeafNode label="Todos" submitValue="-"
+						selected="#{javascript:viewScope.categoriaEstadoUsuarios.equals('-')}">
+					</xe:basicLeafNode>
+				</xe:this.treeNodes>
+				<xp:eventHandler event="onItemClick" submit="true"
+					refreshMode="partial" refreshId="PNL_Content">
+					<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:navMenu}");]]></xp:this.onComplete>
+					<xe:this.action><![CDATA[#{javascript:viewScope.categoriaEstadoUsuarios =context.getSubmittedValue()}]]></xe:this.action>
+				</xp:eventHandler>
+			</xe:navigator>
+			<xp:panel id="PNL_Content" xp:key="facetMiddle"
+				style="padding-right:20.0%">
+
+				<div class="row">
+					<xp:repeat id="repeat1" rows="30" var="rowData"
+						disableOutputTag="true" value="#{view1}">
+						<div
+							class="col-xs-12 col-lg-3 col-md-3 col-sm-6">
+							<div class="col-inner">
+								<xp:repeat id="repeat2" rows="30"
+									value="#{javascript:view1.getColumnNames()}" var="colnames"
+									disableOutputTag="true" first="0" indexVar="i">
+									<xp:text escape="true"
+										id="computedField2" value="#{javascript:colnames}"
+										styleClass="viewlabel">
+									</xp:text>
+									&#160;
+									<xp:link escape="true"
+										text="#{javascript:rowData.getColumnValue(colnames)}"
+										id="link2" rendered="#{javascript:i==1}">
+										<xp:this.value><![CDATA[#{javascript:"frmConfigUsrSeg.xsp?action=openDocument&documentId=" + rowData.getNoteID()}]]></xp:this.value>
+									</xp:link>
+									<xp:text escape="true"
+										id="computedField1" title="#{javascript:colnames}">
+										<xp:this.value><![CDATA[#{javascript:rowData.getColumnValue(colnames)}]]></xp:this.value>
+										<xp:this.rendered><![CDATA[#{javascript:i>0}]]></xp:this.rendered>
+									</xp:text>
+									<br />
+								</xp:repeat>
+							</div>
+						</div>
+					</xp:repeat>
+				</div>
+
+			</xp:panel>
+		</xp:this.facets>
+	</xc:ccAppLayout>
+</xp:view>

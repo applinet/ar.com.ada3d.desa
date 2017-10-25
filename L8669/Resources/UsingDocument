@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='helpusingdocument' xmlns='http://www.lotus.com/dxl'
- version='9.0' maintenanceversion='1.0' replicaid='8325819F007B7B18'>
+ version='9.0' maintenanceversion='1.9' replicaid='832581C400577E0E'>
 <noteinfo noteid='122' unid='000001753D049D4685255BAC0056254C' sequence='19'>
 <created><datetime dst='true'>19910212T114056,44-04</datetime></created>
-<modified><datetime dst='true'>20170918T202844,80-02</datetime></modified>
+<modified><datetime dst='true'>20171025T135542,47-02</datetime></modified>
 <revised><datetime dst='true'>20021125T173224,23-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20170918T202844,80-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20170918T202844,80-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171025T135542,47-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171025T135542,47-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=greed1/O=miketest</name><name>CN=Lotus Notes Template Development/O=Lotus Notes</name></updatedby>
 <wassignedby><name>CN=Lotus Notes Template Development/O=Lotus Notes</name></wassignedby>
 <item name='$INFO' sign='true'>

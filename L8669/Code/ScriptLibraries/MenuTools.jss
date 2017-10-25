@@ -6,12 +6,8 @@ var menuTools = {
             sessionScope.put("menuList", new java.util.HashMap());
         }
         if (sessionScope.menuList.containsKey(menuName)) {
-        	//print("hace un return sin actualizar nada");
-        	//print("beanSegu=" + DocUsr.isUsrSeg());
             return sessionScope.menuList.get(menuName);
         }
-        //print("managed bean getNombre=" + DocUsr.getNombre());
-       // print("managed bean es seguridad=" + DocUsr.isUsrSeg());
         
         /* Devuelve las entradas de menú basandose en una vista que toma de configuración*/
         var viewClave:NotesView = nsf.getView(getOpcionesClave("VIEW_MODULOS", "codigo")[0]); //vista 'vModulosTreeview'
@@ -19,6 +15,12 @@ var menuTools = {
         var viewEntry = viewNav.getFirst();
         var result = [];
         var menuSelected:java.util.Vector = getCodigoMenuSelected();
+        if (menuSelected.isEmpty()) {
+        	if(userBean.accessRoles.toString().contains('[usrInitial]').equals(false)){
+	        	addFacesMessage("No se pudo cargar el menú o todavia no ha creado el usuario de seguridad.", null, "FATAL")
+        	}
+        	return;
+        }
         var strMenuAlias:String = "";
              
         while (viewEntry != null) {
@@ -80,4 +82,5 @@ function getCodigoMenuSelected():java.util.Vector{
 	if (docUsuario != null){
 		return docUsuario.getItemValue("usr_MenuSelected_cod");
 	}
+	return new java.util.Vector // Devuelvo un Vector vacio para despues validar
 }	

@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="8325819F007B7B18" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="2ba" sequence="8" unid="065940C62999CEBC832581A70050F9E0">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581C400577E0E" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1e6" sequence="9" unid="065940C62999CEBC832581A70050F9E0">
 <created><datetime dst="true">20170926T124428,48-02</datetime></created>
-<modified><datetime dst="true">20170926T124611,23-02</datetime></modified>
-<revised><datetime dst="true">20170926T124611,22-02</datetime></revised>
-<lastaccessed><datetime dst="true">20170926T124611,23-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20170926T124428,49-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst="true">20171025T135543,45-02</datetime></modified>
+<revised><datetime dst="true">20171024T122342,51-02</datetime></revised>
+<lastaccessed><datetime dst="true">20171025T135543,45-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171025T135543,45-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$TITLE"><text>picklist.xsp</text></item>
@@ -14,9 +14,9 @@
 <item name="$FileNames" sign="true"><text>picklist.xsp</text></item>
 
 
+
+
+
 <item name="$DesignerVersion"><text>9.0.1</text></item>
-
-
-
 
 </note>

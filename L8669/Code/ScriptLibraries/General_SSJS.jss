@@ -7,6 +7,29 @@ function getDbCfg ():NotesDatabase {
 	return getDbByKey ("Configuracion");
 }
 
+/* Es un nombre corto para obtener la base de usuarios */
+function getAdaNames ():NotesDatabase{
+		return getDbFromConfigByKey("DB_NAB_PEOPLE");
+}
+
+/* Chequea si el usuario a crear existe en la libreta de direcciones ADA_NAMES
+ * Recibe como parametro el nombre de usuario a crear
+ * Devuelve veradero o falso
+ */
+function isUserNameAvailable(paramUserName:String):boolean {
+	try{
+		var viewUsuarios:NotesView = getAdaNames().getView("($VIMPeople)");
+		var docUsuario:NotesDocument = viewUsuarios.getDocumentByKey(paramUserName, true);
+		if (docUsuario == null){
+			return true;
+		}else{
+			return false;	
+		}
+	} catch(e) {
+        addFacesMessage(e.toString(), null, "FATAL")
+	}
+}
+
 
 /* Obtiene del documento de configuracion el server y el path
  * Recibe como parametro la clave del documento a buscar que viene de la funcion anterior
@@ -14,10 +37,29 @@ function getDbCfg ():NotesDatabase {
  */
 function getDbByKey (strKey:String):NotesDatabase {
 	var viewCfg:NotesView = session.getCurrentDatabase().getView("v.Sys.Cfg");
-	var docCfg:NotesDocument = viewCfg.getDocumentByKey(strKey);
+	var docCfg:NotesDocument = viewCfg.getDocumentByKey(strKey, true);
 	var strServer:String = docCfg.getItemValueString("conf_server");
 	var strPath:String = docCfg.getItemValueString("conf_path");
 	return session.getDatabase(strServer, strPath, false);
+}
+
+/* Recibe como parametro la clave del documento a buscar entre las bases de Configuracion
+ * Devuelve una base de datos
+ */
+function getDbFromConfigByKey (strKey:String):NotesDatabase {
+	try{		
+		var viewCfg:NotesView = getDbCfg().getView ("v.Sys.Opciones.Clave");
+		var docServer:NotesDocument = viewCfg.getDocumentByKey("ADA3D_SERVER", true);
+		var docCfg:NotesDocument = viewCfg.getDocumentByKey(strKey, true);
+		var strServer:String = docServer.getItemValueString("opt_Codigo_des");
+		var strPath:String = docCfg.getItemValueString("opt_Codigo_des");
+		if (strServer.equals('') || strPath.equals('')) 
+			addFacesMessage("No se ha encontrado la base de Configuración", null, "FATAL")
+		return session.getDatabase(strServer, strPath, false);
+		
+	} catch(e) {
+        addFacesMessage(e.toString(), null, "FATAL")
+ }
 }
 
 /* Carga en una sessionScope la base que corresponde que obtiene de configuracion ********************/
@@ -27,7 +69,7 @@ function setDbsPathVariables () {
 /*Continuacion de la funcion anterior*/
 function setDbPath (strSesScopeVar:String, strKey:String) {
 	var viewCfg:NotesView = session.getCurrentDatabase().getView("v.Sys.Cfg");
-	var docCfg:NotesDocument = viewCfg.getDocumentByKey(strKey)
+	var docCfg:NotesDocument = viewCfg.getDocumentByKey(strKey, true)
 	var strServer:String = docCfg.getItemValueString("conf_server");
 	var strPath:String = docCfg.getItemValueString("conf_path");
 	var dbGet:NotesDatabase = session.getDatabase(strServer, strPath);
@@ -67,7 +109,7 @@ function isUserActive():boolean{
 /*Devuelve el documento de usuario de la base de administracion***************************/
 function getUserDocument():NotesDocument {
 	var viewMenuPorUsuario:NotesView = database.getView(getOpcionesClave("VIEW_USUARIOS_POR_ADMINISTRACION", "codigo")[0]);
-	var docUsuario:NotesDocument = viewMenuPorUsuario.getDocumentByKey(context.getUser().getFullName());
+	var docUsuario:NotesDocument = viewMenuPorUsuario.getDocumentByKey(context.getUser().getFullName(), true);
 	if (docUsuario != null){
 		viewMenuPorUsuario.recycle();
 		return docUsuario;
@@ -128,7 +170,7 @@ function getOptionLabel (strOptionKey:String, strOptionCode:String) {
 	}
 	
 	var vOpciones:NotesView = getDbCfg().getView ("v.Sys.Opciones.ClaveCodigo");
-	var docOpt:NotesDocument = vOpciones.getDocumentByKey(strOptionKey + strOptionCode);
+	var docOpt:NotesDocument = vOpciones.getDocumentByKey(strOptionKey + strOptionCode, true);
 	return (docOpt.getItemValueString("opt_Nombre_des"));
 	
 }
@@ -148,7 +190,7 @@ function getFechaSinHora (dtFec:java.util.Date):java.util.Date {
  * A partir de un alias y de un array, busca ese alias en el array
  * y devuelve el Label asociado.
  * 
- * strOptions_array - Array donde se espera encontrar en cada posición
+ * strOptions_array - Array donde se espera encontrar en cada posiciÃ³n
  * un string con el Label a la izquierda y el Alias a la derecha, 
  * separados por un Pipe.  Ejemplo: [Frutillas|1], [Naranjas|2]
  * 
@@ -223,7 +265,7 @@ function getYMD (dtFecha:NotesDateTime, strSep:String):String {
 
 function getStatusLabel(codStatus:String){
 	var vOpciones:NotesView = getDbCfg().getView ("v.Sys.vLK_EstadosOrdenados");
-	var docOpt:NotesDocument = vOpciones.getDocumentByKey(codStatus);
+	var docOpt:NotesDocument = vOpciones.getDocumentByKey(codStatus, true);
 	var result:String = docOpt.getItemValueString("est_Nombre_des");
 	vOpciones.recycle();
 	docOpt.recycle();
@@ -235,7 +277,7 @@ function isStatusCheckFlag(codStatus:String, flag:String){
 	//Busca si el estado tiene el check de emision
 	var result:Boolean = false;
 	var vEstados:NotesView = getDbCfg().getView ("v.Sys.LK_EstadosCodigo");
-	var docEstado:NotesDocument = vEstados.getDocumentByKey(codStatus);
+	var docEstado:NotesDocument = vEstados.getDocumentByKey(codStatus, true);
 	if (docEstado != null){
 		var marca:String = docEstado.getItemValueString(flag);
 		if (marca == "1"){result = true}
@@ -358,7 +400,7 @@ function getList() {
                 }
                 list = list + closure;
                 list = list + "<li class=\'dropdown-submenu\''>";
-                list = list + "<a href=\'#\' tabindex=\”-1\'>" + entryValue + "</a>";
+                list = list + "<a href=\'#\' tabindex=\â€�-1\'>" + entryValue + "</a>";
                 list = list + "<ul id=\'" + entryValue + "\' class=\'dropdown-menu\'>";
                 //increase counter
                 countLevel = curLevel + 1;
@@ -394,4 +436,32 @@ function getList() {
     } else {
         return "no documents found";
     }
+}
+
+function addFacesMessage(message, component, severidad){
+	try { 
+		if(typeof component === 'string' ){
+			component = getComponent(component);
+		}
+
+		var clientId = null;
+		if (component) {
+			clientId = component.getClientId(facesContext);
+		}
+		switch(severidad){
+		case "INFO":
+			var type = javax.faces.application.FacesMessage.SEVERITY_INFO;		 
+		case "WARNING":
+			var type = javax.faces.application.FacesMessage.SEVERITY_WARN;
+		case "ERROR":
+			var type = javax.faces.application.FacesMessage.SEVERITY_ERROR;	
+		case "FATAL":
+			var type = javax.faces.application.FacesMessage.SEVERITY_FATAL;		 	
+		}
+		facesContext.addMessage(clientId,
+		   new javax.faces.application.FacesMessage(type, message, ""));
+	 } catch(e) {
+	        var msgObj = new javax.faces.application.FacesMessage(javax.faces.application.FacesMessage.SEVERITY_ERROR, e.toString(), e.toString() );
+	        facesContext.addMessage(null, msgObj);
+	 }      
 }

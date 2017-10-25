@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='8325819F007B7B18'>
-<noteinfo noteid='472' unid='473F9C1F9F29DEEF832581AF0072EA4A' sequence='36'>
+<note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
+ replicaid='832581C400577E0E'>
+<noteinfo noteid='24e' unid='473F9C1F9F29DEEF832581AF0072EA4A' sequence='36'>
 <created><datetime dst='true'>20171004T185510,82-02</datetime></created>
-<modified><datetime dst='true'>20171005T120733,03-02</datetime></modified>
+<modified><datetime dst='true'>20171025T135543,93-02</datetime></modified>
 <revised><datetime dst='true'>20171005T120733,02-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171005T120733,03-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171004T185510,86-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171025T135543,93-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171025T135543,93-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$TITLE' sign='true'><text>(Crear Usuario AdaNab Externo)|a.NewUserExt</text></item>
@@ -34,12 +34,12 @@ gQYAAAAA
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$AssistRunInfo' summary='true'>
 <rawitemdata type='3'>
-BgABAAAACADWBAAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAzgAAAAAAAAAAAAAAAAAAABAAAAAA
-AAAARFtuALCBJYMAAAAAd5hNALCBJYMYe3sAn4ElgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
+BgAAAgAACABKAgAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAzgAAAAAAAAAAAAAAAAAAABAAAAAA
+AAAA9GJ8AMSBJYMAAAAA+X9XAMSBJYMOflcAxIElgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
 ZCBydW5uaW5nIGFnZW50ICcoQ3JlYXIgVXN1YXJpbyBBZGFOYWIgRXh0ZXJubyl8YS5OZXdVc2Vy
-RXh0JyBvbiAxMC8wNS8yMDE3IDE4OjA1OjE3DQpSYW4gTG90dXNTY3JpcHQgY29kZQ0KRG9uZSBy
+RXh0JyBvbiAxMC8yNS8yMDE3IDIwOjM4OjI4DQpSYW4gTG90dXNTY3JpcHQgY29kZQ0KRG9uZSBy
 dW5uaW5nIGFnZW50ICcoQ3JlYXIgVXN1YXJpbyBBZGFOYWIgRXh0ZXJubyl8YS5OZXdVc2VyRXh0
-JyBvbiAxMC8wNS8yMDE3IDE4OjA1OjIzDQoADQrWftsBefPkQgB4CbSDJYGvLK1bkKlUdACvgSWD
+JyBvbiAxMC8yNS8yMDE3IDIwOjM4OjM3DQoADQrWftsBefPkQgB4CbSDJYGvLK1bkKlUdACvgSWD
 XffqrMHyPFFQeMW8/o8BqVIATv8ngDbJ1aezj3GoyB7IU3LkgOHXkIBWzvq/GMCnjfNy4oN+GN4o
 KjZwaI1mQO97tbl6f43qZptdO/yKnIxhoIOsPxI4iVjGlhUZAgMBAAGAAM1HQCtp3Jjbpjdy7YBb
 xOFyu8y8NFTW/7MFn1zFHZGCafsRze2keS8YTV3dCUvdDx5JNkQBlszw73kxZahcSXZrvk18rDh2

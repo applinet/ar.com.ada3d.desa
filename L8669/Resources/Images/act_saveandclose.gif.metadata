@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="8325819F007B7B18" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="1aa" sequence="2" unid="5E0458FBD8525896832581A100625390">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581C400577E0E" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="12a" sequence="2" unid="5E0458FBD8525896832581A100625390">
 <created><datetime dst="true">20170920T155359,20-02</datetime></created>
-<modified><datetime dst="true">20170925T112940,22-02</datetime></modified>
+<modified><datetime dst="true">20171025T135542,51-02</datetime></modified>
 <revised><datetime dst="true">20170920T155359,32-02</datetime></revised>
-<lastaccessed><datetime dst="true">20170925T112940,22-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20170925T112940,22-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst="true">20171025T135542,51-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171025T135542,51-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Thomas Schulte/O=AGS</name><name>CN=Tim Pistor/O=AGS</name><name>CN=Fernando Rodriguez/O=SEGUROS</name><name>CN=Fernando Rodriguez/O=axin</name><name>CN=Fernando Rodriguez/O=SASA</name><name>CN=Notes Standard Control/O=SASA</name><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
 <wassignedby><name>CN=Fernando Rodriguez/O=SASA</name></wassignedby>
 <item name="$TITLE"><text>act_saveandclose.gif</text></item>

@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='8325819F007B7B18'>
-<noteinfo noteid='346' unid='FFBF5CA761B4EFF8832581A900724144' sequence='18'>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
+ replicaid='832581C400577E0E'>
+<noteinfo noteid='216' unid='FFBF5CA761B4EFF8832581A900724144' sequence='20'>
 <created><datetime dst='true'>20170928T184758,12-02</datetime></created>
-<modified><datetime dst='true'>20171005T120733,12-02</datetime></modified>
-<revised><datetime dst='true'>20171005T120733,11-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171005T120733,12-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20170928T184758,19-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst='true'>20171025T135543,67-02</datetime></modified>
+<revised><datetime dst='true'>20171013T111241,92-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171025T135543,67-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171025T135543,67-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$HTMLCode' sign='true'>
@@ -39,13 +39,13 @@ cHkgYXMgX1RhYmxlEADufL7/IAAAAAUAAACdAQAABgAAAAAAAABQX2FzdGURAP58vv8gAAAABQAA
 AJ0BAAAFAAAAAAAAAF9PcGVuABIADn2+/yIAAAAFAAAAnQEAAAgAAAAAAAAAQm9va21hcmsTAB59
 </rawitemdata></item>
 <item name='$PublicAccess' sign='true'><text>1</text></item>
-<item name='$TITLE' sign='true'><text>$$ViewTemplateDefault</text></item>
-<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
 <item name='$$ScriptName' summary='false' sign='true'><text>$$ViewTemplateDefault</text></item>
 <item name='$BODY' sign='true'>
 <rawitemdata type='1'>
 gQKC/1oAAQAAAAAAAAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAABAAAAAJSHAAAAAAAAAAAAAAAAAQAAAAQAAACDBAEAhf8VAAEAAApOYWRhIHBhcmEg
 dmVyAA==
-</rawitemdata></item></note>
+</rawitemdata></item>
+<item name='$TITLE' sign='true'><text>old_$$ViewTemplateDefault</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item></note>
 

@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='8325819F007B7B18'>
-<noteinfo noteid='1e2' unid='5893630B3993A040832581A20046EA35' sequence='17'>
+<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
+ replicaid='832581C400577E0E'>
+<noteinfo noteid='152' unid='5893630B3993A040832581A20046EA35' sequence='17'>
 <created><datetime dst='true'>20170921T105434,77-02</datetime></created>
-<modified><datetime dst='true'>20171005T120733,32-02</datetime></modified>
+<modified><datetime dst='true'>20171025T135542,71-02</datetime></modified>
 <revised><datetime dst='true'>20171005T120733,31-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171005T120733,32-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20170925T112940,50-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171025T135631,30-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171025T135542,71-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$FORMULACLASS' sign='true'><text>1</text></item>

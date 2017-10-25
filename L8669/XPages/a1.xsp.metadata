@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="8325819F007B7B18" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="296" sequence="40" unid="E604E72FB2ABD7D9832581A600778704">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581C400577E0E" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1ce" sequence="41" unid="E604E72FB2ABD7D9832581A600778704">
 <created><datetime dst="true">20170925T194533,48-02</datetime></created>
-<modified><datetime dst="true">20171005T132457,37-02</datetime></modified>
-<revised><datetime dst="true">20171005T132457,36-02</datetime></revised>
-<lastaccessed><datetime dst="true">20171005T132457,37-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20170925T194533,49-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst="true">20171025T135543,33-02</datetime></modified>
+<revised><datetime dst="true">20171024T122342,86-02</datetime></revised>
+<lastaccessed><datetime dst="true">20171025T135543,33-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171025T135543,33-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$Flags"><text>gC~4K</text></item>

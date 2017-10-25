@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="8325819F007B7B18" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="2e6" sequence="3" unid="BA441F8F49361DC8832581A8006C2193">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581C400577E0E" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1fa" sequence="3" unid="BA441F8F49361DC8832581A8006C2193">
 <created><datetime dst="true">20170927T174104,83-02</datetime></created>
-<modified><datetime dst="true">20170927T174142,04-02</datetime></modified>
+<modified><datetime dst="true">20171025T135543,55-02</datetime></modified>
 <revised><datetime dst="true">20170927T174142,03-02</datetime></revised>
-<lastaccessed><datetime dst="true">20170927T174142,04-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20170927T174104,85-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst="true">20171025T135543,55-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171025T135543,55-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$Flags"><text>34CiQ</text></item>

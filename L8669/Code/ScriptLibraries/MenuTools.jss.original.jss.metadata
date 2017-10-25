@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.0" replicaid="8325819F007B7B18" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="21e" sequence="6" unid="460A5809F928AEE1832581A2004F5BAF">
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.9" replicaid="832581C400577E0E" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="17e" sequence="6" unid="460A5809F928AEE1832581A2004F5BAF">
 <created><datetime dst="true">20170921T122648,15-02</datetime></created>
-<modified><datetime dst="true">20170929T090623,50-02</datetime></modified>
+<modified><datetime dst="true">20171025T135542,93-02</datetime></modified>
 <revised><datetime dst="true">20170929T090623,49-02</datetime></revised>
-<lastaccessed><datetime dst="true">20170929T090623,50-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20170925T112940,82-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst="true">20171025T135542,93-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171025T135542,93-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$POID"><datetime dst="true">20170921T122713,42-02</datetime></item>

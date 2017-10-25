@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.0" replicaid="8325819F007B7B18" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="3f2" sequence="14" unid="6D41235144B4355D832581AF00662DD8">
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.9" replicaid="832581C400577E0E" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="232" sequence="16" unid="6D41235144B4355D832581AF00662DD8">
 <created><datetime dst="true">20171004T163604,08-02</datetime></created>
-<modified><datetime dst="true">20171005T120732,90-02</datetime></modified>
-<revised><datetime dst="true">20171005T120732,89-02</datetime></revised>
-<lastaccessed><datetime dst="true">20171005T120732,90-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20171004T163604,11-02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Fernando Rodriguez/O=SASA</name><name>CN=ADMINISTRADOR DOMINO/O=SASA</name><name>CN=Notes Standard Control/O=SASA</name></updatedby>
-<wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
+<modified><datetime dst="true">20171025T135543,81-02</datetime></modified>
+<revised><datetime dst="true">20171018T201752,18-02</datetime></revised>
+<lastaccessed><datetime dst="true">20171025T135543,81-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171025T135543,81-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Fernando Rodriguez/O=SASA</name><name>CN=ADMINISTRADOR DOMINO/O=SASA</name><name>CN=Notes Standard Control/O=SASA</name><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
+<wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
 <item name="$PublicAccess" sign="true"><text>1</text></item>
 <item name="$Flags"><text>s34Q</text></item>
 <item name="$TITLE" sign="true"><text>CfgClass.ls</text></item>
