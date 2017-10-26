@@ -7,22 +7,36 @@
 	<xc:ccAppLayout>
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle" id="PNL_Central">
-				<div class="jumbotron jumbotron-ad hidden-print">
-					<div class="container">
-						<h1>
-							<i styleclass="fa fa-flag"></i>
-							Bienvenido a ADA3D
-						</h1>
+				<xp:panel id="PNL_UsuarioSeguridad">
+					<xp:this.rendered><![CDATA[#{javascript:userBean.accessRoles.toString().contains('[usrInitial]')}]]></xp:this.rendered>
+					<div class="jumbotron jumbotron-ad hidden-print">
+						<div class="container">
+							<h1>
+								<i styleclass="fa fa-flag"></i>
+								Bienvenido a ADA3D
+							</h1>
+						</div>
 					</div>
-				</div>
-				<h2 class="page-header">Primeros pasos</h2>
-				Deberá crear su usuario de seguridad bla bla bla bla
-				<div styleclass="row fontawesome-icon-list">
-					<xp:link escape="true"
-						text="Crear usuario de Seguridad" id="link1"
-						value="/frmConfigUsrSeg.xsp">
-					</xp:link>
-				</div>
+					<h2 class="page-header">Primeros pasos</h2>
+					Deberá crear su usuario de seguridad bla bla bla bla
+					<div styleclass="row fontawesome-icon-list">
+						<xp:link escape="true"
+							text="Crear usuario de Seguridad" id="link1"
+							value="/frmConfigUsrSeg.xsp">
+						</xp:link>
+					</div>
+				</xp:panel>
+				<xp:panel id="PNL_Home">
+					<xp:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xp:this.rendered>
+					<div class="jumbotron jumbotron-ad hidden-print">
+						<div class="container">
+							<h1>
+								<i styleclass="fa fa-flag"></i>
+								Home usuario no inicial
+							</h1>
+						</div>
+					</div>
+				</xp:panel>
 			</xp:panel>
 		</xp:this.facets>
 	</xc:ccAppLayout>

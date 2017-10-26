@@ -2,14 +2,7 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
   
   <xp:scriptBlock id="scriptBlock1">
-    <xp:this.value><![CDATA[
-  
-//Bootstrap Standby Dialog V.1.1
-//Code Compile by Fredrik Norling www.xpagedeveloper.com
-//used with permission from the authors of the original code
-//http://dontpanic82.blogspot.com/2010/01/xpages-hijackingpublishing-partial.html
-//http://lotusnotus.com/lotusnotus_en.nsf/dx/xpages-tip-a-modal-waiting-dialog-for-background-processes..htm
-var init_hijackAndPublishPartialRefresh = false;
+  	<xp:this.value><![CDATA[var init_hijackAndPublishPartialRefresh = false;
 if (typeof hijackAndPublishPartialRefresh != 'function') {
     //Load only once check
     init_hijackAndPublishPartialRefresh = true;
@@ -141,7 +134,7 @@ this.StandbyDialog_Enable=function() {
     try {
     $('body').append('<div id="StandbyDialogModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="overflow-y:visible;">' +
         '<div class="modal-dialog modal-m"><div class="modal-content">' +
-        '<div class="modal-header"><button onClick="StandbyDlg.StandbyDialog_Completed()" type="button" class="close" data-dismiss="modal">&times;</button><H4>Please Wait Loading...</H4></div><div class="modal-body">' +
+        '<div class="modal-header"><button onClick="StandbyDlg.StandbyDialog_Completed()" type="button" class="close" data-dismiss="modal">&times;</button><H4>Procesando... </H4></div><div class="modal-body">' +
         '<div class="progress progress-striped active" style="margin-bottom:0;">' +
         '<div class="progress-bar" style="width: 100%"></div></div></div></div></div></div>')
         //dojo-subscribe('onfocus',null,function(method,form,refreshId){FieldOnfocus()})

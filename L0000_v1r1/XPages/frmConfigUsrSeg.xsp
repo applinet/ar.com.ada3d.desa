@@ -18,10 +18,9 @@
 		</xp:dominoDocument>
 	</xp:this.data>
 	<xp:this.resources>
-		<xp:dojoModule name="extlib.dijit.ExtLib"></xp:dojoModule>
-        <xp:dojoModule name="extlib.dijit.Loading"></xp:dojoModule>
 		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
 	</xp:this.resources>
+	<xc:ccFXstandBy></xc:ccFXstandBy>
 	<xc:ccAppLayout>
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle" style="padding-left:20.0%;padding-right:20.0%">
@@ -218,7 +217,7 @@ if (docUsrSeg.isEditable() && docUsrSeg.isNewNote()){ //Solo lo muestro en el se
 return docUsrSeg.isEditable() }]]>
 								</xp:this.rendered>
 								<xp:eventHandler event="onclick"
-									submit="true" refreshMode="complete">
+									submit="true" refreshMode="partial">
 									<xp:this.action><![CDATA[#{javascript:var isNew:boolean = docUsrSeg.isNewNote(); 
 if (isNew){
 	if(userBean.accessRoles.toString().contains('[usrInitial]'))
@@ -241,6 +240,7 @@ if (isNew){
 
 if(userBean.accessRoles.toString().contains('[usrInitial]')){
 	/*Fuerzo un logOut*/
+	sessionScope.remove("menuList");
 	var appUrl = facesContext.getExternalContext().getRequest().getContextPath();
 	var url = appUrl + "?logout&redirectto=" + appUrl;
 	facesContext.getExternalContext().redirect(url);
@@ -248,9 +248,6 @@ if(userBean.accessRoles.toString().contains('[usrInitial]')){
 	context.redirectToPage(getOpcionesClave("VIEW_UI_USUARIOS_HOME", "codigo")[0]);
 
 }}]]></xp:this.action>
- 			<xp:this.onStart><![CDATA[XSP.startAjaxLoading()]]></xp:this.onStart>
-            <xp:this.onComplete><![CDATA[XSP.endAjaxLoading()]]></xp:this.onComplete>
-            <xp:this.onError><![CDATA[XSP.endAjaxLoading()]]></xp:this.onError>
 								</xp:eventHandler>
 							</xp:button>
 							<xp:button value="Editar" id="btnEdit">

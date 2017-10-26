@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" style="margin:200px"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	
+	<xp:this.resources>
+		<xp:dojoModule name="extlib.dijit.Loading" />
+	</xp:this.resources>
+	<xc:ccAppLayout><xp:this.facets>
+	<xp:panel style="width:767.0px;height:91.0px"
+		xp:key="facetMiddle">
+		<xp:button id="button1" value="Show time in 3 seconds">
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="partial" refreshId="panel1">
+				<xp:this.action><![CDATA[#{javascript:
+                viewScope.clickTime = new Date();
+                var waitUntil = viewScope.clickTime.getTime() + 3000; 
+                while(waitUntil > new Date().getTime()) {
+                    // wait 3 seconds
+                }
+            }]]></xp:this.action>
+				<xp:this.onStart><![CDATA[XSP.startAjaxLoading()]]></xp:this.onStart>
+				<xp:this.onComplete><![CDATA[XSP.endAjaxLoading()]]></xp:this.onComplete>
+				<xp:this.onError><![CDATA[XSP.endAjaxLoading()]]></xp:this.onError>
+			</xp:eventHandler>
+		</xp:button>
+		<xp:panel id="panel1">
+			<xp:text escape="true" id="computedField1"
+				value="#{viewScope.clickTime}" style="font-size:48pt">
+				<xp:this.converter>
+					<xp:convertDateTime type="both" />
+				</xp:this.converter>
+			</xp:text>
+		</xp:panel>
+	</xp:panel></xp:this.facets></xc:ccAppLayout>
+	
+
+</xp:view>
