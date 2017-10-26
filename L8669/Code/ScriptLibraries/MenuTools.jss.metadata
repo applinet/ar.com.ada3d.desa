@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.9" replicaid="832581C400577E0E" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="17a" sequence="106" unid="28943E0C81823595832581A1006BA967">
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.9" replicaid="832581C5005B9E56" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="17a" sequence="108" unid="28943E0C81823595832581A1006BA967">
 <created><datetime dst="true">20170920T173557,19-02</datetime></created>
-<modified><datetime dst="true">20171025T194854,91-02</datetime></modified>
-<revised><datetime dst="true">20171025T194727,58-02</datetime></revised>
-<lastaccessed><datetime dst="true">20171025T194854,91-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20171025T135542,91-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst="true">20171026T144620,93-02</datetime></modified>
+<revised><datetime dst="true">20171026T144150,43-02</datetime></revised>
+<lastaccessed><datetime dst="true">20171026T144620,93-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171026T144043,91-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$TITLE" sign="true"><text>MenuTools.jss</text></item>
@@ -12,4 +12,4 @@
 <item name="$PublicAccess" sign="true"><text>1</text></item>
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
-<item name="$POID"><datetime dst="true">20171025T194727,58-02</datetime></item></note>
+<item name="$POID"><datetime dst="true">20171026T144150,43-02</datetime></item></note>

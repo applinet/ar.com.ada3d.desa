@@ -81,6 +81,7 @@ if(uName.getCommon() == "Anonymous"){
 							</xe:basicLeafNode>
 						</xe:this.children>
 
+						<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
 					</xe:basicContainerNode>
 				</xe:this.bannerUtilityLinks>
 				<xe:this.placeBarActions></xe:this.placeBarActions>

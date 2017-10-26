@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='832581A1004F6F08'>
-<noteinfo noteid='272' unid='5C6E1A1B91D77EBB832581A30051B190' sequence='14'>
+<noteinfo noteid='272' unid='5C6E1A1B91D77EBB832581A30051B190' sequence='16'>
 <created><datetime dst='true'>20170922T125218,72-02</datetime></created>
-<modified><datetime dst='true'>20171005T165642,74-02</datetime></modified>
-<revised><datetime dst='true'>20171005T165642,73-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171005T165642,74-02</datetime></lastaccessed>
+<modified><datetime dst='true'>20171026T142632,61-02</datetime></modified>
+<revised><datetime dst='true'>20171026T142632,60-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171026T142632,61-02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170922T125218,74-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>

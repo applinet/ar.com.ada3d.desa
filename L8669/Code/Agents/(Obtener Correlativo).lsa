@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='832581C400577E0E'>
-<noteinfo noteid='206' unid='1AFC14F373A47FA7832581A9006D0651' sequence='105'>
+ replicaid='832581C5005B9E56'>
+<noteinfo noteid='202' unid='1AFC14F373A47FA7832581A9006D0651' sequence='105'>
 <created><datetime dst='true'>20170928T175050,41-02</datetime></created>
-<modified><datetime dst='true'>20171025T135543,59-02</datetime></modified>
+<modified><datetime dst='true'>20171026T144044,57-02</datetime></modified>
 <revised><datetime dst='true'>20171005T165242,53-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171025T135543,59-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171025T135543,59-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171026T144044,57-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171026T144044,57-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$POID'><datetime>20150303T122809,33-03</datetime></item>
@@ -34,11 +34,11 @@ gQYAAAAA
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$AssistRunInfo' summary='true'>
 <rawitemdata type='3'>
-BgAAAgAACAACAgAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAtgAAAAAAAAAAAAAAAAAAABAAAAAA
-AAAAXl98AMSBJYMAAAAA139XAMSBJYMOflcAxIElgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
+BgAAAgAACAD+AQAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAtgAAAAAAAAAAAAAAAAAAABAAAAAA
+AAAAT2JdAMWBJYMAAAAA6Z5bAMWBJYNWnlsAxYElgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
 ZCBydW5uaW5nIGFnZW50ICcoT2J0ZW5lciBDb3JyZWxhdGl2byl8YS5PYnRDb3JyJyBvbiAxMC8y
-NS8yMDE3IDIwOjM4OjI4DQpSYW4gTG90dXNTY3JpcHQgY29kZQ0KRG9uZSBydW5uaW5nIGFnZW50
-ICcoT2J0ZW5lciBDb3JyZWxhdGl2byl8YS5PYnRDb3JyJyBvbiAxMC8yNS8yMDE3IDIwOjM4OjI4
+Ni8yMDE3IDE1OjAwOjAwDQpSYW4gTG90dXNTY3JpcHQgY29kZQ0KRG9uZSBydW5uaW5nIGFnZW50
+ICcoT2J0ZW5lciBDb3JyZWxhdGl2byl8YS5PYnRDb3JyJyBvbiAxMC8yNi8yMDE3IDE1OjAwOjAw
 DQoADQoPiSzATiwYFwBolVWDJYGwFg9BOGd/bgCvgSWDCAEJ+/sP7FiQDwpa+sYMRvh7ct+ZljSc
 /DR6AeOwSqHyehKp15gZThFVydF95/rz6aSxIgM9Mik9iNYuLhCS2atqP6Bgv2AFLgyz2MZ5pv2Z
 hUD1Hu/QqgCwpIROCMnX1SOPHejoa14l9JzJoHyYyEIYkcuMDoENZkEFNsZkVtKx21nzf+KNMXKl

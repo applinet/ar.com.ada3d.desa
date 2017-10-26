@@ -118,7 +118,7 @@ public class JSFUtil {
 		Database dbTablas = null;
 
 		currentDbProfileView = getCurrentDatabase().getView("v.Sys.Cfg");
-		docUbicTablas = currentDbProfileView.getDocumentByKey("Configuracion");
+		docUbicTablas = currentDbProfileView.getDocumentByKey("Configuracion", true);
 		String server = docUbicTablas.getItemValueString("conf_server");
 		String path = docUbicTablas.getItemValueString("conf_path");
 		dbTablas = getSession().getDatabase(server, path);

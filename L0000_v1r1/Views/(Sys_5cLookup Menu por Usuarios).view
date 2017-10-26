@@ -1,45 +1,45 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='832581A1004C0C0C'>
-<noteinfo noteid='61a' unid='B3E82C5B87ED11A4832581A10063C4EC' sequence='12'>
+<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
+ replicaid='832581C5004DA004'>
+<noteinfo noteid='1ae' unid='B3E82C5B87ED11A4832581A10063C4EC' sequence='23'>
 <created><datetime dst='true'>20170920T160944,76-02</datetime></created>
-<modified><datetime dst='true'>20170926T160904,84-02</datetime></modified>
-<revised><datetime dst='true'>20170926T160904,83-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170926T160904,84-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20170920T160944,79-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst='true'>20171026T120753,69-02</datetime></modified>
+<revised><datetime dst='true'>20171005T120733,36-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171026T140833,53-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171026T120753,69-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
-<item name='$FormulaClass' sign='true'><text>1</text></item>
+<item name='$FORMULACLASS' sign='true'><text>1</text></item>
 <item name='TmpViewDesignCollation' sign='true'><text>es-AR</text></item>
 <item name='$TITLE' sign='true'><text>(Sys\Lookup Menu por Usuarios)|v.Sys.lkupMenu.porUsuario</text></item>
 <item name='$Index' sign='true'><text/></item>
-<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
+<item name='$FORMULA' summary='true' sign='true'><formula compiled='true'>
 eAAFAEIAPQAEABAAFAAJAAQAdXNyX1VzZXJOYW1lX2Rlc3Vzcl9NZW51U2VsZWN0ZWRfY29kJENv
 bmZsaWN0JFJFRgAEAAQAAAAiAAUABABGb3JtAQANAGYuQ2ZnVXNlck1lbnUACgIDAAcADgAIAAlM
 MVMyUzNT
 </formula></item>
-<item name='$Collation' summary='true'>
+<item name='$COLLATION' summary='true'>
 <rawitemdata type='2'>
 OAACAABEgGYAAAAQAIBmABAAFAB1c3JfVXNlck5hbWVfZGVzdXNyX01lbnVTZWxlY3RlZF9jb2Q=
 </rawitemdata></item>
-<item name='$ViewFormat' summary='true' sign='true'>
+<item name='$VIEWFORMAT' summary='true' sign='true'>
 <rawitemdata type='5'>
-AQACAAsAiEgBAFZDAQAQAAYAAAAAAFAAAQEACgAAAAAAAAAAAAICAAAAVkMBABQAEAAAAAAAsgAB
-AAAKAAAAAAAAAAAAAgIAAEB1c3JfVXNlck5hbWVfZGVzQ6JkaWdvdXNyX01lbnVTZWxlY3RlZF9j
-b2RNZW51IFNlbGVjaW9uYWRvJgABAAAAAQEACQEAAAoBAQ4KAAAWAK0rCQABAAEAAAAAAAAAAABX
-QwEBAAkAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAD//wAAAAAAAAAAAAAAAAAAV0MBAQAJAAAAAAAA
-AAAAAAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAEIAAAAAAAEA////AAEA4P//AAEAAAAA
-AAAAAAAAAAAAAQD///8AAQCI/64AAAABAAAAAAABAAAAAAABAAAAAAAAAAgAAAAAAAEA
+AQACAAsAiEgBAFZDAQAQAAcAAAAAAFAAAQEACgAAAAAAAAAAAAICAAAAVkMBABQAEAAAAAAAsgAB
+AAAKAAAAAAAAAAAAAgIAAEB1c3JfVXNlck5hbWVfZGVzVXN1YXJpb3Vzcl9NZW51U2VsZWN0ZWRf
+Y29kTWVudSBTZWxlY2lvbmFkbyYAAQAAAAEBAAkBAAAKAQEOCgAAFgCtKwkAAQABAAAAAAAAAAAA
+V0MBAQAJAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAFdDAQEACQAAAAAA
+AAAAAAAAAAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABCAAAAAAABAP///wABAOD//wABAAAA
+AAAAAAAAAAAAAAEA////AAEAiP+uAAAAAQAAAAAAAQAAAAAAAQAAAAAAAAAIAAAAAAABAA==
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
-<item name='$Flags'><text>YP</text></item>
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$V5ACTIONS' sign='true'>
 <rawitemdata type='1'>
 vRyVAAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAACcMwABAAAAAAAJAAAAAAABAN3/6QAA
 AB8AAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/OgAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/04AAAABAB4AngEAAAUAAAAAAAAATnVldm8AMgAAACQA
+AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/04AAAABAB4AngEAAAUAAAAAAAAATnVldm9NMgAAACQA
 AgDoAwAAAAAAAAEADQBmLkNmZ1VzZXJNZW51AO0CAwAHAAwABQAJMVM0UwA=
-</rawitemdata></item></note>
+</rawitemdata></item>
+<item name='$Flags'><text>Y</text></item></note>
 

@@ -123,14 +123,18 @@
 							<!-- Fin Contraseña -->
 							<xe:formRow id="authorRow"
 								label="Crea este documento" labelPosition="left">
-								<xp:text id="author"
+								<xe:this.rendered><![CDATA[#{javascript:if(userBean.accessRoles.toString().contains('[usrInitial]'))
+	return false;
+return true;}]]></xe:this.rendered><xp:text id="author"
 									value="#{javascript:return DocUsr.getUserMask();}">
 								</xp:text>
 							</xe:formRow>
 							<!-- Esto es el boton Si/No de usuario de seguridad -->
 							<xe:formRow id="rowUsrSeg"
 								label="Es Usuario de Seguridad?" labelPosition="left">
-								<div id="switch" class="btn-group span4"
+								<xe:this.rendered><![CDATA[#{javascript:if(userBean.accessRoles.toString().contains('[usrInitial]'))
+	return false;
+return true;}]]></xe:this.rendered><div id="switch" class="btn-group span4"
 									data-toggle="buttons-radio">
 									<xp:button id="btnNo" value="No"
 										disabled="#{javascript:!docUsrSeg.isEditable()}">
@@ -168,6 +172,9 @@
 					</xp:tabPanel>
 					<xp:tabPanel label="Menú" id="tabMenu">
 						<!-- CheckBox de menues -->
+						<xp:this.rendered><![CDATA[#{javascript:if(userBean.accessRoles.toString().contains('[usrInitial]'))
+	return false;
+return true;}]]></xp:this.rendered>
 						<xe:formRow id="checkMenues" label="Menues"
 							labelPosition="left">
 							<xp:checkBoxGroup id="checkBoxGroup1"
@@ -198,7 +205,10 @@ var dbConf = new Array(@DbName()[0], confDb.getFilePath());
 						<xp:panel id="buttonPanelRow" styleClass="buttonPanel">
 							<xp:button value="Grabar" id="btnSave"
 								styleClass="btn-primary">
-								<xp:this.rendered><![CDATA[#{javascript:if (docUsrSeg.isEditable() && docUsrSeg.isNewNote()){ //Solo lo muestro en el segundo panel
+								<xp:this.rendered><![CDATA[#{javascript:if(userBean.accessRoles.toString().contains('[usrInitial]'))
+	return docUsrSeg.isEditable() 
+
+if (docUsrSeg.isEditable() && docUsrSeg.isNewNote()){ //Solo lo muestro en el segundo panel
 	var panel:com.ibm.xsp.component.xp.XspTabbedPanel = getComponent('tabbedPanel1');
 	if (panel.getSelectedTab().equals('tabForm'))
 		return false;
@@ -209,6 +219,8 @@ return docUsrSeg.isEditable() }]]>
 									submit="true" refreshMode="complete">
 									<xp:this.action><![CDATA[#{javascript:var isNew:boolean = docUsrSeg.isNewNote(); 
 if (isNew){
+	if(userBean.accessRoles.toString().contains('[usrInitial]'))
+		docUsrSeg.setValue("usr_USRSEG_opt","1");
 	setLog (docUsrSeg, "Creación del usuario " + docUsrSeg.getItemValueString("usr_UserMaskName_des"), "log_des");
 	docUsrSeg.setValue("usr_UserName_des", DocUsr.getUserDB() + docUsrSeg.getItemValueString("usr_UserName_des"));
 	
@@ -224,8 +236,16 @@ if (isNew){
 	session.getCurrentDatabase().getAgent("a.ObtCorr").runWithDocumentContext(docUsrSeg.getDocument());
 	session.getCurrentDatabase().getAgent("a.NewUserExt").runWithDocumentContext(docUsrSeg.getDocument());
 }
-context.redirectToPage(getOpcionesClave("VIEW_UI_USUARIOS_HOME", "codigo")[0]);
-}]]></xp:this.action>
+
+if(userBean.accessRoles.toString().contains('[usrInitial]')){
+	/*Fuerzo un logOut*/
+	var appUrl = facesContext.getExternalContext().getRequest().getContextPath();
+	var url = appUrl + "?logout&redirectto=" + appUrl;
+	facesContext.getExternalContext().redirect(url);
+}else{
+	context.redirectToPage(getOpcionesClave("VIEW_UI_USUARIOS_HOME", "codigo")[0]);
+
+}}]]></xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
 							<xp:button value="Editar" id="btnEdit">
@@ -281,7 +301,9 @@ context.redirectToPage(getOpcionesClave("VIEW_UI_USUARIOS_HOME", "codigo")[0]);}
 								</xp:eventHandler>
 							</xp:button>
 							<xp:button value="Continuar" id="btnContinuar" styleClass="btn-primary">
-								<xp:this.rendered><![CDATA[#{javascript:var panel:com.ibm.xsp.component.xp.XspTabbedPanel = getComponent('tabbedPanel1');
+								<xp:this.rendered><![CDATA[#{javascript:if(userBean.accessRoles.toString().contains('[usrInitial]'))
+	return false;
+var panel:com.ibm.xsp.component.xp.XspTabbedPanel = getComponent('tabbedPanel1');
 if (panel.getSelectedTab().equals('tabMenu'))
 	return false;
 docUsrSeg.isNewNote()}]]></xp:this.rendered>

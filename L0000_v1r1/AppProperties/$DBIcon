@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='832581A1004C0C0C'>
-<noteinfo noteid='61e' unid='C6D8ABCC93BF360E832581A10064AEDD' sequence='4'>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
+ replicaid='832581C5004DA004'>
+<noteinfo noteid='1aa' unid='C6D8ABCC93BF360E832581A10064AEDD' sequence='2'>
 <created><datetime dst='true'>20170920T161943,65-02</datetime></created>
-<modified><datetime dst='true'>20170927T010114,13-02</datetime></modified>
+<modified><datetime dst='true'>20171026T120753,67-02</datetime></modified>
 <revised><datetime dst='true'>20170920T161944,10-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170927T010114,13-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20170920T161944,11-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171026T120753,67-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171026T120753,67-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
 <wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
 <item name='$TITLE'><text>$DBIcon</text></item>

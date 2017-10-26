@@ -1,32 +1,32 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='832581A1004C0C0C'>
-<noteinfo noteid='6de' unid='EA901EA0E382F122832581A8006E0014' sequence='9'>
+<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
+ replicaid='832581C5004DA004'>
+<noteinfo noteid='1fe' unid='EA901EA0E382F122832581A8006E0014' sequence='22'>
 <created><datetime dst='true'>20170927T180129,80-02</datetime></created>
-<modified><datetime dst='true'>20171005T191328,90-02</datetime></modified>
+<modified><datetime dst='true'>20171026T120754,09-02</datetime></modified>
 <revised><datetime dst='true'>20171005T123031,56-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171005T191328,90-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20170928T140431,29-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171026T120754,09-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171026T120754,09-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
-<item name='$FormulaClass' sign='true'><text>1</text></item>
+<item name='$FORMULACLASS' sign='true'><text>1</text></item>
 <item name='TmpViewDesignCollation' sign='true'><text>es-AR</text></item>
 <item name='$TITLE' sign='true'><text>(UI\Menu por Usuarios)|v.UI.Menu.porUsuario</text></item>
 <item name='$Index' sign='true'><text/></item>
-<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
+<item name='$FORMULA' summary='true' sign='true'><formula compiled='true'>
 EgECACYAAwAkMTEAAgAGAAAAAAAAAHkAtAIAAAAAAAAAABBAogIDAAUAiACEAAkADgAQABAADgAU
 AAMADgAJAAQAdXNyX05vbWJyZV9kZXN1c3JfQXBlbGxpZG9fZGVzdXNyX1VzZXJOYW1lX2Rlc3Vz
 cl9VU1JTRUdfb3B0dXNyX01lbnVTZWxlY3RlZF9jb2QkMTF1c3JfU3RhdHVzX2RlcyRDb25mbGlj
 dCRSRUYEAAQAAABIAAUABABGb3JtAQANAGYuQ2ZnVXNlck1lbnUACgIFABAAdXNyX1VzZXJOYW1l
 X2RlcwIABgAAAAAAAAD0ALQCCwIcAgMABwAWABAACUwxUzJTM1M0UzVTNlM3Uw==
 </formula></item>
-<item name='$Collation' summary='true'>
+<item name='$COLLATION' summary='true'>
 <rawitemdata type='2'>
 eQAFAABEgGYAAAAOAIBmAA4AEACAZgAeABAAgGYALgAOAIBmADwAFAB1c3JfTm9tYnJlX2Rlc3Vz
 cl9BcGVsbGlkb19kZXN1c3JfVXNlck5hbWVfZGVzdXNyX1VTUlNFR19vcHR1c3JfTWVudVNlbGVj
 dGVkX2NvZA==
 </rawitemdata></item>
-<item name='$ViewFormat' summary='true' sign='true'>
+<item name='$VIEWFORMAT' summary='true' sign='true'>
 <rawitemdata type='5'>
 AQAHAA0AiEgBAFZDAQAOAA4AAAAAAIgAAQAACgAAAAAAAAAAAAICAAAAVkMBABAAEAAAAAAAiAAB
 AAAKAAAAAAAAAAAAAgIAAABWQwEAEAAQAAAAAABQAAEAAAoAAAAAAAAAAAACAgAAAFZDAQAOAA4A

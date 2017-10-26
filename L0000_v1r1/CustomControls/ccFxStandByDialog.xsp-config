@@ -5,9 +5,9 @@
     <default-prefix>xc</default-prefix>
   </faces-config-extension>
   <composite-component>
-    <component-type>ccAppLayout_20170922</component-type>
-    <composite-name>ccAppLayout_20170922</composite-name>
-    <composite-file>/ccAppLayout_20170922.xsp</composite-file>
+    <component-type>ccFxStandByDialog</component-type>
+    <composite-name>ccFxStandByDialog</composite-name>
+    <composite-file>/ccFxStandByDialog.xsp</composite-file>
     <composite-extension>
       <designer-extension>
         <in-palette>true</in-palette>

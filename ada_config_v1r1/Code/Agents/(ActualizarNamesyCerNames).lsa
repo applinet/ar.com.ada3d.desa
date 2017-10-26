@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='832581A1004F6F08'>
-<noteinfo noteid='176' unid='3D6CB50CDE7C21CD8325819F006A81FF' sequence='8'>
+<noteinfo noteid='176' unid='3D6CB50CDE7C21CD8325819F006A81FF' sequence='10'>
 <created><datetime dst='true'>20170918T172320,95-02</datetime></created>
-<modified><datetime dst='true'>20171005T165642,36-02</datetime></modified>
-<revised><datetime dst='true'>20171005T165642,35-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171005T165642,36-02</datetime></lastaccessed>
+<modified><datetime dst='true'>20171026T142632,18-02</datetime></modified>
+<revised><datetime dst='true'>20171026T142632,17-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171026T142632,18-02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170920T122738,45-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -34,11 +34,11 @@ gQYAAAAA
 <item name='$AssistRunInfo' summary='true'>
 <rawitemdata type='3'>
 BgABAAAACABKAwAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAzgAAAAAAAAAAAAAAAAAAABAAAAAA
-AAAA9GJ8AMSBJYMAAAAAjBFoALCBJYMIb08AoYElgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
+AAAAjuVaAMWBJYMAAAAA8lFaAMWBJYMIb08AoYElgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
 ZCBydW5uaW5nIGFnZW50ICcoQWN0dWFsaXphck5hbWVzeUNlck5hbWVzKXxhLnVwZGF0ZUNlck5h
-bWVzJyBvbiAxMC8yNS8yMDE3IDIwOjM4OjI4DQpSYW4gTG90dXNTY3JpcHQgY29kZQ0KRG9uZSBy
+bWVzJyBvbiAxMC8yNi8yMDE3IDE0OjMyOjQyDQpSYW4gTG90dXNTY3JpcHQgY29kZQ0KRG9uZSBy
 dW5uaW5nIGFnZW50ICcoQWN0dWFsaXphck5hbWVzeUNlck5hbWVzKXxhLnVwZGF0ZUNlck5hbWVz
-JyBvbiAxMC8yNS8yMDE3IDIwOjM4OjM3DQoADQqW/iRwtiW+gnFhYgC2gSWDqqqqqqqqqqqqqqqq
+JyBvbiAxMC8yNi8yMDE3IDE0OjMyOjUwDQoADQqW/iRwtiW+gnFhYgC2gSWDqqqqqqqqqqqqqqqq
 qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
 qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
 qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
@@ -109,7 +109,7 @@ yQAAAAAAHQAAGhMAXngBK7gAJKYaFQAMAAAIABoWAIUTGhcAXpwAS3gBLIgBS3gBLbgBI0/cAVXo
 AQYIAACbfXQBI6UaGABKnAA/ARoZAF6cAEt4ASyIAUt4AS24ASNP3AFV6AEGCAAAm32kASOlGhoA
 SpwAPwEaGwBenABLeAEsiAFLeAEtuAEjT9wBVegBBggAAJt91AEjpRocAEqcAD8BGh0AFIW1OBMA
 Gh4AFH0MAr8Wk799FAK/Fb8/ARofABogAAoAABoiAB0CAAAAEQAUAAAAAAD//wEAAwALAAAADgBE
-ABAACgAAAGk=
+ABAACgAAAAA=
 </rawitemdata></item>
-<item name='$AssistVersion'><datetime>20171005T165712,45-03</datetime></item></note>
+<item name='$AssistVersion'><datetime>20171026T142711,96-03</datetime></item></note>
 

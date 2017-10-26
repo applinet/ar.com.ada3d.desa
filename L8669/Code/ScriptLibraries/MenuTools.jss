@@ -16,8 +16,10 @@ var menuTools = {
         var result = [];
         var menuSelected:java.util.Vector = getCodigoMenuSelected();
         if (menuSelected.isEmpty()) {
-        	if(userBean.accessRoles.toString().contains('[usrInitial]').equals(false)){
-	        	addFacesMessage("No se pudo cargar el menú o todavia no ha creado el usuario de seguridad.", null, "FATAL")
+        	if(userBean.accessRoles.toString().contains('[usrInitial]')){
+	        	addFacesMessage("El usuario actual es temporal. Deberá crear su usuario de seguridad.", null, "WARNING")
+        	}else{
+	        	addFacesMessage("No se pudo cargar el menú, comuniquese con el usuario de seguridad.", null, "FATAL")
         	}
         	return;
         }

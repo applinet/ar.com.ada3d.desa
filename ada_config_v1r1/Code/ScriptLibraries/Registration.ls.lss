@@ -12,7 +12,7 @@ Use "ErrorLogClass.ls"
 '++LotusScript Development Environment:2:5:(Forward):0:1
 Declare Class usr
 Declare Sub Initialize
-Declare Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As NotesDatabase )
+Declare Sub AddUserToGroup( ByVal fullname As String, ByVal group As String)
 Declare Sub AddUserToNab(dbPeople As NotesDatabase, usuario As usr)
 
 '++LotusScript Development Environment:2:5:(Declarations):0:10
@@ -124,29 +124,36 @@ Sub Initialize
 End Sub
 
 
-
-
-
-'++LotusScript Development Environment:2:2:AddUserToGroup:8:8
+'++LotusScript Development Environment:2:2:AddUserToGroup:16:8
 %REM
-	TODO: documentar
 	AddUserToGroup
-	Description: Agrega un usuario a un grupo
-	@Param: fullname, es el nombre de usuario??
-	@Param: group, es el grupo al que voy a aagregar el usuario  
+	Description: Agrega un usuario a un subgrupo del grupo enviado (ver ejemplo) 
+	@Param: fullname, es el nombre de usuario
+	@Param: group, es el grupo al que voy a aagregar el usuario
+	 
+	Ejemplo:
+	Si envio el grupo "applinet" y usuario "pepe", me crea el grupo applinet, pero a este grupo
+	no le carga el usuario sino que este grupo va a contener otro grupo llamado applinet 1.
+	El proceso luego crea el grupo applinet 1 y a este grupo si le ingresa el usuario enviado.
+	Antes de grabar el usuario al grupo "applinet 1", hace un chequeo previo del campo usuarios
+	del grupo "applinet 1", si llega a los 1000k (limite 1024) crea el grupo applinet 2 con el
+	usuario enviado. Y el grupo applinet 2 lo agrega al grupo applinet.
+	Siempre el grupo applinet es el que vamos a utilizar en los ACL  
 %END REM
-Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As NotesDatabase )
+Sub AddUserToGroup( ByVal fullname As String, ByVal group As String)
 	Dim errorLog As New ErrorLog( "AddUserToGroup" )
 	On Error GoTo ErrorHandler
 	
-	' Load up our static groups view
-	
+	Dim cfg As New cfg
+	Dim nab As NotesDatabase
 	Dim groups As NotesView
 	
+	Set nab = New NotesDatabase( cfg.GetValue( "ADA3D_SERVER" ), cfg.GetValue( "DB_NAB_GROUP" ))
 	Set groups = nab.GetView( "Groups" )
+	groups.Autoupdate = False
 	
 	Dim groupMainDoc As NotesDocument
-	Set groupMainDoc = groups.GetDocumentByKey( group )
+	Set groupMainDoc = groups.GetDocumentByKey( group , true)
 	Dim saveGroupMainDoc As Integer
 	saveGroupMainDoc = False
 	
@@ -155,7 +162,7 @@ Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As Note
 		groupMainDoc.Form = "Group"
 		groupMainDoc.ListName = group
 		groupMainDoc.Members = group & " 1"
-		groupMainDoc.GroupType = "0"
+		groupMainDoc.GroupType = "2"
 		Call groupMainDoc.ComputeWithForm( False, False )
 		saveGroupMainDoc = True
 	End If
@@ -189,14 +196,14 @@ Sub AddUserToGroup( ByVal fullname As String, ByVal group As String, nab As Note
 	Dim groupSubDoc As NotesDocument
 	
 	Do
-		Set groupSubDoc = groups.GetDocumentByKey( subGroup )
+		Set groupSubDoc = groups.GetDocumentByKey( subGroup , true)
 		
 		If groupSubDoc Is Nothing Then
 			' Create a new subgroup document
 			Set groupSubDoc = New NotesDocument( nab )
 			groupSubDoc.Form = "Group"
 			groupSubDoc.ListName = subGroup
-			groupSubDoc.GroupType = "0"
+			groupSubDoc.GroupType = "2"
 			Call groupSubDoc.ComputeWithForm( False, False )
 			
 			' Add it to the main group if needed
@@ -267,6 +274,12 @@ Sub AddUserToNab(dbPeople As NotesDatabase, usuario As usr)
 ErrorHandler:
 	Call errorLog.PrintError( Err(), Erl(), Error )	
 End Sub
+
+
+
+
+
+
 
 
 

@@ -1,30 +1,29 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='832581A1004C0C0C'>
-<noteinfo noteid='642' unid='5893630B3993A040832581A20046EA35' sequence='5'>
+<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
+ replicaid='832581C5004DA004'>
+<noteinfo noteid='152' unid='5893630B3993A040832581A20046EA35' sequence='17'>
 <created><datetime dst='true'>20170921T105434,77-02</datetime></created>
-<modified><datetime dst='true'>20170926T160904,80-02</datetime></modified>
-<revised><datetime dst='true'>20170926T160904,79-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20170926T160904,80-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20170921T105434,78-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst='true'>20171026T120753,15-02</datetime></modified>
+<revised><datetime dst='true'>20171005T120733,31-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171026T120753,15-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171026T120753,15-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
-<item name='$FormulaClass' sign='true'><text>1</text></item>
-<item name='TmpViewDesignCollation'><text>es-AR</text></item>
-<item name='$TITLE' sign='true'><text>Configuracion|v.Sys.Cfg</text></item>
+<item name='$FORMULACLASS' sign='true'><text>1</text></item>
+<item name='TmpViewDesignCollation' sign='true'><text>es-AR</text></item>
 <item name='$Index' sign='true'><text/></item>
-<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
+<item name='$FORMULA' summary='true' sign='true'><formula compiled='true'>
 5gACAD4ADgAkU2VydmVyQW5kUGF0aAUACwBjb25mX3NlcnZlcgABAAIAISEiAgUACQBjb25mX3Bh
 dGgAIgIDAAUATABIAAYACQALAAkADgAJAAQAY29uZl9iYXNlY29uZl9zZXJ2ZXJjb25mX3BhdGgk
 U2VydmVyQW5kUGF0aCRDb25mbGljdCRSRUYEAAQAAAA+AAUABABGb3JtAQANAENvbmZpZ3VyYWNp
 b24ACgIEAAUABABGb3JtAQAIAGYuQ29uZmlnCgIEAB0CAwAHABgAEQAJTDFTM1M0UzZTN1M5UzEw
 UwA=
 </formula></item>
-<item name='$Collation' summary='true'>
+<item name='$COLLATION' summary='true'>
 <rawitemdata type='2'>
 FgABAABECGYAAAAJAGNvbmZfYmFzZQ==
 </rawitemdata></item>
-<item name='$ViewFormat' summary='true' sign='true'>
+<item name='$VIEWFORMAT' summary='true' sign='true'>
 <rawitemdata type='5'>
 AQAEAAYAiAQAAFZDAQAJAAEAAAAAAHoAAQAACgABAAAAAAAAAAICAAAAVkMAAAsABgAAAAAAVQAB
 AAAKAAAAAAAAAAAAAgIAAABWQwAACQAEAAAAAADPAAEAAAoAAAAAAAAAAAACAgAAAFZDAAAOAA0A
@@ -39,7 +38,6 @@ AQD///8AAQDd/+kAAQAAAAAAAAAAAAAAAAABAP///wABAIj/rgAAAAEAAAAAAAEAAAAAAAEAAAAA
 AAAACAAAAAAAAQA=
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$V5ACTIONS' sign='true'>
 <rawitemdata type='1'>
 vRyVAAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAACcMwABAAAAAAAJAAAAAAABAN3/6QAA
@@ -61,5 +59,7 @@ dCBfTGluaxAA3ny+/ygAAAAFAAAAnQEAAA4AAAAAAAAAQ29weSBhcyBfVGFibGURAO58vv8gAAAA
 BQAAAJ0BAAAGAAAAAAAAAFBfYXN0ZRIA/ny+/yAAAAAFAAAAnQEAAAUAAAAAAAAAX09wZW4AEwAO
 fb7/IgAAAAUAAACdAQAACAAAAAAAAABCb29rbWFyaxQAHn0=
 </rawitemdata></item>
-<item name='$Flags'><text>YP</text></item></note>
+<item name='$TITLE' sign='true'><text>(Configuracion de Bases)|v.Sys.Cfg</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
+<item name='$Flags'><text>Y</text></item></note>
 

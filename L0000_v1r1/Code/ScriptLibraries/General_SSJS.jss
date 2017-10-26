@@ -1,8 +1,33 @@
+/*Esta libreria utiliza todas las funciones mas usadas y se utiliza en casi todas las paginas*/
+
 /* Es un nombre corto para obtener la base de configuracion
  * Por cada base vamos a crear una funcion como esta
 */
 function getDbCfg ():NotesDatabase {
 	return getDbByKey ("Configuracion");
+}
+
+/* Es un nombre corto para obtener la base de usuarios */
+function getAdaNames ():NotesDatabase{
+		return getDbFromConfigByKey("DB_NAB_PEOPLE");
+}
+
+/* Chequea si el usuario a crear existe en la libreta de direcciones ADA_NAMES
+ * Recibe como parametro el nombre de usuario a crear
+ * Devuelve veradero o falso
+ */
+function isUserNameAvailable(paramUserName:String):boolean {
+	try{
+		var viewUsuarios:NotesView = getAdaNames().getView("($VIMPeople)");
+		var docUsuario:NotesDocument = viewUsuarios.getDocumentByKey(paramUserName, true);
+		if (docUsuario == null){
+			return true;
+		}else{
+			return false;	
+		}
+	} catch(e) {
+        addFacesMessage(e.toString(), null, "FATAL")
+	}
 }
 
 
@@ -11,31 +36,107 @@ function getDbCfg ():NotesDatabase {
  * Devuelve una base de datos
  */
 function getDbByKey (strKey:String):NotesDatabase {
-	var viewCfg:NotesView = session.getCurrentDatabase().getView("v.Sys.Cfg");
-	var docCfg:NotesDocument = viewCfg.getDocumentByKey(strKey);
-	var strServer:String = docCfg.getItemValueString("conf_server");
-	var strPath:String = docCfg.getItemValueString("conf_path");
-	return session.getDatabase(strServer, strPath, false);
+	try{	
+		var viewCfg:NotesView = session.getCurrentDatabase().getView("v.Sys.Cfg");
+		var docCfg:NotesDocument = viewCfg.getDocumentByKey(strKey, true);
+		var strServer:String = docCfg.getItemValueString("conf_server");
+		var strPath:String = docCfg.getItemValueString("conf_path");
+		return session.getDatabase(strServer, strPath, false);
+	} catch(e) {
+		addFacesMessage(e.toString(), null, "FATAL")
+	}
 }
 
-/* Carga en una sessionScope la base que corresponde que obtiene de configuracion 
- * 
+/* Recibe como parametro la clave del documento a buscar entre las bases de Configuracion
+ * Devuelve una base de datos
  */
+function getDbFromConfigByKey (strKey:String):NotesDatabase {
+	try{		
+		var viewCfg:NotesView = getDbCfg().getView ("v.Sys.Opciones.Clave");
+		var docServer:NotesDocument = viewCfg.getDocumentByKey("ADA3D_SERVER", true);
+		var docCfg:NotesDocument = viewCfg.getDocumentByKey(strKey, true);
+		var strServer:String = docServer.getItemValueString("opt_Codigo_des");
+		var strPath:String = docCfg.getItemValueString("opt_Codigo_des");
+		if (strServer.equals('') || strPath.equals('')) 
+			addFacesMessage("No se ha encontrado la base de Configuración", null, "FATAL")
+		return session.getDatabase(strServer, strPath, false);
+		
+	} catch(e) {
+        addFacesMessage(e.toString(), null, "FATAL")
+ }
+}
+
+/* Carga en una sessionScope la base que corresponde que obtiene de configuracion ********************/
 function setDbsPathVariables () {
 	setDbPath ("dbCfg", "Configuracion");
 }
-//Continuacion de la funcion anterior
+/*Continuacion de la funcion anterior*/
 function setDbPath (strSesScopeVar:String, strKey:String) {
 	var viewCfg:NotesView = session.getCurrentDatabase().getView("v.Sys.Cfg");
-	var docCfg:NotesDocument = viewCfg.getDocumentByKey(strKey)
+	var docCfg:NotesDocument = viewCfg.getDocumentByKey(strKey, true)
 	var strServer:String = docCfg.getItemValueString("conf_server");
 	var strPath:String = docCfg.getItemValueString("conf_path");
 	var dbGet:NotesDatabase = session.getDatabase(strServer, strPath);
 	sessionScope.put(strSesScopeVar, dbGet);
 }
 
+/*Busca en la base de configuracion una clave y devuelve un array*/
+function getOpcionesClave(clave:String, result:String){ //@Return array
+	var vOpciones:NotesView = getDbCfg().getView ("v.Sys.Opciones.Clave");
+	var entryCol:NotesViewEntryCollection = vOpciones.getAllEntriesByKey(clave)
+	var entryOpt:NotesViewEntry = entryCol.getFirstEntry();
+	var arrOpts:Array = new Array ();
+	while (entryOpt != null) {	
+		switch(result){
+		case "codigo":
+			arrOpts.push(entryOpt.getDocument().getItemValueString("opt_Codigo_des"));
+		case "descripcion":
+			arrOpts.push(entryOpt.getDocument().getItemValueString("opt_Nombre_des"));
+		case "alias":
+			arrOpts.push(entryOpt.getDocument().getItemValueString("opt_Nombre_des") + "|" + entryOpt.getDocument().getItemValueString("opt_Codigo_des"));
+			
+		}
+		//Recycle
+		var tmpentry:NotesViewEntry = entryCol.getNextEntry(entryOpt);
+		entryOpt.recycle();
+		entryOpt = tmpentry;		
+	};
+	vOpciones.recycle();
+	entryCol.recycle();
+	return arrOpts;
+}
 
-function userIsGroupMember(groupName):Boolean{
+function isUserActive():boolean{
+	
+}
+
+/*Devuelve el documento de usuario de la base de administracion***************************/
+function getUserDocument():NotesDocument {
+	var viewMenuPorUsuario:NotesView = database.getView(getOpcionesClave("VIEW_USUARIOS_POR_ADMINISTRACION", "codigo")[0]);
+	var docUsuario:NotesDocument = viewMenuPorUsuario.getDocumentByKey(context.getUser().getFullName(), true);
+	if (docUsuario != null){
+		viewMenuPorUsuario.recycle();
+		return docUsuario;
+	}
+}
+
+
+/*Devuelve si es usuario de seguridad***********************************/
+function isUSRSEG ():boolean {
+	var docUsuario:NotesDocument = getUserDocument();
+	if(docUsuario != null){
+		var flagSeguridad:String = docUsuario.getItemValueString("usr_USRSEG_opt");
+		if (flagSeguridad == "1"){
+			docUsuario.recycle();
+			return true;
+		}
+	}
+	return false;
+}
+
+
+//Devuelve si el usuario pertenece al grupo enviado por parametro
+function isUserGroupMember(groupName):boolean{
 	var groups = context.getUser().getGroups().toArray();
 	if(groups.length > 0) {
 		for(var i=0; i<groups.length; i++) {
@@ -47,56 +148,24 @@ function userIsGroupMember(groupName):Boolean{
 	return false
 }
 
-
-function setLog (itemLog:NotesItem, strLog:String) {
-	
-	var strFullLog:String = @Now ().toString() + " - " + @Name ("[CN]", @UserName());
-	strFullLog += " - " + strLog;
-			
-	if (itemLog.getValueString ().equals ("")) {
-		itemLog.setValueString (strFullLog);
-	}
-	else {
-		var vecValues:Vector = itemLog.getValues();
-		vecValues.add (0, strFullLog);
-		itemLog.setValues (vecValues);
-		//itemLog.appendToTextList (strFullLog);	
-	}
-	
+/*Recibe base, vista y clave y devuelve una colleccion*/
+function getCollectionByKey(dbSource:NotesDatabase, vista:String, clave:String):NotesDocumentCollection{
+	var view:NotesView = dbSource.getView(vista);
+	var dc:DocumentCollection = view.getAllDocumentsByKey(clave);
+	view.recycle();
+	return dc
 }
-function setSysLog (doc_prm:NotesDocument, strLog_prm:String) {
-	var strFullLog:String = @Now ().toString() + " - " + @Name ("[CN]", @UserName());
+
+function setLog (doc_prm:NotesDocument, strLog_prm:String, strFieldName:String) {
+	var strFullLog:String = @Now ().toString() + " - " + @RightBack(@Name ("[CN]", @UserName()),4);
 	strFullLog += " - " + strLog_prm;
 	
-	var vecLog:java.util.Vector = doc_prm.getItemValue("SysLog");
+	var vecLog:java.util.Vector = doc_prm.getItemValue(strFieldName);
 	vecLog.add(strFullLog);
-	doc_prm.replaceItemValue("SysLog", vecLog);
-
+	doc_prm.replaceItemValue(strFieldName, vecLog);
+	
 }
 
-function setItemLogBackEnd (doc_a_loguear:NotesDocument, strLog:String, strFieldName:String) {
-	var itemLog:NotesItem = doc_a_loguear.getFirstItem(strFieldName);
-	setLog (itemLog, strLog);
-}
-
-function setLogBackEnd (doc_a_loguear:NotesDocument, strLog:String) {
-	var itemLog:NotesItem = doc_a_loguear.getFirstItem("log_des");
-	setLog (itemLog, strLog);
-}
-
-function isUserSystem ():boolean {
-	return generalIsGroupMember ("spwAU.N5.ADMI.USR_CRUD");
-}
-
-function isUserAutos ():boolean {
-	return generalIsGroupMember ("spwAU.N3.INSP.USR_CRUD");
-}
-function isUserComercial ():boolean {
-	return generalIsGroupMember ("spwAU.N2.COME.USR_CRU");
-}
-function isUserInsControlFacturacion ():boolean {
-	return generalIsGroupMember ("spwAU.N3.INSP.USR_FC");
-}
 
 function getOptionLabel (strOptionKey:String, strOptionCode:String) {
 		
@@ -105,7 +174,7 @@ function getOptionLabel (strOptionKey:String, strOptionCode:String) {
 	}
 	
 	var vOpciones:NotesView = getDbCfg().getView ("v.Sys.Opciones.ClaveCodigo");
-	var docOpt:NotesDocument = vOpciones.getDocumentByKey(strOptionKey + strOptionCode);
+	var docOpt:NotesDocument = vOpciones.getDocumentByKey(strOptionKey + strOptionCode, true);
 	return (docOpt.getItemValueString("opt_Nombre_des"));
 	
 }
@@ -125,7 +194,7 @@ function getFechaSinHora (dtFec:java.util.Date):java.util.Date {
  * A partir de un alias y de un array, busca ese alias en el array
  * y devuelve el Label asociado.
  * 
- * strOptions_array - Array donde se espera encontrar en cada posición
+ * strOptions_array - Array donde se espera encontrar en cada posiciÃ³n
  * un string con el Label a la izquierda y el Alias a la derecha, 
  * separados por un Pipe.  Ejemplo: [Frutillas|1], [Naranjas|2]
  * 
@@ -200,7 +269,7 @@ function getYMD (dtFecha:NotesDateTime, strSep:String):String {
 
 function getStatusLabel(codStatus:String){
 	var vOpciones:NotesView = getDbCfg().getView ("v.Sys.vLK_EstadosOrdenados");
-	var docOpt:NotesDocument = vOpciones.getDocumentByKey(codStatus);
+	var docOpt:NotesDocument = vOpciones.getDocumentByKey(codStatus, true);
 	var result:String = docOpt.getItemValueString("est_Nombre_des");
 	vOpciones.recycle();
 	docOpt.recycle();
@@ -212,7 +281,7 @@ function isStatusCheckFlag(codStatus:String, flag:String){
 	//Busca si el estado tiene el check de emision
 	var result:Boolean = false;
 	var vEstados:NotesView = getDbCfg().getView ("v.Sys.LK_EstadosCodigo");
-	var docEstado:NotesDocument = vEstados.getDocumentByKey(codStatus);
+	var docEstado:NotesDocument = vEstados.getDocumentByKey(codStatus, true);
 	if (docEstado != null){
 		var marca:String = docEstado.getItemValueString(flag);
 		if (marca == "1"){result = true}
@@ -227,31 +296,7 @@ function isStatusCheckFlag(codStatus:String, flag:String){
 }
 
 
-function getOpcionesClave(clave:String, result:String){ //@Return array
-	var vOpciones:NotesView = getDbCfg().getView ("v.Sys.Opciones.Clave");
-	var entryCol:NotesViewEntryCollection = vOpciones.getAllEntriesByKey(clave)
-	var entryOpt:NotesViewEntry = entryCol.getFirstEntry();
-	var arrOpts:Array = new Array ();
 
-	while (entryOpt != null) {	
-		switch(result){
-		case "codigo":
-			arrOpts.push(entryOpt.getDocument().getItemValueString("opt_Codigo_des"));
-		case "descripcion":
-			arrOpts.push(entryOpt.getDocument().getItemValueString("opt_Nombre_des"));
-		case "alias":
-			arrOpts.push(entryOpt.getDocument().getItemValueString("opt_Nombre_des") + "|" + entryOpt.getDocument().getItemValueString("opt_Codigo_des"));
-			
-		}
-		//Recycle
-		var tmpentry:NotesViewEntry = entryCol.getNextEntry(entryOpt);
-		entryOpt.recycle();
-		entryOpt = tmpentry;		
-	};
-	vOpciones.recycle();
-	entryCol.recycle();
-	return arrOpts;
-}
 function getSelectedValueFromAlias( id ) {
 	var ComboBox = getComponent( id );
 	var ChildrenList:java.util.ListIterator;
@@ -277,11 +322,9 @@ function getSelectedValueFromAlias( id ) {
 	}
 	return result;
 }
-function getCollectionByKey(dbSource:NotesDatabase, vista:String, clave:String){
-	var view:NotesView = dbSource.getView(vista);
-	var dc:DocumentCollection = view.getAllDocumentsByKey(clave);
-	return dc
-}
+
+
+
 
 function delay(millisecond){
 	var startTime = new Date().getTime(); // get the current time
@@ -361,7 +404,7 @@ function getList() {
                 }
                 list = list + closure;
                 list = list + "<li class=\'dropdown-submenu\''>";
-                list = list + "<a href=\'#\' tabindex=\”-1\'>" + entryValue + "</a>";
+                list = list + "<a href=\'#\' tabindex=\â€�-1\'>" + entryValue + "</a>";
                 list = list + "<ul id=\'" + entryValue + "\' class=\'dropdown-menu\'>";
                 //increase counter
                 countLevel = curLevel + 1;
@@ -397,4 +440,32 @@ function getList() {
     } else {
         return "no documents found";
     }
+}
+
+function addFacesMessage(message, component, severidad){
+	try { 
+		if(typeof component === 'string' ){
+			component = getComponent(component);
+		}
+
+		var clientId = null;
+		if (component) {
+			clientId = component.getClientId(facesContext);
+		}
+		switch(severidad){
+		case "INFO":
+			var type = javax.faces.application.FacesMessage.SEVERITY_INFO;		 
+		case "WARNING":
+			var type = javax.faces.application.FacesMessage.SEVERITY_WARN;
+		case "ERROR":
+			var type = javax.faces.application.FacesMessage.SEVERITY_ERROR;	
+		case "FATAL":
+			var type = javax.faces.application.FacesMessage.SEVERITY_FATAL;		 	
+		}
+		facesContext.addMessage(clientId,
+		   new javax.faces.application.FacesMessage(type, message, ""));
+	 } catch(e) {
+	        var msgObj = new javax.faces.application.FacesMessage(javax.faces.application.FacesMessage.SEVERITY_ERROR, e.toString(), e.toString() );
+	        facesContext.addMessage(null, msgObj);
+	 }      
 }

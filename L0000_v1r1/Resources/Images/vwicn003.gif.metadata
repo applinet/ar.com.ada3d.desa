@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="832581A1004C0C0C" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="726" sequence="2" unid="AB5B7F11657BA7D5832581AE003662FA">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581C5004DA004" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="222" sequence="1" unid="AB5B7F11657BA7D5832581AE003662FA">
 <created><datetime dst="true">20171003T075402,82-02</datetime></created>
-<modified><datetime dst="true">20171005T191329,03-02</datetime></modified>
+<modified><datetime dst="true">20171026T120754,25-02</datetime></modified>
 <revised><datetime dst="true">20171003T075402,78-02</datetime></revised>
-<lastaccessed><datetime dst="true">20171005T191329,03-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20171005T191329,03-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst="true">20171026T120754,25-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171026T120754,25-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$TITLE"><text>vwicn003.gif</text></item>

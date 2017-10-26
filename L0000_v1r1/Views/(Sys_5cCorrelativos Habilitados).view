@@ -1,28 +1,28 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
- replicaid='832581A1004C0C0C'>
-<noteinfo noteid='70e' unid='D5797B801572BE85832581A9006E4E0E' sequence='8'>
+<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
+ replicaid='832581C5004DA004'>
+<noteinfo noteid='20e' unid='D5797B801572BE85832581A9006E4E0E' sequence='15'>
 <created><datetime dst='true'>20170928T180449,42-02</datetime></created>
-<modified><datetime dst='true'>20171005T191328,88-02</datetime></modified>
+<modified><datetime dst='true'>20171026T120754,15-02</datetime></modified>
 <revised><datetime dst='true'>20171005T120733,34-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171005T191328,88-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20170929T155026,56-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171026T120754,15-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171026T120754,15-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
-<item name='$FormulaClass' sign='true'><text>1</text></item>
+<item name='$FORMULACLASS' sign='true'><text>1</text></item>
 <item name='TmpViewDesignCollation' sign='true'><text>es-AR</text></item>
 <item name='$TITLE' sign='true'><text>(Sys\Correlativos Habilitados)|v.Sys.CorrHab</text></item>
 <item name='$Index' sign='true'><text/></item>
-<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
+<item name='$FORMULA' summary='true' sign='true'><formula compiled='true'>
 ngACABoAAgAkMwUACQBGb3JtX0NvcnIAYQEDAAUALgAqAAQAAgAPAAkABAAkM1VsdE5yb0FzaWdf
 Q29yciRDb25mbGljdCRSRUYEAAQAAAA6AAUABABGb3JtAQAJAGYuQ2ZnQ29ycgAKAgUADgBIYWJp
 bGl0YXJfQ29ycgEAAQAxAAoCHAIDAAcAFgAQAAlMMVMyUzNTNFM1UzZTN1M=
 </formula></item>
-<item name='$Collation' summary='true'>
+<item name='$COLLATION' summary='true'>
 <rawitemdata type='2'>
 DwABAABECGYAAAACACQz
 </rawitemdata></item>
-<item name='$ViewFormat' summary='true' sign='true'>
+<item name='$VIEWFORMAT' summary='true' sign='true'>
 <rawitemdata type='5'>
 AQACAAQAiAQAAFZDAQACAAoAJgAAAFAABQAKCAABAAAAAAAAAAICAAAAVkMAAA8ACwAAAAAAUAAG
 AAAIAAAAAAAAAAAAAgIAAAAkM0Zvcm11bGFyaW8mAAIAGgACACQzBQAJAEZvcm1fQ29ycgBhAQMA
