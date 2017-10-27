@@ -2,11 +2,12 @@
 var menuTools = {
     "getMenu" : function(nsf:NotesDatabase, menuName:string) {
         /* Chequear primero si es session o applicationScope*/
-        dBar.info("llego aca?");
         if (!sessionScope.menuList) {
+        	dBar.info("Creo Menu");
             sessionScope.put("menuList", new java.util.HashMap());
         }
         if (sessionScope.menuList.containsKey(menuName)) {
+        	dBar.info("Ya tengo Menu");
             return sessionScope.menuList.get(menuName);
         }
         /* Devuelve las entradas de menú basandose en una vista que toma de configuración*/
@@ -14,19 +15,11 @@ var menuTools = {
         var viewNav:NotesViewNavigator = viewClave.createViewNav();
         var viewEntry = viewNav.getFirst();
         var result = [];
+        dBar.info("inicio menu");
         var menuSelected:java.util.Vector = getCodigoMenuSelected();
-        if (menuSelected.isEmpty()) {
-        	if(userBean.accessRoles.toString().contains('[usrInitial]')){
-        		/*Para pasar solo una vez en el lifecycle*/
-        		if (requestScope.containsKey("msg"))
-        			return;
-        		requestScope.put("msg", "si");
-	        	addFacesMessage("El usuario actual es temporal. Ahora deberá crear su usuario de seguridad.", null, "WARNING")
-	        	addFacesMessage("Una vez creado el nuevo usuario, le solicitará ingresar con el nuevo usuario.", null, "WARNING")
-        	}else{
-	        	addFacesMessage("No se pudo cargar el menú, comuniquese con el usuario de seguridad.", null, "FATAL")
-        	}
-        	return;
+        dBar.info("menu:" + menuSelected.toString());
+        if (menuSelected.isEmpty()&& userBean.accessRoles.toString().contains('[usrInitial]')) {
+	        	return;
         }
         var strMenuAlias:String = "";
              

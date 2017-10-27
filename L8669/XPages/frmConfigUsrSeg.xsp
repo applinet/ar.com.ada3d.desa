@@ -24,6 +24,19 @@
 	<xc:ccAppLayout>
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle" style="padding-left:20.0%;padding-right:20.0%">
+				<div class="alert alert-info" role="alert">
+					<xp:label id="label1">
+						<xp:this.value><![CDATA[#{javascript:"El usuario actual es temporal y no podrá utilizarlo nuevamente."}]]></xp:this.value>
+					</xp:label>
+					<br />
+					<xp:label id="label2">
+						<xp:this.value><![CDATA[#{javascript:"Como primer paso deberá crear su usuario de seguridad."}]]></xp:this.value>
+					</xp:label>
+					<br />
+					<xp:label id="label3">
+						<xp:this.value><![CDATA[#{javascript:"Una vez creado este nuevo usuario, le solicitará nuevamente el ingreso."}]]></xp:this.value>
+					</xp:label>
+				</div>
 				<xp:tabbedPanel id="tabbedPanel1"
 					selectedTab="tabForm">
 					<xp:tabPanel id="tabForm">
@@ -239,11 +252,15 @@ if (isNew){
 }
 
 if(userBean.accessRoles.toString().contains('[usrInitial]')){
+	var docDummy:NotesDocument = database.createDocument();
+	docDummy.appendItemValue("acl_usrInit", session.getEffectiveUserName());
+	session.getCurrentDatabase().getAgent("a.NaUsrInit").runWithDocumentContext(docDummy);
 	/*Fuerzo un logOut*/
 	sessionScope.remove("menuList");
 	var appUrl = facesContext.getExternalContext().getRequest().getContextPath();
-	var url = appUrl + "?logout&redirectto=" + appUrl;
+	var url = appUrl + "?logout&redirectto=" + appUrl ;
 	facesContext.getExternalContext().redirect(url);
+	facesContext.getExternalContext().getSession(false).invalidate();
 }else{
 	context.redirectToPage(getOpcionesClave("VIEW_UI_USUARIOS_HOME", "codigo")[0]);
 

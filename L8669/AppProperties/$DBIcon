@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='832581C5005B9E56'>
+ replicaid='832581C5007CC52B'>
 <noteinfo noteid='1a6' unid='C6D8ABCC93BF360E832581A10064AEDD' sequence='2'>
 <created><datetime dst='true'>20170920T161943,65-02</datetime></created>
-<modified><datetime dst='true'>20171026T144044,13-02</datetime></modified>
+<modified><datetime dst='true'>20171026T204250,53-02</datetime></modified>
 <revised><datetime dst='true'>20170920T161944,10-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171026T144044,13-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171026T144044,13-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171026T204250,53-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171026T204250,53-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></updatedby>
 <wassignedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name></wassignedby>
 <item name='$TITLE'><text>$DBIcon</text></item>

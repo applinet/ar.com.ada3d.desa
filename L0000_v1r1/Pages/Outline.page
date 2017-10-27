@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='832581C5004DA004'>
-<noteinfo noteid='182' unid='4F543C532C53A463832581A20046AD8F' sequence='11'>
+ replicaid='832581C6004445F4'>
+<noteinfo noteid='17e' unid='4F543C532C53A463832581A20046AD8F' sequence='11'>
 <created><datetime dst='true'>20170921T105159,51-02</datetime></created>
-<modified><datetime dst='true'>20171026T120753,47-02</datetime></modified>
+<modified><datetime dst='true'>20171027T102544,63-02</datetime></modified>
 <revised><datetime dst='true'>20171005T120733,26-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171026T120753,47-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171026T120753,47-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171027T102544,63-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171027T102544,63-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=ADMINISTRADOR DOMINO/O=SASA</name><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$Comment' sign='true'><text/></item>

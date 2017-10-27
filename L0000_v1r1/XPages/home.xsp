@@ -27,7 +27,8 @@
 					</div>
 				</xp:panel>
 				<xp:panel id="PNL_Home">
-					<xp:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xp:this.rendered>
+				<xp:messages id="errorMessages"></xp:messages>
+				<xp:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xp:this.rendered>
 					<div class="jumbotron jumbotron-ad hidden-print">
 						<div class="container">
 							<h1>

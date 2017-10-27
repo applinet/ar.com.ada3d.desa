@@ -78,6 +78,7 @@ if(uName.getCommon() == "Anonymous"){
 							</xe:basicLeafNode>
 							<xe:basicLeafNode
 								label="Cambiar contraseña">
+								<xe:this.href><![CDATA[#{javascript:facesContext.getExternalContext().getRequest().getContextPath()+ "?changepassword"}]]></xe:this.href>
 							</xe:basicLeafNode>
 						</xe:this.children>
 
