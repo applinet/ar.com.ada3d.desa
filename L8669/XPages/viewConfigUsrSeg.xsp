@@ -61,6 +61,10 @@ if(usrSeg == session.getEffectiveUserName()){
 	return "#";
 }	
 return "frmConfigUsrSeg.xsp?documentId=" + viewEntry.getUniversalID();}]]></xe:this.href>
+							<xe:this.value><![CDATA[#{javascript:var usrSeg = viewEntry.getColumnValue('usr_UserName_des');
+if(usrSeg == session.getEffectiveUserName()){
+	return "Usuario Actual (No puede modificar sus atributos)";
+}	}]]></xe:this.value>
 						</xe:viewSummaryColumn>
 					</xe:this.summaryColumn>
 					<xe:this.extraColumns>
