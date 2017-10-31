@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	<!--
+<!--
 		Datasource - Vista: v.UI.Menu.porEstadoUsuario - Document asociado:
 		f.CfgUserMenu
 	-->
@@ -18,9 +18,15 @@
 		</xp:dominoDocument>
 	</xp:this.data>
 	<xp:this.resources>
+		<xp:dojoModule name="extlib.dijit.ExtLib"></xp:dojoModule>
+		<xp:dojoModule name="extlib.dijit.Loading"></xp:dojoModule>
 		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
+		<xp:styleSheet href="/loading.css"></xp:styleSheet>
+		<xp:script src="/loading.js" clientSide="true"></xp:script>
+		<xp:script src="/DojoDijitDialogXPagesCompatible.js"
+			clientSide="true">
+		</xp:script>
 	</xp:this.resources>
-	<xc:ccFXstandBy></xc:ccFXstandBy>
 	<xc:ccAppLayout>
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle" style="padding-left:20.0%;padding-right:20.0%">
@@ -72,18 +78,27 @@
 							-->
 							<xe:formRow id="rowUserName" label="Usuario"
 								labelPosition="left" rendered="#{javascript:docUsrSeg.isNewNote();}">
-								<xp:inputText id="usr_UserName_des" value="#{docUsrSeg.usr_UserName_des}"
-									required="true" onblur="this.value=this.value.toLowerCase();">
-									<xp:this.validators>
-										<xp:validateRequired
-											message="El nombre de usuario es un campo requerido.">
-										</xp:validateRequired>
-										<xp:validateConstraint>
-											<xp:this.message><![CDATA[El nombre de usuario debe ser de 5 a 20 caracteres (letras o números) y sin espacios]]></xp:this.message>
-											<xp:this.regex><![CDATA[[a-z0-9]{5,20}]]></xp:this.regex>
-										</xp:validateConstraint>
-									</xp:this.validators>
-								</xp:inputText>
+								<div class="input-group">
+									<span class="input-group-addon">
+										<i class="glyphicon glyphicon-user"></i>
+									</span>
+									<xp:inputText id="usr_UserName_des" value="#{docUsrSeg.usr_UserName_des}"
+										required="true" onblur="this.value=this.value.toLowerCase();">
+										<xp:this.validators>
+											<xp:validateRequired
+												message="El nombre de usuario es un campo requerido.">
+											</xp:validateRequired>
+											<xp:validateConstraint>
+												<xp:this.message><![CDATA[El nombre de usuario debe ser de 5 a 20 caracteres (letras o números) y sin espacios]]></xp:this.message>
+												<xp:this.regex><![CDATA[[a-z0-9]{5,20}]]></xp:this.regex>
+											</xp:validateConstraint>
+										</xp:this.validators>
+										<xp:this.attrs>
+											<xp:attr value="Usuario" name="placeHolder">
+											</xp:attr>
+										</xp:this.attrs>
+									</xp:inputText>
+								</div>
 							</xe:formRow>
 							<xe:formRow id="rowUserMaskName" label="Usuario"
 								labelPosition="left" rendered="#{javascript:!docUsrSeg.isNewNote();}">
@@ -94,36 +109,54 @@
 							<!-- La contraseña solo por primera vez -->
 							<xe:formRow id="rowUserPassword" label="Contraseña"
 								labelPosition="left" rendered="#{javascript:docUsrSeg.isNewNote();}">
-								<xp:inputText id="usr_UserPassword_des"
-									value="#{docUsrSeg.usr_UserPassword_des}" required="true"
-									disableClientSideValidation="true" password="true">
-									<xp:this.validators>
-										<xp:validateRequired message="Debe establecer una contraseña">
-										</xp:validateRequired>
-										<xp:validateExpression message="Las contraseñas deben coincidir">
-											<xp:this.expression><![CDATA[#{javascript:if (getComponent("usr_UserPassword_des").getSubmittedValue() != getComponent("ConfirmPassword").getSubmittedValue()){ 
+								<div class="input-group">
+									<span class="input-group-addon">
+										<i class="glyphicon glyphicon-lock"></i>
+									</span>
+									<xp:inputText id="usr_UserPassword_des"
+										value="#{docUsrSeg.usr_UserPassword_des}" required="true"
+										disableClientSideValidation="true" password="true">
+										<xp:this.validators>
+											<xp:validateRequired message="Debe establecer una contraseña">
+											</xp:validateRequired>
+											<xp:validateExpression message="Las contraseñas deben coincidir">
+												<xp:this.expression><![CDATA[#{javascript:if (getComponent("usr_UserPassword_des").getSubmittedValue() != getComponent("ConfirmPassword").getSubmittedValue()){ 
   return false; 
 }else{ 
   return true; 
 }      }]]></xp:this.expression>
-										</xp:validateExpression>
-										<xp:validateConstraint>
-											<xp:this.message><![CDATA[Debe ser de 7 a 20 caracteres. Permitidos: [a-z][A-Z][0-9]]]></xp:this.message>
-											<xp:this.regex><![CDATA[[a-zA-Z0-9]{7,20}]]></xp:this.regex>
-										</xp:validateConstraint>
-									</xp:this.validators>
-								</xp:inputText>
+											</xp:validateExpression>
+											<xp:validateConstraint>
+												<xp:this.message><![CDATA[Debe ser de 7 a 20 caracteres. Permitidos: [a-z][A-Z][0-9]]]></xp:this.message>
+												<xp:this.regex><![CDATA[[a-zA-Z0-9]{7,20}]]></xp:this.regex>
+											</xp:validateConstraint>
+										</xp:this.validators>
+										<xp:this.attrs>
+											<xp:attr value="Password" name="placeHolder">
+											</xp:attr>
+										</xp:this.attrs>
+									</xp:inputText>
+								</div>
 							</xe:formRow>
 							<!-- Confirmación de contraseña solo por primera vez -->
 							<xe:formRow id="rowConfirmUserPassword" label="Confirmar Contraseña"
 								labelPosition="left" rendered="#{javascript:docUsrSeg.isNewNote();}">
-								<xp:inputText id="ConfirmPassword" password="true"
-									required="true">
-									<xp:this.validators>
-										<xp:validateRequired message="Debe confirmar la contraseña">
-										</xp:validateRequired>
-									</xp:this.validators>
-								</xp:inputText>
+								<div class="input-group">
+									<span class="input-group-addon">
+										<i class="glyphicon glyphicon-lock"></i>
+									</span>
+									<xp:inputText id="ConfirmPassword" password="true"
+										required="true">
+										<xp:this.validators>
+											<xp:validateRequired message="Debe confirmar la contraseña">
+											</xp:validateRequired>
+										</xp:this.validators>
+										<xp:this.attrs>
+											<xp:attr value="Password" name="placeHolder">
+											</xp:attr>
+										</xp:this.attrs>
+									</xp:inputText>
+								</div>
 							</xe:formRow>
 							<!-- Fin Contraseña -->
 							<xe:formRow id="authorRow" label="Crea este documento"
@@ -325,54 +358,87 @@ if(isUserNameAvailable(user)){
 					</xp:button>
 					<xp:button value="Cambiar contraseña" id="btnChangePassword"
 						styleClass="btn-warning">
-						<xp:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xp:this.rendered>
-						<xp:eventHandler event="onclick" submit="false"
-							id="eventHandler4">
-							<xp:this.script><![CDATA[XSP.openDialog("#{id:dialogChangePassword}");]]></xp:this.script>
-						</xp:eventHandler>
+						<xp:this.rendered><![CDATA[#{javascript:if(docUsrSeg.isNewNote())
+	return false;
+if(userBean.accessRoles.toString().contains('[usrInitial]'))
+	return false;
+return true;}]]></xp:this.rendered>
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="divDialogChangePassword">
+							<xp:this.action>
+
+								<xp:actionGroup>
+									<xp:changeDocumentMode mode="edit"
+										var="docUsrSeg">
+									</xp:changeDocumentMode>
+									<xp:executeScript
+										script="#{javascript:getComponent('dialogChangePassword').show()}">
+									</xp:executeScript>
+								</xp:actionGroup>
+							</xp:this.action></xp:eventHandler>
 					</xp:button>
 				</xp:panel>
 				<!-- FIN PANEL DE BOTONES  -->
 			</xp:panel>
 		</xp:this.facets>
 	</xc:ccAppLayout>
-	<xe:dialog id="dialogChangePassword">
-		<xe:this.title><![CDATA[#{javascript:"Cambio de contraseña de " + docUsrSeg.getItemValueString("usr_Nombre_des")}]]></xe:this.title>
+	<xp:div id="divDialogChangePassword">
+		<xe:dialog id="dialogChangePassword" dojoType="ar.com.ada3d.widget.Dialog">
+			<xe:this.title><![CDATA[#{javascript:"Cambio de contraseña de " + docUsrSeg.getItemValueString("usr_Nombre_des")}]]></xe:this.title>
 			<xe:dialogContent id="dialogContent1">
 				<xe:formTable id="formTableChangePassword"
 					labelPosition="above">
 					<!-- Ini Contraseña -->
 					<xe:formRow id="rowChangeUserPassword" label="Contraseña"
 						labelPosition="left">
-						<xp:inputText id="usr_ChangeUserPassword_des"
-							required="true" disableClientSideValidation="true" password="true">
-							<xp:this.validators>
-								<xp:validateRequired message="Debe establecer una contraseña">
-								</xp:validateRequired>
-								<xp:validateExpression message="Las contraseñas deben coincidir">
-									<xp:this.expression><![CDATA[#{javascript:if (getComponent("usr_ChangeUserPassword_des").getSubmittedValue() != getComponent("ChangeConfirmPassword").getSubmittedValue()){ 
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="glyphicon glyphicon-lock"></i>
+							</span>
+							<xp:inputText id="usr_ChangeUserPassword_des"
+								required="true" disableClientSideValidation="true" password="true">
+								<xp:this.validators>
+									<xp:validateRequired message="Debe establecer una contraseña">
+									</xp:validateRequired>
+									<xp:validateExpression message="Las contraseñas deben coincidir">
+										<xp:this.expression><![CDATA[#{javascript:if (getComponent("usr_ChangeUserPassword_des").getSubmittedValue() != getComponent("ChangeConfirmPassword").getSubmittedValue()){ 
   return false; 
 }else{ 
   return true; 
 }      }]]></xp:this.expression>
-								</xp:validateExpression>
-								<xp:validateConstraint>
-									<xp:this.message><![CDATA[Debe ser de 7 a 20 caracteres. Permitidos: [a-z][A-Z][0-9]]]></xp:this.message>
-									<xp:this.regex><![CDATA[[a-zA-Z0-9]{7,20}]]></xp:this.regex>
-								</xp:validateConstraint>
-							</xp:this.validators>
-						</xp:inputText>
+									</xp:validateExpression>
+									<xp:validateConstraint>
+										<xp:this.message><![CDATA[Debe ser de 7 a 20 caracteres. Permitidos: [a-z][A-Z][0-9]]]></xp:this.message>
+										<xp:this.regex><![CDATA[[a-zA-Z0-9]{7,20}]]></xp:this.regex>
+									</xp:validateConstraint>
+								</xp:this.validators>
+								<xp:this.attrs>
+									<xp:attr value="Password" name="placeHolder">
+									</xp:attr>
+								</xp:this.attrs>
+							</xp:inputText>
+						</div>
 					</xe:formRow>
 					<!-- Confirmación de cambio de contraseña -->
 					<xe:formRow id="rowChangeConfirmUserPassword" label="Confirmar Contraseña"
 						labelPosition="left">
-						<xp:inputText id="ChangeConfirmPassword" password="true"
-							required="true">
-							<xp:this.validators>
-								<xp:validateRequired message="Debe confirmar la contraseña">
-								</xp:validateRequired>
-							</xp:this.validators>
-						</xp:inputText>
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="glyphicon glyphicon-lock"></i>
+							</span>
+							<xp:inputText id="ChangeConfirmPassword" password="true"
+								required="true">
+								<xp:this.validators>
+									<xp:validateRequired message="Debe confirmar la contraseña">
+									</xp:validateRequired>
+								</xp:this.validators>
+								<xp:this.attrs>
+									<xp:attr value="Password" name="placeHolder">
+									</xp:attr>
+								</xp:this.attrs>
+							</xp:inputText>
+						</div>
 					</xe:formRow>
 					<!-- Fin Contraseña -->
 				</xe:formTable>
@@ -382,17 +448,34 @@ if(isUserNameAvailable(user)){
 				<xp:button value="Cambiar" id="btnConfirmChange"
 					styleClass="btn-success">
 					<xp:eventHandler event="onclick" submit="true"
-						refreshMode="complete">
-						<xp:this.action><![CDATA[#{javascript:var docDummy:NotesDocument = database.createDocument();
-docDummy.appendItemValue("userName", getComponent('usr_UserName_des').getValueAsString());
-docDummy.appendItemValue("userPwd", getComponent('usr_ChangeUserPassword_des').getValueAsString());
+						refreshMode="partial" onComplete="stoploading()"
+						onStart="loading()">
+						<xp:this.action><![CDATA[#{javascript:print("1");
+var tempName:String = getComponent('usr_UserName_des').getValueAsString();
+var tempPwd:String = getComponent('usr_ChangeUserPassword_des').getValueAsString();
+var docDummy:NotesDocument = database.createDocument();
+print("2");
+docDummy.appendItemValue("userName", tempName);
+docDummy.appendItemValue("userPwd", tempPwd);
+print("3");
 getComponent('dialogChangePassword').hide();
-session.getCurrentDatabase().getAgent("a.PwdUserExt").runWithDocumentContext(docDummy);}]]></xp:this.action>
-
+print("4");
+session.getCurrentDatabase().getAgent("a.PwdUserExt").runWithDocumentContext(docDummy);
+print('llega al final');}]]></xp:this.action>
 
 
 					</xp:eventHandler>
 				</xp:button>
+
+				<xp:button value="prueba" id="button1">
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="partial" refreshId="divDialogChangePassword">
+						
+						<xp:this.onError><![CDATA[XSP.endAjaxLoading()]]></xp:this.onError>
+					</xp:eventHandler>
+				</xp:button>
 			</xe:dialogButtonBar>
-	</xe:dialog>
+		</xe:dialog>
+	</xp:div>
+
 </xp:view>
