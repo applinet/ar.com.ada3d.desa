@@ -325,7 +325,8 @@ if(isUserNameAvailable(user)){
 					</xp:button>
 					<xp:button value="Cambiar contraseña" id="btnChangePassword"
 						styleClass="btn-warning">
-						<xp:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xp:this.rendered><xp:eventHandler event="onclick" submit="false"
+						<xp:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xp:this.rendered>
+						<xp:eventHandler event="onclick" submit="false"
 							id="eventHandler4">
 							<xp:this.script><![CDATA[XSP.openDialog("#{id:dialogChangePassword}");]]></xp:this.script>
 						</xp:eventHandler>
@@ -337,7 +338,6 @@ if(isUserNameAvailable(user)){
 	</xc:ccAppLayout>
 	<xe:dialog id="dialogChangePassword">
 		<xe:this.title><![CDATA[#{javascript:"Cambio de contraseña de " + docUsrSeg.getItemValueString("usr_Nombre_des")}]]></xe:this.title>
-		<xp:panel id="PNL_ChangePassword">
 			<xe:dialogContent id="dialogContent1">
 				<xe:formTable id="formTableChangePassword"
 					labelPosition="above">
@@ -379,16 +379,20 @@ if(isUserNameAvailable(user)){
 			</xe:dialogContent>
 			<xe:dialogButtonBar id="dialogButtonBarChangePassword">
 
-				<xp:button value="Cambiar" id="btnConfirmChange" styleClass="btn-success">
+				<xp:button value="Cambiar" id="btnConfirmChange"
+					styleClass="btn-success">
 					<xp:eventHandler event="onclick" submit="true"
-						refreshMode="partial" refreshId="PNL_ChangePassword">
+						refreshMode="complete">
 						<xp:this.action><![CDATA[#{javascript:var docDummy:NotesDocument = database.createDocument();
 docDummy.appendItemValue("userName", getComponent('usr_UserName_des').getValueAsString());
 docDummy.appendItemValue("userPwd", getComponent('usr_ChangeUserPassword_des').getValueAsString());
-session.getCurrentDatabase().getAgent("a.PwdUserExt").runWithDocumentContext(docDummy);
-getComponent('dialogChangePassword').hide();}]]></xp:this.action>
-					</xp:eventHandler></xp:button>
+getComponent('dialogChangePassword').hide();
+session.getCurrentDatabase().getAgent("a.PwdUserExt").runWithDocumentContext(docDummy);}]]></xp:this.action>
+
+
+
+					</xp:eventHandler>
+				</xp:button>
 			</xe:dialogButtonBar>
-		</xp:panel>
 	</xe:dialog>
 </xp:view>
