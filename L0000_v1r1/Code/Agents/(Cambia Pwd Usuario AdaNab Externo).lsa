@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='832581CB0051C4E4'>
-<noteinfo noteid='296' unid='4A3D0F1198A46E94832581C9007E1892' sequence='9'>
+ replicaid='832581CB00685F8C'>
+<noteinfo noteid='292' unid='4A3D0F1198A46E94832581C9007E1892' sequence='15'>
 <created><datetime dst='true'>20171030T205718,26-02</datetime></created>
-<modified><datetime dst='true'>20171101T125310,42-02</datetime></modified>
-<revised><datetime dst='true'>20171031T092559,37-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171101T125310,42-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171101T125310,42-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst='true'>20171101T170004,18-02</datetime></modified>
+<revised><datetime dst='true'>20171101T123614,83-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171101T170004,18-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171101T170004,18-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$TITLE' sign='true'><text>(Cambia Pwd Usuario AdaNab Externo)|a.PwdUserExt</text></item>
@@ -34,12 +34,12 @@ gQYAAAAA
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$AssistRunInfo' summary='true'>
 <rawitemdata type='3'>
-BgAAAgAACACSAgAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAA2AAAAAAAAAAAAAAAAAAAABAAAAAA
-AAAAADloAMqBJYMAAAAA4s0+AMqBJYPbq1EAxoElgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
+BgAAAgAACACOAgAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAA2AAAAAAAAAAAAAAAAAAAABAAAAAA
+AAAAoTNoAMuBJYMAAAAADDlQAMuBJYPbq1EAxoElgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
 ZCBydW5uaW5nIGFnZW50ICcoQ2FtYmlhIFB3ZCBVc3VhcmlvIEFkYU5hYiBFeHRlcm5vKXxhLlB3
-ZFVzZXJFeHQnIG9uIDEwLzMxLzIwMTcgMTU6NTg6MTYNClJhbiBMb3R1c1NjcmlwdCBjb2RlDQpE
+ZFVzZXJFeHQnIG9uIDExLzAxLzIwMTcgMTU6NTg6MDANClJhbiBMb3R1c1NjcmlwdCBjb2RlDQpE
 b25lIHJ1bm5pbmcgYWdlbnQgJyhDYW1iaWEgUHdkIFVzdWFyaW8gQWRhTmFiIEV4dGVybm8pfGEu
-UHdkVXNlckV4dCcgb24gMTAvMzEvMjAxNyAxNTo1ODoyMw0KAA0KZh9jdJfEbPQAQ5lSgyWBymNv
+UHdkVXNlckV4dCcgb24gMTEvMDEvMjAxNyAxNTo1ODowOQ0KAA0KSDnTg+FnO00AUvxjgyWBy2Nv
 bXBvbmVudC9VSUluY2x1ZGVDb21wb3NpdGU7AQALcHJvcGVydHlNYXABACFMY29tL2libS94c3Av
 YmluZGluZy9Qcm9wZXJ0eU1hcDsBABRwcm9wZXJ0eUZvcm1OYW1lRXhwcgcA1AEAN2NvbS9pYm0v
 eHNwL2V4dGxpYi9jb21wb25lbnQvbGF5b3V0L1VJQXBwbGljYXRpb25MYXlvdXQKANMAYAgA1wEA

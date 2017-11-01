@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='helpusingdocument' xmlns='http://www.lotus.com/dxl'
- version='9.0' maintenanceversion='1.9' replicaid='832581C6004445F4'>
-<noteinfo noteid='11e' unid='000001753D049D4685255BAC0056254C' sequence='19'>
+ version='9.0' maintenanceversion='1.9' replicaid='832581CB00685F8C'>
+<noteinfo noteid='11e' unid='000001753D049D4685255BAC0056254C' sequence='25'>
 <created><datetime dst='true'>19910212T114056,44-04</datetime></created>
-<modified><datetime dst='true'>20171027T102544,03-02</datetime></modified>
-<revised><datetime dst='true'>20021125T173224,23-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20171027T102544,03-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171027T102544,03-02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=greed1/O=miketest</name><name>CN=Lotus Notes Template Development/O=Lotus Notes</name></updatedby>
-<wassignedby><name>CN=Lotus Notes Template Development/O=Lotus Notes</name></wassignedby>
+<modified><datetime dst='true'>20171101T170002,42-02</datetime></modified>
+<revised><datetime dst='true'>20171101T123610,26-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171101T170002,42-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171101T170002,42-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
+<wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$INFO' sign='true'>
 <rawitemdata type='1'>
 hhgBAIAAAAAAAAAAAQAAAAAAAAAAAAAA
