@@ -3,11 +3,9 @@ var menuTools = {
     "getMenu" : function(nsf:NotesDatabase, menuName:string) {
         /* Chequear primero si es session o applicationScope*/
         if (!sessionScope.menuList) {
-        	dBar.info("Creo Menu");
             sessionScope.put("menuList", new java.util.HashMap());
         }
         if (sessionScope.menuList.containsKey(menuName)) {
-        	dBar.info("Ya tengo Menu");
             return sessionScope.menuList.get(menuName);
         }
         /* Devuelve las entradas de menú basandose en una vista que toma de configuración*/
@@ -15,9 +13,7 @@ var menuTools = {
         var viewNav:NotesViewNavigator = viewClave.createViewNav();
         var viewEntry = viewNav.getFirst();
         var result = [];
-        dBar.info("inicio menu");
         var menuSelected:java.util.Vector = getCodigoMenuSelected();
-        dBar.info("menu:" + menuSelected.toString());
         if (menuSelected.isEmpty()&& userBean.accessRoles.toString().contains('[usrInitial]')) {
 	        	return;
         }

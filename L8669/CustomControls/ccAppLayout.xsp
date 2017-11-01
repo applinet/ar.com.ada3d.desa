@@ -16,7 +16,7 @@
 }}]]></xp:this.beforePageLoad>
 	
 	<xc:ccRolDesarrollo_Debug>
-		<xc:this.propertyFormName><![CDATA[#{javascript:"docUsrSeg"}]]></xc:this.propertyFormName>
+		<xc:this.propertyFormName><![CDATA[#{javascript:"docUsuario"}]]></xc:this.propertyFormName>
 	</xc:ccRolDesarrollo_Debug>
 	
 	<xe:applicationLayout id="applicationLayout1">
