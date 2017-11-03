@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581C60051ABDB" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="4ea" sequence="8" unid="6CFEFE28C4B4D556832581CD004CB30B">
+<created><datetime dst="true">20171103T115745,71-02</datetime></created>
+<modified><datetime dst="true">20171103T120751,13-02</datetime></modified>
+<revised><datetime dst="true">20171103T120751,12-02</datetime></revised>
+<lastaccessed><datetime dst="true">20171103T120751,13-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171103T115745,72-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
+<wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
+<item name="$Flags"><text>gC~4K</text></item>
+<item name="$TITLE" sign="true"><text>frmConfigUsrChgPwd.xsp</text></item>
+<item name="$DesignerVersion"><text>9.0.1</text></item>
+
+
+
+
+
+
+
+
+
+<item name="$FileNames" sign="true"><text>frmConfigUsrChgPwd.xsp</text></item></note>

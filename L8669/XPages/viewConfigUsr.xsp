@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 	<!--
 		Datasource - Vista: v.UI.Menu.porEstadoUsuario - Form asociado:
-		frmConfigUsrSeg.xsp
+		frmConfigUsr.xsp
 	-->
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xc="http://www.ibm.com/xsp/custom"
@@ -60,7 +60,7 @@ viewScope.get("categoriaEstadoUsuarios");}]]></xp:this.categoryFilter>
 if(usrSeg == session.getEffectiveUserName()){
 	return "#";
 }	
-return "frmConfigUsrSeg.xsp?documentId=" + viewEntry.getUniversalID();}]]></xe:this.href>
+return "frmConfigUsr.xsp?documentId=" + viewEntry.getUniversalID();}]]></xe:this.href>
 							<xe:this.value><![CDATA[#{javascript:var usrSeg = viewEntry.getColumnValue('usr_UserName_des');
 if(usrSeg == session.getEffectiveUserName()){
 	return "Usuario Actual (No puede modificar sus atributos)";
@@ -89,7 +89,7 @@ return ""
 									submit="true" refreshMode="complete">
 									<xp:this.action>
 										<xp:openPage
-											name="/frmConfigUsrSeg.xsp" target="newDocument">
+											name="/frmConfigUsr.xsp" target="newDocument">
 										</xp:openPage>
 									</xp:this.action>
 								</xp:eventHandler>
@@ -156,7 +156,7 @@ return viewEntry.getColumnValue('usr_Status_des') == '0' ? base + "user red" : b
 									submit="true" refreshMode="complete">
 									<xp:this.action>
 										<xp:openPage
-											name="/frmConfigUsrSeg.xsp" target="newDocument">
+											name="/frmConfigUsr.xsp" target="newDocument">
 										</xp:openPage>
 									</xp:this.action>
 								</xp:eventHandler>
@@ -166,22 +166,26 @@ return viewEntry.getColumnValue('usr_Status_des') == '0' ? base + "user red" : b
 								<xp:this.value><![CDATA[#{javascript:return viewScope.categoriaEstadoUsuarios.equals('0') ? "Habilitar Usuarios": "Inhabilitar Usuarios";}]]></xp:this.value>
 								<xp:eventHandler event="onclick"
 									submit="true" refreshMode="complete">
-									<xp:this.action><![CDATA[#{javascript:var viewPanel=getComponent("usuariosDataView");
-var docIDArray=viewPanel.getSelectedIds();
-var valor = viewScope.categoriaEstadoUsuarios.equals('0')? '1':'0';
-//Si valor es 0 lo paso a inactivo y saco la marca de seguridad
-for(i=0; i < docIDArray.length; i++){
-	var docId = docIDArray[i];
-	var doc:NotesDocument = database.getDocumentByID(docId);
-	doc.replaceItemValue("usr_Status_des", valor) ;
-	if(valor.equals('0')){
-		doc.replaceItemValue("usr_USRSEG_opt", "0");
-		setLog (doc, "El usuario se ha inhabilitado y se le ha quitado el atributo de seguridad", "log_des");
-	}else{ 
-		setLog (doc, "El usuario se ha habilitado", "log_des");
+									<xp:this.action><![CDATA[#{javascript:try{	
+	var viewPanel=getComponent("usuariosDataView");
+	var docIDArray=viewPanel.getSelectedIds();
+	var valor = viewScope.categoriaEstadoUsuarios.equals('0')? '1':'0';
+	//Si valor es 0 lo paso a inactivo y saco la marca de seguridad
+	for(i=0; i < docIDArray.length; i++){
+		var docId = docIDArray[i];
+		var doc:NotesDocument = database.getDocumentByID(docId);
+		doc.replaceItemValue("usr_Status_des", valor) ;
+		if(valor.equals('0')){
+			doc.replaceItemValue("usr_USRSEG_opt", "0");
+			setLog (doc, "El usuario se ha inhabilitado y se le ha quitado el atributo de seguridad", "log_des");
+		}else{ 
+			setLog (doc, "El usuario se ha habilitado", "log_des");
+		}
+		doc.save();
 	}
-	doc.save();
-}}]]></xp:this.action>
+} catch(e) {
+        addFacesMessage(e.toString(), null, "FATAL")
+ }}]]></xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
 						</xp:panel>

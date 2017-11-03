@@ -22,7 +22,7 @@
 					<div styleclass="row fontawesome-icon-list">
 						<xp:link escape="true"
 							text="Crear usuario de Seguridad" id="link1"
-							value="/frmConfigUsrSeg.xsp">
+							value="/frmConfigUsr.xsp">
 						</xp:link>
 					</div>
 				</xp:panel>
