@@ -2,7 +2,7 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
-	<xc:ccAppLayout>
+	<xc:ccLayoutBootstrap>
 		<xp:this.facets>
 			<xp:text escape="true" id="computedField1"
 				value="#{javascript:view.getPageName()}"
@@ -28,5 +28,5 @@
 </xe:djTabContainer>
 			
 			</xp:this.facets>
-	</xc:ccAppLayout>
+	</xc:ccLayoutBootstrap>
 </xp:view>

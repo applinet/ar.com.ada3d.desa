@@ -10,7 +10,7 @@
 	viewScope.put("categoriaEstadoUsuarios", "1");
 }}]]></xp:this.beforePageLoad>
 
-	<xc:ccAppLayout>
+	<xc:ccLayoutBootstrap>
 		
 		<xp:this.facets>
 			<xe:navigator id="navMenu" xp:key="facetLeft">
@@ -189,5 +189,5 @@ for(i=0; i < docIDArray.length; i++){
 				</xe:dataView>
 			</xp:panel>
 		</xp:this.facets>
-	</xc:ccAppLayout>
+	</xc:ccLayoutBootstrap>
 </xp:view>

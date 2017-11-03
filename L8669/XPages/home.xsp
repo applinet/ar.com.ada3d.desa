@@ -4,7 +4,7 @@
 	<xp:this.resources>
 		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
 	</xp:this.resources>
-	<xc:ccAppLayout>
+	<xc:ccLayoutBootstrap>
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle" id="PNL_Central">
 				<xp:panel id="PNL_UsuarioSeguridad">
@@ -40,5 +40,5 @@
 				</xp:panel>
 			</xp:panel>
 		</xp:this.facets>
-	</xc:ccAppLayout>
+	</xc:ccLayoutBootstrap>
 </xp:view>

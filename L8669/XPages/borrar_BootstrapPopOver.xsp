@@ -14,7 +14,7 @@ x$( "#{id:button1}" ).popover();
 );
 ]]></xp:this.value>
 	</xp:scriptBlock>
-	<xc:ccAppLayout>
+	<xc:ccLayoutBootstrap>
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle">
 				<xp:br></xp:br>
@@ -40,6 +40,6 @@ x$( "#{id:button1}" ).popover();
 				</xp:button>
 			</xp:panel>
 		</xp:this.facets>
-	</xc:ccAppLayout>
+	</xc:ccLayoutBootstrap>
 	<script>$('#example').popover()</script>
 </xp:view>

@@ -5,6 +5,7 @@
 		<xp:script src="/MenuTools.jss" clientSide="false"></xp:script>
 		<xp:styleSheet href="/bootstrapSubmenu.css"></xp:styleSheet>
 		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
+		<xp:script src="bootstrap-growl/jquery.bootstrap-growl.js" clientSide="true"></xp:script>
 	</xp:this.resources>
 	<xp:this.beforePageLoad><![CDATA[#{javascript:if (sessionScope.DocUsr) {
 	// Si el usuario cambió, reseteo la scope invalidandola
@@ -27,20 +28,23 @@
 		</xe:this.facets>
 		<!-- Bootstrap configuration object for the app layout -->
 		<xe:this.configuration>
-			<xe:bootstrapResponsiveConfiguration
-				banner="true" collapseLeftColumn="true" titleBar="false" pageWidth="fluid"
-				invertedNavbar="true" fixedNavbar="fixed-top" productLogo="/ddc-icon-32x32.png"
-				placeBar="false">
+			<xe:bootstrapResponsiveConfiguration banner="true"
+				collapseLeftColumn="true" pageWidth="fluid" invertedNavbar="true"
+				fixedNavbar="fixed-top" productLogo="/ddc-icon-32x32.png"
+				titleBar="false" placeBar="false">
 				<xe:this.bannerApplicationLinks>
-					<xe:repeatTreeNode loaded="true" var="tree" indexVar="index">
+					<xe:repeatTreeNode loaded="true" var="tree"
+						indexVar="index">
 						<xe:this.children>
 							<xe:basicContainerNode style="menu-item">
 								<xe:this.label><![CDATA[#{javascript:requestScope.currNode = tree; tree.name}]]></xe:this.label>
 								<xe:this.children>
-									<xe:repeatTreeNode loaded="true" var="subtree"
-										indexVar="subindex" value="#{javascript:requestScope.currNode.items}">
+									<xe:repeatTreeNode loaded="true"
+										var="subtree" indexVar="subindex"
+										value="#{javascript:requestScope.currNode.items}">
 										<xe:this.children>
-											<xe:basicLeafNode label="#{subtree}"
+											<xe:basicLeafNode
+												label="#{subtree}"
 												href="#{javascript:requestScope.currPage = tree; tree.page[subindex]}">
 											</xe:basicLeafNode>
 										</xe:this.children>

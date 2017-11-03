@@ -18,7 +18,7 @@
 		</xp:dominoDocument>
 	</xp:this.data>
 	<xc:ccFXstandBy></xc:ccFXstandBy>
-	<xc:ccAppLayout>
+	<xc:ccLayoutBootstrap>
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle" style="padding-left:20.0%;padding-right:20.0%">
 				<xp:panel styleClass="alert alert-info" role="alert">
@@ -449,6 +449,12 @@ getComponent('dialogChangePassword').hide();
 dBar.info("4");
 session.getCurrentDatabase().getAgent("a.PwdUserExt").runWithDocumentContext(docDummy);
 dBar.info('llega al final');}]]></xp:this.action>
+									<xp:this.onStart><![CDATA[setTimeout(function(){
+	$.bootstrapGrowl("Procesando...un momento por favor", {
+		type: 'success',
+		align: 'center'
+	});
+}, 50);]]></xp:this.onStart>
 								</xp:eventHandler>
 							</xp:button>
 						</xe:dialogButtonBar>
@@ -456,5 +462,5 @@ dBar.info('llega al final');}]]></xp:this.action>
 				</xp:div>
 			</xp:panel>
 		</xp:this.facets>
-	</xc:ccAppLayout>
+	</xc:ccLayoutBootstrap>
 </xp:view>
