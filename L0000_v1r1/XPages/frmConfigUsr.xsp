@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
+	<!--
 		Datasource - Vista: v.UI.Menu.porEstadoUsuario - Document asociado:
 		f.CfgUserMenu
 	-->
@@ -17,7 +17,7 @@
 			computeWithForm="onsave">
 		</xp:dominoDocument>
 	</xp:this.data>
-	
+
 	<xc:ccFXstandBy></xc:ccFXstandBy>
 	<xc:ccLayoutBootstrap>
 		<xp:this.facets>
@@ -186,6 +186,7 @@ return true;}]]></xe:this.rendered>
 										<xp:eventHandler event="onclick" submit="true"
 											refreshMode="partial" refreshId="PNL_HiddenFields">
 											<xp:this.action><![CDATA[#{javascript:getComponent("usrSeg").setValue("0");}]]></xp:this.action>
+											<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:tabMenu}");]]></xp:this.onComplete>
 										</xp:eventHandler>
 									</xp:button>
 									<xp:button id="btnSi" value="Si"
@@ -194,10 +195,11 @@ return true;}]]></xe:this.rendered>
 										<xp:eventHandler event="onclick" submit="true"
 											refreshMode="partial" refreshId="PNL_HiddenFields">
 											<xp:this.action><![CDATA[#{javascript:getComponent("usrSeg").setValue("1");}]]></xp:this.action>
+											<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:tabMenu}");]]></xp:this.onComplete>
 										</xp:eventHandler>
 									</xp:button>
 								</div>
-								<xp:scriptBlock id="scriptBlock1">
+								<xp:scriptBlock id="scriptBlockBtnSiNo">
 									<xp:this.value><![CDATA[$("#switch .btn").on("click", function() {$(this)	.addClass("btn-success")	.siblings()	.removeClass("btn-success");});]]></xp:this.value>
 								</xp:scriptBlock>
 							</xe:formRow>
@@ -214,21 +216,37 @@ return true;}]]></xe:this.rendered>
 						<!-- CheckBox de menues -->
 						<xp:this.rendered><![CDATA[#{javascript:if(userBean.accessRoles.toString().contains('[usrInitial]'))
 	return false;
+if(docUsuario.usr_USRSEG_opt == '1')
+	return false;	
 return true;}]]></xp:this.rendered>
 						<xe:formRow id="checkMenues" label="Menues"
 							labelPosition="left">
-							<xp:checkBoxGroup id="checkBoxGroup1" layout="pageDirection"
-								value="#{docUsuario.usr_MenuSelected_cod}">
-								<xp:selectItems id="itemSelected">
-									<xp:this.value><![CDATA[#{javascript:var confDb:NotesDatabase = getDbCfg();
+							<xp:div id="divCheckMenuSeguridad">
+								<xp:this.rendered><![CDATA[#{javascript:getComponent("usrSeg").getValue().equals('1')}]]></xp:this.rendered>
+								<xp:panel styleClass="alert alert-info"
+									role="alert">
+									<xp:label id="label6">
+										<xp:this.value><![CDATA[#{javascript:"El usuario es Responsable de Seguridad y puede trabajar con todos los modulos."}]]></xp:this.value>
+									</xp:label>
+								</xp:panel>
+							</xp:div>
+							<xp:div id="divCheckBoxGroup">
+								<xp:this.rendered><![CDATA[#{javascript:!getComponent("usrSeg").getValue().equals('1')}]]></xp:this.rendered>
+								<xp:checkBoxGroup id="checkBoxGroup1"
+									layout="pageDirection"
+									value="#{docUsuario.usr_MenuSelected_cod}">
+									<xp:selectItems id="itemSelected">
+										<xp:this.value><![CDATA[#{javascript:var confDb:NotesDatabase = getDbCfg();
 var dbConf = new Array(@DbName()[0], confDb.getFilePath());
 @DbColumn(dbConf, "vModulosCheckBox", 2)}]]></xp:this.value>
-								</xp:selectItems>
-								<xp:eventHandler event="onchange" submit="true"
-									refreshMode="partial" refreshId="checkBoxGroup1">
-									<xp:this.action><![CDATA[#{javascript:print("valores:" + getComponent("checkBoxGroup1").getValue())}]]></xp:this.action>
-								</xp:eventHandler>
-							</xp:checkBoxGroup>
+									</xp:selectItems>
+									<xp:eventHandler event="onchange"
+										submit="true" refreshMode="partial"
+										refreshId="checkBoxGroup1">
+										<xp:this.action><![CDATA[#{javascript:print("valores:" + getComponent("checkBoxGroup1").getValue())}]]></xp:this.action>
+									</xp:eventHandler>
+								</xp:checkBoxGroup>
+							</xp:div>
 						</xe:formRow>
 					</xp:tabPanel>
 					<xp:tabPanel label="Log" id="tabLog"
@@ -306,8 +324,7 @@ return docUsuario.isEditable() }]]>
 							</xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
-					<xp:button value="Cerrar" id="btnClose"
-						styleClass="btn">
+					<xp:button value="Cerrar" id="btnClose" styleClass="btn">
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="complete" immediate="true">
 							<xp:this.action>
@@ -354,7 +371,7 @@ return docUsuario.isEditable() }]]>
 							<xp:this.script><![CDATA[return confirm("Si el usuario que habilita era un usuario de seguridad, deberá marcar nuevamente sus privilegios de seguridad ya que fueron quitados al inhabilitarlo");]]></xp:this.script>
 						</xp:eventHandler>
 					</xp:button>
-					
+
 					<xp:button value="Continuar" id="btnContinuar"
 						styleClass="btn-success">
 						<xp:this.rendered><![CDATA[#{javascript:if(userBean.accessRoles.toString().contains('[usrInitial]'))
@@ -389,14 +406,16 @@ if(userBean.accessRoles.toString().contains('[usrInitial]'))
 if(docUsuario.isEditable())
 	return false;	
 return true;}]]></xp:this.rendered>
-						
-					<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
-						<xp:this.action>
-							<xp:openPage name="/frmConfigUsrChgPwd.xsp"
-								target="openDocument"
-								documentId="#{javascript:docUsuario.getDocument().getUniversalID()}">
-							</xp:openPage>
-						</xp:this.action></xp:eventHandler></xp:button>
+
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:openPage name="/frmConfigUsrChgPwd.xsp" target="openDocument"
+									documentId="#{javascript:docUsuario.getDocument().getUniversalID()}">
+								</xp:openPage>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
 				</xp:panel><!-- FIN PANEL DE BOTONES  -->
 			</xp:panel><!-- FIN PANEL MIDDLE  -->
 		</xp:this.facets>

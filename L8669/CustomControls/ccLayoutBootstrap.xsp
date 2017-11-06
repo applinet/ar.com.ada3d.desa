@@ -24,6 +24,10 @@
 	<xe:applicationLayout id="applicationLayout1">
 		<xp:callback facetName="facetMiddle" id="facetMiddle"></xp:callback>
 		<xe:this.facets>
+			<xp:text id="computedField3" escape="false"
+				value="#{javascript:getListBoton()}" xp:key="MastHeader">
+			</xp:text>
+			
 			<xp:callback facetName="facetLeft" id="facetLeft" xp:key="LeftColumn">
 			</xp:callback>
 		</xe:this.facets>
@@ -58,7 +62,8 @@ if (dbConf != null){
 					</xe:repeatTreeNode>
 				</xe:this.bannerApplicationLinks>
 				<xe:this.bannerUtilityLinks>
-					<xe:basicContainerNode label="#{javascript:return DocUsr.getUserMask();}">
+					<xe:basicContainerNode
+						label="#{javascript:return DocUsr.getUserMask();}">
 						<xe:this.children>
 							<xe:basicLeafNode>
 								<xe:this.href><![CDATA[#{javascript:var uName:NotesName = session.createName(session.getEffectiveUserName())
@@ -87,11 +92,14 @@ if(uName.getCommon() == "Anonymous"){
 						</xe:this.children>
 						<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
 					</xe:basicContainerNode>
+
+					
 				</xe:this.bannerUtilityLinks>
 				<xe:this.placeBarActions></xe:this.placeBarActions>
 			</xe:bootstrapResponsiveConfiguration>
 		</xe:this.configuration>
 	</xe:applicationLayout>
+	
 	<xp:eventHandler event="onClientLoad" submit="false">
 		<xp:this.script><![CDATA[var applicationLogo = dojo.query('.applicationLogo')[0];
         applicationLogo.onclick = function() {
