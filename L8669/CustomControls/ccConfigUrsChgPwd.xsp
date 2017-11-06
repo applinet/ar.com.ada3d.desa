@@ -74,7 +74,6 @@
 	var docDummy:NotesDocument = database.createDocument();
 	docDummy.appendItemValue("userName", tempName);
 	docDummy.appendItemValue("userPwd", tempPwd);
-	getComponent("pepe").hide();
 	session.getCurrentDatabase().getAgent("a.PwdUserExt").runWithDocumentContext(docDummy);
 	context.redirectToPage(getOpcionesClave("VIEW_UI_USUARIOS_HOME", "codigo")[0]);
 } catch(e) {

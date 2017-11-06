@@ -6,16 +6,12 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
-	<xp:this.beforePageLoad><![CDATA[#{javascript:cargarUsuariosEnCarpeta();
-if (!viewScope.categoriaEstadoUsuarios) {
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if (!viewScope.categoriaEstadoUsuarios) {
 	viewScope.put("categoriaEstadoUsuarios", "1");
 }}]]></xp:this.beforePageLoad>
 
-	<xp:this.resources>
-		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
-	</xp:this.resources>
 	<xc:ccLayoutBootstrap>
-
+		
 		<xp:this.facets>
 			<xe:navigator id="navMenu" xp:key="facetLeft">
 				<xe:this.treeNodes>
@@ -37,14 +33,19 @@ if (!viewScope.categoriaEstadoUsuarios) {
 			</xe:navigator>
 			<xp:panel id="PNL_Content" xp:key="facetMiddle"
 				style="padding-right:20.0%">
+				<div class="alert alert-info" role="alert">
+					<xp:label id="label1">
+						<xp:this.value><![CDATA[#{javascript:"Le recordamos que no podrá modificar los atributos del usuario que se encuentra logueado"}]]></xp:this.value>
+					</xp:label>
+				</div>
 				<xe:dataView id="usuariosDataView"
 					openDocAsReadonly="true" collapsibleDetail="false"
-					expandedDetail="false" showCheckbox="true"
+					expandedDetail="false" var="viewEntry" showCheckbox="true"
 					showHeaderCheckbox="true" columnTitles="true" rows="10"
-					rendered="true" var="viewEntry">
+					rendered="true">
 					<xe:this.data>
 						<xp:dominoView var="viewMenuPorEstadoUsuario"
-							viewName="FolderUsuarios">
+							viewName="v.UI.Menu.porEstadoUsuario">
 							<xp:this.categoryFilter><![CDATA[#{javascript:if(!viewScope.categoriaEstadoUsuarios || viewScope.categoriaEstadoUsuarios == '-')
 return "";
 viewScope.get("categoriaEstadoUsuarios");}]]></xp:this.categoryFilter>

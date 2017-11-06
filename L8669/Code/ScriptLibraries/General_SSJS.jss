@@ -622,3 +622,25 @@ function getListOriginal() {
         return "no documents found";
     }
 }
+
+/* Voy a pasar los usuarios a una carpeta cada vez que se utilice la XPage viweConfigUsr
+ * Ya que en la vista no identifico el @UserName en esta carpeta estarán todos los usuarios
+ * menos el actual
+ */
+function cargarUsuariosEnCarpeta(){
+	var viewUsuarios:NotesView = session.getCurrentDatabase().getView("v.UI.Menu.porEstadoUsuario");
+	var docUsuario:NotesDocument = viewUsuarios.getFirstDocument();
+	var tmpDoc:NotesDocument;
+	
+
+	while (docUsuario != null) {
+		tmpDoc = viewUsuarios.getNextDocument(docUsuario);
+		if (docUsuario.getItemValueString("usr_UserName_des").equals(context.getUser().getFullName())){
+			docUsuario.removeFromFolder( "folderUsuarios" );
+		}else{
+			docUsuario.putInFolder( "folderUsuarios" );
+		}
+		docUsuario.recycle();
+		docUsuario = tmpDoc;
+	}
+}
