@@ -1,6 +1,3 @@
-/*Esta libreria es para que el dialog tenga acceso a los componentes 
- * de la pagina que se encuentra detras del dialogo
- * */
 dojo.provide('ar.com.ada3d.widget.Dialog');
 dojo.require('dijit.Dialog');
  

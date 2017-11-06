@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='832581C60051ABDB'>
-<noteinfo noteid='2e2' unid='4A3D0F1198A46E94832581C9007E1892' sequence='9'>
+ replicaid='832581D0005236B2'>
+<noteinfo noteid='286' unid='4A3D0F1198A46E94832581C9007E1892' sequence='17'>
 <created><datetime dst='true'>20171030T205718,26-02</datetime></created>
-<modified><datetime dst='true'>20171031T092559,38-02</datetime></modified>
-<revised><datetime dst='true'>20171031T092559,37-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171031T092559,38-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171030T205720,30-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst='true'>20171106T125801,75-02</datetime></modified>
+<revised><datetime dst='true'>20171101T172914,22-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171106T125801,75-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171106T125801,75-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$TITLE' sign='true'><text>(Cambia Pwd Usuario AdaNab Externo)|a.PwdUserExt</text></item>
@@ -30,16 +30,15 @@ gQYAAAAA
 </rawitemdata></item>
 <item name='$OnBehalfOf' sign='true'><text>CN=Notes Standard Control/O=SASA</text></item>
 <item name='$Restricted' sign='true'><number>2</number></item>
-<item name='$Flags'><text>fL3uP</text></item>
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$AssistRunInfo' summary='true'>
 <rawitemdata type='3'>
-BgABAAAACAD2AgAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAw94+AMqBJQPbq1EAxoElgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
+BgAAAgAACACCAgAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAA2AAAAAAAAAAAAAAAAAAAABAAAAAA
+AAAAlFVRANCBJYMAAAAA/wtrAMuBJYPbq1EAxoElgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
 ZCBydW5uaW5nIGFnZW50ICcoQ2FtYmlhIFB3ZCBVc3VhcmlvIEFkYU5hYiBFeHRlcm5vKXxhLlB3
-ZFVzZXJFeHQnIG9uIDEwLzMwLzIwMTcgMjE6MDE6NDINClJhbiBMb3R1c1NjcmlwdCBjb2RlDQpE
+ZFVzZXJFeHQnIG9uIDExLzA2LzIwMTcgMTE6NDg6MTENClJhbiBMb3R1c1NjcmlwdCBjb2RlDQpE
 b25lIHJ1bm5pbmcgYWdlbnQgJyhDYW1iaWEgUHdkIFVzdWFyaW8gQWRhTmFiIEV4dGVybm8pfGEu
-UHdkVXNlckV4dCcgb24gMTAvMzAvMjAxNyAyMTowMTo0Nw0KAA0Kv2ZwW6THjTsAfpBQgyWByWNv
+UHdkVXNlckV4dCcgb24gMTEvMDYvMjAxNyAxMTo0ODoyMw0KAA0KkoaU50SLSeUAa0GdgyWBy2Nv
 bXBvbmVudC9VSUluY2x1ZGVDb21wb3NpdGU7AQALcHJvcGVydHlNYXABACFMY29tL2libS94c3Av
 YmluZGluZy9Qcm9wZXJ0eU1hcDsBABRwcm9wZXJ0eUZvcm1OYW1lRXhwcgcA1AEAN2NvbS9pYm0v
 eHNwL2V4dGxpYi9jb21wb25lbnQvbGF5b3V0L1VJQXBwbGljYXRpb25MYXlvdXQKANMAYAgA1wEA
@@ -143,5 +142,6 @@ XrgCK/gBJKYaGQBeYAUqgAMjphodAF5EBku4Ai1kBiOmGh8AXnAFS2AFLJAGI6YaIABeWANLcAUs
 5AZ92AIjphohAEtYAywUB15EBosIIzEaIgAcGiMAGiQAS9wBLFAHFBWYFpObIzEaJQAcGiYAHQIA
 AAARABQAAAAAAP//AQADAA0AAAAQADgAEgAKAAAA
 </rawitemdata></item>
-<item name='$AssistVersion'><datetime>20171031T082642,79-03</datetime></item></note>
+<item name='$AssistVersion'><datetime>20171031T082642,79-03</datetime></item>
+<item name='$Flags'><text>fL3u</text></item></note>
 

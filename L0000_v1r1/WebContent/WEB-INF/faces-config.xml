@@ -4,21 +4,18 @@
   <managed-bean>
     <managed-bean-name>namePickerBean</managed-bean-name>
     <managed-bean-scope>view</managed-bean-scope>
-    <managed-bean-class>com.bootstrap4xpages.NamesDataStore
-		</managed-bean-class>
+    <managed-bean-class>com.bootstrap4xpages.NamesDataStore</managed-bean-class>
   </managed-bean>
   <managed-bean>
     <description>lockea los documentos por usuario</description>
     <managed-bean-name>DocLock</managed-bean-name>
-    <managed-bean-class>ar.com.ada3d.utilidades.DocLock
-		</managed-bean-class>
+    <managed-bean-class>ar.com.ada3d.utilidades.DocLock</managed-bean-class>
     <managed-bean-scope>application</managed-bean-scope>
   </managed-bean>
   <managed-bean>
     <description>test</description>
     <managed-bean-name>DocUsr</managed-bean-name>
-    <managed-bean-class>ar.com.ada3d.utilidades.DocUsr
-		</managed-bean-class>
+    <managed-bean-class>ar.com.ada3d.utilidades.DocUsr</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
   <!-- phase listener for the alerts demo -->

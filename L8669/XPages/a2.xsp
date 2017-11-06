@@ -9,25 +9,24 @@
 			<xp:panel xp:key="facetMiddle">
 
 				<div class="bs-callout bs-callout-danger">
-					<h4>Component dependencies</h4>
+					<h4>Dependencias</h4>
 					<p>
-						Requires jQuery,
+						Requiere jQuery,
 						<a href="http://getbootstrap.com/"
 							target="_blank">
 							Bootsrap 3.x
 						</a>
-						CSS and JavaScript files. Depends on Bootstrap
+						CSS y JavaScript . Depende de Bootstrap
 						<a
 							href="http://getbootstrap.com/javascript/#dropdowns"
 							target="_blank">
 							Dropdown component
-						</a>
-						and
+						</a>y 
 						<a href="http://daneden.github.io/animate.css/"
 							target="_blank">
 							animate.css
 						</a>
-						if want to use animations.
+						<xp:span style="font-weight:bold"></xp:span> para las animaciones.
 					</p>
 				</div>
 				<xp:panel styleClass="bs-callout bs-callout-info">

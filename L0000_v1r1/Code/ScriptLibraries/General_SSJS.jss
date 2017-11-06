@@ -378,9 +378,190 @@ function wrapDocument(doc: NotesDocument): NotesXspDocument {
     return com.ibm.xsp.model.domino.wrapped.DominoDocument.wrap(doc.getParentDatabase().getFilePath(), doc, null, null, false, null);
 }
 
+function getList2(){
+	  var list ="<ul class=\'nav nav-pills\'>" +
+	"<li class=\'dropdown\'>" +
+	  "<a href=\'#\' data-toggle=\'dropdown\' class=\'dropdown-toggle\'>Dropdown <b class=\'caret\'></b></a>" +
+	  "<ul class=\'dropdown-menu\' id=\'menu1\'>" +	  
+	    "<li>" +
+	        "<a href=\'#\'>2-level Menu <i class=\'icon-arrow-right\'></i></a>" +
+	        "<ul class=\'dropdown-menu sub-menu\'>" +
+	            "<li><a href=\'#\'>Action</a></li>" +
+	            "<li><a href=\'#\'>Another action</a></li>" +
+	            "<li><a href=\'#\'>Something else here</a></li>" +
+	            "<li class=\'divider\'></li>" +
+	            "<li class=\'nav-header\'>Nav header</li>" +
+	            "<li><a href=\'#\'>Separated link</a></li>" +
+	            "<li><a href=\'#\'>One more separated link</a></li>" +
+	        "</ul>" +
+	    "</li>" +
+	    "<li><a href=\'#\'>Another action</a></li>" +
+	    "<li><a href=\'#\'>Something else here</a></li>" +
+	    "<li class=\'divider\'></li>" +
+	    "<li><a href=\'#\'>Separated link</a></li>" +
+	  "</ul>" +
+	"</li>" +
+	"</ul>";
+	 return list;
+}
+
+function getListBoton() {
+	var dbConfig:NotesDatabase = getDbCfg();
+    var nav: NotesViewNavigator = dbConfig.getView("vModulosTreeview").createViewNav();
+    var entry: NotesViewEntry = nav.getFirst();
+    if (entry != null) {
+        var countLevel: Integer = 0;
+        var curLevel: Integer;
+        var list = "<div class=\'dropdown\'>";
+        list = list + "<ul class=\'nav nav-pills\'>";
+        list = list + "<li class=\'dropdown\' id=\'accountmenu\'>";
+        list = list + "<a href=\'#\' data-toggle=\'dropdown\' class=\'glyphicon glyphicon-th-list\'><b class=\'caret\'></b></a>";
+        list = list + "<ul class=\'dropdown-menu\'>"
+        while (entry != null) {
+            var edoc: NotesDocument = entry.getDocument();
+            entryValue = entry.getColumnValues().elementAt(1).toString();
+            var col: NotesDocumentCollection = edoc.getResponses();
+            curLevel = entry.getColumnIndentLevel();
+            if (col.getCount() > 0) {
+                //prep for new entry with response(s)
+                var difLevel = countLevel - curLevel;
+                var closure = ""
+                for (var i = 0; i < (difLevel); i++) {
+                    closure = closure + "</ul></li>"
+                }
+                list = list + closure;
+                list = list + "<li class=\'dropdown-submenu\'>";
+                list = list + "<a href=\'#\'>" + entryValue + "</a>";
+                list = list + "<ul id=\'" + entryValue + "\' class=\'dropdown-menu sub-menu\'>";
+                //increase counter
+                countLevel = curLevel + 1;
+            } else {
+                if (curLevel == countLevel) {
+                    list = list + "<li><a href=\''#\'>" + entryValue + "</a></li>";
+                } else if (curLevel < countLevel) {
+                    var difLevel = countLevel - curLevel;
+                    var closure = ""
+                    for (var i = 0; i < (difLevel); i++) {
+                        closure = closure + "</ul></li>"
+                    }
+                    list = list + closure
+                    countLevel = curLevel;
+                } else {
+                    //
+                }
+            }
+            var tmpentry: NotesViewEntry = nav.getNext(entry);
+            entry.recycle();
+            entry = tmpentry;
+        }
+        //final closure, last entry could be response doc
+        var closure = ""
+        for (var i = 1; i < (countLevel); i++) {
+            closure = closure + "</ul></li>"
+        }
+        list = list + closure
+        //closure nav nav-list
+        list = list + "</ul></li></ul></div>";
+        //closure well sidebar-nav
+        return list;
+    } else {
+        return "no documents found";
+    }
+}
+
 function getList() {
 	var dbConfig:NotesDatabase = getDbCfg();
-    var nav: NotesViewNavigator = dbConfig.getView("v-treeview-clean").createViewNav();
+    var nav: NotesViewNavigator = dbConfig.getView("vModulosTreeview").createViewNav();
+    var entry: NotesViewEntry = nav.getFirst();
+    if (entry != null) {
+        var countLevel: Integer = 0;
+        var curLevel: Integer;
+        var list = "<div class=\'dropdown\'>";
+        list = list + "<ul class=\'nav nav-pills\'>";//382
+        list = list + "<li class=\'dropdown\' id=\'accountmenu\'>"; //383
+        while (entry != null) {
+            var edoc: NotesDocument = entry.getDocument();
+            entryValue = entry.getColumnValues().elementAt(1).toString();
+            var col: NotesDocumentCollection = edoc.getResponses();
+            curLevel = entry.getColumnIndentLevel();
+            if (col.getCount() > 0) {
+                //prep for new entry with response(s)
+                var difLevel = countLevel - curLevel;
+                var closure = ""
+                for (var i = 0; i < (difLevel); i++) {
+                    closure = closure + "</ul></li>"
+                }
+                list = list + closure;
+                list = list + "<li class=\'dropdown-submenu\'>";
+                list = list + "<a href=\'#\' data-toggle=\'dropdown\' class=\'dropdown-toggle\'>" + entryValue + "</a>";
+                list = list + "<ul id=\'" + entryValue + "\' class=\'dropdown-menu sub-menu\'>";
+                //increase counter
+                countLevel = curLevel + 1;
+            } else {
+                if (curLevel == countLevel) {
+                    list = list + "<li><a href=\''#\'>" + entryValue + "</a></li>";
+                } else if (curLevel < countLevel) {
+                    var difLevel = countLevel - curLevel;
+                    var closure = ""
+                    for (var i = 0; i < (difLevel); i++) {
+                        closure = closure + "</ul></li>"
+                    }
+                    list = list + closure
+                    countLevel = curLevel;
+                } else {
+                    //
+                }
+            }
+            var tmpentry: NotesViewEntry = nav.getNext(entry);
+            entry.recycle();
+            entry = tmpentry;
+        }
+        //final closure, last entry could be response doc
+        var closure = ""
+        for (var i = 1; i < (countLevel); i++) {
+            closure = closure + "</ul></li>"
+        }
+        list = list + closure
+        //closure nav nav-list
+        list = list + "</ul></li></div>";
+        //closure well sidebar-nav
+        return list;
+    } else {
+        return "no documents found";
+    }
+}
+
+function addFacesMessage(message, component, severidad){
+	try { 
+		if(typeof component === 'string' ){
+			component = getComponent(component);
+		}
+
+		var clientId = null;
+		if (component) {
+			clientId = component.getClientId(facesContext);
+		}
+		switch(severidad){
+		case "INFO":
+			var type = javax.faces.application.FacesMessage.SEVERITY_INFO;		 
+		case "WARNING":
+			var type = javax.faces.application.FacesMessage.SEVERITY_WARN;
+		case "ERROR":
+			var type = javax.faces.application.FacesMessage.SEVERITY_ERROR;	
+		case "FATAL":
+			var type = javax.faces.application.FacesMessage.SEVERITY_FATAL;		 	
+		}
+		facesContext.addMessage(clientId,
+		   new javax.faces.application.FacesMessage(type, message, ""));
+	 } catch(e) {
+	        var msgObj = new javax.faces.application.FacesMessage(javax.faces.application.FacesMessage.SEVERITY_ERROR, e.toString(), e.toString() );
+	        facesContext.addMessage(null, msgObj);
+	 }      
+}
+
+function getListOriginal() {
+	var dbConfig:NotesDatabase = getDbCfg();
+    var nav: NotesViewNavigator = dbConfig.getView("vModulosTreeview").createViewNav();
     var entry: NotesViewEntry = nav.getFirst();
     if (entry != null) {
         var countLevel: Integer = 0;
@@ -442,30 +623,24 @@ function getList() {
     }
 }
 
-function addFacesMessage(message, component, severidad){
-	try { 
-		if(typeof component === 'string' ){
-			component = getComponent(component);
-		}
+/* Voy a pasar los usuarios a una carpeta cada vez que se utilice la XPage viweConfigUsr
+ * Ya que en la vista no identifico el @UserName en esta carpeta estarán todos los usuarios
+ * menos el actual
+ */
+function cargarUsuariosEnCarpeta(){
+	var viewUsuarios:NotesView = session.getCurrentDatabase().getView("v.UI.Menu.porEstadoUsuario");
+	var docUsuario:NotesDocument = viewUsuarios.getFirstDocument();
+	var tmpDoc:NotesDocument;
+	
 
-		var clientId = null;
-		if (component) {
-			clientId = component.getClientId(facesContext);
+	while (docUsuario != null) {
+		tmpDoc = viewUsuarios.getNextDocument(docUsuario);
+		if (docUsuario.getItemValueString("usr_UserName_des").equals(context.getUser().getFullName())){
+			docUsuario.removeFromFolder( "folderUsuarios" );
+		}else{
+			docUsuario.putInFolder( "folderUsuarios" );
 		}
-		switch(severidad){
-		case "INFO":
-			var type = javax.faces.application.FacesMessage.SEVERITY_INFO;		 
-		case "WARNING":
-			var type = javax.faces.application.FacesMessage.SEVERITY_WARN;
-		case "ERROR":
-			var type = javax.faces.application.FacesMessage.SEVERITY_ERROR;	
-		case "FATAL":
-			var type = javax.faces.application.FacesMessage.SEVERITY_FATAL;		 	
-		}
-		facesContext.addMessage(clientId,
-		   new javax.faces.application.FacesMessage(type, message, ""));
-	 } catch(e) {
-	        var msgObj = new javax.faces.application.FacesMessage(javax.faces.application.FacesMessage.SEVERITY_ERROR, e.toString(), e.toString() );
-	        facesContext.addMessage(null, msgObj);
-	 }      
+		docUsuario.recycle();
+		docUsuario = tmpDoc;
+	}
 }
