@@ -644,3 +644,78 @@ function cargarUsuariosEnCarpeta(){
 		docUsuario = tmpDoc;
 	}
 }
+
+function getListAccordion() {
+	var dbConfig:NotesDatabase = getDbCfg();
+    var nav: NotesViewNavigator = dbConfig.getView("vModulosTreeview").createViewNav();
+    var entry: NotesViewEntry = nav.getFirst();
+    if (entry != null) {
+    	var countCollapse: Integer = 0;
+        var countLevel: Integer = 0;
+        var curLevel: Integer;
+        var list = "<div class=\'panel-group\' id=\'accordion1\'>";
+         
+        
+        while (entry != null) {
+            var edoc: NotesDocument = entry.getDocument();
+            entryValue = entry.getColumnValues().elementAt(1).toString();
+            var col: NotesDocumentCollection = edoc.getResponses();
+            curLevel = entry.getColumnIndentLevel();
+            
+            print("entry:" + entryValue);
+            
+            if (col.getCount() > 0) {
+            	 //prep for new entry with response(s)
+                var difLevel = countLevel - curLevel;
+                var closure = ""
+                for (var i = 0; i < (difLevel); i++) {
+                    closure = closure + "</div></div>"
+                    print ("closure1");
+                }
+                list = list + closure;
+            	countCollapse = countCollapse + 1
+            	list = list + "<div class=\'panel panel-default\'>";
+                list = list + "<div class=\'panel-heading\'>";    	
+            	list = list + "<a data-toggle=\'collapse\' data-parent=\'#accordion1\' href=\'#collapse" + countCollapse + "\'>" + entryValue + "</a>";
+            	list = list + "<div class=\'checkBoxGroup\' id=\'checkBoxGroup1\' value=\'#{requestScope.svalue}\'>"
+            	list = list + "<label=\'Crear\' itemValue=\'C\'></label></div>"
+            	
+            	
+            	list = list + "</div>";
+            	print("padre: " + entryValue + "countLevel:" + countLevel + " - curLevel:" + curLevel);
+                list = list + "<div class=\'panel-collapse collapse in\' id=\'collapse" + countCollapse + "\'>";
+            	
+            	  //increase counter
+                countLevel = curLevel + 1;
+            } else {           	
+			
+                if (curLevel == countLevel) {
+                    list = list + "<div class=\'panel-body\'>" + entryValue + "<</div>";
+                    print("hijo: " + entryValue + "countLevel:" + countLevel + " - curLevel:" + curLevel);
+                } else if (curLevel < countLevel) {
+                	print("ESTO --- countLevel:" + countLevel + " - curLevel:" + curLevel);
+                    var difLevel = countLevel - curLevel;
+                    var closure = ""
+                    for (var i = 0; i < (difLevel); i++) {
+                    	print("CLOSURE 2 difLevel:" + difLevel + " - curLevel:" + curLevel);
+                        closure = closure + "</div></div>"
+                    }
+                    list = list + closure
+                    countLevel = curLevel;
+                } else {
+                    //
+                }
+            }
+            var tmpentry: NotesViewEntry = nav.getNext(entry);
+            entry.recycle();
+            entry = tmpentry;
+        }
+        list = list + closure
+        //closure nav nav-list
+        list = list + "</div></div><div>";
+        //closure well sidebar-nav
+        return list;
+    } else {
+        return "no documents found";
+    }
+}

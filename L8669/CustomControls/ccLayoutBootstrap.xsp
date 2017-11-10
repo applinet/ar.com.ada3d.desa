@@ -28,10 +28,6 @@
 	<xe:applicationLayout id="applicationLayout1">
 		<xp:callback facetName="facetMiddle" id="facetMiddle"></xp:callback>
 		<xe:this.facets>
-			<xp:text id="computedField3" escape="false"
-				value="#{javascript:getListBoton()}" xp:key="MastHeader">
-			</xp:text>
-
 			<xp:callback facetName="facetLeft" id="facetLeft"
 				xp:key="LeftColumn">
 			</xp:callback>

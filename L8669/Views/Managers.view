@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='832581D0005236B2'>
-<noteinfo noteid='3ca' unid='130D040166B48966832581D0007E2A8A' sequence='6'>
+<noteinfo noteid='3ca' unid='130D040166B48966832581D0007E2A8A' sequence='8'>
 <created><datetime dst='true'>20171106T205804,26-02</datetime></created>
-<modified><datetime dst='true'>20171106T210411,62-02</datetime></modified>
-<revised><datetime dst='true'>20171106T210411,61-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171106T210411,62-02</datetime></lastaccessed>
+<modified><datetime dst='true'>20171110T111213,90-02</datetime></modified>
+<revised><datetime dst='true'>20171110T111213,89-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171110T111213,90-02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20171106T205804,19-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -31,7 +31,7 @@ AAAAAABXQwEFAAkAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAD//wAAAAAAAAAAAAAAAAAAV0MBBQAJ
 AAAAAAAAAAAAAAAAAAAAAAAABgAAAAAA//8AAAAAAAAAAAAAAAAAAEIAAAAAAAEA////AAUA////
 AAEAAAAAAAAAAAAAAAAAAQD///8AAQD///8AAAABAAAAAAABAAAAAAABAAAAAAAAAAgAAAAAAAEA
 </rawitemdata></item>
-<item name='$Comment' sign='true'><text/></item>
 <item name='$Flags'><text>PY</text></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item></note>
+<item name='$Comment' sign='true'><text>*** PRUEBA DE BEAN CUSTOM JAVA ***</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item></note>
 

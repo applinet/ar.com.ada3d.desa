@@ -5,7 +5,7 @@
 	-->
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
-	<xp:this.beforePageLoad><![CDATA[#{javascript:if(docUsuario.isNewNote()){
+	<xp:this.beforePageLoad><![CDATA[#{javascript:menuFull("menuFull");if(docUsuario.isNewNote()){
 	requestScope.put("isUsrSeg","0")
 }else{
 	requestScope.put("isUsrSeg", docUsuario.getItemValueString("usr_USRSEG_opt"))
@@ -17,8 +17,12 @@
 			computeWithForm="onsave">
 		</xp:dominoDocument>
 	</xp:this.data>
-
-	<xc:ccFXstandBy></xc:ccFXstandBy>
+	<!-- Esta es la única diferencia con la Edicion que el Partial Refresh lo hago automatico
+	 		con un custom control, pero en edicion a veces quedaba colgado  -->
+	<xp:this.resources>
+		<xp:script src="/MenuTools" clientSide="false"></xp:script>
+		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
+	</xp:this.resources>
 	<xc:ccLayoutBootstrap>
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle" style="padding-left:20.0%;padding-right:20.0%">
@@ -86,7 +90,8 @@
 								labelPosition="left" rendered="#{javascript:docUsuario.isNewNote();}">
 								<div class="input-group">
 									<span class="input-group-addon">
-										<i class="glyphicon glyphicon-user"></i>
+										<i class="glyphicon glyphicon-user">
+										</i>
 									</span>
 									<xp:inputText id="usr_UserName_des" value="#{docUsuario.usr_UserName_des}"
 										required="true" onblur="this.value=this.value.toLowerCase();">
@@ -117,7 +122,8 @@
 								labelPosition="left" rendered="#{javascript:docUsuario.isNewNote();}">
 								<div class="input-group">
 									<span class="input-group-addon">
-										<i class="glyphicon glyphicon-lock"></i>
+										<i class="glyphicon glyphicon-lock">
+										</i>
 									</span>
 									<xp:inputText id="usr_UserPassword_des"
 										value="#{docUsuario.usr_UserPassword_des}" required="true"
@@ -149,7 +155,8 @@
 								labelPosition="left" rendered="#{javascript:docUsuario.isNewNote();}">
 								<div class="input-group">
 									<span class="input-group-addon">
-										<i class="glyphicon glyphicon-lock"></i>
+										<i class="glyphicon glyphicon-lock">
+										</i>
 									</span>
 									<xp:inputText id="ConfirmPassword" password="true"
 										required="true">
@@ -223,31 +230,135 @@ return true;}]]></xp:this.rendered>
 							labelPosition="left">
 							<xp:div id="divCheckMenuSeguridad">
 								<xp:this.rendered><![CDATA[#{javascript:getComponent("usrSeg").getValue().equals('1')}]]></xp:this.rendered>
-								<xp:panel styleClass="alert alert-info"
-									role="alert">
+								<xp:panel styleClass="alert alert-info" role="alert">
 									<xp:label id="label6">
-										<xp:this.value><![CDATA[#{javascript:"El usuario es Responsable de Seguridad y puede trabajar con todos los modulos."}]]></xp:this.value>
+										<xp:this.value><![CDATA[#{javascript:"El usuario es Responsable de Seguridad. Están hablitados todos los modulos."}]]></xp:this.value>
 									</xp:label>
 								</xp:panel>
 							</xp:div>
+
+
 							<xp:div id="divCheckBoxGroup">
 								<xp:this.rendered><![CDATA[#{javascript:!getComponent("usrSeg").getValue().equals('1')}]]></xp:this.rendered>
-								<xp:checkBoxGroup id="checkBoxGroup1"
-									layout="pageDirection"
-									value="#{docUsuario.usr_MenuSelected_cod}">
+
+								<xp:panel id="PNL_repeatMenu">
+									<xp:this.data>
+										<xp:dominoView var="view1" viewName="vModulosCheckBox"
+											databaseName="ADA3D/ada_config.nsf">
+										</xp:dominoView>
+									</xp:this.data>
+
+									<!--
+										INI repeat con los menues y en cada columna un boton tipo
+										Switch
+									-->
+
+									<xp:repeat id="repeatMenu" rows="30" var="menuRowData"
+										value="#{view1}" indexVar="idxRowData">
+										<xp:this.facets>
+											<xp:text xp:key="header" escape="false">
+												<xp:this.value>
+													<![CDATA[<div class="panel-group" id="accordion1">]]>
+												</xp:this.value>
+											</xp:text>
+											<xp:text xp:key="footer" escape="false">
+												<xp:this.value>
+													<![CDATA[</div>]]>
+												</xp:this.value>
+											</xp:text>
+										</xp:this.facets>
+
+										<xp:text escape="false"
+											id="computedTitulos">
+											<xp:this.value><![CDATA[#{javascript:var list:String = "";
+var etiqueta = menuRowData.getColumnValue("Modulos");
+var codigoModulo = menuRowData.getColumnValue("modulo_OrdenConcatenado_des");
+var largoCodigoModulo = @Length(codigoModulo);
+
+if (largoCodigoModulo.equals(3)){
+	if(idxRowData > 0){ //Si no es el primero y tiene 3 posiciones cierro tag
+		list = list + "</div>"
+	}
+	
+	list = list + "<div class=\'panel panel-default\'>" + "<div class=\'panel-heading\'><h4 class=\'panel-title\'>" +
+	"<a data-toggle=\'collapse\' data-parent=\'#accordion1\' href=\'#collapse" + codigoModulo +"\'>" + etiqueta + "  </a>" +
+	"</h4></div>";
+}
+return list}]]>
+											</xp:this.value>
+										</xp:text>
+
+
+										<xc:ccButtonTogle
+											propertyNo="No" propertySi="Si">
+											<xc:this.propertyRender><![CDATA[#{javascript:var largoCodigoModulo = @Length(menuRowData.getColumnValue("modulo_OrdenConcatenado_des"));
+if (largoCodigoModulo.equals(3))
+	return true;
+return false;	}]]></xc:this.propertyRender>
+
+										</xc:ccButtonTogle>
+
+										<xp:text escape="false"
+											id="computedEntry">
+											<xp:this.value><![CDATA[#{javascript:var list:String = "";
+var etiqueta = menuRowData.getColumnValue("Modulos");
+var codigoModulo = menuRowData.getColumnValue("modulo_OrdenConcatenado_des");
+var largoCodigoModulo = @Length(codigoModulo);
+
+if (largoCodigoModulo.equals(6)){
+
+	var codigoMenuAnterior = viewScope.menuList.menuFull[idxRowData-1].code;
+	if(@Length(codigoMenuAnterior) == 3){
+		//Empiezo nueva serie de hijo
+		list = list + "<div id=\'collapse" + @Left(codigoModulo, 3) + "\' class=\'panel-collapse collapse\'>";
+	} 
+	
+	list = list + "<div class='\panel-body'\>" + etiqueta + "</div>"
+	
+	
+	
+	if(viewScope.menuList.menuFull.size() == idxRowData+1){
+		list = list + "</div>";//Fin
+	}else{
+		var codigoMenuSiguiente = viewScope.menuList.menuFull[idxRowData+1].code;
+		if(@Length(codigoMenuSiguiente) == 3){
+			//Finaliza esta serie de hijo
+			list = list + "</div>";
+		}
+	}	
+}
+return list;}]]>
+											</xp:this.value>
+										</xp:text>
+
+
+									</xp:repeat>
+									<!--
+										FIN repeat con los menues y en cada columna un boton tipo
+										Switch
+									-->
+								</xp:panel>
+								
+								<xp:checkBoxGroup id="checkBoxGroup1" layout="pageDirection"
+									value="#{docUsuario.usr_MenuSelected_cod}" rendered="false">
 									<xp:selectItems id="itemSelected">
 										<xp:this.value><![CDATA[#{javascript:var confDb:NotesDatabase = getDbCfg();
 var dbConf = new Array(@DbName()[0], confDb.getFilePath());
 @DbColumn(dbConf, "vModulosCheckBox", 2)}]]></xp:this.value>
 									</xp:selectItems>
-									<xp:eventHandler event="onchange"
-										submit="true" refreshMode="partial"
-										refreshId="checkBoxGroup1">
+									<xp:eventHandler event="onchange" submit="true"
+										refreshMode="partial" refreshId="checkBoxGroup1">
 										<xp:this.action><![CDATA[#{javascript:print("valores:" + getComponent("checkBoxGroup1").getValue())}]]></xp:this.action>
 									</xp:eventHandler>
 								</xp:checkBoxGroup>
+
+							
 							</xp:div>
 						</xe:formRow>
+					</xp:tabPanel>
+					<xp:tabPanel label="Edificios" id="tabEdificios"
+						rendered="#{javascript:!docUsuario.isNewNote()}">
+						
 					</xp:tabPanel>
 					<xp:tabPanel label="Log" id="tabLog"
 						rendered="#{javascript:!docUsuario.isNewNote()}">

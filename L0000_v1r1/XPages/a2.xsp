@@ -2,7 +2,7 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xc="http://www.ibm.com/xsp/custom">
 	<xp:this.resources>
-		<xp:styleSheet href="/docs.min.css"></xp:styleSheet>
+		<xp:styleSheet href="/a2_docs.min.css"></xp:styleSheet>
 	</xp:this.resources>
 	<xc:ccLayoutBootstrap>
 		<xp:this.facets>
@@ -48,8 +48,7 @@
 					value="#{javascript:getListBoton()}">
 				</xp:text>
 				<br />
-				<br />
-				<br />
+				<xp:span style="font-weight:bold"></xp:span><br />
 				<xp:text id="computedField4" escape="false"
 					value="#{javascript:getList()}">
 				</xp:text>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581D0005236B2" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="40a" sequence="6" unid="027C04F39A28DAFC832581D300667EEF">
+<noteinfo noteid="40a" sequence="9" unid="027C04F39A28DAFC832581D300667EEF">
 <created><datetime dst="true">20171109T163931,67-02</datetime></created>
-<modified><datetime dst="true">20171110T084012,90-02</datetime></modified>
-<revised><datetime dst="true">20171110T084012,89-02</datetime></revised>
-<lastaccessed><datetime dst="true">20171110T084012,90-02</datetime></lastaccessed>
+<modified><datetime dst="true">20171110T133410,14-02</datetime></modified>
+<revised><datetime dst="true">20171110T133410,13-02</datetime></revised>
+<lastaccessed><datetime dst="true">20171110T133410,14-02</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20171109T163931,69-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -12,9 +12,10 @@
 
 
 <item name="$FileNames" sign="true"><text>debugToolbarErrorPage.xsp</text></item>
+
+
+
+<item name="$Comment" sign="true"><text>DebugToolbar</text></item>
 <item name="$DesignerVersion"><text>9.0.1</text></item>
-
-
-
 
 </note>

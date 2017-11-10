@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='832581D00051B8B0'>
+ replicaid='832581D4005579C9'>
 <noteinfo noteid='172' unid='A2DEB99362B06514832581A100621B43' sequence='85'>
 <created><datetime dst='true'>20170920T155135,07-02</datetime></created>
-<modified><datetime dst='true'>20171106T125237,96-02</datetime></modified>
+<modified><datetime dst='true'>20171110T133338,42-02</datetime></modified>
 <revised><datetime dst='true'>20171103T100517,53-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171106T125237,96-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171106T125237,96-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171110T133338,42-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171110T133338,42-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='est_Orden_nro' summary='false' sign='true'><number>0</number></item>

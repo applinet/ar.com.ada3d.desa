@@ -17,12 +17,12 @@
 			computeWithForm="onsave">
 		</xp:dominoDocument>
 	</xp:this.data>
-
+	<!-- Esta es la única diferencia con la Edicion que el Partial Refresh lo hago automatico
+	 		con un custom control, pero en edicion a veces quedaba colgado  -->
 	<xp:this.resources>
 		<xp:script src="/MenuTools" clientSide="false"></xp:script>
 		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
 	</xp:this.resources>
-	<xc:ccFXstandBy></xc:ccFXstandBy>
 	<xc:ccLayoutBootstrap>
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle" style="padding-left:20.0%;padding-right:20.0%">

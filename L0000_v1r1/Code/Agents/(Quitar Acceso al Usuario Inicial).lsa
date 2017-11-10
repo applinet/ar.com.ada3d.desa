@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='832581D00051B8B0'>
-<noteinfo noteid='27a' unid='ADD53C23F35673C2832581C60046575B' sequence='21'>
+ replicaid='832581D4005579C9'>
+<noteinfo noteid='276' unid='ADD53C23F35673C2832581C60046575B' sequence='21'>
 <created><datetime dst='true'>20171027T104818,83-02</datetime></created>
-<modified><datetime dst='true'>20171106T125239,40-02</datetime></modified>
+<modified><datetime dst='true'>20171110T133339,73-02</datetime></modified>
 <revised><datetime dst='true'>20171101T172914,10-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171106T125239,40-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171106T125239,40-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171110T133339,73-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171110T133339,73-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$TITLE' sign='true'><text>(Quitar Acceso al Usuario Inicial)|a.NaUsrInit</text></item>
@@ -34,12 +34,12 @@ gQYAAAAA
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$AssistRunInfo' summary='true'>
 <rawitemdata type='3'>
-BgAAAgAACAB2AgAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAVxM/AMqBJQPbq1EAxoElgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
-ZCBydW5uaW5nIGFnZW50ICcoQ3JlYXIgVXN1YXJpbyBBZGFOYWIgRXh0ZXJubyl8YS5OZXdVc2Vy
-RXh0JyBvbiAxMC8zMC8yMDE3IDEyOjAwOjAyDQpSYW4gTG90dXNTY3JpcHQgY29kZQ0KRG9uZSBy
-dW5uaW5nIGFnZW50ICcoQ3JlYXIgVXN1YXJpbyBBZGFOYWIgRXh0ZXJubyl8YS5OZXdVc2VyRXh0
-JyBvbiAxMC8zMC8yMDE3IDEyOjAwOjEzDQoADQrWftsBefPkQgB4CbSDJYGvLK1bkKlUdACvgSWD
+BgAAAgAACAByAgAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAA1AAAAAAAAAAAAAAAAAAAABAAAAAA
+AAAAk4pSANCBJYMAAAAAizdSANCBJYOyNlIA0IElgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
+ZCBydW5uaW5nIGFnZW50ICcoUXVpdGFyIEFjY2VzbyBhbCBVc3VhcmlvIEluaWNpYWwpfGEuTmFV
+c3JJbml0JyBvbiAxMS8wNi8yMDE3IDEyOjAxOjM0DQpSYW4gTG90dXNTY3JpcHQgY29kZQ0KRG9u
+ZSBydW5uaW5nIGFnZW50ICcoUXVpdGFyIEFjY2VzbyBhbCBVc3VhcmlvIEluaWNpYWwpfGEuTmFV
+c3JJbml0JyBvbiAxMS8wNi8yMDE3IDEyOjAxOjM0DQoADQoKt0mXYRaPnQBSio+DJYHQdACvgSWD
 XffqrMHyPFFQeMW8/o8BqVIATv8ngDbJ1aezj3GoyB7IU3LkgOHXkIBWzvq/GMCnjfNy4oN+GN4o
 KjZwaI1mQO97tbl6f43qZptdO/yKnIxhoIOsPxI4iVjGlhUZAgMBAAGAAM1HQCtp3Jjbpjdy7YBb
 xOFyu8y8NFTW/7MFn1zFHZGCafsRze2keS8YTV3dCUvdDx5JNkQBlszw73kxZahcSXZrvk18rDh2
