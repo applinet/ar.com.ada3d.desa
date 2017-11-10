@@ -3,10 +3,8 @@
 	xmlns:xc="http://www.ibm.com/xsp/custom" pageTitle="Home | ADA3D">
 	<xp:this.resources>
 		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
-		<xp:styleSheet href="/docs.min.css"></xp:styleSheet>
-		<xp:styleSheet href="/taniaMain.css"></xp:styleSheet>
-		<xp:styleSheet href="/taniaMain.min.css"></xp:styleSheet>
-		<xp:styleSheet href="/taniaMain.css.map.css"></xp:styleSheet>
+
+		<xp:styleSheet href="/home_Main.min.css"></xp:styleSheet>
 	</xp:this.resources>
 	<xc:ccLayoutBootstrap>
 		<xp:this.facets>

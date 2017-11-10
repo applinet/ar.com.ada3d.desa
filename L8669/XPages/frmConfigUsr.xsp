@@ -19,9 +19,6 @@
 	</xp:this.data>
 
 	<xp:this.resources>
-		<xp:styleSheet href="/taniaMain.css"></xp:styleSheet>
-		<xp:styleSheet href="/taniaMain.css.map.css"></xp:styleSheet>
-		<xp:styleSheet href="/taniaMain.min.css"></xp:styleSheet>
 		<xp:script src="/MenuTools" clientSide="false"></xp:script>
 		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
 	</xp:this.resources>

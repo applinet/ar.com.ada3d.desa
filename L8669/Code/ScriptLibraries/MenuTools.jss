@@ -1,4 +1,7 @@
-/*Esta libreria maneja el menu que vemos en el ccLayout */
+/*
+ * Esta libreria maneja el menu de arriba que vemos en el ccLayout --> var menuTools 
+ * Tambien carga una viewScope con todos los menú en la funcion --> menuFull(menuName)
+ * */
 var menuTools = {
     "getMenu" : function(nsf:NotesDatabase, menuName:string) {
 		try{

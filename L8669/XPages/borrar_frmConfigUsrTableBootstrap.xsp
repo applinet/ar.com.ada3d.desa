@@ -17,12 +17,6 @@
 			computeWithForm="onsave">
 		</xp:dominoDocument>
 	</xp:this.data>
-
-	<xp:this.resources>
-		<xp:styleSheet href="/taniaMain.css"></xp:styleSheet>
-		<xp:styleSheet href="/taniaMain.css.map.css"></xp:styleSheet>
-		<xp:styleSheet href="/taniaMain.min.css"></xp:styleSheet>
-	</xp:this.resources>
 	<xc:ccFXstandBy></xc:ccFXstandBy>
 	<xc:ccLayoutBootstrap>
 		<xp:this.facets>

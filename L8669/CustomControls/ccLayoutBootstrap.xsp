@@ -120,7 +120,6 @@ if(uName.getCommon() == "Anonymous"){
 	<xp:panel id="onClickApplicationLogo">
 		<xp:this.rendered><![CDATA[#{javascript:
         if (param.onClickApplicationLogo) {
-            print("onClick application icon");
             context.redirectToPage("home.xsp");
         }
         return true;}]]>
