@@ -5,7 +5,7 @@
 	-->
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
-	<xp:this.beforePageLoad><![CDATA[#{javascript:menuFull("menuFull");if(docUsuario.isNewNote()){
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if(docUsuario.isNewNote()){
 	requestScope.put("isUsrSeg","0")
 }else{
 	requestScope.put("isUsrSeg", docUsuario.getItemValueString("usr_USRSEG_opt"))
@@ -22,8 +22,6 @@
 		<xp:styleSheet href="/taniaMain.css"></xp:styleSheet>
 		<xp:styleSheet href="/taniaMain.css.map.css"></xp:styleSheet>
 		<xp:styleSheet href="/taniaMain.min.css"></xp:styleSheet>
-		<xp:script src="/MenuTools" clientSide="false"></xp:script>
-		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
 	</xp:this.resources>
 	<xc:ccFXstandBy></xc:ccFXstandBy>
 	<xc:ccLayoutBootstrap>
@@ -250,118 +248,208 @@ return true;}]]></xp:this.rendered>
 											databaseName="ADA3D/ada_config.nsf">
 										</xp:dominoView>
 									</xp:this.data>
-
-									<!--
-										INI repeat con los menues y en cada columna un boton tipo
-										Switch
-									-->
-
+									
+									<!-- INI repeat con los menues y en cada columna un boton tipo Switch -->
+									
 									<xp:repeat id="repeatMenu" rows="30" var="menuRowData"
-										value="#{view1}" indexVar="idxRowData">
+										value="#{view1}">
 										<xp:this.facets>
-											<xp:text xp:key="header" escape="false">
+											<xp:text xp:key="header"
+												escape="false">
 												<xp:this.value>
-													<![CDATA[<div class="panel-group" id="accordion1">]]>
+													<![CDATA[<div class="table-responsive"><table class='table'><th>Menu</th><th align="center">Visualización</th><th align="center">Altas</th><th align="center">Actualizaciones</th><th align="center">Bajas</th>]]>
 												</xp:this.value>
 											</xp:text>
-											<xp:text xp:key="footer" escape="false">
+											<xp:text xp:key="footer"
+												escape="false">
 												<xp:this.value>
-													<![CDATA[</div>]]>
+													<![CDATA[</table></div>]]>
 												</xp:this.value>
 											</xp:text>
 										</xp:this.facets>
+										<xp:tr>
+											<xp:this.styleClass><![CDATA[#{javascript:var largoCodigoModulo = @Length(menuRowData.getColumnValue("modulo_OrdenConcatenado_des"));
 
-										<xp:text escape="false"
-											id="computedTitulos">
-											<xp:this.value><![CDATA[#{javascript:var list:String = "";
-var etiqueta = menuRowData.getColumnValue("Modulos");
-var codigoModulo = menuRowData.getColumnValue("modulo_OrdenConcatenado_des");
-var largoCodigoModulo = @Length(codigoModulo);
+if (largoCodigoModulo.equals(15))
+	return "danger"
+if (largoCodigoModulo.equals(12))
+	return "warning"
+if (largoCodigoModulo.equals(9))
+	return "info"
+if (largoCodigoModulo.equals(6))
+	return "active"
+return "success"}]]></xp:this.styleClass>
+											<xp:td>
+												<xp:text escape="true"
+													id="computedField1">
+													<xp:this.value><![CDATA[#{javascript:menuRowData.getColumnValue("Modulos")}]]>
+													</xp:this.value>
+												</xp:text>
+											</xp:td>
+											<xp:td>
+												<xp:link escape="true"
+													text="download ..." id="link2" rendered="false">
+													<xp:this.value>
+														<![CDATA[#{javascript:"/" +
+                        menuRowData.getUniversalID()}]]>
+													</xp:this.value>
+												</xp:link>
 
-if (largoCodigoModulo.equals(3)){
-	if(idxRowData > 0){ //Si no es el primero y tiene 3 posiciones cierro tag
-		list = list + "</div>"
-	}
-	
-	list = list + "<div class=\'panel panel-default\'>" + "<div class=\'panel-heading\'><h4 class=\'panel-title\'>" +
-	"<a data-toggle=\'collapse\' data-parent=\'#accordion1\' href=\'#collapse" + codigoModulo +"\'>" + etiqueta + "  </a>" +
-	"</h4></div>";
-}
-return list}]]>
-											</xp:this.value>
-										</xp:text>
-
-
-										<xc:ccButtonTogle
-											propertyNo="No" propertySi="Si">
-											<xc:this.propertyRender><![CDATA[#{javascript:var largoCodigoModulo = @Length(menuRowData.getColumnValue("modulo_OrdenConcatenado_des"));
-if (largoCodigoModulo.equals(3))
-	return true;
-return false;	}]]></xc:this.propertyRender>
-
-										</xc:ccButtonTogle>
-
-										<xp:text escape="false"
-											id="computedEntry">
-											<xp:this.value><![CDATA[#{javascript:var list:String = "";
-var etiqueta = menuRowData.getColumnValue("Modulos");
-var codigoModulo = menuRowData.getColumnValue("modulo_OrdenConcatenado_des");
-var largoCodigoModulo = @Length(codigoModulo);
-
-if (largoCodigoModulo.equals(6)){
-
-	var codigoMenuAnterior = viewScope.menuList.menuFull[idxRowData-1].code;
-	if(@Length(codigoMenuAnterior) == 3){
-		//Empiezo nueva serie de hijo
-		list = list + "<div id=\'collapse" + @Left(codigoModulo, 3) + "\' class=\'panel-collapse collapse\'>";
-	} 
-	
-	list = list + "<div class='\panel-body'\>" + etiqueta + "</div>"
-	
-	
-	
-	if(viewScope.menuList.menuFull.size() == idxRowData+1){
-		list = list + "</div>";//Fin
-	}else{
-		var codigoMenuSiguiente = viewScope.menuList.menuFull[idxRowData+1].code;
-		if(@Length(codigoMenuSiguiente) == 3){
-			//Finaliza esta serie de hijo
-			list = list + "</div>";
-		}
-	}	
-}
-return list;}]]>
-											</xp:this.value>
-										</xp:text>
-
-
+												<!-- Inicio de Boton Ver -->
+												<div id="div1"
+													class="btn-group span4" data-toggle="buttons-radio">
+													<xp:button
+														id="button1" value="No Ver"
+														disabled="#{javascript:!docUsuario.isEditable()}">
+														<xp:this.styleClass><![CDATA[#{javascript:return requestScope.get("isUsrSeg") == "0" ? "btn-success active btn-xs" : "btn-xs";}]]></xp:this.styleClass>
+														<xp:eventHandler
+															event="onclick" submit="true" refreshMode="partial"
+															refreshId="PNL_HiddenFields">
+															<xp:this.action><![CDATA[#{javascript:getComponent("usrSeg").setValue("0");}]]></xp:this.action>
+															<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:tabMenu}");]]></xp:this.onComplete>
+														</xp:eventHandler>
+													</xp:button>
+													<xp:button
+														id="button2" value="Ver"
+														disabled="#{javascript:!docUsuario.isEditable()}">
+														<xp:this.styleClass><![CDATA[#{javascript:return requestScope.get("isUsrSeg") == "1" ? "btn-success active btn-xs" : "btn-xs";}]]></xp:this.styleClass>
+														<xp:eventHandler
+															event="onclick" submit="true" refreshMode="partial"
+															refreshId="PNL_HiddenFields">
+															<xp:this.action><![CDATA[#{javascript:getComponent("usrSeg").setValue("1");}]]></xp:this.action>
+															<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:tabMenu}");]]></xp:this.onComplete>
+														</xp:eventHandler>
+													</xp:button>
+												</div>
+												<xp:scriptBlock
+													id="scriptBlock1">
+													<xp:this.value><![CDATA[$("#switch .btn").on("click", function() {$(this)	.addClass("btn-success")	.siblings()	.removeClass("btn-success");});]]></xp:this.value>
+												</xp:scriptBlock>
+												<!-- Fin de Boton Ver -->
+											</xp:td>
+											<xp:td>
+											<!-- Inicio de Boton Crear -->
+												<div id="div2"
+													class="btn-group span4" data-toggle="buttons-radio">
+													<xp:button
+														id="button3" value="Sin Acceso"
+														disabled="#{javascript:!docUsuario.isEditable()}">
+														<xp:this.styleClass><![CDATA[#{javascript:return requestScope.get("isUsrSeg") == "0" ? "btn-success active btn-xs" : "btn-xs";}]]></xp:this.styleClass>
+														<xp:eventHandler
+															event="onclick" submit="true" refreshMode="partial"
+															refreshId="PNL_HiddenFields">
+															<xp:this.action><![CDATA[#{javascript:getComponent("usrSeg").setValue("0");}]]></xp:this.action>
+															<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:tabMenu}");]]></xp:this.onComplete>
+														</xp:eventHandler>
+													</xp:button>
+													<xp:button
+														id="button4" value="Permitido"
+														disabled="#{javascript:!docUsuario.isEditable()}">
+														<xp:this.styleClass><![CDATA[#{javascript:return requestScope.get("isUsrSeg") == "1" ? "btn-success active btn-xs" : "btn-xs";}]]></xp:this.styleClass>
+														<xp:eventHandler
+															event="onclick" submit="true" refreshMode="partial"
+															refreshId="PNL_HiddenFields">
+															<xp:this.action><![CDATA[#{javascript:getComponent("usrSeg").setValue("1");}]]></xp:this.action>
+															<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:tabMenu}");]]></xp:this.onComplete>
+														</xp:eventHandler>
+													</xp:button>
+												</div>
+												<xp:scriptBlock
+													id="scriptBlock2">
+													<xp:this.value><![CDATA[$("#switch .btn").on("click", function() {$(this)	.addClass("btn-success")	.siblings()	.removeClass("btn-success");});]]></xp:this.value>
+												</xp:scriptBlock>
+												<!-- Fin de Boton Crear -->
+											</xp:td>
+											<xp:td>
+											<!-- Inicio de Boton Actualizar -->
+												<div id="div3"
+													class="btn-group span4" data-toggle="buttons-radio">
+													<xp:button
+														id="button5" value="No Actualizar"
+														disabled="#{javascript:!docUsuario.isEditable()}">
+														<xp:this.styleClass><![CDATA[#{javascript:return requestScope.get("isUsrSeg") == "0" ? "btn-success active btn-xs" : "btn-xs";}]]></xp:this.styleClass>
+														<xp:eventHandler
+															event="onclick" submit="true" refreshMode="partial"
+															refreshId="PNL_HiddenFields">
+															<xp:this.action><![CDATA[#{javascript:getComponent("usrSeg").setValue("0");}]]></xp:this.action>
+															<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:tabMenu}");]]></xp:this.onComplete>
+														</xp:eventHandler>
+													</xp:button>
+													<xp:button
+														id="button6" value="Puede Actualizar"
+														disabled="#{javascript:!docUsuario.isEditable()}">
+														<xp:this.styleClass><![CDATA[#{javascript:return requestScope.get("isUsrSeg") == "1" ? "btn-success active btn-xs" : "btn-xs";}]]></xp:this.styleClass>
+														<xp:eventHandler
+															event="onclick" submit="true" refreshMode="partial"
+															refreshId="PNL_HiddenFields">
+															<xp:this.action><![CDATA[#{javascript:getComponent("usrSeg").setValue("1");}]]></xp:this.action>
+															<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:tabMenu}");]]></xp:this.onComplete>
+														</xp:eventHandler>
+													</xp:button>
+												</div>
+												<xp:scriptBlock
+													id="scriptBlock3">
+													<xp:this.value><![CDATA[$("#switch .btn").on("click", function() {$(this)	.addClass("btn-success")	.siblings()	.removeClass("btn-success");});]]></xp:this.value>
+												</xp:scriptBlock>
+												<!-- Fin de Boton Actualizar -->
+											</xp:td>
+											<xp:td>
+											<!-- Inicio de Boton Eliminar -->
+												<div id="div4"
+													class="btn-group span4" data-toggle="buttons-radio">
+													<xp:button
+														id="button7" value="No permitido"
+														disabled="#{javascript:!docUsuario.isEditable()}">
+														<xp:this.styleClass><![CDATA[#{javascript:return requestScope.get("isUsrSeg") == "0" ? "btn-success active btn-xs" : "btn-xs";}]]></xp:this.styleClass>
+														<xp:eventHandler
+															event="onclick" submit="true" refreshMode="partial"
+															refreshId="PNL_HiddenFields">
+															<xp:this.action><![CDATA[#{javascript:getComponent("usrSeg").setValue("0");}]]></xp:this.action>
+															<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:tabMenu}");]]></xp:this.onComplete>
+														</xp:eventHandler>
+													</xp:button>
+													<xp:button
+														id="button8" value="Puede Eliminar"
+														disabled="#{javascript:!docUsuario.isEditable()}">
+														<xp:this.styleClass><![CDATA[#{javascript:return requestScope.get("isUsrSeg") == "1" ? "btn-success active btn-xs" : "btn-xs";}]]></xp:this.styleClass>
+														<xp:eventHandler
+															event="onclick" submit="true" refreshMode="partial"
+															refreshId="PNL_HiddenFields">
+															<xp:this.action><![CDATA[#{javascript:getComponent("usrSeg").setValue("1");}]]></xp:this.action>
+															<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:tabMenu}");]]></xp:this.onComplete>
+														</xp:eventHandler>
+													</xp:button>
+												</div>
+												<xp:scriptBlock
+													id="scriptBlock4">
+													<xp:this.value><![CDATA[$("#switch .btn").on("click", function() {$(this)	.addClass("btn-success")	.siblings()	.removeClass("btn-success");});]]></xp:this.value>
+												</xp:scriptBlock>
+												<!-- Fin de Boton Eliminar -->
+											</xp:td>
+										</xp:tr>
 									</xp:repeat>
-									<!--
-										FIN repeat con los menues y en cada columna un boton tipo
-										Switch
-									-->
+									<!-- FIN repeat con los menues y en cada columna un boton tipo Switch -->
 								</xp:panel>
-								
-								<xp:checkBoxGroup id="checkBoxGroup1" layout="pageDirection"
+
+
+								<xp:checkBoxGroup id="checkBoxGroup1"
+									layout="pageDirection"
 									value="#{docUsuario.usr_MenuSelected_cod}" rendered="false">
 									<xp:selectItems id="itemSelected">
 										<xp:this.value><![CDATA[#{javascript:var confDb:NotesDatabase = getDbCfg();
 var dbConf = new Array(@DbName()[0], confDb.getFilePath());
 @DbColumn(dbConf, "vModulosCheckBox", 2)}]]></xp:this.value>
 									</xp:selectItems>
-									<xp:eventHandler event="onchange" submit="true"
-										refreshMode="partial" refreshId="checkBoxGroup1">
+									<xp:eventHandler event="onchange"
+										submit="true" refreshMode="partial"
+										refreshId="checkBoxGroup1">
 										<xp:this.action><![CDATA[#{javascript:print("valores:" + getComponent("checkBoxGroup1").getValue())}]]></xp:this.action>
 									</xp:eventHandler>
 								</xp:checkBoxGroup>
 
-							
+
 							</xp:div>
 						</xe:formRow>
-					</xp:tabPanel>
-					<xp:tabPanel label="Edificios" id="tabEdificios"
-						rendered="#{javascript:!docUsuario.isNewNote()}">
-						
 					</xp:tabPanel>
 					<xp:tabPanel label="Log" id="tabLog"
 						rendered="#{javascript:!docUsuario.isNewNote()}">

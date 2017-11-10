@@ -1,9 +1,13 @@
 package test;
 
 import com.ibm.xsp.extlib.tree.impl.*;
+import com.ibm.xsp.extlib.util.ExtLibUtil;
+
 import lotus.domino.*;
 import javax.faces.context.FacesContext;
 import java.util.*;
+
+
 
 public class Names extends BasicNodeList {
 	private static final long serialVersionUID = -6873644238872938295L;
@@ -35,8 +39,17 @@ public class Names extends BasicNodeList {
 		// Create the node as appropriate - BasicTreeNode is the immediate common abstract parent of both node types
 		BasicTreeNode node = reports.getCount() > 0 ? new BasicContainerTreeNode() : new BasicLeafTreeNode();
 		node.setLabel(name);
-		node.setImage("/act_close.gif");
-        node.setHref("/Project_View.xsp?" );
+		node.setSubmitValue(name);
+		node.setRendered(true);
+		//node.setOnClick(name); 
+		node.setTitle("titulo");
+		/*
+		Map<String, Object> sessionScope = ExtLibUtil.getSessionScope();
+		if(!sessionScope.containsKey("cachedTime")) {
+		        // Some actual expensive operation goes here
+		        sessionScope.put("cachedTime", name);
+		}
+		*/
 		// Add the node to either the root of the tree (if it's a top-level person) or to the provided parent
 		if(parent == null) {
 			this.addChild(node);

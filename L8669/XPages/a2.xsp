@@ -48,8 +48,7 @@
 					value="#{javascript:getListBoton()}">
 				</xp:text>
 				<br />
-				<br />
-				<br />
+				<xp:span style="font-weight:bold"></xp:span><br />
 				<xp:text id="computedField4" escape="false"
 					value="#{javascript:getList()}">
 				</xp:text>

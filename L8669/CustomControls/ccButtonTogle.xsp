@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+
+	<!-- Inicio de Boton Actualizar -->
+	<xp:div rendered="#{javascript:compositeData.propertyRender}">
+	<div id="div3" class="btn-group span4"
+		data-toggle="buttons-radio">
+		<xp:button id="button5"
+			value="#{javascript:compositeData.propertySi}"
+			disabled="#{javascript:!docUsuario.isEditable()}">
+			<xp:this.styleClass><![CDATA[#{javascript:return requestScope.get("isUsrSeg") == "0" ? "btn-success active btn-xs" : "btn-xs";}]]></xp:this.styleClass>
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="partial" refreshId="PNL_HiddenFields">
+				<xp:this.action><![CDATA[#{javascript:getComponent("usrSeg").setValue("0");}]]></xp:this.action>
+				<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:tabMenu}");]]></xp:this.onComplete>
+			</xp:eventHandler>
+		</xp:button>
+		<xp:button id="button6" value="#{javascript:compositeData.propertyNo}"
+			disabled="#{javascript:!docUsuario.isEditable()}">
+			<xp:this.styleClass><![CDATA[#{javascript:return requestScope.get("isUsrSeg") == "1" ? "btn-success active btn-xs" : "btn-xs";}]]></xp:this.styleClass>
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="partial" refreshId="PNL_HiddenFields">
+				<xp:this.action><![CDATA[#{javascript:getComponent("usrSeg").setValue("1");}]]></xp:this.action>
+				<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:tabMenu}");]]></xp:this.onComplete>
+			</xp:eventHandler>
+		</xp:button>
+	</div>
+	</xp:div>
+	<xp:scriptBlock id="scriptBlock3">
+		<xp:this.value><![CDATA[$("#switch .btn").on("click", function() {$(this)	.addClass("btn-success")	.siblings()	.removeClass("btn-success");});]]></xp:this.value>
+	</xp:scriptBlock>
+	<!-- Fin de Boton Actualizar -->
+
+</xp:view>
