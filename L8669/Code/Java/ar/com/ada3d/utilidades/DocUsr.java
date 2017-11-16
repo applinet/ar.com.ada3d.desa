@@ -3,11 +3,8 @@ package ar.com.ada3d.utilidades;
 import java.util.HashMap;
 import java.util.Vector;
 
-import lotus.domino.Database;
-import lotus.domino.Document;
-import lotus.domino.NotesException;
-import lotus.domino.Session;
-import lotus.domino.View;
+import org.openntf.domino.*;
+import org.openntf.domino.xsp.XspOpenLogUtil;
 
 public class DocUsr {
 	private static final long serialVersionUID = 1L;
@@ -21,20 +18,25 @@ public class DocUsr {
 	}
 
 	private void updateDocUsr() {
-		Session session = JSFUtil.getSession();
-		Database currentDB = JSFUtil.getCurrentDatabase();
-
-		Document docUsuario = null;
 		try {
+			Session session = JSFUtil.getSession();
+			Database currentDB = JSFUtil.getCurrentDatabase();
+
+			Document docUsuario = null;
 			docUsuario = getUserDocument(session.getEffectiveUserName(),
 					currentDB);
 			if (docUsuario != null) {
 				synchronized (this._map) {
 					this._map.put("userName", docUsuario
-							.getItemValueString("usr_UserName_des"));					
-					this._map.put("nombreyApellido", docUsuario
-							.getItemValueString("usr_Nombre_des") + " " + docUsuario
-							.getItemValueString("usr_Apellido_des"));
+							.getItemValueString("usr_UserName_des"));
+					this._map
+							.put(
+									"nombreyApellido",
+									docUsuario
+											.getItemValueString("usr_Nombre_des")
+											+ " "
+											+ docUsuario
+													.getItemValueString("usr_Apellido_des"));
 					this._map.put("userMaskName", docUsuario
 							.getItemValueString("usr_UserMaskName_des"));
 					this._map.put("userSequential", docUsuario
@@ -48,20 +50,18 @@ public class DocUsr {
 				}
 				setUsrSelected(docUsuario.getItemValue("usr_MenuSelected_cod"));
 				/* getItemValue definirlo como Vector=import java.util.Vector */
-				docUsuario.recycle();
-				currentDB.recycle();
-			}else{
+			} else {
 				synchronized (this._map) {
 					this._map.put("userName", session.getEffectiveUserName());
 					this._map.put("userDB", currentDB.getFileName().substring(
 							currentDB.getFileName().length() - 8, 5));
 				}
-				
-			}
-		} catch (NotesException e) {
-			e.printStackTrace();
-		}
 
+			}
+		} catch (Exception e) {
+			XspOpenLogUtil.logError(e);
+
+		}
 	}
 
 	public String getUser() {
@@ -71,7 +71,7 @@ public class DocUsr {
 		}
 		return ret;
 	}
-	
+
 	public String getNombre() {
 		String ret;
 		synchronized (this._map) {
@@ -127,21 +127,16 @@ public class DocUsr {
 	private Document getUserDocument(String userName, Database currentDB) {
 		Document docUsuario;
 		View viewMenuPorUsuario;
-		try {
-			String nombreVista = JSFUtil
-					.getOpcionesClave("VIEW_USUARIOS_POR_ADMINISTRACION");
+		String nombreVista = JSFUtil
+				.getOpcionesClave("VIEW_USUARIOS_POR_ADMINISTRACION");
 
-			if (nombreVista == "") {
-				return null;
-			}
-			viewMenuPorUsuario = currentDB.getView(nombreVista);
-			docUsuario = viewMenuPorUsuario.getDocumentByKey(userName, true);
-			if (docUsuario != null) {
-				viewMenuPorUsuario.recycle();
-				return docUsuario;
-			}
-		} catch (NotesException e) {
-			e.printStackTrace();
+		if (nombreVista == "") {
+			return null;
+		}
+		viewMenuPorUsuario = currentDB.getView(nombreVista);
+		docUsuario = viewMenuPorUsuario.getFirstDocumentByKey(userName, true);
+		if (docUsuario != null) {
+			return docUsuario;
 		}
 		return null;
 

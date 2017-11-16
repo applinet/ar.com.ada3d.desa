@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='832581A1004F6F08'>
-<noteinfo noteid='14e' unid='02AB6790F355EDDE8325819F00512C0D' sequence='11'>
+<noteinfo noteid='14e' unid='02AB6790F355EDDE8325819F00512C0D' sequence='12'>
 <created><datetime dst='true'>20170918T124636,93-02</datetime></created>
-<modified><datetime dst='true'>20171026T142632,56-02</datetime></modified>
-<revised><datetime dst='true'>20171026T142632,55-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171026T142632,56-02</datetime></lastaccessed>
+<modified><datetime>20171116T161923,75-03</datetime></modified>
+<revised><datetime>20171116T161923,74-03</datetime></revised>
+<lastaccessed><datetime>20171116T161923,74-03</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20170920T122738,27-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -43,7 +43,7 @@ DwABAABEgGYAAAACACQ1
 <rawitemdata type='5'>
 AQAGAAYAiA4AAFZDAQAKAAYAAAAAALAABQEACAAAAAAAAAAAAAICAAAAVkMAAAIABADOAAAAPQAB
 AAAKAAAAAAAAAAAAAgIAAEBWQ0AAAgADAIwAAAAUAAYAAAgCAAAAAAAAAAACAgAAAFZDAAANAAcA
-AAAAAH4ABwAACAAAAAAAAAAAAAICAAAAVkMAAA0ACwAAAAAAmAEIAAAIAAAAAAAAAAAAAgIAAABW
+AAAAAKMABwAACAAAAAAAAAAAAAICAAAAVkMAAA0ACwAAAAAAmAEIAAAIAAAAAAAAAAAAAgIAAABW
 QwABAgANAA4AAAByAAEAAAoAAAAAAAAAAAACAgAAAGRzX0Nvbl9jb2RDomRpZ28kM1RpcG/OAAEA
 TgAMAHZhcgBfXE4AzH0lAAEACgBEYXRhU291cmNlAQAFAFRhYmxhAB8CAQAKAFdlYlNlcnZpY2Uf
 AgEACgBXc1Byb3ZpZGVyHwIDAAcADAAFAAkwUzBFAAEAQAAPAHJlc3VsdABgXE4AzH0lAAAFAAwA

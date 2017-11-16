@@ -6,7 +6,7 @@
 			action="openDocument">
 		</xp:dominoDocument>
 	</xp:this.data>
-	<xc:ccFXstandBy></xc:ccFXstandBy>
+	<xc:ccFxStandBy></xc:ccFxStandBy>
 	<xc:ccLayoutBootstrap>
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle" style="padding-left:20.0%;padding-right:20.0%">

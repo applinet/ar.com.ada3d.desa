@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='832581D0005236B2'>
-<noteinfo noteid='232' unid='473F9C1F9F29DEEF832581AF0072EA4A' sequence='48'>
+ replicaid='832581D800495D1C'>
+<noteinfo noteid='22e' unid='473F9C1F9F29DEEF832581AF0072EA4A' sequence='50'>
 <created><datetime dst='true'>20171004T185510,82-02</datetime></created>
-<modified><datetime dst='true'>20171106T125801,37-02</datetime></modified>
-<revised><datetime dst='true'>20171101T172914,18-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171106T125801,37-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171106T125801,37-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst='true'>20171114T112329,60-02</datetime></modified>
+<revised><datetime dst='true'>20171114T112329,59-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171114T112329,60-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171114T112121,47-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$TITLE' sign='true'><text>(Crear Usuario AdaNab Externo)|a.NewUserExt</text></item>
@@ -34,7 +34,7 @@ gQYAAAAA
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$AssistRunInfo' summary='true'>
 <rawitemdata type='3'>
-BgAAAgAACAAuAgAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAzgAAAAAAAAAAAAAAAAAAABAAAAAA
+BgAAAgAACAC+AwAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAzgAAAAAAAAAAAAAAAAAAABAAAAAA
 AAAAFf9AANSBJYMAAAAAaTdSANCBJYOyNlIA0IElgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
 ZCBydW5uaW5nIGFnZW50ICcoQ3JlYXIgVXN1YXJpbyBBZGFOYWIgRXh0ZXJubyl8YS5OZXdVc2Vy
 RXh0JyBvbiAxMS8xMC8yMDE3IDA4OjQ5OjQ3DQpSYW4gTG90dXNTY3JpcHQgY29kZQ0KRG9uZSBy

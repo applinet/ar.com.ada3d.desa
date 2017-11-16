@@ -289,14 +289,7 @@ return list}]]>
 										</xp:text>
 
 
-										<xc:ccButtonTogle
-											propertyNo="No" propertySi="Si">
-											<xc:this.propertyRender><![CDATA[#{javascript:var largoCodigoModulo = @Length(menuRowData.getColumnValue("modulo_OrdenConcatenado_des"));
-if (largoCodigoModulo.equals(3))
-	return true;
-return false;	}]]></xc:this.propertyRender>
-
-										</xc:ccButtonTogle>
+										
 
 										<xp:text escape="false"
 											id="computedEntry">
@@ -339,20 +332,22 @@ return list;}]]>
 									-->
 								</xp:panel>
 								
-								<xp:checkBoxGroup id="checkBoxGroup1" layout="pageDirection"
-									value="#{docUsuario.usr_MenuSelected_cod}" rendered="false">
+								<xp:checkBoxGroup id="checkBoxGroup1"
+									layout="pageDirection"
+									value="#{docUsuario.usr_MenuSelected_cod}">
 									<xp:selectItems id="itemSelected">
 										<xp:this.value><![CDATA[#{javascript:var confDb:NotesDatabase = getDbCfg();
 var dbConf = new Array(@DbName()[0], confDb.getFilePath());
 @DbColumn(dbConf, "vModulosCheckBox", 2)}]]></xp:this.value>
 									</xp:selectItems>
-									<xp:eventHandler event="onchange" submit="true"
-										refreshMode="partial" refreshId="checkBoxGroup1">
+									<xp:eventHandler event="onchange"
+										submit="true" refreshMode="partial"
+										refreshId="checkBoxGroup1">
 										<xp:this.action><![CDATA[#{javascript:print("valores:" + getComponent("checkBoxGroup1").getValue())}]]></xp:this.action>
 									</xp:eventHandler>
 								</xp:checkBoxGroup>
 
-							
+
 							</xp:div>
 						</xe:formRow>
 					</xp:tabPanel>
