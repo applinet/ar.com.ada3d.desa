@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581D800495D1C" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="442" sequence="7" unid="D9BA3687D503388D032581D9007EE6D7">
+<noteinfo noteid="442" sequence="11" unid="D9BA3687D503388D032581D9007EE6D7">
 <created><datetime>20171115T200606,31-03</datetime></created>
-<modified><datetime>20171115T202854,22-03</datetime></modified>
-<revised><datetime>20171115T202854,21-03</datetime></revised>
-<lastaccessed><datetime>20171115T202854,21-03</datetime></lastaccessed>
+<modified><datetime>20171116T132350,88-03</datetime></modified>
+<revised><datetime>20171116T132350,87-03</datetime></revised>
+<lastaccessed><datetime>20171116T132350,87-03</datetime></lastaccessed>
 <addedtofile><datetime>20171115T200606,36-03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$Flags"><text>34567Cg~[</text></item>
 <item name="$TITLE"><text>ar/com/ada3d/utilidades/CfgDataSource.java</text></item>
+
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
 
 <item name="$FileNames" sign="true"><text>ar/com/ada3d/utilidades/CfgDataSource.java</text></item>
-
 
 </note>

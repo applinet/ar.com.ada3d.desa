@@ -1,156 +1,148 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
-	xmlns:xc="http://www.ibm.com/xsp/custom">
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
 	<xp:this.data>
 		<xp:dominoDocument formName="FORM.DAT.ADM" var="DocDatAdm" />
 	</xp:this.data>
-	
-	<xc:ccLayoutBootstrap><xp:this.facets>
-	<xp:panel xp:key="facetMiddle">
-		<xp:br></xp:br>
-		<xp:table>
-			<xp:tr>
-				<xp:td>
-					<xp:label value="Nombre administrador:"
-						id="nombreAdministrador_Label1" for="nombreAdministrador1">
-					</xp:label>
-				</xp:td>
-				<xp:td>
-					<xp:inputText
-						value="#{DocDatAdm.NombreAdministrador}"
-						id="nombreAdministrador1">
-					</xp:inputText>
-				</xp:td>
-			</xp:tr>
-			<xp:tr>
-				<xp:td>
-					<xp:label value="C u i t:" id="cUIT_Label1"
-						for="cUIT1">
-					</xp:label>
-				</xp:td>
-				<xp:td>
-					<xp:inputText value="#{DocDatAdm.CUIT}"
-						id="cUIT1">
-					</xp:inputText>
-				</xp:td>
-			</xp:tr>
-			<xp:tr>
-				<xp:td>
-					<xp:label value="R p a:" id="rPA_Label1"
-						for="rPA1">
-					</xp:label>
-				</xp:td>
-				<xp:td>
-					<xp:inputText value="#{DocDatAdm.RPA}" id="rPA1">
-						<xp:this.converter>
-							<xp:convertNumber></xp:convertNumber>
-						</xp:this.converter>
-					</xp:inputText>
-				</xp:td>
-			</xp:tr>
-			<xp:tr>
-				<xp:td>
-					<xp:label value="D o m i c i l i o:"
-						id="dOMICILIO_Label1" for="dOMICILIO1">
-					</xp:label>
-				</xp:td>
-				<xp:td>
-					<xp:inputText value="#{DocDatAdm.DOMICILIO}"
-						id="dOMICILIO1">
-					</xp:inputText>
-				</xp:td>
-			</xp:tr>
-			<xp:tr>
-				<xp:td>
-					<xp:label value="T e l e f o n o:"
-						id="tELEFONO_Label1" for="tELEFONO1">
-					</xp:label>
-				</xp:td>
-				<xp:td>
-					<xp:inputText value="#{DocDatAdm.TELEFONO}"
-						id="tELEFONO1">
-					</xp:inputText>
-				</xp:td>
-			</xp:tr>
-			<xp:tr>
-				<xp:td>
-					<xp:label value="E m a i l:" id="eMAIL_Label1"
-						for="eMAIL1">
-					</xp:label>
-				</xp:td>
-				<xp:td>
-					<xp:inputText value="#{DocDatAdm.EMAIL}"
-						id="eMAIL1">
-					</xp:inputText>
-				</xp:td>
-			</xp:tr>
-			<xp:tr>
-				<xp:td>
-					<xp:label value="S i t u a c i o n f i s c a l:"
-						id="sITUACIONFISCAL_Label1" for="sITUACIONFISCAL1">
-					</xp:label>
-				</xp:td>
-				<xp:td>
-					<xp:inputText value="#{DocDatAdm.SITUACIONFISCAL}"
-						id="sITUACIONFISCAL1">
-					</xp:inputText>
-				</xp:td>
-			</xp:tr>
-			<xp:tr>
-				<xp:td>
-					<xp:label value="M e m b r e t e:"
-						id="mEMBRETE_Label1" for="mEMBRETE1">
-					</xp:label>
-				</xp:td>
-				<xp:td>
-					<xp:inputText value="#{DocDatAdm.MEMBRETE}"
-						id="mEMBRETE1">
-					</xp:inputText>
-				</xp:td>
-			</xp:tr>
-			<xp:tr>
-				<xp:td>
-					<xp:label value="L o g o:" id="lOGO_Label1"
-						for="lOGO1">
-					</xp:label>
-				</xp:td>
-				<xp:td>
-					<xp:inputRichText value="#{DocDatAdm.LOGO}"
-						id="lOGO1">
-					</xp:inputRichText>
-				</xp:td>
-			</xp:tr>
-			<xp:tr>
-				<xp:td></xp:td>
-				<xp:td>
-					<xp:messages layout="table" style="color:red"
-						id="messages1">
-					</xp:messages>
-				</xp:td>
-			</xp:tr>
-			<xp:tr>
-				<xp:td></xp:td>
-				<xp:td>
+	<xc:ccLayoutBootstrap>
+		<xp:this.facets>
+
+			<xp:panel id="PNL_Container" styleClass="container"
+				xp:key="facetMiddle">
+				<xp:table>
+					<xp:tr>
+						<xp:td>
+							<xp:label value="Nombre administrador:" id="nombreAdministrador_Label1"
+								for="nombreAdministrador1">
+							</xp:label>
+						</xp:td>
+						<xp:td>
+							<xp:inputText value="#{DocDatAdm.NombreAdministrador}"
+								id="nombreAdministrador1">
+							</xp:inputText>
+						</xp:td>
+					</xp:tr>
+					<xp:tr>
+						<xp:td>
+							<xp:label value="C u i t:" id="cUIT_Label1" for="cUIT1">
+							</xp:label>
+						</xp:td>
+						<xp:td>
+							<xp:inputText value="#{DocDatAdm.CUIT}" id="cUIT1" required="true">
+							<xp:this.validators>
+								<xp:validateRequired
+									message="Debe completar el cuit">
+								</xp:validateRequired>
+							</xp:this.validators></xp:inputText>
+						</xp:td>
+					</xp:tr>
+					<xp:tr>
+						<xp:td>
+							<xp:label value="R p a:" id="rPA_Label1" for="rPA1">
+							</xp:label>
+						</xp:td>
+						<xp:td>
+							<xp:inputText value="#{DocDatAdm.RPA}" id="rPA1">
+								<xp:this.converter>
+									<xp:convertNumber></xp:convertNumber>
+								</xp:this.converter>
+							</xp:inputText>
+						</xp:td>
+					</xp:tr>
+					<xp:tr>
+						<xp:td>
+							<xp:label value="D o m i c i l i o:" id="dOMICILIO_Label1"
+								for="dOMICILIO1">
+							</xp:label>
+						</xp:td>
+						<xp:td>
+							<xp:inputText value="#{DocDatAdm.DOMICILIO}" id="dOMICILIO1">
+							</xp:inputText>
+						</xp:td>
+					</xp:tr>
+					<xp:tr>
+						<xp:td>
+							<xp:label value="T e l e f o n o:" id="tELEFONO_Label1"
+								for="tELEFONO1">
+							</xp:label>
+						</xp:td>
+						<xp:td>
+							<xp:inputText value="#{DocDatAdm.TELEFONO}" id="tELEFONO1">
+							</xp:inputText>
+						</xp:td>
+					</xp:tr>
+					<xp:tr>
+						<xp:td>
+							<xp:label value="E m a i l:" id="eMAIL_Label1" for="eMAIL1">
+							</xp:label>
+						</xp:td>
+						<xp:td>
+							<xp:inputText value="#{DocDatAdm.EMAIL}" id="eMAIL1">
+							</xp:inputText>
+						</xp:td>
+					</xp:tr>
+					<xp:tr>
+						<xp:td>
+							<xp:label value="S i t u a c i o n f i s c a l:" id="sITUACIONFISCAL_Label1"
+								for="sITUACIONFISCAL1">
+							</xp:label>
+						</xp:td>
+						<xp:td>
+							<xp:inputText value="#{DocDatAdm.SITUACIONFISCAL}"
+								id="sITUACIONFISCAL1">
+							</xp:inputText>
+						</xp:td>
+					</xp:tr>
+					<xp:tr>
+						<xp:td>
+							<xp:label value="M e m b r e t e:" id="mEMBRETE_Label1"
+								for="mEMBRETE1">
+							</xp:label>
+						</xp:td>
+						<xp:td>
+							<xp:inputText value="#{DocDatAdm.MEMBRETE}" id="mEMBRETE1">
+							</xp:inputText>
+						</xp:td>
+					</xp:tr>
+					<xp:tr>
+						<xp:td>
+							<xp:label value="L o g o:" id="lOGO_Label1" for="lOGO1">
+							</xp:label>
+						</xp:td>
+						<xp:td>
+							<xp:inputRichText value="#{DocDatAdm.LOGO}" id="lOGO1">
+							</xp:inputRichText>
+						</xp:td>
+					</xp:tr>
+					<xp:tr>
+						<xp:td></xp:td>
+						<xp:td>
+							<xp:messages layout="table" style="color:red" id="messages1">
+							</xp:messages>
+						</xp:td>
+					</xp:tr>
+					
+				</xp:table>
+				<xp:panel id="PNL_Button">
 					<xp:button id="BotónGuardar" value="Guardar">
 						<xp:eventHandler event="onclick" submit="true"
-							refreshMode="complete" immediate="false" save="true"
-							id="eventHandler1">
+							refreshMode="complete" immediate="false" save="true" id="eventHandler1">
 							<xp:this.action>
-								<xp:openPage
-									name="/VIEWDATOSADMINISTRACION.xsp">
+								<xp:openPage name="/viewDatosAdministrador.xsp">
 								</xp:openPage>
 							</xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
-				<xp:button id="BotónCancelar" value="Cancelar">
-						<xp:eventHandler event="onclick" submit="true" refreshMode="complete" immediate="true" save="false" id="eventHandler2">
+					<xp:button id="BotónCancelar" value="Cancelar">
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete" immediate="true" save="false" id="eventHandler2">
 							<xp:this.action>
-								<xp:openPage name="/VIEWDATOSADMINISTRACION.xsp">
+								<xp:openPage name="/viewDatosAdministrador.xsp">
 								</xp:openPage>
 							</xp:this.action>
 						</xp:eventHandler>
-					</xp:button></xp:td>
-			</xp:tr>
-		</xp:table>
-	</xp:panel></xp:this.facets></xc:ccLayoutBootstrap>
-	</xp:view>
+					</xp:button>
+				</xp:panel>
+			</xp:panel>
+		</xp:this.facets>
+	</xc:ccLayoutBootstrap>
+</xp:view>

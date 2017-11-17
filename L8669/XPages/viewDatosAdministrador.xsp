@@ -20,66 +20,67 @@
 					layout="Previous Group Next" xp:key="headerPager" id="pager1">
 				</xp:pager>
 			</xp:this.facets>
-			<xp:viewColumn columnName="NombreAdministrador"
+			<xp:viewColumn columnName="admstdr_NombreAdministrador"
 				id="viewColumn1">
 				<xp:this.facets>
-					<xp:viewColumnHeader value="Nombre administrador"
-						xp:key="header" id="viewColumnHeader1">
+					<xp:viewColumnHeader
+						value="Admstdr_ nombre administrador" xp:key="header"
+						id="viewColumnHeader1">
 					</xp:viewColumnHeader>
 				</xp:this.facets>
 			</xp:viewColumn>
-			<xp:viewColumn columnName="CUIT" id="viewColumn2">
+			<xp:viewColumn columnName="admstdr_CUIT" id="viewColumn2">
 				<xp:this.facets>
-					<xp:viewColumnHeader value="C u i t" xp:key="header"
-						id="viewColumnHeader2">
+					<xp:viewColumnHeader value="Admstdr_ c u i t"
+						xp:key="header" id="viewColumnHeader2">
 					</xp:viewColumnHeader>
 				</xp:this.facets>
 			</xp:viewColumn>
-			<xp:viewColumn columnName="RPA" id="viewColumn3">
+			<xp:viewColumn columnName="admstdr_RPA" id="viewColumn3">
 				<xp:this.facets>
-					<xp:viewColumnHeader value="R p a" xp:key="header"
-						id="viewColumnHeader3">
+					<xp:viewColumnHeader value="Admstdr_ r p a"
+						xp:key="header" id="viewColumnHeader3">
 					</xp:viewColumnHeader>
 				</xp:this.facets>
-				<xp:this.converter>
-					<xp:convertNumber type="number"
-						integerOnly="true">
-					</xp:convertNumber>
-				</xp:this.converter>
+				
 			</xp:viewColumn>
-			<xp:viewColumn columnName="DOMICILIO" id="viewColumn4">
+			<xp:viewColumn columnName="admstdr_DOMICILIO" id="viewColumn4">
 				<xp:this.facets>
-					<xp:viewColumnHeader value="Dirección"
-						xp:key="header" id="viewColumnHeader4">
+					<xp:viewColumnHeader
+						value="Admstdr_ d o m i c i l i o" xp:key="header"
+						id="viewColumnHeader4">
 					</xp:viewColumnHeader>
 				</xp:this.facets>
 			</xp:viewColumn>
-			<xp:viewColumn columnName="EMAIL" id="viewColumn5">
+			<xp:viewColumn columnName="admstdr_EMAIL" id="viewColumn5">
 				<xp:this.facets>
-					<xp:viewColumnHeader value="E-mail" xp:key="header"
-						id="viewColumnHeader5">
+					<xp:viewColumnHeader value="Admstdr_ e m a i l"
+						xp:key="header" id="viewColumnHeader5">
 					</xp:viewColumnHeader>
 				</xp:this.facets>
 			</xp:viewColumn>
-			<xp:viewColumn columnName="TELEFONO" id="viewColumn6">
+			<xp:viewColumn columnName="admstdr_TELEFONO" id="viewColumn6">
 				<xp:this.facets>
-					<xp:viewColumnHeader value="Teléfono"
-						xp:key="header" id="viewColumnHeader6">
+					<xp:viewColumnHeader
+						value="Admstdr_ t e l e f o n o" xp:key="header"
+						id="viewColumnHeader6">
 					</xp:viewColumnHeader>
 				</xp:this.facets>
 			</xp:viewColumn>
-			<xp:viewColumn columnName="SITUACIONFISCAL"
+			<xp:viewColumn columnName="admstdr_SITUACIONFISCAL"
 				id="viewColumn7">
 				<xp:this.facets>
-					<xp:viewColumnHeader value="Situación fiscal"
-						xp:key="header" id="viewColumnHeader7">
+					<xp:viewColumnHeader
+						value="Admstdr_ s i t u a c i o n f i s c a l" xp:key="header"
+						id="viewColumnHeader7">
 					</xp:viewColumnHeader>
 				</xp:this.facets>
 			</xp:viewColumn>
-			<xp:viewColumn columnName="MEMBRETE" id="viewColumn8">
+			<xp:viewColumn columnName="admstdr_MEMBRETE" id="viewColumn8">
 				<xp:this.facets>
-					<xp:viewColumnHeader value="Membrete"
-						xp:key="header" id="viewColumnHeader8">
+					<xp:viewColumnHeader
+						value="Admstdr_ m e m b r e t e" xp:key="header"
+						id="viewColumnHeader8">
 					</xp:viewColumnHeader>
 				</xp:this.facets>
 			</xp:viewColumn>
@@ -91,7 +92,7 @@
 					refreshMode="complete">
 					<xp:this.action>
 						<xp:openPage
-							name="/FRMDATOSADMINISTRADOR.xsp">
+							name="/frmDatosAdministrador.xsp">
 						</xp:openPage>
 					</xp:this.action>
 				</xp:eventHandler>

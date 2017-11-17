@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581D800495D1C" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="392" sequence="88" unid="A27877CC2281E5F2832581D7004B5DB8">
+<noteinfo noteid="392" sequence="127" unid="A27877CC2281E5F2832581D7004B5DB8">
 <created><datetime dst="true">20171113T114311,92-02</datetime></created>
-<modified><datetime>20171116T153029,58-03</datetime></modified>
-<revised><datetime>20171116T153029,57-03</datetime></revised>
-<lastaccessed><datetime>20171116T153029,57-03</datetime></lastaccessed>
+<modified><datetime>20171116T171517,77-03</datetime></modified>
+<revised><datetime>20171116T171517,76-03</datetime></revised>
+<lastaccessed><datetime>20171116T171517,76-03</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20171114T112123,15-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$Flags"><text>34567Cg~[</text></item>
-
-
-
 <item name="$TITLE"><text>ar/com/ada3d/connect/GetQueryAS400.java</text></item>
+
+
+
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
 
-<item name="$FileNames" sign="true"><text>ar/com/ada3d/connect/GetQueryAS400.java</text></item></note>
+<item name="$FileNames" sign="true"><text>ar/com/ada3d/connect/GetQueryAS400.java</text></item>
+
+</note>

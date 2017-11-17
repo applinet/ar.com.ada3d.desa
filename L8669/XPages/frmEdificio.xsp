@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:this.resources>
+		<xp:script src="/viernes.jss" clientSide="false"></xp:script>
+	</xp:this.resources>
+	<xp:label id="labelNombreRpa" style="font-weight:bold">
+	<xp:this.value><![CDATA[#{javascript:quebase("Fernando")}]]></xp:this.value></xp:label>
+
+	<xp:br></xp:br>
+	<xp:br></xp:br>
+	<xp:label id="label1"
+		value="#{javascript:session.getCurrentDatabase().getTitle()}">
+	</xp:label>
+	<xp:br></xp:br>
+	<xp:br></xp:br>
+	<xp:label id="label2" rendered="false">
+		<xp:this.value><![CDATA[#{javascript:"Etiqueta"}]]></xp:this.value>
+	</xp:label>
+	<xp:br></xp:br>
+	<xp:br></xp:br>
+	<xp:label id="labelFinal"><xp:this.value><![CDATA[#{javascript:"Es esto:" + getComponent("label2").getValue()}]]></xp:this.value></xp:label></xp:view>
