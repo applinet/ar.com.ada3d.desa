@@ -42,9 +42,10 @@
 						xp:key="header" id="viewColumnHeader3">
 					</xp:viewColumnHeader>
 				</xp:this.facets>
-				
+
 			</xp:viewColumn>
-			<xp:viewColumn columnName="admstdr_DOMICILIO" id="viewColumn4">
+			<xp:viewColumn columnName="admstdr_DOMICILIO"
+				id="viewColumn4">
 				<xp:this.facets>
 					<xp:viewColumnHeader
 						value="Admstdr_ d o m i c i l i o" xp:key="header"
@@ -52,14 +53,16 @@
 					</xp:viewColumnHeader>
 				</xp:this.facets>
 			</xp:viewColumn>
-			<xp:viewColumn columnName="admstdr_EMAIL" id="viewColumn5">
+			<xp:viewColumn columnName="admstdr_EMAIL"
+				id="viewColumn5">
 				<xp:this.facets>
 					<xp:viewColumnHeader value="Admstdr_ e m a i l"
 						xp:key="header" id="viewColumnHeader5">
 					</xp:viewColumnHeader>
 				</xp:this.facets>
 			</xp:viewColumn>
-			<xp:viewColumn columnName="admstdr_TELEFONO" id="viewColumn6">
+			<xp:viewColumn columnName="admstdr_TELEFONO"
+				id="viewColumn6">
 				<xp:this.facets>
 					<xp:viewColumnHeader
 						value="Admstdr_ t e l e f o n o" xp:key="header"
@@ -76,7 +79,8 @@
 					</xp:viewColumnHeader>
 				</xp:this.facets>
 			</xp:viewColumn>
-			<xp:viewColumn columnName="admstdr_MEMBRETE" id="viewColumn8">
+			<xp:viewColumn columnName="admstdr_MEMBRETE"
+				id="viewColumn8">
 				<xp:this.facets>
 					<xp:viewColumnHeader
 						value="Admstdr_ m e m b r e t e" xp:key="header"
@@ -85,7 +89,7 @@
 				</xp:this.facets>
 			</xp:viewColumn>
 
-			
+
 		</xp:viewPanel>
 		<xp:button id="Agregar" value="Agregar">
 				<xp:eventHandler event="onclick" submit="true"

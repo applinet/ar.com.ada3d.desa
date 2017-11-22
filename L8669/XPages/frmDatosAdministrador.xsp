@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
 	<xp:this.data>
-		<xp:dominoDocument formName="FORM.DAT.ADM" var="DocDatAdm" />
+		<xp:dominoDocument formName="f.DatosAdministrador"
+			var="DocDatAdm" />
 	</xp:this.data>
+	
 	<xc:ccLayoutBootstrap>
 		<xp:this.facets>
 
-			<xp:panel id="PNL_Container" styleClass="container"
-				xp:key="facetMiddle">
+			<xp:panel id="PNL_Container" xp:key="facetMiddle">
 				<xp:table>
 					<xp:tr>
 						<xp:td>
@@ -16,7 +17,8 @@
 							</xp:label>
 						</xp:td>
 						<xp:td>
-							<xp:inputText value="#{DocDatAdm.NombreAdministrador}"
+							<xp:inputText
+								value="#{DocDatAdm.admstdr_NombreAdministrador}"
 								id="nombreAdministrador1">
 							</xp:inputText>
 						</xp:td>
@@ -27,12 +29,10 @@
 							</xp:label>
 						</xp:td>
 						<xp:td>
-							<xp:inputText value="#{DocDatAdm.CUIT}" id="cUIT1" required="true">
-							<xp:this.validators>
-								<xp:validateRequired
-									message="Debe completar el cuit">
-								</xp:validateRequired>
-							</xp:this.validators></xp:inputText>
+							<xp:inputText value="#{DocDatAdm.admstdr_CUIT}"
+								id="cUIT1" required="true">
+								
+							</xp:inputText>
 						</xp:td>
 					</xp:tr>
 					<xp:tr>
@@ -41,11 +41,10 @@
 							</xp:label>
 						</xp:td>
 						<xp:td>
-							<xp:inputText value="#{DocDatAdm.RPA}" id="rPA1">
-								<xp:this.converter>
-									<xp:convertNumber></xp:convertNumber>
-								</xp:this.converter>
-							</xp:inputText>
+							<xp:inputText value="#{DocDatAdm.admstdr_RPA}"
+								id="rPA1">
+							<xp:this.converter>
+								<xp:convertNumber type="number"></xp:convertNumber></xp:this.converter></xp:inputText>
 						</xp:td>
 					</xp:tr>
 					<xp:tr>
@@ -55,7 +54,8 @@
 							</xp:label>
 						</xp:td>
 						<xp:td>
-							<xp:inputText value="#{DocDatAdm.DOMICILIO}" id="dOMICILIO1">
+							<xp:inputText value="#{DocDatAdm.admstdr_DOMICILIO}"
+								id="dOMICILIO1">
 							</xp:inputText>
 						</xp:td>
 					</xp:tr>
@@ -66,7 +66,8 @@
 							</xp:label>
 						</xp:td>
 						<xp:td>
-							<xp:inputText value="#{DocDatAdm.TELEFONO}" id="tELEFONO1">
+							<xp:inputText value="#{DocDatAdm.admstdr_TELEFONO}"
+								id="tELEFONO1">
 							</xp:inputText>
 						</xp:td>
 					</xp:tr>
@@ -76,7 +77,8 @@
 							</xp:label>
 						</xp:td>
 						<xp:td>
-							<xp:inputText value="#{DocDatAdm.EMAIL}" id="eMAIL1">
+							<xp:inputText value="#{DocDatAdm.admstdr_EMAIL}"
+								id="eMAIL1">
 							</xp:inputText>
 						</xp:td>
 					</xp:tr>
@@ -87,8 +89,8 @@
 							</xp:label>
 						</xp:td>
 						<xp:td>
-							<xp:inputText value="#{DocDatAdm.SITUACIONFISCAL}"
-								id="sITUACIONFISCAL1">
+							<xp:inputText
+								value="#{DocDatAdm.admstdr_SITUACIONFISCAL}" id="sITUACIONFISCAL1">
 							</xp:inputText>
 						</xp:td>
 					</xp:tr>
@@ -99,8 +101,8 @@
 							</xp:label>
 						</xp:td>
 						<xp:td>
-							<xp:inputText value="#{DocDatAdm.MEMBRETE}" id="mEMBRETE1">
-							</xp:inputText>
+							
+							<xp:inputText id="inputText1" value="#{DocDatAdm.admstdr_MEMBRETE}"></xp:inputText>
 						</xp:td>
 					</xp:tr>
 					<xp:tr>
@@ -109,8 +111,12 @@
 							</xp:label>
 						</xp:td>
 						<xp:td>
-							<xp:inputRichText value="#{DocDatAdm.LOGO}" id="lOGO1">
-							</xp:inputRichText>
+
+		<xp:inputRichText id="inputRichText1"
+			value="#{DocDatAdm.admstdr_LOGO}">
+		</xp:inputRichText>
+
+
 						</xp:td>
 					</xp:tr>
 					<xp:tr>
@@ -127,8 +133,14 @@
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="complete" immediate="false" save="true" id="eventHandler1">
 							<xp:this.action>
-								<xp:openPage name="/viewDatosAdministrador.xsp">
-								</xp:openPage>
+
+								<xp:actionGroup>
+									<xp:saveDocument var="DocDatAdm"></xp:saveDocument><xp:openPage
+										name="/viewDatosAdministrador.xsp">
+									</xp:openPage>
+
+									
+								</xp:actionGroup>
 							</xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
@@ -141,7 +153,7 @@
 							</xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
-				</xp:panel>
+					</xp:panel>
 			</xp:panel>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>

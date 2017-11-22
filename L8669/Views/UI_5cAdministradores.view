@@ -1,16 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='832581D800495D1C'>
-<noteinfo noteid='41e' unid='583C03267ECD7A7D032581D9006E25D1' sequence='9'>
+<noteinfo noteid='41e' unid='583C03267ECD7A7D032581D9006E25D1' sequence='11'>
 <created><datetime>20171115T170306,41-03</datetime></created>
-<modified><datetime>20171117T155033,63-03</datetime></modified>
-<revised><datetime>20171117T155033,62-03</datetime></revised>
-<lastaccessed><datetime>20171117T155033,62-03</datetime></lastaccessed>
+<modified><datetime>20171122T154830,21-03</datetime></modified>
+<revised><datetime>20171122T154830,20-03</datetime></revised>
+<lastaccessed><datetime>20171122T154830,20-03</datetime></lastaccessed>
 <addedtofile><datetime>20171115T170306,49-03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$FORMULACLASS' sign='true'><text>1</text></item>
-<item name='$TITLE' sign='true'><text>Administradores|v.UI.Administradores</text></item>
 <item name='$Index' sign='true'><text/></item>
 <item name='$FORMULA' summary='true' sign='true'><formula compiled='true'>
 HgEFALAArAAKABsADAALABEADQAQABcAEAAJAAQAYWRtc3Rkcl9Ob21icmVBZG1pbmlzdHJhZG9y
@@ -46,7 +45,6 @@ AAEA////AAEA////AAAAAQAAAAAAAQAAAAAAAQAAAAAAAAAIAAAAAAABAA==
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$Flags'><text>PY</text></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$V5ACTIONS' sign='true'>
 <rawitemdata type='1'>
 vRw/AAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAPDw8AABAAAAAAAJAAAAAAABAPDw8AAA
@@ -54,5 +52,7 @@ AB8AAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/OgAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/1QAAAABAAAAnwEAAAYAAAAAAAAAQ3JlYXIgOAAAACoA
 AgDoAwAAAAAAAAEAFABmLkRhdG9zQWRtaW5pc3RyYWRvcu0CAwAHAAwABQAJMFMwRQA=
-</rawitemdata></item></note>
+</rawitemdata></item>
+<item name='$TITLE' sign='true'><text>UI\Administradores|v.UI.Administradores</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item></note>
 

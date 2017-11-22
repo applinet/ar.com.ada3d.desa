@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581D800495D1C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="482" sequence="4" unid="FD999712D1DD0647032581E0006465D1">
+<created><datetime>20171122T151636,65-03</datetime></created>
+<modified><datetime>20171122T151636,96-03</datetime></modified>
+<revised><datetime>20171122T151636,95-03</datetime></revised>
+<lastaccessed><datetime>20171122T151636,95-03</datetime></lastaccessed>
+<addedtofile><datetime>20171122T151636,65-03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
+<wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
+<item name="$TITLE"><text>MultiAttachments.xsp</text></item>
+<item name="$Flags"><text>gC~4;</text></item>
+
+
+<item name="$FileNames" sign="true"><text>MultiAttachments.xsp</text></item>
+
+</note>
