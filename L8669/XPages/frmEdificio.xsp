@@ -18,4 +18,7 @@
 	</xp:label>
 	<xp:br></xp:br>
 	<xp:br></xp:br>
-	<xp:label id="labelFinal"><xp:this.value><![CDATA[#{javascript:"Es esto:" + getComponent("label2").getValue()}]]></xp:this.value></xp:label></xp:view>
+	<xp:label id="labelFinal"><xp:this.value><![CDATA[#{javascript:"Es esto:" + getComponent("label2").getValue()}]]></xp:this.value></xp:label>
+	<xp:br></xp:br>
+	<xp:br></xp:br>
+	<xp:button value="Label" id="button1"></xp:button></xp:view>
