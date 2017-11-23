@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:panel id="PNL_container" styleClass="container">
+		<xp:this.data>
+			<xp:dominoDocument formName="f.DatosEdificios" var="docEdificio" />
+		</xp:this.data>
+		<xp:table>
+			<xp:tr>
+				<xp:td>
+					<xp:label value="Edificio_codigo sasa:" id="edificio_codigoSasa_Label1"
+						for="edificio_codigoSasa1">
+					</xp:label>
+				</xp:td>
+				<xp:td>
+					<xp:inputText value="#{docEdificio.edificio_codigoSasa}"
+						id="edificio_codigoSasa1">
+					</xp:inputText>
+				</xp:td>
+			</xp:tr>
+			<xp:tr>
+				<xp:td>
+					<xp:label value="Edificio_codigo propio:" id="edificio_codigoPropio_Label1"
+						for="edificio_codigoPropio1">
+					</xp:label>
+				</xp:td>
+				<xp:td>
+					<xp:inputText value="#{docEdificio.edificio_codigoPropio}"
+						id="edificio_codigoPropio1">
+					</xp:inputText>
+				</xp:td>
+			</xp:tr>
+		</xp:table>
+	</xp:panel>
+</xp:view>

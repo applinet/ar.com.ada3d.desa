@@ -1,159 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.data>
 		<xp:dominoDocument formName="f.DatosAdministrador"
-			var="DocDatAdm" />
+			var="docAdministradores" />
 	</xp:this.data>
-	
 	<xc:ccLayoutBootstrap>
 		<xp:this.facets>
 
-			<xp:panel id="PNL_Container" xp:key="facetMiddle">
-				<xp:table>
-					<xp:tr>
-						<xp:td>
-							<xp:label value="Nombre administrador:" id="nombreAdministrador_Label1"
-								for="nombreAdministrador1">
-							</xp:label>
-						</xp:td>
-						<xp:td>
-							<xp:inputText
-								value="#{DocDatAdm.admstdr_NombreAdministrador}"
-								id="nombreAdministrador1">
-							</xp:inputText>
-						</xp:td>
-					</xp:tr>
-					<xp:tr>
-						<xp:td>
-							<xp:label value="C u i t:" id="cUIT_Label1" for="cUIT1">
-							</xp:label>
-						</xp:td>
-						<xp:td>
-							<xp:inputText value="#{DocDatAdm.admstdr_CUIT}"
-								id="cUIT1" required="true">
-								
-							</xp:inputText>
-						</xp:td>
-					</xp:tr>
-					<xp:tr>
-						<xp:td>
-							<xp:label value="R p a:" id="rPA_Label1" for="rPA1">
-							</xp:label>
-						</xp:td>
-						<xp:td>
-							<xp:inputText value="#{DocDatAdm.admstdr_RPA}"
-								id="rPA1">
-							<xp:this.converter>
-								<xp:convertNumber type="number"></xp:convertNumber></xp:this.converter></xp:inputText>
-						</xp:td>
-					</xp:tr>
-					<xp:tr>
-						<xp:td>
-							<xp:label value="D o m i c i l i o:" id="dOMICILIO_Label1"
-								for="dOMICILIO1">
-							</xp:label>
-						</xp:td>
-						<xp:td>
-							<xp:inputText value="#{DocDatAdm.admstdr_DOMICILIO}"
-								id="dOMICILIO1">
-							</xp:inputText>
-						</xp:td>
-					</xp:tr>
-					<xp:tr>
-						<xp:td>
-							<xp:label value="T e l e f o n o:" id="tELEFONO_Label1"
-								for="tELEFONO1">
-							</xp:label>
-						</xp:td>
-						<xp:td>
-							<xp:inputText value="#{DocDatAdm.admstdr_TELEFONO}"
-								id="tELEFONO1">
-							</xp:inputText>
-						</xp:td>
-					</xp:tr>
-					<xp:tr>
-						<xp:td>
-							<xp:label value="E m a i l:" id="eMAIL_Label1" for="eMAIL1">
-							</xp:label>
-						</xp:td>
-						<xp:td>
-							<xp:inputText value="#{DocDatAdm.admstdr_EMAIL}"
-								id="eMAIL1">
-							</xp:inputText>
-						</xp:td>
-					</xp:tr>
-					<xp:tr>
-						<xp:td>
-							<xp:label value="S i t u a c i o n f i s c a l:" id="sITUACIONFISCAL_Label1"
-								for="sITUACIONFISCAL1">
-							</xp:label>
-						</xp:td>
-						<xp:td>
-							<xp:inputText
-								value="#{DocDatAdm.admstdr_SITUACIONFISCAL}" id="sITUACIONFISCAL1">
-							</xp:inputText>
-						</xp:td>
-					</xp:tr>
-					<xp:tr>
-						<xp:td>
-							<xp:label value="M e m b r e t e:" id="mEMBRETE_Label1"
-								for="mEMBRETE1">
-							</xp:label>
-						</xp:td>
-						<xp:td>
-							
-							<xp:inputText id="inputText1" value="#{DocDatAdm.admstdr_MEMBRETE}"></xp:inputText>
-						</xp:td>
-					</xp:tr>
-					<xp:tr>
-						<xp:td>
-							<xp:label value="L o g o:" id="lOGO_Label1" for="lOGO1">
-							</xp:label>
-						</xp:td>
-						<xp:td>
+			<xp:panel id="PNL_container" xp:key="facetMiddle"
+				styleClass="container">
 
-		<xp:inputRichText id="inputRichText1"
-			value="#{DocDatAdm.admstdr_LOGO}">
-		</xp:inputRichText>
+				<xe:formTable id="tblDatosAdministrador">
+					<xe:formRow id="rowNombre" label="Nombre" labelPosition="left">
+						<xp:inputText id="admstdr_Nombre_des"
+							value="#{docAdministradores.admstdr_NombreAdministrador}"
+							required="true">
+							<xp:this.validators>
+								<xp:validateRequired message="El nombre es un campo requerido.">
+								</xp:validateRequired>
+							</xp:this.validators>
+						</xp:inputText>
+					</xe:formRow>
+					<xe:formRow id="rowCuit" label="CUIT" labelPosition="left">
+						<xp:inputText id="admstdr_CUIT_des" value="#{docAdministradores.admstdr_CUIT}"
+							required="true">
+							<xp:this.validators>
+								<xp:validateRequired message="El CUIT es un campo requerido.">
+								</xp:validateRequired>
+							</xp:this.validators>
+						</xp:inputText>
+					</xe:formRow>
+					<xe:formRow id="rowRpa" label="RPA" labelPosition="left">
+						<xp:inputText id="admstdr_RPA_des" value="#{docAdministradores.admstdr_RPA}">
+						</xp:inputText>
+					</xe:formRow>
+					<xe:formRow id="rowDomilicio" label="Domicilio"
+						labelPosition="left">
+						<xp:inputText id="admstdr_Domicilio_des"
+							value="#{docAdministradores.admstdr_DOMICILIO}">
+						</xp:inputText>
+					</xe:formRow>
+					<xe:formRow id="rowTelefono" label="Telefono"
+						labelPosition="left">
+						<xp:inputText id="admstdr_Telefono_des"
+							value="#{docAdministradores.admstdr_TELEFONO}">
+						</xp:inputText>
+					</xe:formRow>
+					<xe:formRow id="rowEmail" label="Correo electrónico"
+						labelPosition="left">
+						<xp:inputText id="admstdr_Email_des"
+							value="#{docAdministradores.admstdr_EMAIL}">
+						</xp:inputText>
+					</xe:formRow>
+					<xe:formRow id="rowSituacionFiscal" label="Situación Fiscal"
+						labelPosition="left">
+						<xp:inputText id="admstdr_SituacionFiscal_des"
+							value="#{docAdministradores.admstdr_SITUACIONFISCAL}">
+						</xp:inputText>
+					</xe:formRow>
+					<xe:formRow id="rowMembrete" label="Membrete"
+						labelPosition="left">
+						<xp:inputText id="admstdr_Membrete_des"
+							value="#{docAdministradores.admstdr_MEMBRETE}">
+						</xp:inputText>
+					</xe:formRow>
+					<xe:formRow id="rowLogo" label="Logo" labelPosition="left">
+						<xp:panel id="PNL_LogoEdit">
+							<xp:fileUpload id="admstdr_Logo_rch"
+								value="#{docAdministradores.admstdr_LOGO}"
+								rendered="#{javascript:docAdministradores.isEditable()}"
+								mimetype="image/png" accept="image/png">
+							</xp:fileUpload>
+							<xp:repeat id="repeatImages" rows="1" var="image">
+								<xp:this.value><![CDATA[#{javascript:docAdministradores.getAttachmentList("admstdr_LOGO");}]]></xp:this.value>
+								<xp:image url="#{javascript:image.getHref()}" id="image1"></xp:image>
+							</xp:repeat>
+						</xp:panel>
+						
+
+					</xe:formRow>
+					<xe:formRow id="rowFirma" label="Firma" labelPosition="left">
 
 
-						</xp:td>
-					</xp:tr>
-					<xp:tr>
-						<xp:td></xp:td>
-						<xp:td>
-							<xp:messages layout="table" style="color:red" id="messages1">
-							</xp:messages>
-						</xp:td>
-					</xp:tr>
-					
-				</xp:table>
-				<xp:panel id="PNL_Button">
-					<xp:button id="BotónGuardar" value="Guardar">
-						<xp:eventHandler event="onclick" submit="true"
-							refreshMode="complete" immediate="false" save="true" id="eventHandler1">
-							<xp:this.action>
 
-								<xp:actionGroup>
-									<xp:saveDocument var="DocDatAdm"></xp:saveDocument><xp:openPage
-										name="/viewDatosAdministrador.xsp">
-									</xp:openPage>
+					</xe:formRow>
+					<xp:this.facets>
+						<xp:panel id="PNL_Button" xp:key="footer">
+							<xp:button id="BotónGuardar" value="Guardar">
+								<xp:eventHandler event="onclick" submit="true"
+									refreshMode="complete" immediate="false" save="true" id="eventHandler1">
+									<xp:this.action>
 
-									
-								</xp:actionGroup>
-							</xp:this.action>
-						</xp:eventHandler>
-					</xp:button>
-					<xp:button id="BotónCancelar" value="Cancelar">
-						<xp:eventHandler event="onclick" submit="true"
-							refreshMode="complete" immediate="true" save="false" id="eventHandler2">
-							<xp:this.action>
-								<xp:openPage name="/viewDatosAdministrador.xsp">
-								</xp:openPage>
-							</xp:this.action>
-						</xp:eventHandler>
-					</xp:button>
-					</xp:panel>
+										<xp:actionGroup>
+											<xp:saveDocument var="docAdministradores"></xp:saveDocument>
+											<xp:openPage name="/viewDatosAdministrador.xsp">
+											</xp:openPage>
+
+
+										</xp:actionGroup>
+									</xp:this.action>
+								</xp:eventHandler>
+							</xp:button>
+							<xp:button id="BotónCancelar" value="Cancelar">
+								<xp:eventHandler event="onclick" submit="true"
+									refreshMode="complete" immediate="true" save="false" id="eventHandler2">
+									<xp:this.action>
+										<xp:openPage name="/viewDatosAdministrador.xsp">
+										</xp:openPage>
+									</xp:this.action>
+								</xp:eventHandler>
+							</xp:button>
+
+						</xp:panel>
+					</xp:this.facets>
+
+
+
+				</xe:formTable>
+
+
 			</xp:panel>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>

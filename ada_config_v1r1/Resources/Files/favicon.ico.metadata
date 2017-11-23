@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581A1004F6F08" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="586" sequence="3" unid="9E5C0F828D7859B5032581E0007563E4">
+<created><datetime>20171122T182212,84-03</datetime></created>
+<modified><datetime>20171122T182541,86-03</datetime></modified>
+<revised><datetime>20171122T182541,85-03</datetime></revised>
+<lastaccessed><datetime>20171122T182541,85-03</datetime></lastaccessed>
+<addedtofile><datetime>20171122T182212,90-03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
+<wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
+<item name="$TITLE"><text>favicon.ico</text></item>
+<item name="$FlagsExt"><text>D</text></item>
+
+<item name="$FileModDT" sign="true"><datetime>20171122T182131,58-03</datetime></item>
+
+<item name="$FileNames" sign="true"><text>favicon.ico</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+<item name="$Flags"><text>345CgQ&amp;</text></item>
+<item name="$PublicAccess"><text>1</text></item></note>

@@ -9,6 +9,7 @@
 		<xp:script src="bootstrap-growl/jquery.bootstrap-growl.js"
 			clientSide="true">
 		</xp:script>
+		<xp:styleSheet href="/bootstrap-extended.css"></xp:styleSheet>
 	</xp:this.resources>
 	<xp:this.beforePageLoad><![CDATA[#{javascript:if (sessionScope.DocUsr) {
 	// Si el usuario cambió, reseteo la scope invalidandola
@@ -33,9 +34,7 @@ if	(!sessionScope.edificioSelected)
 	<xe:applicationLayout id="applicationLayout1">
 		<xp:callback facetName="facetMiddle" id="facetMiddle"></xp:callback>
 		<xe:this.facets>
-		
-		
-			<xp:panel id="PNL_btnListaEdificios" xp:key="MastHeader" >
+			<xp:panel id="PNL_btnListaEdificios" xp:key="RightColumn">
 				<xe:dropDownButton id="dropDownButton1">
 					<xe:this.treeNodes>
 						<xe:basicContainerNode
@@ -62,16 +61,20 @@ if	(!sessionScope.edificioSelected)
 					</xp:eventHandler>
 				</xe:dropDownButton>
 			</xp:panel>
+
+
+			
 			
 			<xp:callback facetName="facetLeft" id="facetLeft" xp:key="LeftColumn">
 			</xp:callback>
 		</xe:this.facets>
 		<!-- Bootstrap configuration object for the app layout -->
 		<xe:this.configuration>
-			<xe:bootstrapResponsiveConfiguration
-				banner="true" collapseLeftColumn="true" pageWidth="fluid"
-				invertedNavbar="true" fixedNavbar="fixed-top" productLogo="/ddc-icon-32x32.png"
-				productLogoClass="applicationLogo" titleBar="false">
+			<xe:bootstrapResponsiveConfiguration banner="true"
+				collapseLeftColumn="true" pageWidth="fluid" fixedNavbar="fixed-top"
+				productLogo="/logo.gif" productLogoClass="applicationLogo"
+				titleBar="false" productLogoAlt="Sistemas Administrativos"
+				invertedNavbar="true" placeBar="false">
 				<xe:this.bannerApplicationLinks>
 					<xe:repeatTreeNode loaded="true" var="tree"
 						indexVar="index">
@@ -79,10 +82,12 @@ if	(!sessionScope.edificioSelected)
 							<xe:basicContainerNode style="menu-item">
 								<xe:this.label><![CDATA[#{javascript:requestScope.currNode = tree; tree.name}]]></xe:this.label>
 								<xe:this.children>
-									<xe:repeatTreeNode loaded="true" var="subtree"
-										indexVar="subindex" value="#{javascript:requestScope.currNode.items}">
+									<xe:repeatTreeNode loaded="true"
+										var="subtree" indexVar="subindex"
+										value="#{javascript:requestScope.currNode.items}">
 										<xe:this.children>
-											<xe:basicLeafNode label="#{subtree}"
+											<xe:basicLeafNode
+												label="#{subtree}"
 												href="#{javascript:requestScope.currPage = tree; tree.page[subindex]}">
 											</xe:basicLeafNode>
 										</xe:this.children>
@@ -98,15 +103,17 @@ if (dbConf != null){
 				</xe:this.bannerApplicationLinks>
 				<xe:this.bannerUtilityLinks>
 
-					<xe:basicContainerNode label="#{sessionScope.edificioSelected}"
-						rendered="false">
+					<xe:basicContainerNode
+						label="#{sessionScope.edificioSelected}" rendered="false">
 						<xe:this.children>
 							<xe:repeatTreeNode var="rptEdificios"
 								value="#{sessionScope.edificios}" indexVar="idxEdificios">
 								<xe:this.children>
 									<!-- TODO: ESTE NODO no funciona -->
-									<xe:basicLeafNode label="#{javascript:rptEdificios}"
-										submitValue="#{javascript:idxEdificios}" title="#{javascript:rptEdificios}"
+									<xe:basicLeafNode
+										label="#{javascript:rptEdificios}"
+										submitValue="#{javascript:idxEdificios}"
+										title="#{javascript:rptEdificios}"
 										onClick="alert('aho:' + XSP.getSubmitValue());">
 
 
@@ -118,7 +125,8 @@ if (dbConf != null){
 						</xe:this.children>
 					</xe:basicContainerNode>
 
-					<xe:basicContainerNode label="#{javascript:return DocUsr.getUserMask();}">
+					<xe:basicContainerNode
+						label="#{javascript:return DocUsr.getUserMask();}">
 						<xe:this.children>
 							<xe:basicLeafNode>
 								<xe:this.href><![CDATA[#{javascript:var uName:NotesName = session.createName(session.getEffectiveUserName())
@@ -127,18 +135,16 @@ if(uName.getCommon() == "Anonymous") {
 	"?opendatabase&login=1"
 } else {
 	facesContext.getExternalContext().getRequest().getContextPath() + 
-	"?Logout&redirectTo=" + facesContext.getExternalContext().getRequest().getContextPath()
+	"?Logout&redirectTo=" + facesContext.getExternalContext().getRequest().getContextPath();
 }}]]></xe:this.href>
 								<xe:this.label><![CDATA[#{javascript:var uName:NotesName = session.createName(session.getEffectiveUserName())
-if(uName.getCommon() == "Anonymous"){
+if(uName.getCommon() == "Anonymous")
 	return "Login"
-}else{
-	return "Desconectar usuario: " + DocUsr.getUserMask(); 
-}
-}]]></xe:this.label>
+return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 
 							</xe:basicLeafNode>
-							<xe:basicLeafNode label="Cambiar contraseña">
+							<xe:basicLeafNode
+								label="Cambiar contraseña">
 								<xe:this.href><![CDATA[#{javascript:facesContext.getExternalContext().getRequest().getContextPath()+ "?changepassword&redirectTo=names.nsf?logout"}]]></xe:this.href>
 							</xe:basicLeafNode>
 						</xe:this.children>

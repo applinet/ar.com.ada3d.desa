@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='832581D800495D1C'>
-<noteinfo noteid='41a' unid='8462CB7397FDF32D032581D9006D564A' sequence='10'>
+<noteinfo noteid='41a' unid='8462CB7397FDF32D032581D9006D564A' sequence='13'>
 <created><datetime>20171115T165415,14-03</datetime></created>
-<modified><datetime>20171122T150605,69-03</datetime></modified>
-<revised><datetime>20171122T150605,68-03</datetime></revised>
-<lastaccessed><datetime>20171122T150605,68-03</datetime></lastaccessed>
+<modified><datetime>20171123T122223,22-03</datetime></modified>
+<revised><datetime>20171123T122223,21-03</datetime></revised>
+<lastaccessed><datetime>20171123T122223,21-03</datetime></lastaccessed>
 <addedtofile><datetime>20171115T165415,42-03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -21,6 +21,7 @@ X/8QAAIADwAHAAAAAAAAAA==
 hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 </rawitemdata></item>
 <item name='$Flags'><text/></item>
+<item name='$XPageAlt'><text>frmDatosAdministrador.xsp</text></item>
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$$ScriptName' summary='false' sign='true'><text>FORM.DAT.ADM</text></item>
 <item name='admstdr_NombreAdministrador' placeholder='true'>
@@ -48,10 +49,13 @@ hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 <item name='admstdr_LOGO' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
-<item name='$FIELDS'><textlist><text>admstdr_LOGO</text><text>admstdr_MEMBRETE</text><text
->admstdr_SITUACIONFISCAL</text><text>admstdr_EMAIL</text><text>admstdr_TELEFONO</text><text
->admstdr_DOMICILIO</text><text>admstdr_RPA</text><text>admstdr_CUIT</text><text
->admstdr_NombreAdministrador</text></textlist></item>
+<item name='admstdr_FIRMA' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
+<item name='$FIELDS'><textlist><text>admstdr_FIRMA</text><text>admstdr_LOGO</text><text
+>admstdr_MEMBRETE</text><text>admstdr_SITUACIONFISCAL</text><text>admstdr_EMAIL</text><text
+>admstdr_TELEFONO</text><text>admstdr_DOMICILIO</text><text>admstdr_RPA</text><text
+>admstdr_CUIT</text><text>admstdr_NombreAdministrador</text></textlist></item>
 <item name='$BODY' sign='true'>
 <rawitemdata type='1'>
 gQKC/1oAAQAAAAAAAAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -98,10 +102,14 @@ AQAAgQKDBAMAhf8QAAEAAApNZW1icmV0ZaQSBwEBFPQ1AABVAhERAQEAAIECgwQEAIX/CAABAAAK
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK/zQAigABBQxAAgAAAAAAAAIBAAAKAAAAAAAA
 AAAQAAAAAABhZG1zdGRyX01FTUJSRVRFYg4BAIQAAAAAAAAAAADeBgAAiv+F/wgAAQAACqQSCACg
 BQEUAABVAhERAQEAAIECgwQDAIX/DAABAAAKTG9nb6QSCAEBFPQ1AABVAhERAQEAAIECgwQEAIX/
-CAABAAAK3QYAAIr//v9QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAeAB4AAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK/zAAggABAAAAAgAAAAAAAAIBAAAK
-AAAAAAAAAAAMAAAAAABhZG1zdGRyX0xPR09iDgEAhAAAAAAAAAAAAN4GAACK/4X/CAABAAAKpBIJ
-AKAFARQAAFUCEREBAQAAgQKDBAMAhf8IAAEAAAqkEgkBART0NQAAVQIREQEBAACBAoMEBACF/wgA
-AQAACqUGAAAAAIECgwQBAIX/CAABAAAK
+CAABAAAK3QYAAIr//v9QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeAB4AAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACw/xQAAAAAAAAACAAAAAAAAAAAAIr/
+MACCAAEAAAACAAAAAAAAAgEAAAoAAAAAAAAAAAwAAAAAAGFkbXN0ZHJfTE9HT2IOAQCBAAAAAAAF
+BAAA3gYAAIr/hf8IAAEAAAqkEgkAoAUBFAAAVQIREQEBAACBAoMEAwCF/w0AAQAACkZpcm1hAKQS
+CQEBFPQ1AABVAhERAQEAAIECgwQEAIX/CAABAAAK3QYAAIr//v9QAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAeAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AACw/xQAAAAAAAAACAAAAAAAAAAAAIr/MgCCAAEAAAACAAAAAAAAAgEAAAoAAAAAAAAAAA0AAAAA
+AGFkbXN0ZHJfRklSTUEAYg4BAIEAAAAAAAUEAADeBgAAiv+F/wgAAQAACqUGAAAAAIECgwQBAIX/
+CAABAAAK
 </rawitemdata></item></note>
 

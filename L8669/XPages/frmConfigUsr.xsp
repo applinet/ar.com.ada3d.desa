@@ -222,6 +222,7 @@ return true;}]]></xe:this.rendered>
 						</xp:panel>
 
 					</xp:tabPanel>
+					<!-- INI PANEL de Menues -->
 					<xp:tabPanel label="Menú" id="tabMenu">
 						<!-- CheckBox de menues -->
 						<xp:this.rendered><![CDATA[#{javascript:if(userBean.accessRoles.toString().contains('[usrInitial]'))
@@ -289,9 +290,9 @@ if (largoCodigoModulo.equals(3)){
 return list}]]>
 											</xp:this.value>
 										</xp:text>
-
-
-
+										<xp:button value="boton"
+											id="button1" type="button">
+										</xp:button>
 
 										<xp:text escape="false" id="computedEntry">
 											<xp:this.value><![CDATA[#{javascript:var list:String = "";
@@ -324,6 +325,7 @@ if (largoCodigoModulo.equals(6)){
 return list;}]]>
 											</xp:this.value>
 										</xp:text>
+										
 
 
 									</xp:repeat>
@@ -334,7 +336,7 @@ return list;}]]>
 								</xp:panel>
 
 								<xp:checkBoxGroup id="checkBoxGroup1" layout="pageDirection"
-									value="#{docUsuario.usr_MenuSelected_cod}">
+									value="#{docUsuario.usr_MenuSelected_cod}" rendered="false">
 									<xp:selectItems id="itemSelected">
 										<xp:this.value><![CDATA[#{javascript:var confDb:NotesDatabase = getDbCfg();
 var dbConf = new Array(@DbName()[0], confDb.getFilePath());
@@ -350,6 +352,7 @@ var dbConf = new Array(@DbName()[0], confDb.getFilePath());
 							</xp:div>
 						</xe:formRow>
 					</xp:tabPanel>
+					<!-- FIN PANEL de Menues -->
 					<!-- INI PANEL de Edificios -->
 					<xp:tabPanel label="Edificios" id="tabEdificios"
 						rendered="#{javascript:!docUsuario.isNewNote()}">
