@@ -18,7 +18,7 @@
     <managed-bean-scope>application</managed-bean-scope>
   </managed-bean>
   <managed-bean>
-    <description>Documento de usuario</description>
+    <description>test</description>
     <managed-bean-name>DocUsr</managed-bean-name>
     <managed-bean-class>ar.com.ada3d.utilidades.DocUsr</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>

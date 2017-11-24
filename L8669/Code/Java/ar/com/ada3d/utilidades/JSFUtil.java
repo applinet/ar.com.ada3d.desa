@@ -1,12 +1,19 @@
 package ar.com.ada3d.utilidades;
 
 import java.util.Map;
-import org.openntf.domino.*;
 
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import javax.servlet.http.HttpServletRequest;
 
+import lotus.domino.Database;
+import lotus.domino.Document;
+import lotus.domino.Name;
+import lotus.domino.NotesException;
+import lotus.domino.Session;
+import lotus.domino.View;
+import lotus.domino.ViewEntry;
+import lotus.domino.ViewEntryCollection;
 
 import com.ibm.xsp.designer.context.XSPContext;
 import com.ibm.xsp.page.compiled.ExpressionEvaluatorImpl;
@@ -66,7 +73,7 @@ public class JSFUtil {
 	}
 
 	public static Database getCurrentDatabase() {
-		return (Database) getSession().getCurrentDatabase();
+		return (Database) resolveVariable("database");
 	}
 
 	public static Map getRequestScope() {
@@ -74,7 +81,7 @@ public class JSFUtil {
 	}
 
 	public static Session getSession() {
-		return (Session) org.openntf.domino.utils.Factory.getSession(org.openntf.domino.utils.Factory.SessionType.CURRENT);
+		return (Session) resolveVariable("session");
 	}
 
 	public static Session getSessionAsSigner() {
@@ -91,7 +98,12 @@ public class JSFUtil {
 
 	public static Name getCurrentUser() {
 		Session session = getSession();
+		try {
 			return session.createName(session.getEffectiveUserName());
+		} catch (NotesException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public static Object resolveVariable(String variable) {
@@ -100,21 +112,23 @@ public class JSFUtil {
 						FacesContext.getCurrentInstance(), variable);
 	}
 
-	
-	public static Database getDbCfg()  {
+	public static Database getDbCfg() throws NotesException {
 		View currentDbProfileView = null;
 		Document docUbicTablas = null;
 		Database dbTablas = null;
 
 		currentDbProfileView = getCurrentDatabase().getView("v.Sys.Cfg");
-		docUbicTablas = currentDbProfileView.getFirstDocumentByKey("Configuracion", true);
+		docUbicTablas = currentDbProfileView.getDocumentByKey("Configuracion", true);
 		String server = docUbicTablas.getItemValueString("conf_server");
 		String path = docUbicTablas.getItemValueString("conf_path");
 		dbTablas = getSession().getDatabase(server, path);
+		// Reciclamos todo menos dbTablas que es el return
+		currentDbProfileView.recycle();
+		docUbicTablas.recycle();
 		return dbTablas;
 	}
 
-	public static String getOpcionesClave(String clave) {
+	public static String getOpcionesClave(String clave) throws NotesException {
 		String result;
 		View vOpciones = getDbCfg().getView("v.Sys.Opciones.Clave");
 
@@ -123,15 +137,13 @@ public class JSFUtil {
 			ViewEntry entryResult = entryCol.getFirstEntry();
 			result = entryResult.getDocument().getItemValueString(
 					"opt_Codigo_des");
+			vOpciones.recycle();
+			entryCol.recycle();
+			entryResult.recycle();
 			return result;
 		}
 		return "";
 
-	}
-	
-	public static Document getDocConexiones_y_Tablas(String clave){
-		View vOpciones = getDbCfg().getView("v.Sys.DataSource");
-		return vOpciones.getFirstDocumentByKey(clave, true);
 	}
 
 	public static String getFieldValueEvaluateSsjsInJava(
@@ -156,18 +168,6 @@ public class JSFUtil {
 				.getViewRoot(), valueExpr, null, null);
 		Object vreslt = vb.getValue(facesContext);
 		return vreslt;
-	}
-	
-	//Devuelve la biblioteca de la administracion (ej: L8669B)
-	public static String getBiblioteca(String strTipo){
-		String strFileName = getCurrentDatabase().getFileName(); 
-		return strFileName.substring(strFileName.length() - 9, 5) + strTipo;
-		
-	}
-
-	//Devuelve un documento falso
-	public static Document getDocDummy(){
-		return getCurrentDatabase().createDocument();
 	}
 
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581D800495D1C" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="4c6" sequence="3" unid="7A945F2232E12431032581E100650851">
-<created><datetime>20171123T152332,65-03</datetime></created>
-<modified><datetime>20171123T152345,68-03</datetime></modified>
-<revised><datetime>20171123T152345,67-03</datetime></revised>
-<lastaccessed><datetime>20171123T152345,67-03</datetime></lastaccessed>
-<addedtofile><datetime>20171123T152332,66-03</datetime></addedtofile></noteinfo>
+<noteinfo noteid="1e2" sequence="19" unid="BA441F8F49361DC8832581A8006C2193">
+<created><datetime dst="true">20170927T174104,83-02</datetime></created>
+<modified><datetime dst="true">20171114T112322,44-02</datetime></modified>
+<revised><datetime dst="true">20171114T112322,43-02</datetime></revised>
+<lastaccessed><datetime dst="true">20171114T112322,44-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171114T112121,13-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$Flags"><text>34CiQ</text></item>
@@ -12,10 +12,9 @@
 <item name="$ImagesWide" sign="true"><number>1</number></item>
 <item name="$ImagesHigh" sign="true"><number>1</number></item>
 <item name="$ImagesColorize" sign="true"><number>0</number></item>
-
-
-<item name="$MimeType" sign="true"><text>image/gif</text></item>
-<item name="$FileModDT" sign="true"><datetime>20171123T152305,66-03</datetime></item>
-<item name="$ImageNames" sign="true"><text>logo_crop 71x36.gif</text></item>
+<item name="$FileModDT" sign="true"><datetime>20170307T165946,00-03</datetime></item>
+<item name="$ImageNames" sign="true"><text>logo.gif</text></item>
 <item name="$TITLE" sign="true"><textlist><text>logo.gif</text><text>home1</text></textlist></item>
-<item name="$DesignerVersion" sign="true"><text>8.5.3</text></item></note>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+</note>

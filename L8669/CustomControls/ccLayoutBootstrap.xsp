@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex"
-	xmlns:xc="http://www.ibm.com/xsp/custom" pageIcon="/admin-fincas-icono10x10.png"
-	pageTitle="ADA3D">
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
 	<xp:this.resources>
 		<xp:script src="/MenuTools.jss" clientSide="false"></xp:script>
 		<xp:styleSheet href="/bootstrapSubmenu.css"></xp:styleSheet>
@@ -9,7 +9,6 @@
 		<xp:script src="bootstrap-growl/jquery.bootstrap-growl.js"
 			clientSide="true">
 		</xp:script>
-		<xp:styleSheet href="/bootstrap-extended.css"></xp:styleSheet>
 	</xp:this.resources>
 	<xp:this.beforePageLoad><![CDATA[#{javascript:if (sessionScope.DocUsr) {
 	// Si el usuario cambió, reseteo la scope invalidandola
@@ -19,14 +18,9 @@
 		dBar.info("INVALIDO LA SESSION");
 		facesContext.getExternalContext().getSession( false ).invalidate();
 	}   
-}
-}]]></xp:this.beforePageLoad>
+}}]]></xp:this.beforePageLoad>
 
 
-	<xp:this.afterPageLoad><![CDATA[#{javascript:if (!sessionScope.edificios)
-	sessionScope.edificios = DocUsr.getEdificiosLista();
-if	(!sessionScope.edificioSelected)
-	sessionScope.edificioSelected = sessionScope.edificios[0]; }]]></xp:this.afterPageLoad>
 	<xc:ccRolDesarrollo_Debug>
 		<xc:this.propertyFormName><![CDATA[#{javascript:"docUsuario"}]]></xc:this.propertyFormName>
 	</xc:ccRolDesarrollo_Debug>
@@ -34,47 +28,17 @@ if	(!sessionScope.edificioSelected)
 	<xe:applicationLayout id="applicationLayout1">
 		<xp:callback facetName="facetMiddle" id="facetMiddle"></xp:callback>
 		<xe:this.facets>
-			<xp:panel id="PNL_btnListaEdificios" xp:key="RightColumn">
-				<xe:dropDownButton id="dropDownButton1">
-					<xe:this.treeNodes>
-						<xe:basicContainerNode
-							label="#{sessionScope.edificioSelected}">
-							<xe:this.children>
-								<xe:repeatTreeNode var="rptEdificios"
-									value="#{sessionScope.edificios}" indexVar="idxEdificios">
-									<xe:this.children>
-										<xe:basicLeafNode
-											label="#{javascript:rptEdificios}"
-											submitValue="#{javascript:rptEdificios}">
-
-										</xe:basicLeafNode>
-									</xe:this.children>
-								</xe:repeatTreeNode>
-							</xe:this.children>
-						</xe:basicContainerNode>
-					</xe:this.treeNodes>
-					<xp:eventHandler event="onItemClick" submit="true"
-						refreshMode="partial" refreshId="PNL_btnListaEdificios">
-						<xe:this.action>
-							<![CDATA[#{javascript:sessionScope.edificioSelected = context.getSubmittedValue()}]]>
-						</xe:this.action>
-					</xp:eventHandler>
-				</xe:dropDownButton>
-			</xp:panel>
-
-
-			
-			
-			<xp:callback facetName="facetLeft" id="facetLeft" xp:key="LeftColumn">
+			<xp:callback facetName="facetLeft" id="facetLeft"
+				xp:key="LeftColumn">
 			</xp:callback>
 		</xe:this.facets>
 		<!-- Bootstrap configuration object for the app layout -->
 		<xe:this.configuration>
 			<xe:bootstrapResponsiveConfiguration banner="true"
-				collapseLeftColumn="true" pageWidth="fluid" fixedNavbar="fixed-top"
-				productLogo="/logo.gif" productLogoClass="applicationLogo"
-				titleBar="false" productLogoAlt="Sistemas Administrativos"
-				invertedNavbar="true" placeBar="false">
+				collapseLeftColumn="true" pageWidth="fluid" invertedNavbar="true"
+				fixedNavbar="fixed-top" productLogo="/ddc-icon-32x32.png"
+				titleBar="false" placeBar="false"
+				productLogoClass="applicationLogo">
 				<xe:this.bannerApplicationLinks>
 					<xe:repeatTreeNode loaded="true" var="tree"
 						indexVar="index">
@@ -102,29 +66,7 @@ if (dbConf != null){
 					</xe:repeatTreeNode>
 				</xe:this.bannerApplicationLinks>
 				<xe:this.bannerUtilityLinks>
-
-					<xe:basicContainerNode
-						label="#{sessionScope.edificioSelected}" rendered="false">
-						<xe:this.children>
-							<xe:repeatTreeNode var="rptEdificios"
-								value="#{sessionScope.edificios}" indexVar="idxEdificios">
-								<xe:this.children>
-									<!-- TODO: ESTE NODO no funciona -->
-									<xe:basicLeafNode
-										label="#{javascript:rptEdificios}"
-										submitValue="#{javascript:idxEdificios}"
-										title="#{javascript:rptEdificios}"
-										onClick="alert('aho:' + XSP.getSubmitValue());">
-
-
-										<xe:this.href><![CDATA[#{javascript://return "/home.xsp/" + idxEdificios;}]]></xe:this.href>
-									</xe:basicLeafNode>
-
-								</xe:this.children>
-							</xe:repeatTreeNode>
-						</xe:this.children>
-					</xe:basicContainerNode>
-
+					<xe:basicContainerNode label="Rojas 1883"></xe:basicContainerNode>
 					<xe:basicContainerNode
 						label="#{javascript:return DocUsr.getUserMask();}">
 						<xe:this.children>
@@ -135,33 +77,41 @@ if(uName.getCommon() == "Anonymous") {
 	"?opendatabase&login=1"
 } else {
 	facesContext.getExternalContext().getRequest().getContextPath() + 
-	"?Logout&redirectTo=" + facesContext.getExternalContext().getRequest().getContextPath();
+	"?Logout&redirectTo=" + facesContext.getExternalContext().getRequest().getContextPath()
 }}]]></xe:this.href>
 								<xe:this.label><![CDATA[#{javascript:var uName:NotesName = session.createName(session.getEffectiveUserName())
-if(uName.getCommon() == "Anonymous")
+if(uName.getCommon() == "Anonymous"){
 	return "Login"
-return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
+}else{
+	return "Desconectar usuario: " + DocUsr.getUserMask(); 
+}
+}]]></xe:this.label>
 
 							</xe:basicLeafNode>
 							<xe:basicLeafNode
 								label="Cambiar contraseña">
 								<xe:this.href><![CDATA[#{javascript:facesContext.getExternalContext().getRequest().getContextPath()+ "?changepassword&redirectTo=names.nsf?logout"}]]></xe:this.href>
+
 							</xe:basicLeafNode>
 						</xe:this.children>
 						<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
 					</xe:basicContainerNode>
-				</xe:this.bannerUtilityLinks>
 
+
+
+				</xe:this.bannerUtilityLinks>
+				<xe:this.placeBarActions></xe:this.placeBarActions>
 			</xe:bootstrapResponsiveConfiguration>
 		</xe:this.configuration>
-
 	</xe:applicationLayout>
 
 	<xp:eventHandler event="onClientLoad" submit="false">
 		<xp:this.script><![CDATA[var applicationLogo = dojo.query('.applicationLogo')[0];
-applicationLogo.onclick = function() {
-	XSP.partialRefreshGet("#{id:onClickApplicationLogo}",{params: {'onClickApplicationLogo': true}})
-}    ]]></xp:this.script>
+        applicationLogo.onclick = function() {
+        XSP.partialRefreshGet("#{id:onClickApplicationLogo}", 
+            {params: {'onClickApplicationLogo': true}})
+        }
+    ]]></xp:this.script>
 	</xp:eventHandler>
 	<xp:panel id="onClickApplicationLogo">
 		<xp:this.rendered><![CDATA[#{javascript:

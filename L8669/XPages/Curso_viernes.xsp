@@ -1,104 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xp:view xmlns:xp="http://www.ibm.com/xsp/core" pageTitle="Curso">
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
 	<xp:this.resources>
 		<xp:script src="/viernes.jss" clientSide="false"></xp:script>
 	</xp:this.resources>
-	<xp:div styleClass="container form-inline form-group">
-		<xp:div styleClass="row">
-			<xp:label value="Dia Java:" id="label2" styleClass="col-sm-2">
-			</xp:label>
-			<xp:label id="fecha1" styleClass="col-sm-5">
-				<xp:this.value><![CDATA[#{javascript:importPackage(test);
+	<xp:label value="Dia Java:" id="label2"></xp:label>
+	<xp:label id="label1">
+		<xp:this.value><![CDATA[#{javascript:importPackage(test);
 var myTest = new test();
 return myTest.dia();}]]></xp:this.value>
-			</xp:label>
-		</xp:div>
-		<xp:div styleClass="row">
-			<xp:label value="Dia SSJS:" id="label4" styleClass="col-sm-2">
-			</xp:label>
-			<xp:label id="fecha2" value="#{javascript:viernes();}"
-				styleClass="col-sm-5">
-			</xp:label>
-		</xp:div>
-		
-		<xp:div styleClass="row">
-			<xp:label value="Dia Sumado SSJS:" id="label1" styleClass="col-sm-2">
-			</xp:label>
-			<xp:label id="fecha3" styleClass="col-sm-5">
-				<xp:this.value><![CDATA[#{javascript:"La segunda fecha es:" + getComponent("fecha2").getValue()}]]></xp:this.value>
-			</xp:label>
-		</xp:div>
-		<br />
-		<xp:div styleClass="row">
-			<xp:label value="Listado de edificios:" id="label5"
-				styleClass="col-sm-2">
-			</xp:label>
-			<xp:div styleClass="col-sm-5">
-				<xp:comboBox value="#{viewScope.listado}" id="listado"
-					styleClass="dropdown-toggle">
-					<xp:selectItems id="selectItems6">
-						<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
-var javaClassQuery:GetQueryAS400 = new GetQueryAS400();
-javaClassQuery.getSelectAS("PH_E01", null);}]]></xp:this.value>
-					</xp:selectItems>
-				</xp:comboBox>
-			</xp:div>
-		</xp:div>
-		<xp:div styleClass="row">
-			<xp:label value="PRIMERO:" id="labelTickets" styleClass="col-sm-2">
-			</xp:label>
-			<xp:div styleClass="col-sm-5">
-				<xp:text id="computedField1">
-					<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
-var javaClassQuery:GetQueryAS400 = new GetQueryAS400();
-javaClassQuery.getSelectAS("PH_E01_1", null);}]]></xp:this.value>
-				</xp:text>
-			</xp:div>
-		</xp:div>
-		<xp:div styleClass="row">
-			<xp:label value="SEGUNDO:" id="labelNOSE" styleClass="col-sm-2">
-			</xp:label>
-			<xp:div styleClass="col-sm-5">
-				<xp:inputTextarea id="inputTextarea1">
-					<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
-var javaClassQuery:GetQueryAS400 = new GetQueryAS400();
-javaClassQuery.getSelectAS("PH_E01_2", null);}]]></xp:this.value>
+	</xp:label>
+	<br/>
+	<xp:label value="Dia SSJS:" id="label4"></xp:label>
+	<xp:label id="label3" value="#{javascript:viernes();}"></xp:label>
+	<xp:br></xp:br>
+	<xp:br></xp:br>
+	
+	<xp:comboBox value="#{viewScope.listado}" id="listado">
 
-					<xp:this.multipleSeparator><![CDATA[#{javascript:"\n"}]]></xp:this.multipleSeparator>
-				</xp:inputTextarea>
-			</xp:div>
+		<xp:selectItems id="selectItems6">
+			<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
+var jce:GetArrayFromQueryAS400 = new GetArrayFromQueryAS400();
+jce.getSelectAS("SELECT * FROM L8669B.PH_E01");}]]></xp:this.value>
+		</xp:selectItems>
 
-		</xp:div>
-		<br />
-		<br />
-		<xp:table title="Tabla" styleClass="table-hover">
-			<xp:repeat id="repeat1" rows="30" var="rowData" style="width:400px">
-				<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
-var javaClassQuery:GetQueryAS400 = new GetQueryAS400();
-return javaClassQuery.getSelectAS("PH_E01", null);}]]></xp:this.value>
-
-				<xp:this.facets>
-					<xp:text xp:key="header" escape="false">
-						<xp:this.value><![CDATA[#{javascript:"<thead><tr><th>Dirección</th></tr></thead><tbody>"}]]></xp:this.value>
-					</xp:text>
-					<xp:text xp:key="footer" escape="false">
-						<xp:this.value><![CDATA[#{javascript:"</tbody>"}]]></xp:this.value>
-					</xp:text>
-				</xp:this.facets>
-				<xp:tr>
-					<xp:td>
-						<span class="glyphicon glyphicon-list-alt"></span>
-						&#160;
-						<xp:text escape="true" id="computedField2" value="#{rowData}">
-						</xp:text>
-
-						<br />
-					</xp:td>
-				</xp:tr>
-			</xp:repeat>
-		</xp:table>
-	</xp:div>
-
+	</xp:comboBox>
 
 
 

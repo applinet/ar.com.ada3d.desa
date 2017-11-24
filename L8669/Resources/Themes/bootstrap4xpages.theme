@@ -1,5 +1,7 @@
 
-<theme extends="Bootstrap3.2.0_flat" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<theme
+	extends="Bootstrap3.2.0_flat"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="platform:/plugin/com.ibm.designer.domino.stylekits/schema/stylekit.xsd">
 
 
@@ -12,20 +14,10 @@
 	</resources>
 
 
-	<!--
-		Bootstrap customizations: here I define additional CSS style I need/
-		want in this application
-	-->
+	<!-- Bootstrap customizations: here I define additional CSS style I need/ want in this application -->
 	<resource>
 		<content-type>text/css</content-type>
 		<href>bootstrap-extended.css</href>
 	</resource>
 
-	<control>
-		<name>ViewRoot</name>
-		<property>
-			<name>pageIcon</name>
-			<value>/favicon.ico</value>
-		</property>
-	</control>
 </theme>
