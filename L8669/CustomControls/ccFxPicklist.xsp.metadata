@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581D800495D1C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1d2" sequence="67" unid="065940C62999CEBC832581A70050F9E0">
+<created><datetime dst="true">20170926T124428,48-02</datetime></created>
+<modified><datetime>20171115T185458,42-03</datetime></modified>
+<revised><datetime>20171115T185458,41-03</datetime></revised>
+<lastaccessed><datetime>20171115T185458,41-03</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20171114T112121,05-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
+<wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
+<item name="$Flags"><text>gC~4;</text></item>
+<item name="$Comment" sign="true"><text>*** No utilizado aun ***</text></item>
+
+
+<item name="$FileNames" sign="true"><text>picklist.xsp</text></item>
+
+
+<item name="$TITLE" sign="true"><text>ccFxPicklist.xsp</text></item>
+<item name="$DesignerVersion"><text>9.0.1</text></item>
+
+
+
+
+</note>

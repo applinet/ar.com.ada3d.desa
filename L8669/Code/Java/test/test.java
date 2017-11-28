@@ -6,7 +6,13 @@ public class test {
 		
 	}
 	
-	public String dia() {
-		return "viernes";
+	
+	public String devolvemeunstring() {
+		return "palabra - viernes";
+	}
+
+	public int devolvemeunnumero(){
+		return 1;
+		
 	}
 }
