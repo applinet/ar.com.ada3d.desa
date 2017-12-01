@@ -23,8 +23,10 @@
 }]]></xp:this.beforePageLoad>
 
 
-	<xp:this.afterPageLoad><![CDATA[#{javascript:if	(!sessionScope.edificioSelected)
-		 sessionScope.edificioSelected = DocUsr.getEdificiosLista()[0];		}]]></xp:this.afterPageLoad>
+	<xp:this.afterPageLoad><![CDATA[#{javascript:if (!userBean.accessRoles.toString().contains('[usrInitial]')){
+	if	(!sessionScope.edificioSelected)
+		 sessionScope.edificioSelected = DocUsr.getEdificiosLista()[0];
+}		}]]></xp:this.afterPageLoad>
 	<xc:ccRolDesarrollo_Debug>
 		<xc:this.propertyFormName><![CDATA[#{javascript:"docUsuario"}]]></xc:this.propertyFormName>
 	</xc:ccRolDesarrollo_Debug>
@@ -52,7 +54,7 @@
 							</xe:this.children>
 						</xe:basicContainerNode>
 					</xe:this.treeNodes>
-					<xp:eventHandler event="onItemClick" submit="true"
+					<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered><xp:eventHandler event="onItemClick" submit="true"
 						refreshMode="partial" refreshId="PNL_btnListaEdificios">
 						<xe:this.action>
 							<![CDATA[#{javascript:sessionScope.edificioSelected = context.getSubmittedValue()}]]>
@@ -107,8 +109,9 @@ if (dbConf != null){
 						<xe:this.children>
 							<xe:repeatTreeNode var="rptEdificios"
 								value="#{sessionScope.edificios}" indexVar="idxEdificios">
+
 								<xe:this.children>
-									<!-- TODO: ESTE NODO no funciona -->
+
 									<xe:basicLeafNode
 										label="#{javascript:rptEdificios}"
 										submitValue="#{javascript:idxEdificios}"
@@ -120,15 +123,25 @@ if (dbConf != null){
 									</xe:basicLeafNode>
 
 								</xe:this.children>
+
+
+
+
+
+
+
 							</xe:repeatTreeNode>
 						</xe:this.children>
 					</xe:basicContainerNode>
+					
 
 					<xe:basicContainerNode
 						label="#{javascript:return DocUsr.getUserMask();}">
 						<xe:this.children>
-							<xe:basicLeafNode>
-								<xe:this.href><![CDATA[#{javascript:var uName:NotesName = session.createName(session.getEffectiveUserName())
+							<xe:basicLeafNode submitValue="Deslogueo">
+
+								<xe:this.href><![CDATA[#{javascript:print("Deslogueo: " + context.getSubmittedValue());
+var uName:NotesName = session.createName(session.getEffectiveUserName())
 if(uName.getCommon() == "Anonymous") {
 	facesContext.getExternalContext().getRequest().getContextPath() + 
 	"?opendatabase&login=1"
@@ -140,7 +153,6 @@ if(uName.getCommon() == "Anonymous") {
 if(uName.getCommon() == "Anonymous")
 	return "Login"
 return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
-
 							</xe:basicLeafNode>
 							<xe:basicLeafNode
 								label="Cambiar contraseña">

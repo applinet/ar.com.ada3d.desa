@@ -308,10 +308,10 @@ if (largoCodigoModulo.equals(6)){
 	} 
 	list = list + "<div class='\panel-body'\>"
 	//Aca agregamos los 3 checkBoxes que van a postear el dato onClick
-	list = list + "<input type=\'checkbox\' id=\'R" + codigoModulo + "\' name=\'" + etiqueta + "\' onclick=\'checkThisId(this.id)\' checked value=\'" + codigoModulo + "\'/>&nbsp" 
-	list = list + "<input type=\'checkbox\' id=\'C" + codigoModulo + "\' name=\'" + etiqueta + "\' onclick=\'checkThisId(this.id)\' checked value=\'" + codigoModulo + "\'/>&nbsp"
-	list = list + "<input type=\'checkbox\' id=\'U" + codigoModulo + "\' name=\'" + etiqueta + "\' onclick=\'checkThisId(this.id)\' checked value=\'" + codigoModulo + "\'/>&nbsp"
-	list = list + "<input type=\'checkbox\' id=\'D" + codigoModulo + "\' name=\'" + etiqueta + "\' onclick=\'checkThisId(this.id)\' checked value=\'" + codigoModulo + "\'/>&nbsp"
+	list = list + "Leer<input type=\'checkbox\' id=\'R" + codigoModulo + "\' name=\'" + etiqueta + "\' onclick=\'checkThisId(this.id)\' checked value=\'" + codigoModulo + "\'/>&nbsp" 
+	list = list + "Alta<input type=\'checkbox\' id=\'C" + codigoModulo + "\' name=\'" + etiqueta + "\' onclick=\'checkThisId(this.id)\' checked value=\'" + codigoModulo + "\'/>&nbsp"
+	list = list + "Modificar<input type=\'checkbox\' id=\'U" + codigoModulo + "\' name=\'" + etiqueta + "\' onclick=\'checkThisId(this.id)\' checked value=\'" + codigoModulo + "\'/>&nbsp"
+	list = list + "Eliminar<input type=\'checkbox\' id=\'D" + codigoModulo + "\' name=\'" + etiqueta + "\' onclick=\'checkThisId(this.id)\' checked value=\'" + codigoModulo + "\'/>&nbsp"
 	list = list + etiqueta + "</div>" 
 	if(viewScope.menuFull.menuFull.size() == idxRowData+1){
 		list = list + "</div>";//Fin
@@ -332,9 +332,7 @@ return list;}]]>
 										FIN repeat con los menues y en cada columna un boton tipo
 										Switch
 									-->
-									
 								</xp:panel>
-
 
 								<xp:checkBoxGroup id="checkBoxGroup1" layout="pageDirection"
 									value="#{docUsuario.usr_MenuSelected_cod}" rendered="true">
@@ -416,7 +414,7 @@ return docUsuario.isEditable() }]]>
 						</xp:this.rendered>
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="partial">
-							<xp:this.action><![CDATA[#{javascript:print("btnSave Usuario");
+							<xp:this.action><![CDATA[#{javascript:print("btnSave: valores:" + getComponent("checkBoxGroup1").getValue())
 try{
 	var isNew:boolean = docUsuario.isNewNote(); 
 	if (isNew){
@@ -424,6 +422,7 @@ try{
 			docUsuario.setValue("usr_USRSEG_opt","1");
 		setLog (docUsuario, "Creación del usuario " + docUsuario.getItemValueString("usr_UserMaskName_des"), "log_des");
 		docUsuario.setValue("usr_UserName_des", DocUsr.getUserDB() + docUsuario.getItemValueString("usr_UserName_des"));
+		
 	}
 	if(docUsuario.getItemValueString("usr_USRSEG_opt").equals("1")){
 		setLog (docUsuario, "El usuario se guardó con atribuciones de seguridad", "log_des");
@@ -449,6 +448,7 @@ try{
 		facesContext.getExternalContext().getSession(false).invalidate();
 	}else{
 		context.redirectToPage(getOpcionesClave("VIEW_UI_USUARIOS_HOME", "codigo")[0]);
+	
 	}
 } catch(e) {
         addFacesMessage(e.toString(), null, "FATAL")

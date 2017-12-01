@@ -66,6 +66,7 @@ public class DocUsr {
 			} else {
 				synchronized (this._map) {
 					this._map.put("userName", session.getEffectiveUserName());
+					
 					this._map.put("userDB", currentDB.getFileName().substring(
 							currentDB.getFileName().length() - 8, 5));
 				}
@@ -125,7 +126,7 @@ public class DocUsr {
 		return ret;
 	}
 
-	private String getUserDB() {
+	public String getUserDB() {
 		String ret;
 		synchronized (this._map) {
 			ret = this._map.get("userDB");
