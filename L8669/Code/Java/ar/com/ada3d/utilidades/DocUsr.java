@@ -13,10 +13,9 @@ public class DocUsr {
 	private static final long serialVersionUID = 1L;
 	private final HashMap<String, String> _map;
 	private Vector usrSelected;
-	public Vector edificiosSelected;
+	
 	public ArrayList<String> edificiosLista;
-	
-	
+
 	public DocUsr() {
 		System.out.println("Constructor DocUsr");
 		this._map = new HashMap<String, String>();
@@ -53,9 +52,13 @@ public class DocUsr {
 							.getItemValueString("usr_USRSEG_opt"));
 					this._map.put("userDB", currentDB.getFileName().substring(
 							currentDB.getFileName().length() - 8, 5));
-					
+					this._map.put("userEdificiosNoAccess", docUsuario
+							.getItemValueString("usr_EdificiosSinAcceso_cod"));
 					GetQueryAS400 getQueryAS400  = new ar.com.ada3d.connect.GetQueryAS400();				
-					this.edificiosLista = getQueryAS400.getSelectAS("PH_E01", null);	
+					this.edificiosLista = getQueryAS400.getSelectAS("PH_E01", null);
+					
+					
+					
 				}
 				/* getItemValue definirlo como Vector=import java.util.Vector */
 				setUsrSelected(docUsuario.getItemValue("usr_MenuSelected_cod"));
@@ -134,6 +137,13 @@ public class DocUsr {
 		return ret;
 	}
 	
+	public String getUserEdificiosNoAccess() {
+		String ret;
+		synchronized (this._map) {
+			ret = this._map.get("userEdificiosNoAccess");
+		}
+		return ret;
+	}
 	
 	/*
 	 * Devuelve el documento de usuario de currentDatabase (base de

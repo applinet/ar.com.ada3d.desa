@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
-  
+  <!-- Al parecer no se lleva bien cuando hago un 
+  <xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:algunID}");]]></xp:this.onComplete>
+   -->
   <xp:scriptBlock id="scriptBlock1">
   	<xp:this.value><![CDATA[var init_hijackAndPublishPartialRefresh = false;
 if (typeof hijackAndPublishPartialRefresh != 'function') {

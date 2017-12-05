@@ -133,14 +133,14 @@ if (dbConf != null){
 							</xe:repeatTreeNode>
 						</xe:this.children>
 					</xe:basicContainerNode>
-					
 
-					<xe:basicContainerNode
+
+					<xe:basicContainerNode 
 						label="#{javascript:return DocUsr.getUserMask();}">
 						<xe:this.children>
 							<xe:basicLeafNode submitValue="Deslogueo">
 
-								<xe:this.href><![CDATA[#{javascript:print("Deslogueo: " + context.getSubmittedValue());
+								<xe:this.href><![CDATA[#{javascript:
 var uName:NotesName = session.createName(session.getEffectiveUserName())
 if(uName.getCommon() == "Anonymous") {
 	facesContext.getExternalContext().getRequest().getContextPath() + 
@@ -161,6 +161,7 @@ return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 						</xe:this.children>
 						<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
 					</xe:basicContainerNode>
+					
 				</xe:this.bannerUtilityLinks>
 
 			</xe:bootstrapResponsiveConfiguration>
