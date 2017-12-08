@@ -1,5 +1,6 @@
 package ar.com.ada3d.utilidades;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
@@ -8,17 +9,23 @@ import org.openntf.domino.*;
 import org.openntf.domino.xsp.XspOpenLogUtil;
 
 import ar.com.ada3d.connect.GetQueryAS400;
+import ar.com.ada3d.data.Edificio;
 
-public class DocUsr {
+public class DocUsr implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private final HashMap<String, String> _map;
 	private Vector usrSelected;
-	
+
 	public ArrayList<String> edificiosLista;
+	public HashMap<String, String> edificiosListaMapa;
+	private Vector<Object> edificiosNoAccessLista;
+	private ArrayList<String> edificiosMyLista;
+
 
 	public DocUsr() {
 		System.out.println("Constructor DocUsr");
 		this._map = new HashMap<String, String>();
+		
 		updateDocUsr();
 	}
 
@@ -52,24 +59,27 @@ public class DocUsr {
 							.getItemValueString("usr_USRSEG_opt"));
 					this._map.put("userDB", currentDB.getFileName().substring(
 							currentDB.getFileName().length() - 8, 5));
-					this._map.put("userEdificiosNoAccess", docUsuario
-							.getItemValueString("usr_EdificiosSinAcceso_cod"));
-					GetQueryAS400 getQueryAS400  = new ar.com.ada3d.connect.GetQueryAS400();				
-					this.edificiosLista = getQueryAS400.getSelectAS("PH_E01", null);
+
+					this.edificiosNoAccessLista = docUsuario
+							.getItemValue("usr_EdificiosSinAcceso_cod");
+
+					GetQueryAS400 getQueryAS400 = new ar.com.ada3d.connect.GetQueryAS400();
+					this.edificiosLista = getQueryAS400.getSelectAS("PH_E01",
+							null);
+										
+					updateListaEdificiosMapa(); 
 					
-					
-					
+					updateMyListaEdificios();
+					System.out.println("updateMyListaEdificios para scope:"
+							+ getEdificiosMyLista().toString());
 				}
 				/* getItemValue definirlo como Vector=import java.util.Vector */
 				setUsrSelected(docUsuario.getItemValue("usr_MenuSelected_cod"));
-				
-			
-				
-				
+
 			} else {
 				synchronized (this._map) {
 					this._map.put("userName", session.getEffectiveUserName());
-					
+
 					this._map.put("userDB", currentDB.getFileName().substring(
 							currentDB.getFileName().length() - 8, 5));
 				}
@@ -81,69 +91,43 @@ public class DocUsr {
 		}
 	}
 
-	public String getUser() {
-		String ret;
-		synchronized (this._map) {
-			ret = this._map.get("userName");
-		}
-		return ret;
+	/*
+	 * Actualizo la lista de edificios permitidas a el usuario logueado
+	 * */
+	private void updateMyListaEdificios() {
+		this.setEdificiosMyLista(diffEdificios());
 	}
 
-	private String getNombre() {
-		String ret;
-		synchronized (this._map) {
-			ret = this._map.get("nombreyApellido");
+	/*
+	 * 
+	 * */
+	private ArrayList<String> diffEdificios() {
+		
+		ArrayList<String> arrRet = new ArrayList<String>();
+		if (edificiosNoAccessLista == null | edificiosNoAccessLista.isEmpty())
+			return edificiosLista;
+		
+		for(String currentKey : edificiosListaMapa.keySet()){
+			if (!edificiosNoAccessLista.contains(currentKey))
+				arrRet.add(edificiosListaMapa.get(currentKey));
 		}
-		return ret;
-	}
-
-	public String getUserMask() {
-		String ret;
-		synchronized (this._map) {
-			ret = this._map.get("userMaskName");
-		}
-		return ret;
-	}
-
-	private String getUserSec() {
-		String ret;
-		synchronized (this._map) {
-			ret = this._map.get("userSequential");
-		}
-		return ret;
-	}
-
-	private String getStatus() {
-		String ret;
-		synchronized (this._map) {
-			ret = this._map.get("userStatus");
-		}
-		return ret;
-	}
-
-	private boolean isUsrSeg() {
-		boolean ret = false;
-		synchronized (this._map) {
-			ret = this._map.get("userSeg").equals("1");
-		}
-		return ret;
-	}
-
-	public String getUserDB() {
-		String ret;
-		synchronized (this._map) {
-			ret = this._map.get("userDB");
-		}
-		return ret;
+		return arrRet;
 	}
 	
-	public String getUserEdificiosNoAccess() {
-		String ret;
-		synchronized (this._map) {
-			ret = this._map.get("userEdificiosNoAccess");
+	/*
+	 * 
+	 * */
+	private void updateListaEdificiosMapa(){
+		HashMap<String, String> tempMapa = new HashMap<String, String>();
+		for (String strEdificio : edificiosLista) {
+			tempMapa.put(strEdificio.split("\\|")[1].trim(), strEdificio.split("\\|")[0]);
 		}
-		return ret;
+		this.edificiosListaMapa = tempMapa;
 	}
+
+	
+	
+	
 	
 	/*
 	 * Devuelve el documento de usuario de currentDatabase (base de
@@ -167,7 +151,68 @@ public class DocUsr {
 
 	}
 
-	// Getters y Setteres
+	
+	// ******** Getters and Setters ***************
+	public String getUser() {
+		String ret;
+		synchronized (this._map) {
+			ret = this._map.get("userName");
+		}
+		return ret;
+	}
+
+	@SuppressWarnings("unused")
+	private String getNombre() {
+		String ret;
+		synchronized (this._map) {
+			ret = this._map.get("nombreyApellido");
+		}
+		return ret;
+	}
+
+	public String getUserMask() {
+		String ret;
+		synchronized (this._map) {
+			ret = this._map.get("userMaskName");
+		}
+		return ret;
+	}
+
+	@SuppressWarnings("unused")
+	private String getUserSec() {
+		String ret;
+		synchronized (this._map) {
+			ret = this._map.get("userSequential");
+		}
+		return ret;
+	}
+
+	@SuppressWarnings("unused")
+	private String getStatus() {
+		String ret;
+		synchronized (this._map) {
+			ret = this._map.get("userStatus");
+		}
+		return ret;
+	}
+
+	@SuppressWarnings("unused")
+	private boolean isUsrSeg() {
+		boolean ret = false;
+		synchronized (this._map) {
+			ret = this._map.get("userSeg").equals("1");
+		}
+		return ret;
+	}
+
+	public String getUserDB() {
+		String ret;
+		synchronized (this._map) {
+			ret = this._map.get("userDB");
+		}
+		return ret;
+	}
+
 	private void setUsrSelected(Vector usrSelected) {
 		this.usrSelected = usrSelected;
 	}
@@ -175,13 +220,25 @@ public class DocUsr {
 	private Vector getUsrSelected() {
 		return usrSelected;
 	}
-	
+
 	public ArrayList<String> getEdificiosLista() {
 		return edificiosLista;
 	}
 
-	public void setEdificiosLista(ArrayList<String> aa) {
-		this.edificiosLista = aa;
+	public void setEdificiosMyLista(ArrayList<String> edificiosMyLista) {
+		this.edificiosMyLista = edificiosMyLista;
+	}
+
+	public ArrayList<String> getEdificiosMyLista() {
+		return edificiosMyLista;
+	}
+
+	public HashMap<String, String> getEdificiosListaMapa() {
+		return edificiosListaMapa;
+	}
+
+	public void setEdificiosListaMapa(HashMap<String, String> edificiosListaMapa) {
+		this.edificiosListaMapa = edificiosListaMapa;
 	}
 
 }

@@ -72,11 +72,11 @@ javaClassQuery.getSelectAS("PH_E01_2", null);}]]></xp:this.value>
 		</xp:div>
 		<br />
 		<br />
-		<xp:table title="Tabla" styleClass="table-hover">
+		</xp:div><xp:div styleClass="container form-inline form-group"><xp:table title="Tabla" styleClass="table-hover">
 			<xp:repeat id="repeat1" rows="30" var="rowData" style="width:400px">
 				<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
 var javaClassQuery:GetQueryAS400 = new GetQueryAS400();
-return javaClassQuery.getSelectAS("PH_E01", null);}]]></xp:this.value>
+return javaClassQuery.getSelectAS("PH_E01_3", null);}]]></xp:this.value>
 
 				<xp:this.facets>
 					<xp:text xp:key="header" escape="false">

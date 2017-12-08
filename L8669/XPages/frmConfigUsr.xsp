@@ -12,11 +12,17 @@
 			documentId="#{javascript: null != param.documentId ? param.documentId : null;}"
 			computeWithForm="onsave">
 		</xp:dominoDocument>
-								<xe:objectData
-									var="objDataEdificiosPorUsuario" ignoreRequestParams="true"
-									readonly="false" scope="view">
-									<xe:this.createObject><![CDATA[#{javascript:var results = []; // Crear un array vacio a devolver al final
+		<xe:objectData var="objDataEdificiosPorUsuario"
+			ignoreRequestParams="true" readonly="false" scope="view">
+			<xe:this.createObject><![CDATA[#{javascript:var results = []; // Crear un array vacio a devolver al final
 var listaEdificios = DocUsr.getEdificiosLista(); //Lista total de edificios
+if(listaEdificios == null){
+	print("ListaEdificios es NULL");
+	return results;
+}else{
+	print("ListaEdificios es NO ES NULL");
+}
+
 var codigoEdificio:String;
 var seleccionado:String;
 var edificiosSinAcceso:java.util.Vector = docUsuario.getItemValue("usr_EdificiosSinAcceso_cod");
@@ -34,9 +40,9 @@ for (var i = 0; i < listaEdificios.length; i++) {
 }
 
 return results;}]]></xe:this.createObject>
-									<xe:this.saveObject><![CDATA[#{javascript:print("saveObject");
+			<xe:this.saveObject><![CDATA[#{javascript:print("saveObject");
 return value.dummyAction();}]]></xe:this.saveObject>
-								</xe:objectData>
+		</xe:objectData>
 	</xp:this.data>
 	<!--
 		Esta es la única diferencia con la Edicion que el Partial Refresh lo
@@ -150,8 +156,8 @@ menuFull("menuFull");}]]></xp:this.beforePageLoad>
 												message="El nombre de usuario es un campo requerido.">
 											</xp:validateRequired>
 											<xp:validateConstraint>
-												<xp:this.message><![CDATA[El nombre de usuario debe ser de 5 a 20 caracteres (letras o números) y sin espacios]]></xp:this.message>
-												<xp:this.regex><![CDATA[[a-z0-9]{5,20}]]></xp:this.regex>
+												<xp:this.message><![CDATA[El nombre de usuario debe ser de 5 a 20 caracteres (letras, números y guiones) y sin espacios]]></xp:this.message>
+												<xp:this.regex><![CDATA[[a-z0-9\-\_]{5,20}]]></xp:this.regex>
 											</xp:validateConstraint>
 										</xp:this.validators>
 										<xp:this.attrs>
@@ -252,11 +258,13 @@ return true;}]]></xe:this.rendered>
 						<!-- CheckBox de menues -->
 
 
+						<xp:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xp:this.rendered>
 						<xe:formRow id="checkMenues" label="Menues"
 							labelPosition="left">
 							<xp:div id="divCheckMenuSeguridad">
 								<xp:this.rendered><![CDATA[#{javascript:getComponent("usrSeg").getValue().equals('1')}]]></xp:this.rendered>
-								<xp:panel styleClass="alert alert-info" role="alert">
+								<xp:panel styleClass="alert alert-info"
+									role="alert">
 									<xp:label id="label6">
 										<xp:this.value><![CDATA[#{javascript:"El usuario es Responsable de Seguridad. Están hablitados todos los modulos."}]]></xp:this.value>
 									</xp:label>
@@ -269,8 +277,9 @@ return true;}]]></xe:this.rendered>
 
 								<xp:panel id="PNL_repeatMenu">
 									<xp:this.data>
-										<xp:dominoView var="viewModulosCheckBox"
-											viewName="vModulosCheckBox" databaseName="ADA3D/ada_config.nsf">
+										<xp:dominoView
+											var="viewModulosCheckBox" viewName="vModulosCheckBox"
+											databaseName="ADA3D/ada_config.nsf">
 										</xp:dominoView>
 									</xp:this.data>
 
@@ -279,22 +288,26 @@ return true;}]]></xe:this.rendered>
 										Switch
 									-->
 
-									<xp:repeat id="repeatMenu" rows="30" var="menuRowData"
-										value="#{viewModulosCheckBox}" indexVar="idxRowData">
+									<xp:repeat id="repeatMenu" rows="30"
+										var="menuRowData" value="#{viewModulosCheckBox}"
+										indexVar="idxRowData">
 										<xp:this.facets>
-											<xp:text xp:key="header" escape="false">
+											<xp:text xp:key="header"
+												escape="false">
 												<xp:this.value>
 													<![CDATA[<div class="panel-group" id="accordion1">]]>
 												</xp:this.value>
 											</xp:text>
-											<xp:text xp:key="footer" escape="false">
+											<xp:text xp:key="footer"
+												escape="false">
 												<xp:this.value>
 													<![CDATA[</div>]]>
 												</xp:this.value>
 											</xp:text>
 										</xp:this.facets>
 
-										<xp:text escape="false" id="computedTitulos">
+										<xp:text escape="false"
+											id="computedTitulos">
 											<xp:this.value><![CDATA[#{javascript:var list:String = "";
 var etiqueta = menuRowData.getColumnValue("Modulos");
 var codigoModulo = menuRowData.getColumnValue("modulo_OrdenConcatenado_des");
@@ -315,7 +328,8 @@ return list}]]>
 										</xp:text>
 
 
-										<xp:text escape="false" id="computedEntry">
+										<xp:text escape="false"
+											id="computedEntry">
 											<xp:this.value><![CDATA[#{javascript:var list:String = "";
 var etiqueta = menuRowData.getColumnValue("Modulos");
 var codigoModulo = menuRowData.getColumnValue("modulo_OrdenConcatenado_des");
@@ -356,7 +370,8 @@ return list;}]]>
 								</xp:panel>
 
 
-								<xp:checkBoxGroup id="checkBoxGroup1" layout="pageDirection"
+								<xp:checkBoxGroup id="checkBoxGroup1"
+									layout="pageDirection"
 									value="#{docUsuario.usr_MenuSelected_cod}" rendered="true">
 									<xp:selectItems id="itemSelected">
 										<xp:this.value><![CDATA[#{javascript:var confDb:NotesDatabase = getDbCfg();
@@ -375,9 +390,9 @@ var dbConf = new Array(@DbName()[0], confDb.getFilePath());
 						rendered="#{javascript:!docUsuario.isNewNote()}">
 
 						<xp:panel id="PNL_edificios">
-						<xp:messages id="messagesPNLEdificios"></xp:messages>
+							<xp:messages id="messagesPNLEdificios"></xp:messages>
 
-						<xp:button id="btnMarcarEdificiosTodos" value="Marcar Todos"
+							<xp:button id="btnMarcarEdificiosTodos" value="Marcar Todos"
 								rendered="#{javascript:docUsuario.isEditable()}">
 								<xp:eventHandler event="onclick" submit="true"
 									refreshMode="complete">
@@ -395,7 +410,7 @@ var dbConf = new Array(@DbName()[0], confDb.getFilePath());
 }}]]></xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
-							
+
 							<xp:table styleClass="table-hover">
 								<xp:repeat id="repeatEdificiosPorUsuario" rows="30"
 									var="rptEdificiosPorUsuario" style="width:400px"
@@ -446,7 +461,7 @@ return docUsuario.isEditable() }]]>
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="partial">
 							<xp:this.action><![CDATA[#{javascript:print("btnSave Usuario");
-try{	
+	
 	var isNew:boolean = docUsuario.isNewNote(); 
 	if (isNew){
 		if(userBean.accessRoles.toString().contains('[usrInitial]'))
@@ -496,9 +511,7 @@ try{
 	}else{
 		context.redirectToPage(getOpcionesClave("VIEW_UI_USUARIOS_HOME", "codigo")[0]);
 	}
-} catch(e) {
-        addFacesMessage(e.toString(), null, "FATAL")
- }}]]></xp:this.action>
+}]]></xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
 					<xp:button value="Editar" id="btnEdit">
@@ -609,7 +622,7 @@ return true;}]]></xp:this.rendered>
 							</xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
-					
+
 				</xp:panel><!-- FIN PANEL DE BOTONES  -->
 			</xp:panel><!-- FIN PANEL MIDDLE  -->
 		</xp:this.facets>

@@ -25,7 +25,7 @@
 
 	<xp:this.afterPageLoad><![CDATA[#{javascript:if (!userBean.accessRoles.toString().contains('[usrInitial]')){
 	if	(!sessionScope.edificioSelected)
-		 sessionScope.edificioSelected = DocUsr.getEdificiosLista()[0];
+		 sessionScope.edificioSelected = DocUsr.getEdificiosMyLista()[0];
 }		}]]></xp:this.afterPageLoad>
 	<xc:ccRolDesarrollo_Debug>
 		<xc:this.propertyFormName><![CDATA[#{javascript:"docUsuario"}]]></xc:this.propertyFormName>
@@ -41,7 +41,7 @@
 							label="#{sessionScope.edificioSelected}">
 							<xe:this.children>
 								<xe:repeatTreeNode var="rptEdificios"
-									value="#{javascript:DocUsr.getEdificiosLista()}"
+									value="#{javascript:DocUsr.getEdificiosMyLista()}"
 									indexVar="idxEdificios">
 									<xe:this.children>
 										<xe:basicLeafNode
