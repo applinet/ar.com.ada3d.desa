@@ -23,6 +23,12 @@
     <managed-bean-class>ar.com.ada3d.utilidades.DocUsr</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <managed-bean>
+    <description>Lista de Edificios</description>
+    <managed-bean-name>Edificios</managed-bean-name>
+    <managed-bean-class>ar.com.ada3d.data.Edificios</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
   <!-- phase listener for the alerts demo -->
   <managed-bean id="dBar">
     <managed-bean-name>dBar</managed-bean-name>

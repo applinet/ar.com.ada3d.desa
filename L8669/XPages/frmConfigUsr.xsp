@@ -263,8 +263,7 @@ return true;}]]></xe:this.rendered>
 							labelPosition="left">
 							<xp:div id="divCheckMenuSeguridad">
 								<xp:this.rendered><![CDATA[#{javascript:getComponent("usrSeg").getValue().equals('1')}]]></xp:this.rendered>
-								<xp:panel styleClass="alert alert-info"
-									role="alert">
+								<xp:panel styleClass="alert alert-info" role="alert">
 									<xp:label id="label6">
 										<xp:this.value><![CDATA[#{javascript:"El usuario es Responsable de Seguridad. Están hablitados todos los modulos."}]]></xp:this.value>
 									</xp:label>
@@ -277,9 +276,8 @@ return true;}]]></xe:this.rendered>
 
 								<xp:panel id="PNL_repeatMenu">
 									<xp:this.data>
-										<xp:dominoView
-											var="viewModulosCheckBox" viewName="vModulosCheckBox"
-											databaseName="ADA3D/ada_config.nsf">
+										<xp:dominoView var="viewModulosCheckBox"
+											viewName="vModulosCheckBox" databaseName="ADA3D/ada_config.nsf">
 										</xp:dominoView>
 									</xp:this.data>
 
@@ -288,26 +286,22 @@ return true;}]]></xe:this.rendered>
 										Switch
 									-->
 
-									<xp:repeat id="repeatMenu" rows="30"
-										var="menuRowData" value="#{viewModulosCheckBox}"
-										indexVar="idxRowData">
+									<xp:repeat id="repeatMenu" rows="30" var="menuRowData"
+										value="#{viewModulosCheckBox}" indexVar="idxRowData">
 										<xp:this.facets>
-											<xp:text xp:key="header"
-												escape="false">
+											<xp:text xp:key="header" escape="false">
 												<xp:this.value>
 													<![CDATA[<div class="panel-group" id="accordion1">]]>
 												</xp:this.value>
 											</xp:text>
-											<xp:text xp:key="footer"
-												escape="false">
+											<xp:text xp:key="footer" escape="false">
 												<xp:this.value>
 													<![CDATA[</div>]]>
 												</xp:this.value>
 											</xp:text>
 										</xp:this.facets>
 
-										<xp:text escape="false"
-											id="computedTitulos">
+										<xp:text escape="false" id="computedTitulos">
 											<xp:this.value><![CDATA[#{javascript:var list:String = "";
 var etiqueta = menuRowData.getColumnValue("Modulos");
 var codigoModulo = menuRowData.getColumnValue("modulo_OrdenConcatenado_des");
@@ -328,8 +322,7 @@ return list}]]>
 										</xp:text>
 
 
-										<xp:text escape="false"
-											id="computedEntry">
+										<xp:text escape="false" id="computedEntry">
 											<xp:this.value><![CDATA[#{javascript:var list:String = "";
 var etiqueta = menuRowData.getColumnValue("Modulos");
 var codigoModulo = menuRowData.getColumnValue("modulo_OrdenConcatenado_des");
@@ -370,8 +363,7 @@ return list;}]]>
 								</xp:panel>
 
 
-								<xp:checkBoxGroup id="checkBoxGroup1"
-									layout="pageDirection"
+								<xp:checkBoxGroup id="checkBoxGroup1" layout="pageDirection"
 									value="#{docUsuario.usr_MenuSelected_cod}" rendered="true">
 									<xp:selectItems id="itemSelected">
 										<xp:this.value><![CDATA[#{javascript:var confDb:NotesDatabase = getDbCfg();
@@ -623,6 +615,15 @@ return true;}]]></xp:this.rendered>
 						</xp:eventHandler>
 					</xp:button>
 
+					<xp:br></xp:br>
+					<xp:comboBox id="comboBox1">
+
+						<xp:selectItem itemLabel="--Seleccionar Edificio--" itemValue="0"></xp:selectItem><xp:selectItems>
+							<xp:this.value><![CDATA[#{javascript:Edificios.getComboboxMyEdificiosTrabajo()}]]></xp:this.value>
+						</xp:selectItems>
+						
+					</xp:comboBox>
+					<xp:br></xp:br>
 				</xp:panel><!-- FIN PANEL DE BOTONES  -->
 			</xp:panel><!-- FIN PANEL MIDDLE  -->
 		</xp:this.facets>

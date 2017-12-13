@@ -14,12 +14,8 @@ import ar.com.ada3d.data.Edificio;
 public class DocUsr implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private final HashMap<String, String> _map;
-	private Vector usrSelected;
-
 	public ArrayList<String> edificiosLista;
-	public HashMap<String, String> edificiosListaMapa;
 	private Vector<Object> edificiosNoAccessLista;
-	private ArrayList<String> edificiosMyLista;
 
 
 	public DocUsr() {
@@ -65,16 +61,11 @@ public class DocUsr implements Serializable{
 
 					GetQueryAS400 getQueryAS400 = new ar.com.ada3d.connect.GetQueryAS400();
 					this.edificiosLista = getQueryAS400.getSelectAS("PH_E01",
-							null);
+							null, false);
 										
-					updateListaEdificiosMapa(); 
-					
-					updateMyListaEdificios();
-					System.out.println("updateMyListaEdificios para scope:"
-							+ getEdificiosMyLista().toString());
 				}
 				/* getItemValue definirlo como Vector=import java.util.Vector */
-				setUsrSelected(docUsuario.getItemValue("usr_MenuSelected_cod"));
+				//setUsrSelected(docUsuario.getItemValue("usr_MenuSelected_cod"));
 
 			} else {
 				synchronized (this._map) {
@@ -91,41 +82,6 @@ public class DocUsr implements Serializable{
 		}
 	}
 
-	/*
-	 * Actualizo la lista de edificios permitidas a el usuario logueado
-	 * */
-	private void updateMyListaEdificios() {
-		this.setEdificiosMyLista(diffEdificios());
-	}
-
-	/*
-	 * 
-	 * */
-	private ArrayList<String> diffEdificios() {
-		
-		ArrayList<String> arrRet = new ArrayList<String>();
-		if (edificiosNoAccessLista == null | edificiosNoAccessLista.isEmpty())
-			return edificiosLista;
-		
-		for(String currentKey : edificiosListaMapa.keySet()){
-			if (!edificiosNoAccessLista.contains(currentKey))
-				arrRet.add(edificiosListaMapa.get(currentKey));
-		}
-		return arrRet;
-	}
-	
-	/*
-	 * 
-	 * */
-	private void updateListaEdificiosMapa(){
-		HashMap<String, String> tempMapa = new HashMap<String, String>();
-		for (String strEdificio : edificiosLista) {
-			tempMapa.put(strEdificio.split("\\|")[1].trim(), strEdificio.split("\\|")[0]);
-		}
-		this.edificiosListaMapa = tempMapa;
-	}
-
-	
 	
 	
 	
@@ -213,32 +169,13 @@ public class DocUsr implements Serializable{
 		return ret;
 	}
 
-	private void setUsrSelected(Vector usrSelected) {
-		this.usrSelected = usrSelected;
-	}
-
-	private Vector getUsrSelected() {
-		return usrSelected;
-	}
-
 	public ArrayList<String> getEdificiosLista() {
 		return edificiosLista;
 	}
 
-	public void setEdificiosMyLista(ArrayList<String> edificiosMyLista) {
-		this.edificiosMyLista = edificiosMyLista;
-	}
 
-	public ArrayList<String> getEdificiosMyLista() {
-		return edificiosMyLista;
-	}
-
-	public HashMap<String, String> getEdificiosListaMapa() {
-		return edificiosListaMapa;
-	}
-
-	public void setEdificiosListaMapa(HashMap<String, String> edificiosListaMapa) {
-		this.edificiosListaMapa = edificiosListaMapa;
+	public Vector<Object> getEdificiosNoAccessLista() {
+		return edificiosNoAccessLista;
 	}
 
 }

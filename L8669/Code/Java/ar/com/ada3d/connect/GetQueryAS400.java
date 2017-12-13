@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -37,7 +38,8 @@ public class GetQueryAS400 implements Serializable {
 	
 	
 	// Utilizado - Devuelvo un array por ejemlo para un combo
-	public ArrayList<String> getSelectAS(String param_clave, Document param_doc) throws NotesException {
+	
+	public ArrayList<String> getSelectAS(String param_clave, Document param_doc, boolean param_booDescColumnas) throws NotesException {
 		if (!initConexion()) return null;
 		Document docTabla = JSFUtil.getDocConexiones_y_Tablas(param_clave);
 		if (docTabla == null) return null;
@@ -60,17 +62,31 @@ public class GetQueryAS400 implements Serializable {
 		
 		ArrayList<String> returnArrlist = new ArrayList<String>(); //variable que devuelvo
 		Vector<String> arrcampos = configTabla.getResultado();//Desde documento de configuracion
-		
+		String columna = "";
 		try {
 			DriverManager.registerDriver(new com.ibm.as400.access.AS400JDBCDriver());
 			connection = DriverManager.getConnection(configDs.getUrlConexion(), configDs.getUserRead(), configDs.getPassRead());
 			Statement stmt = connection.createStatement();
+			
 			ResultSet rs = stmt.executeQuery(configTabla.getStrsSQL());
+			
+			if(param_booDescColumnas){
+				ResultSetMetaData rsmd = rs.getMetaData ();
+	            int columnCount = rsmd.getColumnCount ();
+	            System.out.println("******************** COLUMNAS getSelectAS  *******************************************");
+	            for (int i = 1; i <= columnCount; ++i) {
+	                System.out.println("Columna:" + rsmd.getColumnLabel (i));
+	            }	
+			}
+			
+			
 			int cont = 0;
+			
 			while (rs.next()) {
 				cont++;
 				String temp = "";
 				for (String s : arrcampos) {
+					columna = s.toString();
 					if (s.contains("@text_")) {
 						temp = temp + s.substring(6);
 					} else {
@@ -82,7 +98,7 @@ public class GetQueryAS400 implements Serializable {
 		}
 
 		catch (Exception e) {
-			System.out.println("ERROR: " + e.getMessage());
+			System.out.println("**ERROR** (col:" + columna + ") - " + e.getMessage());
 			return returnArrlist;
 		}
 

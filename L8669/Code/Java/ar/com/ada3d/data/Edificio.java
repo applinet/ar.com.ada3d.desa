@@ -18,6 +18,7 @@ public class Edificio implements Serializable{
 	private String edf_adm_dependiente;
 	private String edf_estadoProceso;
 	private String edf_ultimaLiquidacion;
+	//TODO: private String edf_lockeo --> DocLock
 
 		
 	public Edificio(String edf_codigo, String edf_codigoNumerico,
