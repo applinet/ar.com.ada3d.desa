@@ -16,7 +16,7 @@
 	var currentUserName = DocUsr.getUser();
 	var userName = session.getEffectiveUserName();
 	if( currentUserName && userName !== currentUserName ){
-		dBar.info("INVALIDO LA SESSION");
+		print("INVALIDO LA SESSION");
 		facesContext.getExternalContext().getSession( false ).invalidate();
 	}   
 }
@@ -108,16 +108,18 @@ if (dbConf != null){
 				</xe:this.bannerApplicationLinks>
 				<xe:this.bannerUtilityLinks>
 
-					<xe:basicContainerNode label="#{sessionScope.edificioSelected}"
-						rendered="false">
+					<xe:basicContainerNode
+						label="#{sessionScope.edificioSelected}" rendered="false">
 						<xe:this.children>
 							<xe:repeatTreeNode var="rptEdificios"
 								value="#{sessionScope.edificios}" indexVar="idxEdificios">
 
 								<xe:this.children>
 
-									<xe:basicLeafNode label="#{javascript:rptEdificios}"
-										submitValue="#{javascript:idxEdificios}" title="#{javascript:rptEdificios}"
+									<xe:basicLeafNode
+										label="#{javascript:rptEdificios}"
+										submitValue="#{javascript:idxEdificios}"
+										title="#{javascript:rptEdificios}"
 										onClick="alert('aho:' + XSP.getSubmitValue());">
 
 
@@ -137,9 +139,20 @@ if (dbConf != null){
 					</xe:basicContainerNode>
 
 
-					<xe:basicContainerNode label="#{javascript:return DocUsr.getUserMask();}">
+					<xe:basicContainerNode
+						label="#{javascript:return DocUsr.getUserMask();}">
 						<xe:this.children>
 							<xe:basicLeafNode submitValue="Deslogueo">
+
+
+								<xe:this.label><![CDATA[#{javascript:var uName:NotesName = session.createName(session.getEffectiveUserName())
+if(uName.getCommon() == "Anonymous")
+	return "Login"
+return "Desconectar --usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
+								<xe:this.onClick><![CDATA[document.getElementById("#{id:btnLogOut}").click();]]></xe:this.onClick>
+							</xe:basicLeafNode>
+
+							<xe:basicLeafNode>
 
 								<xe:this.href><![CDATA[#{javascript:
 var uName:NotesName = session.createName(session.getEffectiveUserName())
@@ -155,13 +168,16 @@ if(uName.getCommon() == "Anonymous")
 	return "Login"
 return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 							</xe:basicLeafNode>
-							<xe:basicLeafNode label="Cambiar contraseña">
+							
+							<xe:basicLeafNode
+								label="Cambiar contraseña">
 								<xe:this.href><![CDATA[#{javascript:facesContext.getExternalContext().getRequest().getContextPath()+ "?changepassword&redirectTo=names.nsf?logout"}]]></xe:this.href>
 							</xe:basicLeafNode>
 						</xe:this.children>
 						<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
 					</xe:basicContainerNode>
 
+					
 				</xe:this.bannerUtilityLinks>
 
 
@@ -201,4 +217,18 @@ applicationLogo.onclick = function() {
         return true;}]]>
 		</xp:this.rendered>
 	</xp:panel>
+	<div id="divHidden" style="display: none;">
+	<xp:button value="Label" id="btnLogOut">
+		<xp:eventHandler event="onclick" submit="true"
+			refreshMode="complete">
+			<xp:this.action><![CDATA[#{javascript:print("ejecuto SSJS");
+if (sessionScope.DocUsr)
+	sessionScope.remove(DocUsr);
+if (sessionScope.Edificios)	
+	sessionScope.remove(Edificios);
+	
+facesContext.getExternalContext().getRequest().getContextPath() + "?Logout&redirectTo=" + facesContext.getExternalContext().getRequest().getContextPath();
+}]]></xp:this.action>
+		</xp:eventHandler></xp:button>
+	</div>
 </xp:view>

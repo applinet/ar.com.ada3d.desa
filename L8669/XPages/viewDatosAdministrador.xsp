@@ -8,7 +8,7 @@
 	
 	
 	
-	<xp:this.beforePageLoad><![CDATA[#{javascript:viewScope.put("test",Edificios.getTest())}]]></xp:this.beforePageLoad>
+	
 	<xc:ccLayoutBootstrap>
 		<xp:this.facets>
 			<xp:panel id="PNL_container" xp:key="facetMiddle"

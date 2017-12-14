@@ -1,20 +1,14 @@
 package ar.com.ada3d.utilidades;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
-
 import org.openntf.domino.*;
 import org.openntf.domino.xsp.XspOpenLogUtil;
-
-import ar.com.ada3d.connect.GetQueryAS400;
-import ar.com.ada3d.data.Edificio;
 
 public class DocUsr implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private final HashMap<String, String> _map;
-	public ArrayList<String> edificiosLista;
 	private Vector<Object> edificiosNoAccessLista;
 
 
@@ -58,15 +52,8 @@ public class DocUsr implements Serializable{
 
 					this.edificiosNoAccessLista = docUsuario
 							.getItemValue("usr_EdificiosSinAcceso_cod");
-
-					GetQueryAS400 getQueryAS400 = new ar.com.ada3d.connect.GetQueryAS400();
-					this.edificiosLista = getQueryAS400.getSelectAS("PH_E01",
-							null, false);
-										
 				}
-				/* getItemValue definirlo como Vector=import java.util.Vector */
-				//setUsrSelected(docUsuario.getItemValue("usr_MenuSelected_cod"));
-
+				
 			} else {
 				synchronized (this._map) {
 					this._map.put("userName", session.getEffectiveUserName());
@@ -168,11 +155,6 @@ public class DocUsr implements Serializable{
 		}
 		return ret;
 	}
-
-	public ArrayList<String> getEdificiosLista() {
-		return edificiosLista;
-	}
-
 
 	public Vector<Object> getEdificiosNoAccessLista() {
 		return edificiosNoAccessLista;

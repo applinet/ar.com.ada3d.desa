@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Vector;
 
 import org.openntf.domino.*;
-import org.openntf.domino.utils.Factory;
 import org.openntf.domino.xsp.XspOpenLogUtil;
 
 public class CfgTablas implements Serializable {
@@ -35,6 +34,7 @@ public class CfgTablas implements Serializable {
 		this.msgConsola = msgConsola;
 	}
 
+	@SuppressWarnings("unchecked")
 	public CfgTablas(Document docTabla){
 		this.clave = docTabla.getItemValueString("ds_Con_cod");
 		this.tabla = docTabla.getItemValueString("ds_Tabla1_des");

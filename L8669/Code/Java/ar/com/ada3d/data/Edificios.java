@@ -3,15 +3,10 @@ package ar.com.ada3d.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 import java.io.Serializable;
 import javax.faces.model.SelectItem;
-
-import test.test;
 import ar.com.ada3d.utilidades.*;
-
 import lotus.domino.NotesException;
-
 import ar.com.ada3d.connect.GetQueryAS400;
 import ar.com.ada3d.utilidades.DocUsr;
 
@@ -26,6 +21,7 @@ public class Edificios implements Serializable{
 	HashMap<String, Edificio> hmEdificios = new HashMap<String,Edificio>();
 	static ArrayList<Edificio> edificios = new ArrayList<Edificio>();
 	private static DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
+	
 	
 	public Edificios() {
 		System.out.println("Constructor Edificios y llamada AddEdificiosAS400");
@@ -101,35 +97,15 @@ public class Edificios implements Serializable{
 		}
 		return result;
 	}
+
 	
-	public Vector<HashMap<String, String>> getTest(){
-		Vector<HashMap<String, String>> result = new Vector<HashMap<String, String>>(); 
-		
-		HashMap<String, String> temp1 = new HashMap<String,String>();
-		temp1.put("codigoEdificio", "VE%");
-		temp1.put("descripcionEdificio", "AV.DE LOS INCAS 3730/2-CAP.");
-		temp1.put("selected", "0");
-		result.add(temp1);
-		
-		HashMap<String, String> temp2 = new HashMap<String,String>();
-		temp2.put("codigoEdificio", "VEÑ");
-		temp2.put("descripcionEdificio", "ARRIBEÑOS 2350-CAPITAL FED.");
-		temp2.put("selected", "0");
-		result.add(temp2);
-		
-		HashMap<String, String> temp3 = new HashMap<String,String>();
-		temp3.put("codigoEdificio", "VE4");
-		temp3.put("descripcionEdificio", "ARCOS 2574-CAPITAL FEDERAL");
-		temp3.put("selected", "1");
-		result.add(temp3);
-		
-		HashMap<String, String> temp4 = new HashMap<String,String>();
-		temp4.put("codigoEdificio", "VFD");
-		temp4.put("descripcionEdificio", "AMENABAR 3371/73-CAPITAL");
-		temp4.put("selected", "1");
-		result.add(temp4);		
+	
+	public ArrayList<String> getObjDataEdificiosPorUsuario(){
+		ArrayList<String> result = new ArrayList<String>();
+		for (Edificio miEdificio : edificios) {
+				result.add(miEdificio.getEdf_direccion() + "|" + miEdificio.getEdf_codigo());
+		}
 		return result;
-		
 	}
 	
 
