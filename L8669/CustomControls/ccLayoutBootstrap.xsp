@@ -34,37 +34,25 @@
 	<xe:applicationLayout id="applicationLayout1">
 		<xp:callback facetName="facetMiddle" id="facetMiddle"></xp:callback>
 		<xe:this.facets>
-			<xe:dropDownButton id="dropDownButton1" xp:key="MastHeader"
-				style="font-weight:bold">
-				<xe:this.treeNodes>
-					<xe:basicContainerNode
-						label="#{sessionScope.edificioSelected}">
-						<xe:this.children>
-							<xe:repeatTreeNode var="rptEdificios"
-								value="#{javascript:Edificios.getMyEdificios()}"
-								indexVar="idxEdificios">
-								<xe:this.children>
-									<xe:basicLeafNode
-										label="#{javascript:rptEdificios}"
-										submitValue="#{javascript:rptEdificios}">
+				<xe:djFilteringSelect id="djFilteringSelect2"
+					xp:key="MastHeader" queryExpr="#{javascript:return '*\$\{0\}*';}"
+					autoComplete="false" styleClass="dropdown selectContainer"
+					disableTheme="true" style="width:250.0px">
+					<xp:selectItems>
+						<xp:this.value><![CDATA[#{javascript:Edificios.getComboboxMyEdificiosTrabajo()}]]></xp:this.value>
+					</xp:selectItems>
+					<xe:this.dojoAttributes>
+						<xp:dojoAttribute name="required"
+							value="false">
+						</xp:dojoAttribute>
+					</xe:this.dojoAttributes>
+					<xp:eventHandler event="onChange" submit="true"
+						refreshMode="partial" refreshId="djFilteringSelect2">
+						<xe:this.action><![CDATA[#{javascript:sessionScope.edificioSelected = this.getParent().getValue();}]]></xe:this.action>
+					</xp:eventHandler>
+				</xe:djFilteringSelect>
 
-									</xe:basicLeafNode>
-								</xe:this.children>
-							</xe:repeatTreeNode>
-						</xe:this.children>
-					</xe:basicContainerNode>
-				</xe:this.treeNodes>
-				<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
-				<xp:eventHandler event="onItemClick" submit="true"
-					refreshMode="partial">
-					<xe:this.action>
-						<![CDATA[#{javascript:sessionScope.edificioSelected = context.getSubmittedValue()}]]>
-					</xe:this.action>
-				</xp:eventHandler>
-			</xe:dropDownButton>
-			
-			
-			<xp:panel id="PNL_btnListaEdificios" xp:key="RightColumn">
+				<xp:panel id="PNL_btnListaEdificios" xp:key="RightColumn">
 
 
 			</xp:panel>
