@@ -1,4 +1,4 @@
-package ar.com.ada3d.data;
+package ar.com.ada3d.model;
 
 import java.io.Serializable;
 

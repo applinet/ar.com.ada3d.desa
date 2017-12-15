@@ -22,7 +22,6 @@
 }
 }]]></xp:this.beforePageLoad>
 
-
 	<xp:this.afterPageLoad><![CDATA[#{javascript:if (!userBean.accessRoles.toString().contains('[usrInitial]')){
 	if	(!sessionScope.edificioSelected)
 		 sessionScope.edificioSelected = Edificios.getTestDireccion()[0];
@@ -30,46 +29,37 @@
 	<xc:ccRolDesarrollo_Debug>
 		<xc:this.propertyFormName><![CDATA[#{javascript:"docUsuario"}]]></xc:this.propertyFormName>
 	</xc:ccRolDesarrollo_Debug>
-
 	<xe:applicationLayout id="applicationLayout1">
 		<xp:callback facetName="facetMiddle" id="facetMiddle"></xp:callback>
 		<xe:this.facets>
 				<xe:djFilteringSelect id="djFilteringSelect2"
 					xp:key="MastHeader" queryExpr="#{javascript:return '*\$\{0\}*';}"
-					autoComplete="false" styleClass="dropdown selectContainer"
-					disableTheme="true" style="width:250.0px">
+					autoComplete="false" style="width:400.0px">
+
 					<xp:selectItems>
-						<xp:this.value><![CDATA[#{javascript:Edificios.getComboboxMyEdificiosTrabajo()}]]></xp:this.value>
+						<xp:this.value><![CDATA[#{javascript:Edificios.getComboboxMyEdificios()}]]></xp:this.value>
 					</xp:selectItems>
 					<xe:this.dojoAttributes>
 						<xp:dojoAttribute name="required"
 							value="false">
 						</xp:dojoAttribute>
+
 					</xe:this.dojoAttributes>
 					<xp:eventHandler event="onChange" submit="true"
 						refreshMode="partial" refreshId="djFilteringSelect2">
 						<xe:this.action><![CDATA[#{javascript:sessionScope.edificioSelected = this.getParent().getValue();}]]></xe:this.action>
 					</xp:eventHandler>
 				</xe:djFilteringSelect>
-
-				<xp:panel id="PNL_btnListaEdificios" xp:key="RightColumn">
-
-
-			</xp:panel>
-
-
-
-
-			<xp:callback facetName="facetLeft" id="facetLeft" xp:key="LeftColumn">
+				<xp:callback facetName="facetLeft" id="facetLeft" xp:key="LeftColumn">
 			</xp:callback>
 		</xe:this.facets>
 		<!-- Bootstrap configuration object for the app layout -->
 		<xe:this.configuration>
-			<xe:bootstrapResponsiveConfiguration
-				banner="true" collapseLeftColumn="true" pageWidth="fluid"
-				fixedNavbar="fixed-top" productLogo="/logo.gif" productLogoClass="applicationLogo"
-				productLogoAlt="Sistemas Administrativos" placeBar="false"
-				invertedNavbar="true">
+			<xe:bootstrapResponsiveConfiguration banner="true"
+				collapseLeftColumn="true" pageWidth="fluid" fixedNavbar="fixed-top"
+				productLogo="/logo.gif" productLogoClass="applicationLogo"
+				productLogoAlt="Sistemas Administrativos" invertedNavbar="true"
+				titleBar="false">
 				<xe:this.bannerApplicationLinks>
 					<xe:repeatTreeNode loaded="true" var="tree"
 						indexVar="index">
@@ -77,10 +67,12 @@
 							<xe:basicContainerNode style="menu-item">
 								<xe:this.label><![CDATA[#{javascript:requestScope.currNode = tree; tree.name}]]></xe:this.label>
 								<xe:this.children>
-									<xe:repeatTreeNode loaded="true" var="subtree"
-										indexVar="subindex" value="#{javascript:requestScope.currNode.items}">
+									<xe:repeatTreeNode loaded="true"
+										var="subtree" indexVar="subindex"
+										value="#{javascript:requestScope.currNode.items}">
 										<xe:this.children>
-											<xe:basicLeafNode label="#{subtree}"
+											<xe:basicLeafNode
+												label="#{subtree}"
 												href="#{javascript:requestScope.currPage = tree; tree.page[subindex]}">
 											</xe:basicLeafNode>
 										</xe:this.children>
@@ -101,37 +93,22 @@ if (dbConf != null){
 						<xe:this.children>
 							<xe:repeatTreeNode var="rptEdificios"
 								value="#{sessionScope.edificios}" indexVar="idxEdificios">
-
 								<xe:this.children>
-
 									<xe:basicLeafNode
 										label="#{javascript:rptEdificios}"
 										submitValue="#{javascript:idxEdificios}"
 										title="#{javascript:rptEdificios}"
 										onClick="alert('aho:' + XSP.getSubmitValue());">
-
-
 										<xe:this.href><![CDATA[#{javascript://return "/home.xsp/" + idxEdificios;}]]></xe:this.href>
 									</xe:basicLeafNode>
-
 								</xe:this.children>
-
-
-
-
-
-
-
 							</xe:repeatTreeNode>
 						</xe:this.children>
 					</xe:basicContainerNode>
-
-
 					<xe:basicContainerNode
 						label="#{javascript:return DocUsr.getUserMask();}">
 						<xe:this.children>
 							<xe:basicLeafNode submitValue="Deslogueo">
-
 
 								<xe:this.label><![CDATA[#{javascript:var uName:NotesName = session.createName(session.getEffectiveUserName())
 if(uName.getCommon() == "Anonymous")
@@ -156,7 +133,7 @@ if(uName.getCommon() == "Anonymous")
 	return "Login"
 return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 							</xe:basicLeafNode>
-							
+
 							<xe:basicLeafNode
 								label="Cambiar contraseña">
 								<xe:this.href><![CDATA[#{javascript:facesContext.getExternalContext().getRequest().getContextPath()+ "?changepassword&redirectTo=names.nsf?logout"}]]></xe:this.href>
@@ -165,27 +142,31 @@ return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 						<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
 					</xe:basicContainerNode>
 
-					
+
 				</xe:this.bannerUtilityLinks>
 
 
 				<xe:this.searchBar>
-					<xe:appSearchBar pageName="/borrar_BootstrapPopOver.xsp">
+					<xe:appSearchBar
+						pageName="/borrar_BootstrapPopOver.xsp">
 						<xe:this.options>
 
 						</xe:this.options>
 					</xe:appSearchBar>
 				</xe:this.searchBar>
 				<xe:this.titleBarTabs>
+
+
+
+				</xe:this.titleBarTabs>
+				<xe:this.placeBarActions>
 					<xe:basicLeafNode label="Nuevo Administrador"
 						href="/frmDatosAdministrador.xsp">
 					</xe:basicLeafNode>
 					<xe:basicLeafNode label="Nuevo Gasto"></xe:basicLeafNode>
-					<xe:basicLeafNode label="Alta Facturas"></xe:basicLeafNode>
-					<xe:basicLeafNode label="Otra Factura"></xe:basicLeafNode>
-					<xe:basicLeafNode label="Alta usuarios"></xe:basicLeafNode>
-					<xe:basicLeafNode label="Bancos"></xe:basicLeafNode>
-				</xe:this.titleBarTabs>
+					<xe:basicLeafNode label="Reclamos"></xe:basicLeafNode>
+					<xe:basicLeafNode label="Vencimientos"></xe:basicLeafNode>
+				</xe:this.placeBarActions>
 			</xe:bootstrapResponsiveConfiguration>
 		</xe:this.configuration>
 

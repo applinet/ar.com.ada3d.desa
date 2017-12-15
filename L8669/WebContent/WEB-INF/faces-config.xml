@@ -26,7 +26,7 @@
   <managed-bean>
     <description>Lista de Edificios</description>
     <managed-bean-name>Edificios</managed-bean-name>
-    <managed-bean-class>ar.com.ada3d.data.Edificios</managed-bean-class>
+    <managed-bean-class>ar.com.ada3d.controller.Edificios</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
   <!-- phase listener for the alerts demo -->

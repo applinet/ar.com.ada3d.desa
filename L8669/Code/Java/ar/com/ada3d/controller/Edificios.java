@@ -1,10 +1,12 @@
-package ar.com.ada3d.data;
+package ar.com.ada3d.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.io.Serializable;
 import javax.faces.model.SelectItem;
+
+import ar.com.ada3d.model.Edificio;
 import ar.com.ada3d.utilidades.*;
 import lotus.domino.NotesException;
 import ar.com.ada3d.connect.GetQueryAS400;
@@ -17,30 +19,30 @@ import ar.com.ada3d.utilidades.DocUsr;
  * Tomo la scope de usuario para los edificios autorizados por usuario
  * */
 public class Edificios implements Serializable{
+	
+	public Edificios() {
+		System.out.println("Constructor Edificios y llamada AddEdificiosAS400");
+		AddEdificiosAs400();
+	}
+
+	
 	private static final long serialVersionUID = 1L;
 	HashMap<String, Edificio> hmEdificios = new HashMap<String,Edificio>();
 	static ArrayList<Edificio> edificios = new ArrayList<Edificio>();
 	private static DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 	
-	
-	public Edificios() {
-		System.out.println("Constructor Edificios y llamada AddEdificiosAS400");
-		AddEdificiosAs400();
-		// Empty constructor
-	}
-
-	
 	/*
 	 * Esto devuelve para cada usuario el ComboBox de Edificios autorizados para trabajar
 	 * @return: etiqueta y valor para xp:comboBox
-	 * @usedIn: Combo principal de layout asociado a una sessionScope(edificioSelected) 
+	 * @usedIn: Combo principal en ccLayoutBootstrap, está asociado a una sessionScope(edificioSelected) 
 	 * */
 	public static List<SelectItem> getComboboxMyEdificios() {
 	    List<SelectItem> options = new ArrayList<SelectItem>();
 	    for (Edificio miEdificio : edificios) {
 	    		if(!docUsuario.getEdificiosNoAccessLista().contains(miEdificio.getEdf_codigo())){ //Solo edificios autorizados
 	    			SelectItem option = new SelectItem();
-	    			option.setLabel(miEdificio.getEdf_direccion());
+	    			 
+	    			option.setLabel(miEdificio.getEdf_codigoVisual().equals("") ? miEdificio.getEdf_codigo() : miEdificio.getEdf_codigoVisual() + " " + miEdificio.getEdf_direccion()  + " " + miEdificio.getEdf_ultimaLiquidacion());
 	    			option.setValue(miEdificio.getEdf_codigo());
 	    			options.add(option);
 	    		}
