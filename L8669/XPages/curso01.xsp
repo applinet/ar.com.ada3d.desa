@@ -4,33 +4,41 @@
 		<xp:script src="/viernes.jss" clientSide="false"></xp:script>
 	</xp:this.resources>
 	<xp:div styleClass="container form-inline form-group">
-		<xp:div styleClass="row">
-			<xp:label value="Dia Java:" id="label2" styleClass="col-sm-2">
-			</xp:label>
-			<xp:label id="fecha1" styleClass="col-sm-5">
+		<xp:div styleClass="row"
+			style="background-color:rgb(0,255,64)">
+			<xp:label id="fecha1" styleClass="col-sm-2">
 				<xp:this.value><![CDATA[#{javascript:importPackage(test);
 var elnombrequequiera = new test();
 return elnombrequequiera.devolvemeunstring();}]]></xp:this.value>
 			</xp:label>
-		</xp:div>
-		<xp:div styleClass="row">
-			<xp:label value="Dia SSJS:" id="label4" styleClass="col-sm-2">
-			</xp:label>
-			<xp:label id="fecha2" value="#{javascript:viernes();}"
-				styleClass="col-sm-5">
+			<xp:label
+				value="Java: Importo un paquete y llamo a una funcion de la clase: test"
+				id="label2" styleClass="col-sm-4">
 			</xp:label>
 		</xp:div>
-		
-		<xp:div styleClass="row">
-			<xp:label value="Dia Sumado SSJS:" id="label1" styleClass="col-sm-2">
+		<xp:br />
+		<xp:div styleClass="row"
+			style="background-color:rgb(0,255,255)">
+			<xp:label id="fecha2"
+				value="#{javascript:getQuediaEsHoy();}" styleClass="col-sm-2">
 			</xp:label>
-			<xp:label id="fecha3" styleClass="col-sm-5">
+			<xp:label
+				value="SSJS: Llamo al codigo getQuediaEsHoy de la librería viernes "
+				id="label4" styleClass="col-sm-4">
+			</xp:label>
+		</xp:div>
+		<xp:br />
+		<xp:div styleClass="row">
+			<xp:label id="fecha3" styleClass="col-sm-2">
 				<xp:this.value><![CDATA[#{javascript:"La segunda fecha es:" + getComponent("fecha2").getValue()}]]></xp:this.value>
+			</xp:label>
+			<xp:label value="Obtengo el valor del segundo componente:" id="label1" styleClass="col-sm-4">
 			</xp:label>
 		</xp:div>
 		<br />
-		<xp:div styleClass="row">
-			<xp:label value="Listado de edificios:" id="label5"
+		<xp:div styleClass="row"
+			style="background-color:rgb(255,128,192)">
+			<xp:label value="Listado de edificios AS400:" id="label5"
 				styleClass="col-sm-2">
 			</xp:label>
 			<xp:div styleClass="col-sm-5">
@@ -39,46 +47,55 @@ return elnombrequequiera.devolvemeunstring();}]]></xp:this.value>
 					<xp:selectItems id="selectItems6">
 						<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
 var javaClassQuery:GetQueryAS400 = new GetQueryAS400();
-javaClassQuery.getSelectAS("PH_E01", null, false);}]]></xp:this.value>
+javaClassQuery.getSelectAS("curso_PH_E01", null, false);}]]></xp:this.value>
 					</xp:selectItems>
 
-				</xp:comboBox>
+					<xp:eventHandler event="onchange" submit="true"
+						refreshMode="partial" refreshId="computedField3">
+					</xp:eventHandler></xp:comboBox>
+				<xp:text escape="true" id="computedField3">
+					<xp:this.value><![CDATA[#{javascript:"  - Dato real: " + viewScope.listado}]]></xp:this.value>
+				</xp:text>
 			</xp:div>
 		</xp:div>
+		<xp:br />
+		<xp:br />
 		<xp:div styleClass="row">
-			<xp:label value="PRIMERO:" id="labelTickets" styleClass="col-sm-2">
+			<xp:label value="Resultado Texto de: cursoDevuelvoTexto" id="labelTickets" styleClass="col-sm-2">
 			</xp:label>
 			<xp:div styleClass="col-sm-5">
 				<xp:text id="computedField1">
 					<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
 var javaClassQuery:GetQueryAS400 = new GetQueryAS400();
-javaClassQuery.getSelectAS("PH_E01_1", null, false);}]]></xp:this.value>
+javaClassQuery.getSelectAS("cursoDevuelvoTexto_PH_E01", null, false);}]]></xp:this.value>
 				</xp:text>
 			</xp:div>
 		</xp:div>
-		<xp:div styleClass="row">
-			<xp:label value="SEGUNDO:" id="labelNOSE" styleClass="col-sm-2">
+		
+		<xp:div styleClass="row"
+			style="background-color:rgb(192,192,192)">
+			<xp:label
+				value="Resultado Texto uno debajo del otro de: cursoDevuelvoTexto:"
+				id="labelNOSE" styleClass="col-sm-2">
 			</xp:label>
 			<xp:div styleClass="col-sm-5">
 				<xp:inputTextarea id="inputTextarea1">
 					<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
 var javaClassQuery:GetQueryAS400 = new GetQueryAS400();
-javaClassQuery.getSelectAS("PH_E01_2", null, false);}]]></xp:this.value>
-
+javaClassQuery.getSelectAS("cursoDevuelvoTextoOrdenado_PH_E01", null, false);}]]></xp:this.value>
 					<xp:this.multipleSeparator><![CDATA[#{javascript:"\n"}]]></xp:this.multipleSeparator>
 				</xp:inputTextarea>
 			</xp:div>
 
 		</xp:div>
 		<br />
-		<br />
 		</xp:div><xp:div styleClass="container form-inline form-group">
-	<xp:label value="dataObjEdificio" id="label3"></xp:label>
+	<xp:label value="Repeat de cursoDevuelvoTexto" id="label3"></xp:label>
 	<xp:table title="Tabla" styleClass="table-hover">
 			<xp:repeat id="repeat1" rows="30" var="rowData" style="width:400px">
 				<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
 var javaClassQuery:GetQueryAS400 = new GetQueryAS400();
-return javaClassQuery.getSelectAS("PH_E01_1", null, false);}]]></xp:this.value>
+return javaClassQuery.getSelectAS("cursoDevuelvoTexto_PH_E01", null, false);}]]></xp:this.value>
 
 				<xp:this.facets>
 					<xp:text xp:key="header" escape="false">

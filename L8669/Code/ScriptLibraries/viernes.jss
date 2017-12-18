@@ -1,4 +1,4 @@
-function viernes(){
+function getQuediaEsHoy(){
 	return @Today();
 }
 

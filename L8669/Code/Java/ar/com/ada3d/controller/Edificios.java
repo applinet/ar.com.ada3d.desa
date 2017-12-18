@@ -141,7 +141,7 @@ public class Edificios implements Serializable{
 		GetQueryAS400 query = new ar.com.ada3d.connect.GetQueryAS400();
 		ArrayList<String> nl = null;
 		try {
-			nl = query.getSelectAS("dataObjEdificio",
+			nl = query.getSelectAS("controllerEdificios",
 					null, false);
 		} catch (NotesException e) {
 			// TODO Auto-generated catch block

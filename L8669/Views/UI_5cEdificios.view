@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='832581D800495D1C'>
-<noteinfo noteid='4a2' unid='049130213F98188A032581E000723F83' sequence='6'>
+<noteinfo noteid='4a2' unid='049130213F98188A032581E000723F83' sequence='7'>
 <created><datetime>20171122T174753,63-03</datetime></created>
-<modified><datetime>20171122T174937,48-03</datetime></modified>
-<revised><datetime>20171122T174937,47-03</datetime></revised>
-<lastaccessed><datetime dst='true'>20171129T030147,91-02</datetime></lastaccessed>
+<modified><datetime dst='true'>20171218T141810,66-02</datetime></modified>
+<revised><datetime dst='true'>20171218T141810,64-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171218T141810,65-02</datetime></lastaccessed>
 <addedtofile><datetime>20171122T174753,63-03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -13,10 +13,9 @@
 <item name='$TITLE' sign='true'><text>UI\Edificios|v.UI.Edificios</text></item>
 <item name='$Index' sign='true'><text/></item>
 <item name='$FORMULA' summary='true' sign='true'><formula compiled='true'>
-rAAFAEYAQQAEABMAFQAJAAQAZWRpZmljaW9fY29kaWdvU2FzYWVkaWZpY2lvX2NvZGlnb1Byb3Bp
-byRDb25mbGljdCRSRUYABAAEAAAASAAFAAQARm9ybQEADgBEYXRvc0VkaWZpY2lvcwoCBAAFAAQA
-Rm9ybQEAEABmLkRhdG9zRWRpZmljaW9zCgIEAB0CBAADAAcAGAASAAlMMVM0UzVTN1M4UzEwUzEx
-Uw==
+pgAFAEYAQQAEABMAFQAJAAQAZWRpZmljaW9fY29kaWdvU2FzYWVkaWZpY2lvX2NvZGlnb1Byb3Bp
+byRDb25mbGljdCRSRUYABAAEAAAAQgAFAAQARm9ybQEADgBEYXRvc0VkaWZpY2lvcwoCBAAFAAQA
+Rm9ybQEACgBmLkVkZkRhdG9zCgIEAB0CBAADAAcAGAASAAlMMVM0UzVTN1M4UzEwUzExUw==
 </formula></item>
 <item name='$COLLATION' summary='true'>
 <rawitemdata type='2'>
