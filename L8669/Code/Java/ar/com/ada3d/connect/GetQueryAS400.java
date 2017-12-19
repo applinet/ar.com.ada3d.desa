@@ -15,6 +15,8 @@ import org.openntf.domino.Document;
 import ar.com.ada3d.utilidades.CfgDataSource;
 import ar.com.ada3d.utilidades.CfgTablas;
 import ar.com.ada3d.utilidades.JSFUtil;
+import ar.com.hdi.autos.utilidades.DocProfile;
+import ar.com.hdi.autos.utilidades.ODBCProfile;
 
 import lotus.domino.NotesException;
 
@@ -114,6 +116,46 @@ public class GetQueryAS400 implements Serializable {
 	}
 
 		
+	public String updateAS(String param_clave, Document param_doc, boolean param_booDescColumnas){
+		Connection connection = null;
+		String result = "";
+		
+		if (!initConexion()) return null;
+		Document docTabla = JSFUtil.getDocConexiones_y_Tablas(param_clave);
+		if (docTabla == null) return null;
+		CfgTablas configTabla = new CfgTablas(docTabla);
+
+		//INI - Siempre hay que hacer esto para que complete la biblioteca en el sql
+		if (param_doc == null){
+			//Invento un doc y le paso la biblioteca de la base que estoy
+			Document docDummy = JSFUtil.getDocDummy();
+			docDummy.appendItemValue("biblioteca", JSFUtil.getBiblioteca("B"));
+			configTabla.setStrsSQL(docDummy);
+		}else{
+			//Al doc que tengo le agrego la biblioteca
+			param_doc.appendItemValue("biblioteca", JSFUtil.getBiblioteca("B"));
+			configTabla.setStrsSQL(param_doc);
+		}	 
+		//FIN - Siempre hay que hacer esto para que complete la biblioteca en el sql
+		
+		//SEGUIR ACA
+		
+		
+		DriverManager.registerDriver(new com.ibm.as400.access.AS400JDBCDriver());
+
+		connection = createConnection(docConf.getUrlConexion(), docConf.getUserWrite(), docConf.getPassWrite());
+
+		Statement stmt = connection.createStatement();
+
+		int resultStrSql = stmt.executeUpdate(strSQL);
+		if (resultStrSql > 0) {
+			result = "OK";
+		} else {
+			result = "ERROR";
+		}
+	}
+	
+	
 	public static void close(Connection connection) {
 		try {
 			if (connection != null) {

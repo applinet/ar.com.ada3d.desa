@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.io.Serializable;
 import javax.faces.model.SelectItem;
-
 import ar.com.ada3d.model.Edificio;
 import ar.com.ada3d.utilidades.*;
 import lotus.domino.NotesException;
@@ -25,10 +24,11 @@ public class Edificios implements Serializable{
 		AddEdificiosAs400();
 	}
 
+	private Edificio edificio;
 	
 	private static final long serialVersionUID = 1L;
 	HashMap<String, Edificio> hmEdificios = new HashMap<String,Edificio>();
-	static ArrayList<Edificio> edificios = new ArrayList<Edificio>();
+	private static List<Edificio> edificios;
 	private static DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 	
 	/*
@@ -149,24 +149,46 @@ public class Edificios implements Serializable{
 		}
 		
 		for (String strLinea : nl){
+			 if (edificios==null) {
+				edificios = new ArrayList<Edificio>();
+			 }
 			Edificio myEdificio = new Edificio();
 			myEdificio.setEdf_codigo(strLinea.split("\\|")[0].trim());
 			myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
 			myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim());
 			myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
 			edificios.add(myEdificio);
-			AddEdificioMap(myEdificio); //Lo agrego al mapa por código
+			AddEdificioMap(myEdificio); //Lo agrego al mapa por código	 
+			
 		}
 	}
 
 
-	public static ArrayList<Edificio> getEdificios() {
+	public void saveEdificio() {
+		System.out.println("save: " + edificio.getEdf_direccion());
+	}
+	
+	
+	public List<Edificio> getEdificios() {
 		return edificios;
+	}
+	
+	
+
+	public void setEdificios(ArrayList<Edificio> edificios) {
+		Edificios.edificios = edificios;
 	}
 
 
-	public static void setEdificios(ArrayList<Edificio> edificios) {
-		Edificios.edificios = edificios;
+
+	public Edificio getEdificio() {
+		return edificio;
+	}
+
+
+
+	public void setEdificio(Edificio edificio) {
+		this.edificio = edificio;
 	}
 	
 	

@@ -9,7 +9,7 @@
 			<xp:label id="fecha1" styleClass="col-sm-2">
 				<xp:this.value><![CDATA[#{javascript:importPackage(test);
 var elnombrequequiera = new test();
-return elnombrequequiera.devolvemeunstring();}]]></xp:this.value>
+return elnombrequequiera.devolvemeunnumeroentexto();}]]></xp:this.value>
 			</xp:label>
 			<xp:label
 				value="Java: Importo un paquete y llamo a una funcion de la clase: test"

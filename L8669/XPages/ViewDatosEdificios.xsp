@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+
+	<xp:dataTable id="edificioTable" rows="5" var="currentEdificio"
+		value="#{Edificios.edificios}">
+		<xp:this.facets>
+			<xp:pager layout="Previous Group Next" xp:key="header" id="pager1">
+			</xp:pager>
+			<xp:pager layout="Previous Group Next" xp:key="footer" id="pager2">
+			</xp:pager>
+		</xp:this.facets>
+		
+		<xp:column id="edf_codigoColumn">
+			<xp:text escape="true" value="#{currentEdificio.edf_codigo}"
+				id="edf_codigo"></xp:text>
+		</xp:column>
+		
+		<xp:column id="edf_direccionColumn">
+			<xp:link escape="true" text="#{currentEdificio.edf_direccion}"
+				id="edf_direccion">
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="complete">
+					<xp:this.action><![CDATA[#{javascript:Edificios.setEdificio(Edificios.getEdificioMap(currentEdificio.edf_codigo));
+context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
+				</xp:eventHandler>
+			</xp:link>
+		</xp:column>
+		
+		<xp:column id="edf_codigoVisualColumn">
+			<xp:text escape="true" value="#{currentEdificio.edf_codigoVisual}"
+				id="edf_codigoVisual"></xp:text>
+		</xp:column>
+		
+	</xp:dataTable>
+</xp:view>

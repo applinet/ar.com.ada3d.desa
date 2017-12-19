@@ -18,6 +18,10 @@ public class test {
 		return "palabra - viernes";
 	}
 
+	public String devolvemeunnumeroentexto() {
+		return "quince";
+	}
+	
 	public int devolvemeunnumero(){
 		return 1;
 		

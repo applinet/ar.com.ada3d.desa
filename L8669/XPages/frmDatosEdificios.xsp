@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xc:ccLayoutBootstrap>
+		<xp:this.facets>
+			<xp:panel xp:key="facetMiddle">
+
+				<xe:formTable id="tblEdificio" formTitle="Edificio XXX"
+					formDescription="Tiene 54 unidades funcionales" fieldHelp="true"
+					disableErrorSummary="false" disableRowError="false"
+					style="padding-left:20.0%;padding-right:20.0%">
+
+					<xe:formRow id="rowDireccion" label="Domicilio"
+						labelPosition="left">
+						<xp:inputText id="edf_direccion"
+							value="#{Edificios.edificio.edf_direccion}" required="true">
+							<xp:this.validators>
+								<xp:validateRequired message="La dirección es un campo requerido.">
+								</xp:validateRequired>
+							</xp:this.validators>
+						</xp:inputText>
+					</xe:formRow>
+					
+					<xe:formRow id="formRow1" label="Codigo Visual"
+						labelPosition="left">
+						<xp:inputText id="inputText1"
+							value="#{Edificios.edificio.edf_codigoVisual}" required="true">
+							<xp:this.validators>
+								<xp:validateRequired message="El codigo visual es un campo requerido.">
+								</xp:validateRequired>
+							</xp:this.validators>
+						</xp:inputText>
+					</xe:formRow>
+
+					<xe:this.facets>
+						<xp:div xp:key="footer">
+							<xp:button value="Modificar" id="btnEdit">
+								<xp:eventHandler event="onclick" submit="true"
+									refreshMode="complete">
+
+								</xp:eventHandler>
+							</xp:button>
+							<xp:button value="Cerrar" id="button1">
+								<xp:eventHandler event="onclick" submit="true"
+									refreshMode="complete">
+
+								</xp:eventHandler>
+							</xp:button>
+							<xp:button value="Confirmar" id="button2">
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete">
+
+									<xp:this.action><![CDATA[#{javascript:Edificios.saveEdificio()}]]></xp:this.action>
+								</xp:eventHandler>
+							</xp:button>
+						</xp:div>
+					</xe:this.facets>
+				</xe:formTable>
+			</xp:panel>
+
+
+
+
+		</xp:this.facets>
+	</xc:ccLayoutBootstrap>
+	
+</xp:view>
