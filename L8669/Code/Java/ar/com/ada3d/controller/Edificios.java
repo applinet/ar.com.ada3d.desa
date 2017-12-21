@@ -25,7 +25,6 @@ public class Edificios implements Serializable {
 	}
 
 	private Edificio edificio;
-
 	private static final long serialVersionUID = 1L;
 	HashMap<String, Edificio> hmEdificios = new HashMap<String, Edificio>();
 	private static List<Edificio> edificios;
@@ -152,6 +151,11 @@ public class Edificios implements Serializable {
 	 * Agrego Edificios consultando As400, cada linea separa el dato por un pipe
 	 */
 	public void AddEdificiosAs400() {
+		if (!(edificios == null)){
+			edificios.clear();
+			hmEdificios.clear();
+			
+		}	
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		ArrayList<String> nl = null;
 		Edificio myEdificio;
@@ -160,21 +164,37 @@ public class Edificios implements Serializable {
 		} catch (NotesException e) {
 			e.printStackTrace();
 		}
-
 		for (String strLinea : nl) {
 			if (edificios == null) {
-				System.out.println("Add400 - edificios null");
 				edificios = new ArrayList<Edificio>();
-			}	
-				myEdificio = new Edificio();
-				myEdificio.setEdf_codigo(strLinea.split("\\|")[0].trim());
-				myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
-				myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim());
-				myEdificio
-						.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
-				edificios.add(myEdificio);
-				AddEdificioMap(myEdificio); // Lo agrego al mapa por código
-			
+			}
+			myEdificio = new Edificio();
+			myEdificio.setEdf_codigo(strLinea.split("\\|")[0].trim());
+			myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
+			myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim());
+			myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
+			edificios.add(myEdificio);
+			AddEdificioMap(myEdificio); // Lo agrego al mapa por código
+		}
+	}
+
+	
+	public void updateEdificiosAs400() {
+		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
+		ArrayList<String> nl = null;
+		Edificio myEdificio;
+		try {
+			nl = query.getSelectAS("controllerEdificios", null, false);
+		} catch (NotesException e) {
+			e.printStackTrace();
+		}
+		for (String strLinea : nl) {
+			System.out.println("Ya ");
+			myEdificio = getEdificioMap(strLinea.split("\\|")[0].trim());
+			myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
+			myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim());
+			myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
+		
 		}
 	}
 

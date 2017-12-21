@@ -2,36 +2,48 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
 
 	
-	<xp:dataTable id="edificiosTable" rows="5" var="currentEdificio"
+	<xp:dataTable id="edificiosTable" rows="5" var="unEdificio"
 		value="#{Edificios.edificios}">
-		
+
 		<xp:this.facets>
-			<xp:pager layout="Previous Group Next" xp:key="header" id="pagerHeader">
+			<xp:pager layout="Previous Group Next" xp:key="header"
+				id="pagerHeader">
 			</xp:pager>
-			<xp:pager layout="Previous Group Next" xp:key="footer" id="pagerFooter">
+			<xp:pager layout="Previous Group Next" xp:key="footer"
+				id="pagerFooter">
 			</xp:pager>
 		</xp:this.facets>
-		
+
 		<xp:column id="edf_codigoColumn">
-			<xp:text escape="true" value="#{currentEdificio.edf_codigo}"
-				id="edf_codigo"></xp:text>
+			<xp:text escape="true" value="#{unEdificio.edf_codigo}"
+				id="edf_codigo">
+			</xp:text>
 		</xp:column>
-		
+
 		<xp:column id="edf_direccionColumn">
-			<xp:link escape="true" text="#{currentEdificio.edf_direccion}"
+			<xp:link escape="true" text="#{unEdificio.edf_direccion}"
 				id="edf_direccion">
 				<xp:eventHandler event="onclick" submit="true"
-					refreshMode="complete">
-					<xp:this.action><![CDATA[#{javascript:Edificios.setEdificio(currentEdificio);
+					refreshMode="complete" id="eventHandler1">
+					<xp:this.action><![CDATA[#{javascript:Edificios.setEdificio(unEdificio);
 context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
 				</xp:eventHandler>
 			</xp:link>
 		</xp:column>
-		
-		<xp:column id="edf_codigoVisualColumn">
-			<xp:text escape="true" value="#{currentEdificio.edf_codigoVisual}"
-				id="edf_codigoVisual"></xp:text>
+
+		<xp:column id="column1">
+			<xp:text escape="true"
+				value="#{unEdificio.edf_codigoVisual}" id="edf_codigoVisual">
+			</xp:text>
 		</xp:column>
-		
+		<xp:column id="edf_codigoVisualColumn">
+
+			<xp:text escape="true" value="#{unEdificio.edf_provincia}"
+				id="Intereses">
+			</xp:text>
+		</xp:column>
+
+		<xp:column id="column2"></xp:column>
+		<xp:column id="column3"></xp:column>
 	</xp:dataTable>
 </xp:view>

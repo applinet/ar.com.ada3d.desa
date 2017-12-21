@@ -21,17 +21,22 @@
 						</xp:inputText>
 					</xe:formRow>
 					
-					<xe:formRow id="formRow1" label="Codigo Visual"
+					<xe:formRow id="formRowCodigoVisual" label="Codigo Visual"
 						labelPosition="left">
-						<xp:inputText id="inputText1"
+						<xp:inputText id="edf_codigoVisual"
 							value="#{Edificios.edificio.edf_codigoVisual}" required="true">
 							<xp:this.validators>
-								<xp:validateRequired message="El codigo visual es un campo requerido.">
+								<xp:validateRequired
+									message="El codigo visual es un campo requerido.">
 								</xp:validateRequired>
 							</xp:this.validators>
 						</xp:inputText>
 					</xe:formRow>
 
+
+					
+					
+					
 					<xe:this.facets>
 						<xp:div xp:key="footer">
 							<xp:button value="Modificar" id="btnEdit">

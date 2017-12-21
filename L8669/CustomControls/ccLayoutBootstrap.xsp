@@ -19,8 +19,7 @@
 		print("INVALIDO LA SESSION");
 		facesContext.getExternalContext().getSession( false ).invalidate();
 	}   
-}
-}]]></xp:this.beforePageLoad>
+}}]]></xp:this.beforePageLoad>
 
 	<xp:this.afterPageLoad><![CDATA[#{javascript:if (!userBean.accessRoles.toString().contains('[usrInitial]')){
 	if	(!sessionScope.edificioSelected)
@@ -36,7 +35,7 @@
 					xp:key="MastHeader" queryExpr="#{javascript:return '*\$\{0\}*';}"
 					autoComplete="false" style="width:400.0px">
 
-					<xp:selectItems>
+					<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered><xp:selectItems>
 						<xp:this.value><![CDATA[#{javascript:Edificios.getComboboxMyEdificios()}]]></xp:this.value>
 					</xp:selectItems>
 					<xe:this.dojoAttributes>
