@@ -46,8 +46,8 @@ return elnombrequequiera.devolvemeunnumeroentexto();}]]></xp:this.value>
 					styleClass="dropdown-toggle">
 					<xp:selectItems id="selectItems6">
 						<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
-var javaClassQuery:GetQueryAS400 = new GetQueryAS400();
-javaClassQuery.getSelectAS("curso_PH_E01", null, false);}]]></xp:this.value>
+var javaClassQuery:QueryAS400 = new QueryAS400();
+javaClassQuery.getSelectAS("_*_curso_PH_E01", null, false);}]]></xp:this.value>
 					</xp:selectItems>
 
 					<xp:eventHandler event="onchange" submit="true"
@@ -60,29 +60,18 @@ javaClassQuery.getSelectAS("curso_PH_E01", null, false);}]]></xp:this.value>
 		</xp:div>
 		<xp:br />
 		<xp:br />
-		<xp:div styleClass="row">
-			<xp:label value="Resultado Texto de: cursoDevuelvoTexto" id="labelTickets" styleClass="col-sm-2">
-			</xp:label>
-			<xp:div styleClass="col-sm-5">
-				<xp:text id="computedField1">
-					<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
-var javaClassQuery:GetQueryAS400 = new GetQueryAS400();
-javaClassQuery.getSelectAS("cursoDevuelvoTexto_PH_E01", null, false);}]]></xp:this.value>
-				</xp:text>
-			</xp:div>
-		</xp:div>
-		
+				
 		<xp:div styleClass="row"
 			style="background-color:rgb(192,192,192)">
 			<xp:label
 				value="Resultado Texto uno debajo del otro de: cursoDevuelvoTexto:"
 				id="labelNOSE" styleClass="col-sm-2">
 			</xp:label>
-			<xp:div styleClass="col-sm-5">
+			<xp:div styleClass="col-sm-8">
 				<xp:inputTextarea id="inputTextarea1">
 					<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
-var javaClassQuery:GetQueryAS400 = new GetQueryAS400();
-javaClassQuery.getSelectAS("cursoDevuelvoTextoOrdenado_PH_E01", null, false);}]]></xp:this.value>
+var javaClassQuery:QueryAS400 = new QueryAS400();
+javaClassQuery.getSelectAS("_*_cursoDevuelvoTextoOrdenado_PH_E01", null, false);}]]></xp:this.value>
 					<xp:this.multipleSeparator><![CDATA[#{javascript:"\n"}]]></xp:this.multipleSeparator>
 				</xp:inputTextarea>
 			</xp:div>
@@ -94,8 +83,8 @@ javaClassQuery.getSelectAS("cursoDevuelvoTextoOrdenado_PH_E01", null, false);}]]
 	<xp:table title="Tabla" styleClass="table-hover">
 			<xp:repeat id="repeat1" rows="30" var="rowData" style="width:400px">
 				<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
-var javaClassQuery:GetQueryAS400 = new GetQueryAS400();
-return javaClassQuery.getSelectAS("cursoDevuelvoTexto_PH_E01", null, false);}]]></xp:this.value>
+var javaClassQuery:QueryAS400 = new QueryAS400();
+return javaClassQuery.getSelectAS("_*_cursoDevuelvoTexto_PH_E01", null, false);}]]></xp:this.value>
 
 				<xp:this.facets>
 					<xp:text xp:key="header" escape="false">

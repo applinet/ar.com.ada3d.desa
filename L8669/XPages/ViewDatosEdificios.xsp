@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
 
-	<xp:dataTable id="edificioTable" rows="5" var="currentEdificio"
+	
+	<xp:dataTable id="edificiosTable" rows="5" var="currentEdificio"
 		value="#{Edificios.edificios}">
+		
 		<xp:this.facets>
-			<xp:pager layout="Previous Group Next" xp:key="header" id="pager1">
+			<xp:pager layout="Previous Group Next" xp:key="header" id="pagerHeader">
 			</xp:pager>
-			<xp:pager layout="Previous Group Next" xp:key="footer" id="pager2">
+			<xp:pager layout="Previous Group Next" xp:key="footer" id="pagerFooter">
 			</xp:pager>
 		</xp:this.facets>
 		
@@ -20,7 +22,7 @@
 				id="edf_direccion">
 				<xp:eventHandler event="onclick" submit="true"
 					refreshMode="complete">
-					<xp:this.action><![CDATA[#{javascript:Edificios.setEdificio(Edificios.getEdificioMap(currentEdificio.edf_codigo));
+					<xp:this.action><![CDATA[#{javascript:Edificios.setEdificio(currentEdificio);
 context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
 				</xp:eventHandler>
 			</xp:link>
