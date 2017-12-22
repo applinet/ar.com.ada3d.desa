@@ -20,7 +20,7 @@ import ar.com.ada3d.utilidades.DocUsr;
 public class Edificios implements Serializable {
 
 	public Edificios() {
-		System.out.println("Constructor Edificios y llamada AddEdificiosAS400");
+		//System.out.println("Constructor Edificios y llamada AddEdificiosAS400");
 		AddEdificiosAs400();
 	}
 
@@ -42,9 +42,7 @@ public class Edificios implements Serializable {
 	 */
 	public static List<SelectItem> getComboboxMyEdificios() {
 		List<SelectItem> options = new ArrayList<SelectItem>();
-		System.out.println("getComboboxMyEdificios");
 		for (Edificio miEdificio : edificios) {
-			System.out.println("Edf:" + miEdificio.getEdf_codigo());
 			if (!docUsuario.getEdificiosNoAccessLista().contains(
 					miEdificio.getEdf_codigo())) { // Solo edificios autorizados
 				SelectItem option = new SelectItem();
@@ -173,6 +171,7 @@ public class Edificios implements Serializable {
 			myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
 			myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim());
 			myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
+			myEdificio.setEdf_codigoPostal(strLinea.split("\\|")[4].trim());
 			edificios.add(myEdificio);
 			AddEdificioMap(myEdificio); // Lo agrego al mapa por código
 		}

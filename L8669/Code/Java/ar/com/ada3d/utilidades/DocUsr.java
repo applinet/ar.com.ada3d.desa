@@ -13,7 +13,7 @@ public class DocUsr implements Serializable{
 
 
 	public DocUsr() {
-		System.out.println("Constructor DocUsr");
+		//System.out.println("Constructor DocUsr");
 		this._map = new HashMap<String, String>();
 		
 		updateDocUsr();
