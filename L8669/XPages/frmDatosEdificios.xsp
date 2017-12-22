@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
-	<xc:ccLayoutBootstrap>
+	<xc:ccLayoutBootstrap property_ShowComboEdificio="true">
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle">
 
@@ -15,14 +15,15 @@
 						<xp:inputText id="edf_direccion"
 							value="#{Edificios.edificio.edf_direccion}" required="true">
 							<xp:this.validators>
-								<xp:validateRequired message="La dirección es un campo requerido.">
+								<xp:validateRequired
+									message="La dirección es un campo requerido.">
 								</xp:validateRequired>
 							</xp:this.validators>
 						</xp:inputText>
 					</xe:formRow>
-					
-					<xe:formRow id="formRowCodigoVisual" label="Codigo Visual"
-						labelPosition="left">
+
+					<xe:formRow id="formRowCodigoVisual"
+						label="Codigo Visual" labelPosition="left">
 						<xp:inputText id="edf_codigoVisual"
 							value="#{Edificios.edificio.edf_codigoVisual}" required="true">
 							<xp:this.validators>
@@ -34,20 +35,20 @@
 					</xe:formRow>
 
 
-					
-					
-					
+
+
+
 					<xe:this.facets>
 						<xp:div xp:key="footer">
 							<xp:button value="Modificar" id="btnEdit">
-								<xp:eventHandler event="onclick" submit="true"
-									refreshMode="complete">
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete">
 
 								</xp:eventHandler>
 							</xp:button>
 							<xp:button value="Cerrar" id="button1">
-								<xp:eventHandler event="onclick" submit="true"
-									refreshMode="complete">
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete">
 
 								</xp:eventHandler>
 							</xp:button>
@@ -68,5 +69,5 @@
 
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>
-	
+
 </xp:view>

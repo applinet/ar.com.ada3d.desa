@@ -13,73 +13,85 @@ x$( "#{id:button1}" ).popover();
 );
 ]]></xp:this.value>
 	</xp:scriptBlock>
-	<xc:ccLayoutBootstrap>
+	<xc:ccLayoutBootstrap property_ShowComboEdificio="true">
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle">
 				<xp:br></xp:br>
-				<button type="button" id="example" class="btn btn-lg btn-danger"
-					data-toggle="popover" title="Bootstrap Popover"
+				<button type="button" id="example"
+					class="btn btn-lg btn-danger" data-toggle="popover"
+					title="Bootstrap Popover"
 					data-content="And here's some amazing content. It's very engaging. Right?">
 					Bootstrap Popover
-</button>
+				</button>
 				<xp:br></xp:br>
 				<xp:br></xp:br>
 				<xp:button value="Bootstrap Popover" id="button1"
-					styleClass="btn btn-primary btn-lg" style="color:rgb(255,255,255)">
+					styleClass="btn btn-primary btn-lg"
+					style="color:rgb(255,255,255)">
 					<xp:this.attrs>
 						<xp:attr name="data-toggle" value="popover"></xp:attr>
-						<xp:attr name="title" value="Bootstrap Popover"></xp:attr>
+						<xp:attr name="title"
+							value="Bootstrap Popover">
+						</xp:attr>
 						<xp:attr name="data-content"
-							value="Add small overlays of content, like those on the iPad, to any element for housing secondary information."></xp:attr>
+							value="Add small overlays of content, like those on the iPad, to any element for housing secondary information.">
+						</xp:attr>
 					</xp:this.attrs>
 					<span class="glyphicon glyphicon-question-sign"></span>
 				</xp:button>
 				<xp:br></xp:br>
 				<xp:br></xp:br>
-				<xe:dropDownButton id="dropDownButton1" style="font-weight:bold">
-				<xe:this.treeNodes>
-					<xe:basicContainerNode
-						label="#{sessionScope.edificioSelected}">
-						<xe:this.children>
-							<xe:repeatTreeNode var="rptEdificios"
-								value="#{javascript:Edificios.getMyEdificios()}"
-								indexVar="idxEdificios">
-								<xe:this.children>
-									<xe:basicLeafNode
-										label="#{javascript:rptEdificios}"
-										submitValue="#{javascript:rptEdificios}">
+				<xe:dropDownButton id="dropDownButton1"
+					style="font-weight:bold">
+					<xe:this.treeNodes>
+						<xe:basicContainerNode
+							label="#{sessionScope.edificioSelected}">
+							<xe:this.children>
+								<xe:repeatTreeNode var="rptEdificios"
+									value="#{javascript:Edificios.getMyEdificios()}"
+									indexVar="idxEdificios">
+									<xe:this.children>
+										<xe:basicLeafNode
+											label="#{javascript:rptEdificios}"
+											submitValue="#{javascript:rptEdificios}">
 
-									</xe:basicLeafNode>
-								</xe:this.children>
-							</xe:repeatTreeNode>
-						</xe:this.children>
-					</xe:basicContainerNode>
-				</xe:this.treeNodes>
-				<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
-				<xp:eventHandler event="onItemClick" submit="true"
-					refreshMode="partial">
-					<xe:this.action>
-						<![CDATA[#{javascript:sessionScope.edificioSelected = context.getSubmittedValue()}]]>
-					</xe:this.action>
-				</xp:eventHandler>
-			</xe:dropDownButton>
-				
+										</xe:basicLeafNode>
+									</xe:this.children>
+								</xe:repeatTreeNode>
+							</xe:this.children>
+						</xe:basicContainerNode>
+					</xe:this.treeNodes>
+					<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
+					<xp:eventHandler event="onItemClick" submit="true"
+						refreshMode="partial">
+						<xe:this.action>
+							<![CDATA[#{javascript:sessionScope.edificioSelected = context.getSubmittedValue()}]]>
+						</xe:this.action>
+					</xp:eventHandler>
+				</xe:dropDownButton>
+
 				<xp:br></xp:br>
-				<xp:br></xp:br>Edificio:&#160;<xp:comboBox id="comboBox1">
+				<xp:br></xp:br>
+				Edificio:&#160;
+				<xp:comboBox id="comboBox1">
 
-						<xp:selectItem itemLabel="--Seleccionar Edificio--" itemValue="0"></xp:selectItem>
-						<xp:selectItems>
-							<xp:this.value><![CDATA[#{javascript:Edificios.getComboboxMyEdificiosTrabajo()}]]></xp:this.value>
-						</xp:selectItems>
+					<xp:selectItem itemLabel="--Seleccionar Edificio--"
+						itemValue="0">
+					</xp:selectItem>
+					<xp:selectItems>
+						<xp:this.value><![CDATA[#{javascript:Edificios.getComboboxMyEdificiosTrabajo()}]]></xp:this.value>
+					</xp:selectItems>
 
-					</xp:comboBox>
-					<xp:br></xp:br>
-					<xp:br></xp:br>
-					Edificio:&#160;<xp:inputText id="inputText1">
+				</xp:comboBox>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				Edificio:&#160;
+				<xp:inputText id="inputText1">
 
-						<xp:typeAhead var="startValue" valueMarkup="true" ignoreCase="true" mode="partial">
+					<xp:typeAhead var="startValue" valueMarkup="true"
+						ignoreCase="true" mode="partial">
 
-							<xp:this.valueList>
+						<xp:this.valueList>
 
 							<![CDATA[#{javascript:var result = "<ul>";
 var listaEdificios = Edificios.getObjDataEdificiosPorUsuario();
@@ -96,33 +108,38 @@ for (var i = 0; i < listaEdificios.length; i++) {
 return result + "</ul>";
 }]]>
 
-							</xp:this.valueList>
+						</xp:this.valueList>
 
-						</xp:typeAhead>
+					</xp:typeAhead>
 
-					</xp:inputText>
-					<xe:valuePicker id="valuePicker1" for="inputText1" dialogTitle="Select a category">
-						<xe:this.dataProvider>
-							<xe:simpleValuePicker valueList="#{javascript:Edificios.getMyEdificios();}">
-
-
-							</xe:simpleValuePicker>
-						</xe:this.dataProvider>
-					</xe:valuePicker>
+				</xp:inputText>
+				<xe:valuePicker id="valuePicker1" for="inputText1"
+					dialogTitle="Select a category">
+					<xe:this.dataProvider>
+						<xe:simpleValuePicker
+							valueList="#{javascript:Edificios.getMyEdificios();}">
 
 
-					<xp:br></xp:br>
-					<xp:br></xp:br>
-					
-					Edificio:&#160;<xe:djFilteringSelect id="djFilteringSelect2" queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false">
-						<xp:selectItems>
-							<xp:this.value><![CDATA[#{javascript:Edificios.getComboboxMyEdificiosTrabajo()}]]></xp:this.value>
-						</xp:selectItems>
+						</xe:simpleValuePicker>
+					</xe:this.dataProvider>
+				</xe:valuePicker>
 
-					</xe:djFilteringSelect>
-					<xp:br></xp:br>
 
-					</xp:panel>
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+
+				Edificio:&#160;
+				<xe:djFilteringSelect id="djFilteringSelect2"
+					queryExpr="#{javascript:return '*\$\{0\}*';}"
+					autoComplete="false">
+					<xp:selectItems>
+						<xp:this.value><![CDATA[#{javascript:Edificios.getComboboxMyEdificiosTrabajo()}]]></xp:this.value>
+					</xp:selectItems>
+
+				</xe:djFilteringSelect>
+				<xp:br></xp:br>
+
+			</xp:panel>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>
 	<script>$('#example').popover()</script>
