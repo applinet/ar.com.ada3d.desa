@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='832581D800495D1C'>
-<noteinfo noteid='41e' unid='583C03267ECD7A7D032581D9006E25D1' sequence='11'>
+ replicaid='83258203004F19D9'>
+<noteinfo noteid='3a6' unid='583C03267ECD7A7D032581D9006E25D1' sequence='11'>
 <created><datetime>20171115T170306,41-03</datetime></created>
-<modified><datetime>20171122T154830,21-03</datetime></modified>
+<modified><datetime dst='true'>20171227T122402,85-02</datetime></modified>
 <revised><datetime>20171122T154830,20-03</datetime></revised>
-<lastaccessed><datetime dst='true'>20171128T152432,34-02</datetime></lastaccessed>
-<addedtofile><datetime>20171115T170306,49-03</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171227T145324,17-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171227T122402,85-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$FORMULACLASS' sign='true'><text>1</text></item>
@@ -44,7 +44,6 @@ AAAAAAAAAAAAAP//AAAAAAAAAAAAAAAAAABCAAAAAAABAP///wAFAP///wABAAAAAAAAAAAAAAAA
 AAEA////AAEA////AAAAAQAAAAAAAQAAAAAAAQAAAAAAAAAIAAAAAAABAA==
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
-<item name='$Flags'><text>PY</text></item>
 <item name='$V5ACTIONS' sign='true'>
 <rawitemdata type='1'>
 vRw/AAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAPDw8AABAAAAAAAJAAAAAAABAPDw8AAA
@@ -54,5 +53,6 @@ AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/1QAAAABAAAAnwEAAAYAAAAAAAAAQ3JlYXIgOAAAACoA
 AgDoAwAAAAAAAAEAFABmLkRhdG9zQWRtaW5pc3RyYWRvcu0CAwAHAAwABQAJMFMwRQA=
 </rawitemdata></item>
 <item name='$TITLE' sign='true'><text>UI\Administradores|v.UI.Administradores</text></item>
-<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item></note>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
+<item name='$Flags'><text>Y</text></item></note>
 

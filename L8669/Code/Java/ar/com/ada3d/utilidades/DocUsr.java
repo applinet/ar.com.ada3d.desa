@@ -13,7 +13,7 @@ public class DocUsr implements Serializable{
 
 
 	public DocUsr() {
-		//System.out.println("Constructor DocUsr");
+		System.out.println("Constructor DocUsr");
 		this._map = new HashMap<String, String>();
 		
 		updateDocUsr();
@@ -158,6 +158,10 @@ public class DocUsr implements Serializable{
 
 	public Vector<Object> getEdificiosNoAccessLista() {
 		return edificiosNoAccessLista;
+	}
+
+	public void setEdificiosNoAccessLista(Vector<Object> edificiosNoAccessLista) {
+		this.edificiosNoAccessLista = edificiosNoAccessLista;
 	}
 
 }

@@ -20,14 +20,14 @@ import ar.com.ada3d.utilidades.DocUsr;
 public class Edificios implements Serializable {
 
 	public Edificios() {
-		//System.out.println("Constructor Edificios y llamada AddEdificiosAS400");
+		System.out.println("Constructor Edificios y llamada AddEdificiosAS400");
 		AddEdificiosAs400();
 	}
 
 	private Edificio edificio;
 	private static final long serialVersionUID = 1L;
 	HashMap<String, Edificio> hmEdificios = new HashMap<String, Edificio>();
-	private static List<Edificio> edificios;
+	private static List<Edificio> listaEdificios;
 	private static DocUsr docUsuario = (DocUsr) JSFUtil
 			.resolveVariable("DocUsr");
 
@@ -42,7 +42,12 @@ public class Edificios implements Serializable {
 	 */
 	public static List<SelectItem> getComboboxMyEdificios() {
 		List<SelectItem> options = new ArrayList<SelectItem>();
-		for (Edificio miEdificio : edificios) {
+		boolean pepe = docUsuario == null ? true : false;
+		System.out.println("FIXME: docUsuario es null: " + pepe );
+		pepe = docUsuario.getEdificiosNoAccessLista() == null ? true : false;
+		System.out.println("FIXME: docUsuario.getEdificiosNoAccessLista es null: " + pepe);
+		for (Edificio miEdificio : listaEdificios) {
+			
 			if (!docUsuario.getEdificiosNoAccessLista().contains(
 					miEdificio.getEdf_codigo())) { // Solo edificios autorizados
 				SelectItem option = new SelectItem();
@@ -70,7 +75,7 @@ public class Edificios implements Serializable {
 	 */
 	public static List<SelectItem> getComboboxMyEdificiosTrabajo() {
 		List<SelectItem> options = new ArrayList<SelectItem>();
-		for (Edificio miEdificio : edificios) {
+		for (Edificio miEdificio : listaEdificios) {
 			if (miEdificio.getEdf_estadoProceso().equals("1")) { // solo
 																	// estado=1
 				if (!docUsuario.getEdificiosNoAccessLista().contains(
@@ -86,36 +91,10 @@ public class Edificios implements Serializable {
 		return options;
 	}
 
-	/*
-	 * @Return: un array con las direcciones de todos los edificios autorizados
-	 * para este usuario
-	 */
-	public ArrayList<String> getMyEdificios() {
-		ArrayList<String> result = new ArrayList<String>();
-		for (Edificio miEdificio : edificios) {
-			if (!docUsuario.getEdificiosNoAccessLista().contains(
-					miEdificio.getEdf_codigo())) { // Solo edificios autorizados
-				result.add(miEdificio.getEdf_direccion());
-			}
-		}
-		return result;
-	}
-
-	/*
-	 * @Return: un array con las direcciones de todos los edificios de la
-	 * administracion
-	 */
-	public ArrayList<String> getTestDireccion() {
-		ArrayList<String> result = new ArrayList<String>();
-		for (Edificio miEdificio : edificios) {
-			result.add(miEdificio.getEdf_direccion());
-		}
-		return result;
-	}
-
+		
 	public ArrayList<String> getObjDataEdificiosPorUsuario() {
 		ArrayList<String> result = new ArrayList<String>();
-		for (Edificio miEdificio : edificios) {
+		for (Edificio miEdificio : listaEdificios) {
 			result.add(miEdificio.getEdf_direccion() + "|"
 					+ miEdificio.getEdf_codigo());
 		}
@@ -149,8 +128,8 @@ public class Edificios implements Serializable {
 	 * Agrego Edificios consultando As400, cada linea separa el dato por un pipe
 	 */
 	public void AddEdificiosAs400() {
-		if (!(edificios == null)){
-			edificios.clear();
+		if (!(listaEdificios == null)){
+			listaEdificios.clear();
 			hmEdificios.clear();
 			
 		}	
@@ -163,8 +142,8 @@ public class Edificios implements Serializable {
 			e.printStackTrace();
 		}
 		for (String strLinea : nl) {
-			if (edificios == null) {
-				edificios = new ArrayList<Edificio>();
+			if (listaEdificios == null) {
+				listaEdificios = new ArrayList<Edificio>();
 			}
 			myEdificio = new Edificio();
 			myEdificio.setEdf_codigo(strLinea.split("\\|")[0].trim());
@@ -172,7 +151,7 @@ public class Edificios implements Serializable {
 			myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim());
 			myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
 			myEdificio.setEdf_codigoPostal(strLinea.split("\\|")[4].trim());
-			edificios.add(myEdificio);
+			listaEdificios.add(myEdificio);
 			AddEdificioMap(myEdificio); // Lo agrego al mapa por código
 		}
 	}
@@ -206,12 +185,15 @@ public class Edificios implements Serializable {
 		}
 	}
 
-	public List<Edificio> getEdificios() {
-		return edificios;
+	
+	//*** Getters & Setters *****
+	
+	public List<Edificio> getListaEdificios() {
+		return listaEdificios;
 	}
 
-	public void setEdificios(ArrayList<Edificio> edificios) {
-		Edificios.edificios = edificios;
+	public void setListaEdificios(ArrayList<Edificio> edificios) {
+		Edificios.listaEdificios = edificios;
 	}
 
 	public Edificio getEdificio() {

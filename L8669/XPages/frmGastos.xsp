@@ -6,69 +6,69 @@
 		<xp:this.facets>
 			<xp:panel id="PNL_Principal" xp:key="facetMiddle">
 
-				<xe:formTable id="formTable1" formTitle="Gastos"
+				<xp:panel id="PNL_Alta">
+
+				</xp:panel>
+				<xe:formTable id="formTableGastos" formTitle="Gastos"
 					disableErrorSummary="false" disableRowError="false"
 					style="padding-left:10.0%;padding-right:10.0%">
-					<xe:formColumn styleClass="form-group col-sm-6">
-						<xe:formRow id="rowRazonSocial" label="Proveedor"
-							labelPosition="right" styleClass="col-sm-10">
-							<xp:comboBox id="prv_razonSocial">
-								<xp:selectItem itemLabel="Electricidad 1"></xp:selectItem>
-								<xp:selectItem itemLabel="Ascensores 1"></xp:selectItem>
-								<xp:selectItem itemLabel="dos"></xp:selectItem>
-								<xp:selectItem itemLabel="tres"></xp:selectItem>
-								<xp:selectItem itemLabel="Ascensores 41"></xp:selectItem>
-							</xp:comboBox>
-						</xe:formRow>
-					</xe:formColumn>
-					<xe:formColumn styleClass="form-group col-sm-6">
-						<xe:formRow id="formRow3" labelWidth="100px"
-							labelPosition="right" label="Edificio">
-							<xp:inputText id="inputText2">
-								<xp:this.validators>
-									<xp:validateRequired message="Please provide a field value">
-									</xp:validateRequired>
-								</xp:this.validators>
-							</xp:inputText>
-						</xe:formRow>
-					</xe:formColumn>
+					<xp:div>
+						<xe:formColumn styleClass="form-group col-sm-6">
+							<xe:formRow id="rowPrv_id" label="Proveedor"
+								labelPosition="right" styleClass="col-sm-10">
+								<xp:comboBox id="prv_razonSocial">
+									<xp:selectItem itemLabel="Electricidad 1"></xp:selectItem>
+									<xp:selectItem itemLabel="Ascensores 1"></xp:selectItem>
+									<xp:selectItem itemLabel="dos"></xp:selectItem>
+									<xp:selectItem itemLabel="tres"></xp:selectItem>
+									<xp:selectItem itemLabel="Ascensores 41"></xp:selectItem>
+								</xp:comboBox>
+							</xe:formRow>
+						</xe:formColumn>
+						<xe:formColumn styleClass="form-group col-sm-6">
+							<xe:formRow id="rowEdf_codigo" labelWidth="100px"
+								labelPosition="right" label="Edificio">
+								<xc:ccButtonEdificiosAutorizados></xc:ccButtonEdificiosAutorizados>
+							</xe:formRow>
+						</xe:formColumn>
+					</xp:div>
+					<xp:div>
+						<xe:formColumn styleClass="form-group col-sm-6">
+							<xe:formRow id="rowGst_texto" label="Detalle"
+								labelPosition="right" styleClass="col-sm-10">
 
-					<xe:formRow id="formRow1" labelPosition="right" label="Detalle" labelWidth="10%">
-						<xp:inputTextarea id="inputTextarea1" styleClass="col-sm-6"></xp:inputTextarea>
-					</xe:formRow>
-					<xe:formRow id="formRow2" labelPosition="right" label="Detalle">
-						<xp:inputTextarea id="inputTextarea2"></xp:inputTextarea>
-					</xe:formRow>
-					<xe:formRow id="formRow4" labelPosition="right" label="Detalle">
-						<xp:inputTextarea id="inputTextarea3"></xp:inputTextarea>
-					</xe:formRow>
-				</xe:formTable>
-
-
-
-				<xp:panel id="PN_frmGasto">
-					<xp:table style="width:100.0%">
-						<xp:tr>
-							<xp:td>
-
-							</xp:td>
-							<xp:td>
-								<xp:label value="Importe" id="label2"></xp:label>
-								<xp:inputText id="inputText1"></xp:inputText>
-							</xp:td>
-							<xp:td>
-								<xp:label value="Fecha" id="label3"></xp:label>
-								<xp:inputText id="inputText66"></xp:inputText>
-							</xp:td>
-							<xp:td>
-								<xp:button value="Pagar" id="button88"></xp:button>
-							</xp:td>
-						</xp:tr>
-						<xp:tr>
-							<xp:td>
-								Agrupamiento:
-
-								<xp:comboBox id="comboBox1">
+								<xp:inputTextarea id="gst_texto" rows="4">
+								</xp:inputTextarea>
+							</xe:formRow>
+						</xe:formColumn>
+						<xe:formColumn styleClass="form-group col-sm-6">
+							<xe:formRow id="rowGst_fechaFactura" labelWidth="100px"
+								labelPosition="right" label="Fecha">
+								<xp:inputText id="gst_fechaFactura">
+									<xp:this.validators>
+										<xp:validateRequired message="La fecha es un dato obligatorio">
+										</xp:validateRequired>
+									</xp:this.validators>
+								</xp:inputText>
+							</xe:formRow>
+						</xe:formColumn>
+						<xe:formColumn styleClass="form-group col-sm-6">
+							<xe:formRow id="rowGst_importe" labelWidth="100px"
+								labelPosition="right" label="Importe">
+								<xp:inputText id="gst_importe">
+									<xp:this.validators>
+										<xp:validateRequired message="El importe es un dato obligatorio">
+										</xp:validateRequired>
+									</xp:this.validators>
+								</xp:inputText>
+							</xe:formRow>
+						</xe:formColumn>
+					</xp:div>
+					<xp:div>
+						<xe:formColumn styleClass="form-group col-sm-6">
+							<xe:formRow id="rowGst_agrupamiento" label="Agrupamiento"
+								labelPosition="right" styleClass="col-sm-10">
+								<xp:comboBox id="gst_agrupamiento">
 									<xp:selectItem itemLabel="grupo 1">
 									</xp:selectItem>
 									<xp:selectItem itemLabel="grupo 2">
@@ -78,53 +78,43 @@
 									<xp:selectItem itemLabel="grupo 4">
 									</xp:selectItem>
 								</xp:comboBox>
-							</xp:td>
-							<xp:td>
-								<xp:label value="Porcentual" id="label4">
-								</xp:label>
-								<xp:comboBox id="comboBox2">
-									<xp:selectItem itemLabel="Porcentual 1">
+							</xe:formRow>
+						</xe:formColumn>
+						<xe:formColumn styleClass="form-group col-sm-6">
+							<xe:formRow id="rowGst_porcentual" labelWidth="100px"
+								labelPosition="right" label="Porcentual">
+								<xp:comboBox id="gst_porcentual">
+									<xp:selectItem itemLabel="GASTOS A">
 									</xp:selectItem>
-									<xp:selectItem itemLabel="Porcentual 2">
+									<xp:selectItem itemLabel="GASTOS B">
 									</xp:selectItem>
-									<xp:selectItem itemLabel="Porcentual 3">
+									<xp:selectItem itemLabel="GASTOS C">
 									</xp:selectItem>
 								</xp:comboBox>
-							</xp:td>
-							<xp:td></xp:td>
-							<xp:td></xp:td>
-						</xp:tr>
-						<xp:tr>
-							<xp:td></xp:td>
-							<xp:td></xp:td>
-							<xp:td></xp:td>
-							<xp:td></xp:td>
-						</xp:tr>
-					</xp:table>
+							</xe:formRow>
+						</xe:formColumn>
+					</xp:div>
+					<xe:this.facets>
+						<xp:div xp:key="footer">
+							<xp:button value="Guardar" id="btnSave">
+								<xp:eventHandler event="onclick" submit="true"
+									refreshMode="complete">
+								</xp:eventHandler>
+							</xp:button>
+							<xp:button value="Pagar" id="buttonPagar">
+								<xp:eventHandler event="onclick" submit="true"
+									refreshMode="complete">
+								</xp:eventHandler>
+							</xp:button>
+						</xp:div>
+					</xe:this.facets>
+				</xe:formTable>
 
 
 
-					<xp:checkBoxGroup id="checkBoxGroup1" value="#{sessionScope.values}">
-						<xp:selectItem itemLabel="AAA" itemValue="AAA">
-						</xp:selectItem>
-						<xp:selectItem itemLabel="BBB" itemValue="BBB">
-						</xp:selectItem>
-						<xp:selectItem itemLabel="CCC" itemValue="CCC">
-						</xp:selectItem>
-					</xp:checkBoxGroup>
-
-
-
+				<xp:panel id="PN_frmGasto">
 					<xp:div styleClass="container form-inline form-group">
 
-						<xp:radioGroup id="radioGroup1" value="#{sessionScope.values}">
-							<xp:selectItem itemValue="" itemLabel="Por Fecha">
-							</xp:selectItem>
-							<xp:selectItem itemValue="" itemLabel="Por Nombre">
-							</xp:selectItem>
-							<xp:selectItem itemValue="" itemLabel="AAA">
-							</xp:selectItem>
-						</xp:radioGroup>
 						<xp:table title="Tabla" styleClass="table-hover">
 							<xp:repeat id="repeat1" rows="30" var="rowData" style="width:400px">
 								<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);

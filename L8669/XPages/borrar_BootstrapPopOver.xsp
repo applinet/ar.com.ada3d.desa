@@ -48,12 +48,12 @@ x$( "#{id:button1}" ).popover();
 							label="#{sessionScope.edificioSelected}">
 							<xe:this.children>
 								<xe:repeatTreeNode var="rptEdificios"
-									value="#{javascript:Edificios.getMyEdificios()}"
+									value="#{javascript:Edificios.listaEdificios}"
 									indexVar="idxEdificios">
 									<xe:this.children>
 										<xe:basicLeafNode
-											label="#{javascript:rptEdificios}"
-											submitValue="#{javascript:rptEdificios}">
+											label="#{javascript:rptEdificios.edf_direccion}"
+											submitValue="#{javascript:rptEdificios.edf_codigo}">
 
 										</xe:basicLeafNode>
 									</xe:this.children>
@@ -117,7 +117,7 @@ return result + "</ul>";
 					dialogTitle="Select a category">
 					<xe:this.dataProvider>
 						<xe:simpleValuePicker
-							valueList="#{javascript:Edificios.getMyEdificios();}">
+							valueList="#{javascript:Edificios.listaEdificios.edf_direccion}">
 
 
 						</xe:simpleValuePicker>

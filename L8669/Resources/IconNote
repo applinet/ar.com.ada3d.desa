@@ -1,13 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='9.0'
- maintenanceversion='1.9' replicaid='832581D800495D1C'>
-<noteinfo noteid='112' unid='85255A0A0010A6F0852556F00072875B' sequence='346'>
+ maintenanceversion='1.9' replicaid='83258203004F19D9'>
+<noteinfo noteid='116' unid='85255A0A0010A6F0852556F00072875B' sequence='370'>
 <created><datetime dst='true'>19871019T165057,55-04</datetime></created>
-<modified><datetime dst='true'>20171207T131821,12-02</datetime></modified>
-<revised><datetime dst='true'>20171207T131821,11-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171207T131821,11-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171114T112120,11-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst='true'>20171227T150339,51-02</datetime></modified>
+<revised><datetime dst='true'>20171227T150339,50-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20171227T150339,51-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171227T122359,89-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name><name>CN=ADA3D/O=SASA</name><name
+>CN=Notes Standard Control/O=SASA</name><name>CN=ADA3D/O=SASA</name><name
 >CN=Notes Standard Control/O=SASA</name></updatedby>
 <item name='IconBitmap' summary='true'>
 <rawitemdata type='6'>
@@ -24,13 +25,14 @@ EOAAAAAADMFs8WDMZg7wDd0AAAAAAADBbMFgxmYO8AAAAAAAAAAAzBbBbGYRDgAAAAAAAAAAAAzB
 EWEczMAAAAAAAAAAAAAAzMFgzAAAAAAAAAAAAAAAAADBEOAAAAAAAAAAAAAAAAAAzMwAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAA==
 </rawitemdata></item>
-<item name='$LaunchXPageRunOnServer'><text>0</text></item>
 <item name='$DefaultFrameset'><text>Principal</text></item>
 <item name='$DefaultXPage'><text>home.xsp</text></item>
-<item name='$PIRCRefreshModTime'><datetime>20171206T195151,77-03</datetime></item>
-<item name='$TemplateModTime'><datetime dst='true'>20171206T205142,08-02</datetime></item>
-<item name='$TemplateServerName'><text>CN=ADA3D/O=SASA</text></item>
-<item name='$TemplateFileName'><text>/Ada3d/Lotus/Domino/Ada3d/L0000.ntf</text></item>
+<item name='$LaunchXPageRunOnServer'><text>0</text></item>
+<item name='$FlagsNoRefresh'><text/></item>
+<item name='$TemplateServerName'><text>CN=Notes Standard Control/O=SASA</text></item>
+<item name='$TemplateFileName'><text>CN=ADA3D/O=SASA!!L0000.ntf</text></item>
+<item name='$PIRCRefreshModTime'><datetime>20171227T135729,45-03</datetime></item>
+<item name='$TemplateModTime'><datetime dst='true'>20171227T145717,10-02</datetime></item>
 <item name='$Daos'><text>0</text></item>
 <item name='$LargeSummary'><text>0</text></item>
 <item name='$Flags'><text>fJz247qZFn!</text></item>

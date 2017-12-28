@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='832581D800495D1C'>
-<noteinfo noteid='19e' unid='B3E82C5B87ED11A4832581A10063C4EC' sequence='34'>
+ replicaid='83258203004F19D9'>
+<noteinfo noteid='19a' unid='B3E82C5B87ED11A4832581A10063C4EC' sequence='34'>
 <created><datetime dst='true'>20170920T160944,76-02</datetime></created>
-<modified><datetime dst='true'>20171114T112320,94-02</datetime></modified>
+<modified><datetime dst='true'>20171227T122400,55-02</datetime></modified>
 <revised><datetime dst='true'>20171114T112320,93-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171128T142317,24-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20171114T112120,79-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171227T123523,68-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171227T122400,55-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$FORMULACLASS' sign='true'><text>1</text></item>

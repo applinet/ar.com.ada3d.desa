@@ -1,49 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
-
-	
-	<xp:dataTable id="edificiosTable" rows="5" var="unEdificio"
-		value="#{Edificios.edificios}">
-
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xc:ccLayoutBootstrap property_ShowComboEdificio="false">
 		<xp:this.facets>
-			<xp:pager layout="Previous Group Next" xp:key="header"
-				id="pagerHeader">
-			</xp:pager>
-			<xp:pager layout="Previous Group Next" xp:key="footer"
-				id="pagerFooter">
-			</xp:pager>
-		</xp:this.facets>
+			<xp:panel id="PNL_container" xp:key="facetMiddle">
 
-		<xp:column id="edf_codigoColumn">
-			<xp:text escape="true" value="#{unEdificio.edf_codigo}"
-				id="edf_codigo">
-			</xp:text>
-		</xp:column>
+				<xp:dataTable id="edificiosTable" rows="20"
+					var="unEdificio" value="#{Edificios.listaEdificios}">
+					<xp:this.facets>
+						<xp:pager layout="Previous Group Next"
+							xp:key="header" id="pagerHeader">
+						</xp:pager>
+						<xp:pager layout="Previous Group Next"
+							xp:key="footer" id="pagerFooter">
+						</xp:pager>
+					</xp:this.facets>
 
-		<xp:column id="edf_direccionColumn">
-			<xp:link escape="true" text="#{unEdificio.edf_direccion}"
-				id="edf_direccion">
-				<xp:eventHandler event="onclick" submit="true"
-					refreshMode="complete" id="eventHandler1">
-					<xp:this.action><![CDATA[#{javascript:Edificios.setEdificio(unEdificio);
+					<xp:column id="edf_codigoColumn">
+						<xp:text escape="true"
+							value="#{unEdificio.edf_codigo}" id="edf_codigo">
+						</xp:text>
+					</xp:column>
+
+					<xp:column id="edf_direccionColumn">
+						<xp:link escape="true"
+							text="#{unEdificio.edf_direccion}" id="edf_direccion">
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler1">
+								<xp:this.action><![CDATA[#{javascript:Edificios.setEdificio(unEdificio);
 context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
-				</xp:eventHandler>
-			</xp:link>
-		</xp:column>
+							</xp:eventHandler>
+						</xp:link>
+					</xp:column>
 
-		<xp:column id="column1">
-			<xp:text escape="true"
-				value="#{unEdificio.edf_codigoVisual}" id="edf_codigoVisual">
-			</xp:text>
-		</xp:column>
-		<xp:column id="edf_codigoVisualColumn">
+					<xp:column id="column1">
+						<xp:text escape="true"
+							value="#{unEdificio.edf_codigoVisual}" id="edf_codigoVisual">
+						</xp:text>
+					</xp:column>
+					<xp:column id="edf_codigoVisualColumn">
 
-			<xp:text escape="true" value="#{unEdificio.edf_provincia}"
-				id="Intereses">
-			</xp:text>
-		</xp:column>
+						<xp:text escape="true"
+							value="#{unEdificio.edf_provincia}" id="Intereses">
+						</xp:text>
+					</xp:column>
 
-		<xp:column id="column2"></xp:column>
-		<xp:column id="column3"></xp:column>
-	</xp:dataTable>
+					<xp:column id="column2"></xp:column>
+					<xp:column id="column3"></xp:column>
+				</xp:dataTable>
+			</xp:panel>
+		</xp:this.facets>
+	</xc:ccLayoutBootstrap>
+	
 </xp:view>

@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='832581D800495D1C'>
-<noteinfo noteid='4a2' unid='049130213F98188A032581E000723F83' sequence='8'>
+ replicaid='83258203004F19D9'>
+<noteinfo noteid='3c6' unid='049130213F98188A032581E000723F83' sequence='8'>
 <created><datetime>20171122T174753,63-03</datetime></created>
-<modified><datetime dst='true'>20171218T183916,64-02</datetime></modified>
+<modified><datetime dst='true'>20171227T122403,01-02</datetime></modified>
 <revised><datetime dst='true'>20171218T183916,63-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171218T183916,63-02</datetime></lastaccessed>
-<addedtofile><datetime>20171122T174753,63-03</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20171227T122403,01-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20171227T122403,01-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$FORMULACLASS' sign='true'><text>1</text></item>
@@ -26,7 +26,6 @@ OFMxMFMxMVM=
 BgAAAABE
 </rawitemdata></item>
 <item name='$Comment' sign='true'><text/></item>
-<item name='$Flags'><text>PY</text></item>
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$VIEWFORMAT' sign='true'>
 <rawitemdata type='5'>
@@ -65,5 +64,6 @@ AB8AAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/OgAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/1QAAAABAAAAnwEAAAYAAAAAAAAAQ3JlYXIgOAAAACoA
 AgDoAwAAAAAAAAEAFABmLkRhdG9zQWRtaW5pc3RyYWRvcu0CAwAHAAwABQAJMFMwRQA=
-</rawitemdata></item></note>
+</rawitemdata></item>
+<item name='$Flags'><text>Y</text></item></note>
 
