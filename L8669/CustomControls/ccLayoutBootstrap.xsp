@@ -11,20 +11,13 @@
 		</xp:script>
 		<xp:styleSheet href="/bootstrap-extended.css"></xp:styleSheet>
 	</xp:this.resources>
-	<xp:this.beforePageLoad><![CDATA[#{javascript:if (sessionScope.DocUsr) {
-	// Si el usuario cambió, reseteo la scope invalidandola
-	var currentUserName = DocUsr.getUser();
-	var userName = session.getEffectiveUserName();
-	if( currentUserName && userName !== currentUserName ){
-		print("INVALIDO LA SESSION");
-		facesContext.getExternalContext().getSession( false ).invalidate();
-	}   
-}}]]></xp:this.beforePageLoad>
+	
 
 	<xp:this.afterPageLoad><![CDATA[#{javascript:if (!userBean.accessRoles.toString().contains('[usrInitial]')){
 	if	(!sessionScope.edificioSelected)
-		 sessionScope.edificioSelected = Edificios.getListaEdificios().get(0).edf_codigo;
+		 sessionScope.edificioSelected = edificioBean.getListaEdificiosTrabajo().get(0).edf_codigo;
 }		}]]></xp:this.afterPageLoad>
+	
 	<xc:ccRolDesarrollo_Debug>
 		<xc:this.propertyFormName><![CDATA[#{javascript:"docUsuario"}]]></xc:this.propertyFormName>
 	</xc:ccRolDesarrollo_Debug>
@@ -39,7 +32,7 @@
 				<xe:this.rendered><![CDATA[#{javascript:compositeData.get("property_ShowComboEdificio") && !userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
 
 				<xp:selectItems>
-					<xp:this.value><![CDATA[#{javascript:Edificios.getComboboxMyEdificios()}]]></xp:this.value>
+					<xp:this.value><![CDATA[#{javascript:edificioBean.getComboboxMyEdificios()}]]></xp:this.value>
 				</xp:selectItems>
 				<xe:this.dojoAttributes>
 					<xp:dojoAttribute name="required" value="false">
@@ -166,16 +159,19 @@ applicationLogo.onclick = function() {
 		</xp:this.rendered>
 	</xp:panel>
 	<div id="divHidden" style="display: none;">
-		<xp:button value="Label" id="btnLogOut">
+		<xp:button value="btnLogOut" id="btnLogOut">
 			<xp:eventHandler event="onclick" submit="true"
 				refreshMode="complete" disableValidators="true">
-				<xp:this.action><![CDATA[#{javascript:print("ejecuto SSJS");
+				<xp:this.action><![CDATA[#{javascript:/*
 if (sessionScope.DocUsr)
 	sessionScope.remove(DocUsr);
 if (sessionScope.Edificios)	
 	sessionScope.remove(Edificios);
 if (sessionScope.menuList)
 	sessionScope.remove(menuList);	
+*/
+clearMap(sessionScope);	
+print("LogOutDocUsr: " + sessionScope.get("DocUsr"));	
 var appUrl = facesContext.getExternalContext().getRequest().getContextPath();
 var url = appUrl + "?logout&redirectto=" + appUrl;
 facesContext.getExternalContext().redirect(url);}]]></xp:this.action>

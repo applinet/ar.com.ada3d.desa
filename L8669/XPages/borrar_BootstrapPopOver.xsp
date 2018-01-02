@@ -48,7 +48,7 @@ x$( "#{id:button1}" ).popover();
 							label="#{sessionScope.edificioSelected}">
 							<xe:this.children>
 								<xe:repeatTreeNode var="rptEdificios"
-									value="#{javascript:Edificios.listaEdificios}"
+									value="#{javascript:edificioBean.listaEdificios}"
 									indexVar="idxEdificios">
 									<xe:this.children>
 										<xe:basicLeafNode
@@ -79,7 +79,7 @@ x$( "#{id:button1}" ).popover();
 						itemValue="0">
 					</xp:selectItem>
 					<xp:selectItems>
-						<xp:this.value><![CDATA[#{javascript:Edificios.getComboboxMyEdificiosTrabajo()}]]></xp:this.value>
+						<xp:this.value><![CDATA[#{javascript:edificioBean.getComboboxMyEdificiosTrabajo()}]]></xp:this.value>
 					</xp:selectItems>
 
 				</xp:comboBox>
@@ -94,7 +94,7 @@ x$( "#{id:button1}" ).popover();
 						<xp:this.valueList>
 
 							<![CDATA[#{javascript:var result = "<ul>";
-var listaEdificios = Edificios.getObjDataEdificiosPorUsuario();
+var listaEdificios = edificioBean.getObjDataEdificiosPorUsuario();
 for (var i = 0; i < listaEdificios.length; i++) {
 	// Agrego la metadata por cada entrada al array:
 	var codigoEdificio:string = listaEdificios[i].split("|")[1].trim();
@@ -117,7 +117,7 @@ return result + "</ul>";
 					dialogTitle="Select a category">
 					<xe:this.dataProvider>
 						<xe:simpleValuePicker
-							valueList="#{javascript:Edificios.listaEdificios.edf_direccion}">
+							valueList="#{javascript:edificioBean.listaEdificios.edf_direccion}">
 
 
 						</xe:simpleValuePicker>
@@ -133,7 +133,7 @@ return result + "</ul>";
 					queryExpr="#{javascript:return '*\$\{0\}*';}"
 					autoComplete="false">
 					<xp:selectItems>
-						<xp:this.value><![CDATA[#{javascript:Edificios.getComboboxMyEdificiosTrabajo()}]]></xp:this.value>
+						<xp:this.value><![CDATA[#{javascript:edificioBean.getComboboxMyEdificiosTrabajo()}]]></xp:this.value>
 					</xp:selectItems>
 
 				</xe:djFilteringSelect>

@@ -1,62 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
-	<xc:ccLayoutBootstrap property_ShowComboEdificio="true">
+
+	<xc:ccLayoutBootstrap property_ShowComboEdificio="false">
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle">
 
-				<xe:formTable id="tblEdificio" formTitle="Edificio XXX"
-					formDescription="Tiene 54 unidades funcionales" fieldHelp="true"
+				<xe:formTable id="tblEdificio" formTitle="Edificio"
+					formDescription="Código SASA: #{edfObj.edf_codigo}" fieldHelp="true"
 					disableErrorSummary="false" disableRowError="false"
 					style="padding-left:20.0%;padding-right:20.0%">
 
 					<xe:formRow id="rowDireccion" label="Domicilio"
 						labelPosition="left">
-						<xp:inputText id="edf_direccion"
-							value="#{Edificios.edificio.edf_direccion}" required="true">
+						<xp:inputText id="edf_direccion" value="#{edfObj.edf_direccion}"
+							required="true">
 							<xp:this.validators>
-								<xp:validateRequired
-									message="La dirección es un campo requerido.">
+								<xp:validateRequired message="La dirección es un campo requerido.">
 								</xp:validateRequired>
 							</xp:this.validators>
 						</xp:inputText>
 					</xe:formRow>
 
-					<xe:formRow id="formRowCodigoVisual"
-						label="Codigo Visual" labelPosition="left">
-						<xp:inputText id="edf_codigoVisual"
-							value="#{Edificios.edificio.edf_codigoVisual}" required="true">
+					<xe:formRow id="formRowCodigoVisual" label="Codigo Visual"
+						labelPosition="left">
+						<xp:inputText id="edf_codigoVisual" value="#{edfObj.edf_codigoVisual}"
+							required="true">
 							<xp:this.validators>
-								<xp:validateRequired
-									message="El codigo visual es un campo requerido.">
+								<xp:validateRequired message="El codigo visual es un campo requerido.">
 								</xp:validateRequired>
 							</xp:this.validators>
 						</xp:inputText>
 					</xe:formRow>
 
+					<xe:formRow id="formRowCuit" label="CUIT" labelPosition="left">
+						<xp:inputText id="edf_cuit" value="#{edfObj.edf_cuit}"
+							required="false">
+							<xp:this.validators>
+								<xp:validateRequired message="El CUIT es un campo requerido.">
+								</xp:validateRequired>
+							</xp:this.validators>
+						</xp:inputText>
+					</xe:formRow>
+
+					<xe:formRow id="formRowMesLiquidacion" label="Mes de liquidación"
+						labelPosition="left">
+						<xp:inputText id="edf_mesLiquidacion">
+							<xp:this.converter>
+								<xp:convertDateTime pattern="MMMM">
+								</xp:convertDateTime>
+							</xp:this.converter>
+							<xp:dateTimeHelper></xp:dateTimeHelper>
+						</xp:inputText>
+					</xe:formRow>
+
+					<xe:formRow id="formRowPorcentuales" label="Porcentuales"
+						labelPosition="left">
+						<xp:button
+							styleClass="glyphicon glyphicon-plus-sign"
+							style="color:green">
+						</xp:button>
 
 
+					</xe:formRow>
+
+					<xe:formRow id="formRowMesProrrateo" label="Mes de prorrateo y recibos"
+						labelPosition="left">
+						<xp:inputText id="edf_mesProrrateo">
+
+						</xp:inputText>
+					</xe:formRow>
 
 
 					<xe:this.facets>
 						<xp:div xp:key="footer">
 							<xp:button value="Modificar" id="btnEdit">
-								<xp:eventHandler event="onclick"
-									submit="true" refreshMode="complete">
+								<xp:eventHandler event="onclick" submit="true"
+									refreshMode="complete">
 
 								</xp:eventHandler>
 							</xp:button>
 							<xp:button value="Cerrar" id="button1">
-								<xp:eventHandler event="onclick"
-									submit="true" refreshMode="complete">
+								<xp:eventHandler event="onclick" submit="true"
+									refreshMode="complete">
 
+									<xp:this.action>
+										<xp:openPage name="/ViewDatosEdificios.xsp">
+										</xp:openPage>
+									</xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
 							<xp:button value="Confirmar" id="button2">
-								<xp:eventHandler event="onclick"
-									submit="true" refreshMode="complete">
+								<xp:eventHandler event="onclick" submit="true"
+									refreshMode="complete">
 
-									<xp:this.action><![CDATA[#{javascript:Edificios.saveEdificio()}]]></xp:this.action>
+									<xp:this.action><![CDATA[#{javascript:edificioBean.saveEdificio(sessionScope.get("edfObj"));
+context.redirectToPage("viewDatosEdificios")}]]></xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
 						</xp:div>

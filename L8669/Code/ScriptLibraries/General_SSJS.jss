@@ -719,3 +719,16 @@ function getListAccordion() {
         return "no documents found";
     }
 }
+
+/*Para eliminar el mapa de scopes completo
+ * Ej: clearMap( applicationScope )
+ * */
+function clearMap( map:Map ){
+	 // Get iterator for the keys
+	 var iterator = map.keySet().iterator();
+	 
+	 // Remove all items
+	 while( iterator.hasNext() ){
+	  map.remove( iterator.next() );
+	 }
+}

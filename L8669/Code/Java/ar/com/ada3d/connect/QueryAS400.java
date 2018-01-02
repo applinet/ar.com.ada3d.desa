@@ -36,7 +36,7 @@ public class QueryAS400 implements Serializable {
 	 * @usedIn: getSelectAS, updateAS
 	 */
 	public Boolean initConexion() {
-		System.out.println("Init Conexion Base AS400");
+		//System.out.println("FPR - Init Conexion Base AS400");
 		Document docDS = JSFUtil.getDocConexiones_y_Tablas("BaseConexionAS400");
 		if (docDS == null)
 			return false;
@@ -185,7 +185,7 @@ public class QueryAS400 implements Serializable {
 				close(stmt);
 				return true;
 			}
-			
+		
 		} catch (SQLException e) {
 			System.out.println("**ERROR UPDATE ** (param_clave:" + param_clave
 					+ ") - " + e.getMessage());

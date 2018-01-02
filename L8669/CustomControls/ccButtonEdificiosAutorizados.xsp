@@ -6,7 +6,7 @@
 		value="#{javascript:sessionScope.edificioWork}">
 
 		<xp:selectItems
-			value="#{javascript:Edificios.getComboboxMyEdificiosTrabajo()}">
+			value="#{javascript:edificioBean.getComboboxMyEdificiosTrabajo()}">
 
 		</xp:selectItems>
 		<xe:this.dojoAttributes>

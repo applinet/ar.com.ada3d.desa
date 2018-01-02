@@ -5,8 +5,8 @@
 		<xp:this.facets>
 			<xp:panel id="PNL_container" xp:key="facetMiddle">
 
-				<xp:dataTable id="edificiosTable" rows="20"
-					var="unEdificio" value="#{Edificios.listaEdificios}">
+				<xp:dataTable id="edificiosTable" var="unEdificio"
+					value="#{edificioBean.listaEdificiosTrabajo}" rows="15">
 					<xp:this.facets>
 						<xp:pager layout="Previous Group Next"
 							xp:key="header" id="pagerHeader">
@@ -27,7 +27,7 @@
 							text="#{unEdificio.edf_direccion}" id="edf_direccion">
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="complete" id="eventHandler1">
-								<xp:this.action><![CDATA[#{javascript:Edificios.setEdificio(unEdificio);
+								<xp:this.action><![CDATA[#{javascript:sessionScope.put("edfObj", unEdificio)
 context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
 							</xp:eventHandler>
 						</xp:link>

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.io.Serializable;
 import javax.faces.model.SelectItem;
+
+import org.openntf.domino.Document;
+
 import ar.com.ada3d.model.Edificio;
 import ar.com.ada3d.utilidades.*;
 import lotus.domino.NotesException;
@@ -17,10 +20,10 @@ import ar.com.ada3d.utilidades.DocUsr;
  * Cuando hablo de MyEdificiosTrabajo son para trabajar el usuario es decir que no estan bloqueados
  * Tomo la scope de usuario para los edificios autorizados por usuario
  * */
-public class Edificios implements Serializable {
+public class EdificioBean implements Serializable {
 
-	public Edificios() {
-		System.out.println("Constructor Edificios y llamada AddEdificiosAS400");
+	public EdificioBean() {
+		//System.out.println("FPR - Constr. Edificios y llamada AS400");
 		AddEdificiosAs400();
 	}
 
@@ -28,8 +31,8 @@ public class Edificios implements Serializable {
 	private static final long serialVersionUID = 1L;
 	HashMap<String, Edificio> hmEdificios = new HashMap<String, Edificio>();
 	private static List<Edificio> listaEdificios;
-	private static DocUsr docUsuario = (DocUsr) JSFUtil
-			.resolveVariable("DocUsr");
+	private static List<Edificio> listaEdificiosTrabajo;
+	
 
 	/*
 	 * Esto devuelve para cada usuario el ComboBox de Edificios autorizados para
@@ -40,12 +43,9 @@ public class Edificios implements Serializable {
 	 * @usedIn: Combo principal en ccLayoutBootstrap, está asociado a una
 	 * sessionScope(edificioSelected)
 	 */
-	public static List<SelectItem> getComboboxMyEdificios() {
+	public List<SelectItem> getComboboxMyEdificios() {
+		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		List<SelectItem> options = new ArrayList<SelectItem>();
-		boolean pepe = docUsuario == null ? true : false;
-		System.out.println("FIXME: docUsuario es null: " + pepe );
-		pepe = docUsuario.getEdificiosNoAccessLista() == null ? true : false;
-		System.out.println("FIXME: docUsuario.getEdificiosNoAccessLista es null: " + pepe);
 		for (Edificio miEdificio : listaEdificios) {
 			
 			if (!docUsuario.getEdificiosNoAccessLista().contains(
@@ -74,6 +74,7 @@ public class Edificios implements Serializable {
 	 * @usedIn: en el combo al lado del boton Save de un formulario
 	 */
 	public static List<SelectItem> getComboboxMyEdificiosTrabajo() {
+		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		List<SelectItem> options = new ArrayList<SelectItem>();
 		for (Edificio miEdificio : listaEdificios) {
 			if (miEdificio.getEdf_estadoProceso().equals("1")) { // solo
@@ -128,8 +129,10 @@ public class Edificios implements Serializable {
 	 * Agrego Edificios consultando As400, cada linea separa el dato por un pipe
 	 */
 	public void AddEdificiosAs400() {
+		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		if (!(listaEdificios == null)){
 			listaEdificios.clear();
+			listaEdificiosTrabajo.clear();
 			hmEdificios.clear();
 			
 		}	
@@ -145,6 +148,9 @@ public class Edificios implements Serializable {
 			if (listaEdificios == null) {
 				listaEdificios = new ArrayList<Edificio>();
 			}
+			if (listaEdificiosTrabajo == null) {
+				listaEdificiosTrabajo = new ArrayList<Edificio>();
+			}
 			myEdificio = new Edificio();
 			myEdificio.setEdf_codigo(strLinea.split("\\|")[0].trim());
 			myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
@@ -152,6 +158,10 @@ public class Edificios implements Serializable {
 			myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
 			myEdificio.setEdf_codigoPostal(strLinea.split("\\|")[4].trim());
 			listaEdificios.add(myEdificio);
+			if(!docUsuario.getEdificiosNoAccessLista().contains(strLinea.split("\\|")[0].trim())){
+				//System.out.println("FPR - " + docUsuario.getUser() + " - " + strLinea.split("\\|")[2].trim());
+				listaEdificiosTrabajo.add(myEdificio);
+			}
 			AddEdificioMap(myEdificio); // Lo agrego al mapa por código
 		}
 	}
@@ -177,11 +187,16 @@ public class Edificios implements Serializable {
 	}
 
 	
-	public void saveEdificio() {
-		QueryAS400 pepe = new QueryAS400();
+	public void saveEdificio(Edificio edificio) {
+		Document docDummy = JSFUtil.getDocDummy();
+		docDummy.appendItemValue("EDIF", edificio.getEdf_codigo());
+		docDummy.appendItemValue("DIRECC", edificio.getEdf_direccion());
+		docDummy.appendItemValue("E20A", edificio.getEdf_codigoVisual());
+		
+		QueryAS400 query = new QueryAS400();
 
-		if (pepe.updateAS("updateEdificios", null)) {
-			System.out.println("save: " + edificio.getEdf_direccion());
+		if (query.updateAS("updateEdificios", docDummy)) {
+			//System.out.println("FPR UpdateQuery OK_Codigo: " + edificio.getEdf_codigo());
 		}
 	}
 
@@ -193,7 +208,15 @@ public class Edificios implements Serializable {
 	}
 
 	public void setListaEdificios(ArrayList<Edificio> edificios) {
-		Edificios.listaEdificios = edificios;
+		EdificioBean.listaEdificios = edificios;
+	}
+	
+	public List<Edificio> getListaEdificiosTrabajo() {
+		return listaEdificiosTrabajo;
+	}
+	
+	public void setListaEdificiosTrabajo(ArrayList<Edificio> edificios) {
+		EdificioBean.listaEdificiosTrabajo = edificios;
 	}
 
 	public Edificio getEdificio() {
