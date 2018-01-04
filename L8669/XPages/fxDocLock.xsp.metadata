@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="49a" sequence="3" unid="44BF768EEA80244B8325820B0000E08F">
+<created><datetime dst="true">20180103T220934,87-02</datetime></created>
+<modified><datetime dst="true">20180103T220945,80-02</datetime></modified>
+<revised><datetime dst="true">20180103T220945,79-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180103T220945,80-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180103T220934,89-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
+<wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
+<item name="$Flags"><text>gC~4K</text></item>
+<item name="$TITLE"><text>fxDocLock.xsp</text></item>
+
+
+<item name="$FileNames" sign="true"><text>fxDocLock.xsp</text></item></note>

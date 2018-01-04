@@ -1,6 +1,7 @@
 package ar.com.ada3d.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Edificio implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -18,33 +19,17 @@ public class Edificio implements Serializable{
 	private String edf_provincia;
 	private String edf_dependiente;
 	private String edf_estadoProceso;
-	private String edf_ultimaLiquidacion;
+	private Date edf_fechaUltimaLiquidacion;
+	private Integer edf_frecuenciaLiquidacion;
+	private Date edf_fechaProximaLiquidacion;
 	private String edf_porcentualTitulo;
 	private String edf_cuit;
+	private boolean edf_isReadMode;
+	
 	
 	//TODO: private String edf_lockeo --> DocLock
 
 		
-	public Edificio(String edf_codigo, String edf_codigoNumerico,
-			String edf_codigoVisual, String edf_direccion,
-			String edf_codigoPostal, String edf_provincia,
-			String edf_dependiente, String edf_estadoProceso,
-			String edf_ultimaLiquidacion) {
-		super();
-		this.edf_codigo = edf_codigo;
-		this.edf_codigoNumerico = edf_codigoNumerico;
-		this.edf_codigoVisual = edf_codigoVisual;
-		this.edf_direccion = edf_direccion;
-		this.edf_codigoPostal = edf_codigoPostal;
-		this.edf_provincia = edf_provincia;
-		this.edf_dependiente = edf_dependiente;
-		this.edf_estadoProceso = edf_estadoProceso;
-		this.edf_ultimaLiquidacion = edf_ultimaLiquidacion;
-	}
-	
-	
-	
-	
 	//Getters and Setters
 	
 	public String getEdf_codigo() {
@@ -101,11 +86,23 @@ public class Edificio implements Serializable{
 	public void setEdf_estadoProceso(String edf_estadoProceso) {
 		this.edf_estadoProceso = edf_estadoProceso;
 	}
-	public String getEdf_ultimaLiquidacion() {
-		return edf_ultimaLiquidacion;
+	public Date getEdf_fechaUltimaLiquidacion() {
+		return edf_fechaUltimaLiquidacion;
 	}
-	public void setEdf_ultimaLiquidacion(String edf_ultimaLiquidacion) {
-		this.edf_ultimaLiquidacion = edf_ultimaLiquidacion;
+	public void setEdf_fechaUltimaLiquidacion(Date edf_fechaUltimaLiquidacion) {
+		this.edf_fechaUltimaLiquidacion = edf_fechaUltimaLiquidacion;
+	}
+	public Integer getEdf_frecuenciaLiquidacion() {
+		return edf_frecuenciaLiquidacion;
+	}
+	public void setEdf_frecuenciaLiquidacion(Integer edf_frecuenciaLiquidacion) {
+		this.edf_frecuenciaLiquidacion = edf_frecuenciaLiquidacion;
+	}
+	public Date getEdf_fechaProximaLiquidacion() {
+		return edf_fechaProximaLiquidacion;
+	}
+	public void setEdf_fechaProximaLiquidacion(Date edf_fechaProximaLiquidacion) {
+		this.edf_fechaProximaLiquidacion = edf_fechaProximaLiquidacion;
 	}
 	public String getEdf_porcentualTitulo() {
 		return edf_porcentualTitulo;
@@ -119,5 +116,12 @@ public class Edificio implements Serializable{
 	public void setEdf_cuit(String edf_cuit) {
 		this.edf_cuit = edf_cuit;
 	}
+	public void setEdf_isReadMode(boolean edf_isReadMode) {
+		this.edf_isReadMode = edf_isReadMode;
+	}
+	public boolean isEdf_isReadMode() {
+		return edf_isReadMode;
+	}
+	
 	
 }

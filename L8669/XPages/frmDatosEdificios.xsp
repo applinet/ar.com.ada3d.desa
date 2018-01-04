@@ -10,13 +10,14 @@
 					formDescription="Código SASA: #{edfObj.edf_codigo}" fieldHelp="true"
 					disableErrorSummary="false" disableRowError="false"
 					style="padding-left:20.0%;padding-right:20.0%">
-
 					<xe:formRow id="rowDireccion" label="Domicilio"
 						labelPosition="left">
-						<xp:inputText id="edf_direccion" value="#{edfObj.edf_direccion}"
-							required="true">
+						<xp:inputText id="edf_direccion"
+							value="#{edfObj.edf_direccion}" required="true"
+							readonly="#{edfObj.edf_isReadMode}">
 							<xp:this.validators>
-								<xp:validateRequired message="La dirección es un campo requerido.">
+								<xp:validateRequired
+									message="La dirección es un campo requerido.">
 								</xp:validateRequired>
 							</xp:this.validators>
 						</xp:inputText>
@@ -24,10 +25,12 @@
 
 					<xe:formRow id="formRowCodigoVisual" label="Codigo Visual"
 						labelPosition="left">
-						<xp:inputText id="edf_codigoVisual" value="#{edfObj.edf_codigoVisual}"
-							required="true">
+						<xp:inputText id="edf_codigoVisual"
+							value="#{edfObj.edf_codigoVisual}" required="true"
+							readonly="#{edfObj.edf_isReadMode}">
 							<xp:this.validators>
-								<xp:validateRequired message="El codigo visual es un campo requerido.">
+								<xp:validateRequired
+									message="El codigo visual es un campo requerido.">
 								</xp:validateRequired>
 							</xp:this.validators>
 						</xp:inputText>
@@ -35,24 +38,75 @@
 
 					<xe:formRow id="formRowCuit" label="CUIT" labelPosition="left">
 						<xp:inputText id="edf_cuit" value="#{edfObj.edf_cuit}"
-							required="false">
+							required="false" readonly="#{edfObj.edf_isReadMode}">
 							<xp:this.validators>
 								<xp:validateRequired message="El CUIT es un campo requerido.">
 								</xp:validateRequired>
 							</xp:this.validators>
 						</xp:inputText>
 					</xe:formRow>
+					
+					<xp:div>
+					<xe:formColumn styleClass="form-group col-sm-7">
+						<xe:formRow id="formRowFechaUltimaLiquidacion" label="Fecha de liquidación"
+							labelPosition="left" styleClass="col-lg-12" labelWidth="50%">
+				
+							<xp:inputText
+								id="edf_fechaUltimaLiquidacion"
+								value="#{edfObj.edf_fechaUltimaLiquidacion}" disabled="true">
+								<xp:this.converter>
+									<xp:convertDateTime type="date"></xp:convertDateTime>
+								</xp:this.converter>
+								<xp:dateTimeHelper></xp:dateTimeHelper>
+							</xp:inputText>
+						</xe:formRow>
+					</xe:formColumn>
+					<xe:formColumn styleClass="form-group col-sm-5">
+						
+						<xe:formRow id="formRowFrecuenciaLiquidacion" label="Frecuencia (meses 1, 2 o 3)" labelPosition="right" labelWidth="50%">
+							<xe:djHorizontalSlider id="djHorizontalSliderFrecuenciaLiquidacion"
+								value="#{edfObj.edf_frecuenciaLiquidacion}" maximum="3" minimum="1"
+								discreteValues="3" pageIncrement="3"
+								style="margin: 5px;width:200px; height: 20px;" disabled="#{edfObj.edf_isReadMode}">
+								
+								<xe:djSliderRule id="djSliderRuleFrecuenciaLiquidacion" style="height:5px;"
+									count="3" container="bottomDecoration">
+								</xe:djSliderRule>
+								<xe:djSliderRuleLabels id="djSliderRuleLabelsFrecuenciaLiquidacion"
+									container="bottomDecoration" style="height:10px;font-size:75%;color:gray;">
+									<li>1</li>
+									<li>2</li>
+									<li>3</li>
+								</xe:djSliderRuleLabels>
+								<xp:eventHandler event="onClick"
+									submit="true" refreshMode="partial"
+									refreshId="edf_fechaProximaLiquidacion">
+									<xe:this.action><![CDATA[#{javascript:var fechaUltimaLiquidacion = sessionScope.edfObj.edf_fechaUltimaLiquidacion;
+var frecuencia = sessionScope.edfObj.edf_frecuenciaLiquidacion;
 
-					<xe:formRow id="formRowMesLiquidacion" label="Mes de liquidación"
-						labelPosition="left">
-						<xp:inputText id="edf_mesLiquidacion">
+var cal:java.util.Calendar = java.util.Calendar.getInstance();
+cal.setTime(fechaUltimaLiquidacion);
+cal.add(java.util.Calendar.MONTH, frecuencia);
+sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.action>
+								</xp:eventHandler></xe:djHorizontalSlider>
+							
+						</xe:formRow>
+					</xe:formColumn>
+					</xp:div>
+					<xe:formRow id="formRowFechaProximaLiquidacion" label="Fecha próxima liquidación"
+								labelPosition="left">
+					
+						<xp:inputText id="edf_fechaProximaLiquidacion"
+							value="#{edfObj.edf_fechaProximaLiquidacion}" disabled="true">
 							<xp:this.converter>
-								<xp:convertDateTime pattern="MMMM">
-								</xp:convertDateTime>
+								<xp:convertDateTime type="date"></xp:convertDateTime>
 							</xp:this.converter>
+
 							<xp:dateTimeHelper></xp:dateTimeHelper>
 						</xp:inputText>
 					</xe:formRow>
+					
+					
 
 					<xe:formRow id="formRowPorcentuales" label="Porcentuales"
 						labelPosition="left">
@@ -74,10 +128,13 @@
 
 					<xe:this.facets>
 						<xp:div xp:key="footer">
-							<xp:button value="Modificar" id="btnEdit">
-								<xp:eventHandler event="onclick" submit="true"
-									refreshMode="complete">
+							<xp:button value="Modificar" id="btnEdit" rendered="#{edfObj.edf_isReadMode}">
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="partial" refreshId="tblEdificio">
 
+									<xp:this.action><![CDATA[#{javascript:sessionScope.get("edfObj").edf_isReadMode = false;
+DocLock.addLock("edf_" + edificioBean.getEdificio())
+}]]></xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
 							<xp:button value="Cerrar" id="button1">

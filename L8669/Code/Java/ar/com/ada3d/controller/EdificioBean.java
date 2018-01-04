@@ -1,6 +1,7 @@
 package ar.com.ada3d.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.io.Serializable;
@@ -57,7 +58,7 @@ public class EdificioBean implements Serializable {
 								.getEdf_codigo()
 								: miEdificio.getEdf_codigoVisual() + " "
 										+ miEdificio.getEdf_direccion() + " "
-										+ miEdificio.getEdf_ultimaLiquidacion());
+										+ miEdificio.getEdf_fechaUltimaLiquidacion());
 				option.setValue(miEdificio.getEdf_codigo());
 				options.add(option);
 			}
@@ -156,7 +157,15 @@ public class EdificioBean implements Serializable {
 			myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
 			myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim());
 			myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
-			myEdificio.setEdf_codigoPostal(strLinea.split("\\|")[4].trim());
+			myEdificio.setEdf_fechaUltimaLiquidacion(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[4].trim()));
+			myEdificio.setEdf_frecuenciaLiquidacion  (Integer.parseInt(strLinea.split("\\|")[5].trim()));
+			
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(myEdificio.getEdf_fechaUltimaLiquidacion());
+			cal.add(Calendar.MONTH, myEdificio.getEdf_frecuenciaLiquidacion());
+			myEdificio.setEdf_fechaProximaLiquidacion(cal.getTime());
+
+			myEdificio.setEdf_isReadMode(true);
 			listaEdificios.add(myEdificio);
 			if(!docUsuario.getEdificiosNoAccessLista().contains(strLinea.split("\\|")[0].trim())){
 				//System.out.println("FPR - " + docUsuario.getUser() + " - " + strLinea.split("\\|")[2].trim());
