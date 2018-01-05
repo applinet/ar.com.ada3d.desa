@@ -40,21 +40,6 @@ public class DocLock implements Serializable {
 		return ret;
 	}
 
-	public void setCurrentUserName(String UNID, String Key) {
-		XSPContext ctx = JSFUtil.getContext();
-		if (ctx != null) {
-			com.ibm.designer.runtime.directory.DirectoryUser user = ctx
-					.getUser();
-			if (user.isAnonymous()) {
-				ctx.redirectToPage(ctx.getUrl() + "?OpenXpage&Login");
-			} else {
-				synchronized (this._map) {
-					this._map.put(UNID, Key);
-				}
-			}// end if user is anonymous
-		}// end if ctx is not null
-	}// end SetCurrentUserName
-
 	public void addLock(String UNID, String Key) {
 		synchronized (this._map) {
 			this._map.put(UNID, Key);

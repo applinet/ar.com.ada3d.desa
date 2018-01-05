@@ -133,13 +133,13 @@ sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.ac
 									submit="true" refreshMode="partial" refreshId="tblEdificio">
 
 									<xp:this.action><![CDATA[#{javascript:sessionScope.get("edfObj").edf_isReadMode = false;
-DocLock.addLock("edf_" + edificioBean.getEdificio())
+DocLock.addLock("edf_" + sessionScope.get("edfObj").edf_codigo, session.getEffectiveUserName())
 }]]></xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
 							<xp:button value="Cerrar" id="button1">
 								<xp:eventHandler event="onclick" submit="true"
-									refreshMode="complete">
+									refreshMode="complete" immediate="true">
 
 									<xp:this.action>
 										<xp:openPage name="/ViewDatosEdificios.xsp">
