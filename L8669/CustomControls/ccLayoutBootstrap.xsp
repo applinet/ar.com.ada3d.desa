@@ -177,5 +177,5 @@ facesContext.getExternalContext().redirect(url);}]]></xp:this.action>
 			</xp:eventHandler>
 		</xp:button>
 		<xp:br></xp:br>
-		<xc:ccKeepAliveAndAlert></xc:ccKeepAliveAndAlert></div>
+		</div>
 </xp:view>

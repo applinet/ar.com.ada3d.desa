@@ -2,6 +2,7 @@ package ar.com.ada3d.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Edificio implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -22,9 +23,9 @@ public class Edificio implements Serializable{
 	private Date edf_fechaUltimaLiquidacion;
 	private Integer edf_frecuenciaLiquidacion;
 	private Date edf_fechaProximaLiquidacion;
-	private String edf_porcentualTitulo;
 	private String edf_cuit;
 	private boolean edf_isReadMode;
+	private List<Porcentual> listaPorcentuales;
 	
 	
 	//TODO: private String edf_lockeo --> DocLock
@@ -74,11 +75,12 @@ public class Edificio implements Serializable{
 	public void setEdf_provincia(String edf_provincia) {
 		this.edf_provincia = edf_provincia;
 	}
-	public String getEdf_adm_dependiente() {
-		return edf_dependiente;
+	
+	public void setEdf_dependiente(String edf_dependiente) {
+		this.edf_dependiente = edf_dependiente;
 	}
-	public void setEdf_adm_dependiente(String edf_adm_dependiente) {
-		this.edf_dependiente = edf_adm_dependiente;
+	public String getEdf_dependiente() {
+		return edf_dependiente;
 	}
 	public String getEdf_estadoProceso() {
 		return edf_estadoProceso;
@@ -104,12 +106,6 @@ public class Edificio implements Serializable{
 	public void setEdf_fechaProximaLiquidacion(Date edf_fechaProximaLiquidacion) {
 		this.edf_fechaProximaLiquidacion = edf_fechaProximaLiquidacion;
 	}
-	public String getEdf_porcentualTitulo() {
-		return edf_porcentualTitulo;
-	}
-	public void setEdf_porcentualTitulo(String edf_porcentualTitulo) {
-		this.edf_porcentualTitulo = edf_porcentualTitulo;
-	}
 	public String getEdf_cuit() {
 		return edf_cuit;
 	}
@@ -122,6 +118,11 @@ public class Edificio implements Serializable{
 	public boolean isEdf_isReadMode() {
 		return edf_isReadMode;
 	}
-	
+	public void setListaPorcentuales(List<Porcentual> listaPorcentuales) {
+		this.listaPorcentuales = listaPorcentuales;
+	}
+	public List<Porcentual> getListaPorcentuales() {
+		return listaPorcentuales;
+	}
 	
 }

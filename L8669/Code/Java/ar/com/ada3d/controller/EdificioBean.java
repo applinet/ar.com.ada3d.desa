@@ -2,14 +2,17 @@ package ar.com.ada3d.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.math.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.io.Serializable;
 import javax.faces.model.SelectItem;
 
 import org.openntf.domino.Document;
 
 import ar.com.ada3d.model.Edificio;
+import ar.com.ada3d.model.Porcentual;
 import ar.com.ada3d.utilidades.*;
 import lotus.domino.NotesException;
 import ar.com.ada3d.connect.QueryAS400;
@@ -34,6 +37,7 @@ public class EdificioBean implements Serializable {
 	private static List<Edificio> listaEdificios;
 	private static List<Edificio> listaEdificiosTrabajo;
 	
+	
 
 	/*
 	 * Esto devuelve para cada usuario el ComboBox de Edificios autorizados para
@@ -52,13 +56,13 @@ public class EdificioBean implements Serializable {
 			if (!docUsuario.getEdificiosNoAccessLista().contains(
 					miEdificio.getEdf_codigo())) { // Solo edificios autorizados
 				SelectItem option = new SelectItem();
-
+				
 				option
 						.setLabel(miEdificio.getEdf_codigoVisual().equals("") ? miEdificio
 								.getEdf_codigo()
 								: miEdificio.getEdf_codigoVisual() + " "
 										+ miEdificio.getEdf_direccion() + " "
-										+ miEdificio.getEdf_fechaUltimaLiquidacion());
+										+ ar.com.ada3d.utilidades.Conversores.DateToString(miEdificio.getEdf_fechaUltimaLiquidacion(), "dd/MM/yyyy" ));
 				option.setValue(miEdificio.getEdf_codigo());
 				options.add(option);
 			}
@@ -140,6 +144,7 @@ public class EdificioBean implements Serializable {
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		ArrayList<String> nl = null;
 		Edificio myEdificio;
+		
 		try {
 			nl = query.getSelectAS("controllerEdificios", null, false);
 		} catch (NotesException e) {
@@ -159,6 +164,10 @@ public class EdificioBean implements Serializable {
 			myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
 			myEdificio.setEdf_fechaUltimaLiquidacion(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[4].trim()));
 			myEdificio.setEdf_frecuenciaLiquidacion  (Integer.parseInt(strLinea.split("\\|")[5].trim()));
+									
+			myEdificio.setListaPorcentuales(cargaPorcentualesUnEdificio(strLinea));
+			
+			
 			
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(myEdificio.getEdf_fechaUltimaLiquidacion());
@@ -175,6 +184,19 @@ public class EdificioBean implements Serializable {
 		}
 	}
 
+	private List<Porcentual> cargaPorcentualesUnEdificio(String strLinea){
+		Porcentual myPorcentual;
+		List<Porcentual> listaPorcentualesEdificio = new ArrayList<Porcentual>();
+		int posicion = 5;
+		for(int i=0; i<4; i++){ //Son 4 porcentuales por edificio
+			posicion = posicion + 1;
+			myPorcentual = new Porcentual();
+			myPorcentual.setEdf_porcentualImporte(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[posicion].trim(), Locale.CANADA, 2)));
+			listaPorcentualesEdificio.add(myPorcentual);
+		}
+		return listaPorcentualesEdificio;
+	}
+	
 	
 	public void updateEdificiosAs400() {
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
@@ -191,6 +213,7 @@ public class EdificioBean implements Serializable {
 			myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
 			myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim());
 			myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
+			
 		
 		}
 	}

@@ -33,6 +33,12 @@
 		</managed-bean-class>
     <managed-bean-scope>view</managed-bean-scope>
   </managed-bean>
+  <managed-bean>
+    <description>Validadores</description>
+    <managed-bean-name>validadorBean</managed-bean-name>
+    <managed-bean-class>ar.com.ada3d.utilidades.Validadores</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
   <!-- phase listener for the alerts demo -->
   <managed-bean id="dBar">
     <managed-bean-name>dBar</managed-bean-name>
