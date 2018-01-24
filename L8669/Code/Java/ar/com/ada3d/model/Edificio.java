@@ -25,7 +25,7 @@ public class Edificio implements Serializable{
 	private Date edf_fechaProximaLiquidacion;
 	private String edf_cuit;
 	private boolean edf_isReadMode;
-	private List<Porcentual> listaPorcentuales;
+	private List<Prorrateo> listaProrrateos;
 	
 	
 	//TODO: private String edf_lockeo --> DocLock
@@ -112,17 +112,17 @@ public class Edificio implements Serializable{
 	public void setEdf_cuit(String edf_cuit) {
 		this.edf_cuit = edf_cuit;
 	}
-	public void setEdf_isReadMode(boolean edf_isReadMode) {
-		this.edf_isReadMode = edf_isReadMode;
-	}
 	public boolean isEdf_isReadMode() {
 		return edf_isReadMode;
 	}
-	public void setListaPorcentuales(List<Porcentual> listaPorcentuales) {
-		this.listaPorcentuales = listaPorcentuales;
+	public void setEdf_isReadMode(boolean edf_isReadMode) {
+		this.edf_isReadMode = edf_isReadMode;
 	}
-	public List<Porcentual> getListaPorcentuales() {
-		return listaPorcentuales;
+	public List<Prorrateo> getListaProrrateos() {
+		return listaProrrateos;
+	}
+	public void setListaProrrateos(List<Prorrateo> listaProrrateos) {
+		this.listaProrrateos = listaProrrateos;
 	}
 	
 }

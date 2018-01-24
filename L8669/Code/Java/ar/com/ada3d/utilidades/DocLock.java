@@ -19,7 +19,6 @@ package ar.com.ada3d.utilidades;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import com.ibm.xsp.designer.context.XSPContext;
 
 public class DocLock implements Serializable {
 	private static final long serialVersionUID = 2L;

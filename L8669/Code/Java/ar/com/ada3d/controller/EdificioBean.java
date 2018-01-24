@@ -12,7 +12,7 @@ import javax.faces.model.SelectItem;
 import org.openntf.domino.Document;
 
 import ar.com.ada3d.model.Edificio;
-import ar.com.ada3d.model.Porcentual;
+import ar.com.ada3d.model.Prorrateo;
 import ar.com.ada3d.utilidades.*;
 import lotus.domino.NotesException;
 import ar.com.ada3d.connect.QueryAS400;
@@ -165,13 +165,14 @@ public class EdificioBean implements Serializable {
 			myEdificio.setEdf_fechaUltimaLiquidacion(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[4].trim()));
 			myEdificio.setEdf_frecuenciaLiquidacion  (Integer.parseInt(strLinea.split("\\|")[5].trim()));
 									
-			myEdificio.setListaPorcentuales(cargaPorcentualesUnEdificio(strLinea));
+			myEdificio.setListaProrrateos(cargaProrrateoEdificio(strLinea));
 			
 			
 			
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(myEdificio.getEdf_fechaUltimaLiquidacion());
 			cal.add(Calendar.MONTH, myEdificio.getEdf_frecuenciaLiquidacion());
+			cal.set(cal.DATE, cal.getActualMaximum(cal.DAY_OF_MONTH));
 			myEdificio.setEdf_fechaProximaLiquidacion(cal.getTime());
 
 			myEdificio.setEdf_isReadMode(true);
@@ -184,15 +185,54 @@ public class EdificioBean implements Serializable {
 		}
 	}
 
-	private List<Porcentual> cargaPorcentualesUnEdificio(String strLinea){
-		Porcentual myPorcentual;
-		List<Porcentual> listaPorcentualesEdificio = new ArrayList<Porcentual>();
-		int posicion = 5;
-		for(int i=0; i<4; i++){ //Son 4 porcentuales por edificio
-			posicion = posicion + 1;
-			myPorcentual = new Porcentual();
-			myPorcentual.setEdf_porcentualImporte(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[posicion].trim(), Locale.CANADA, 2)));
-			listaPorcentualesEdificio.add(myPorcentual);
+	
+	/*
+	 * Al cargar un edificio en la misma consulta al AS400 tambien cargo los datos de prorrateo
+	 */
+	private List<Prorrateo> cargaProrrateoEdificio(String strLinea){
+		Prorrateo myProrrateo;
+		List<Prorrateo> listaPorcentualesEdificio = new ArrayList<Prorrateo>();
+		int posicionPorcentaje = 5;
+		int posicionCuotaFija = 9;
+		int posicionPresupuesto = 13;
+		
+		int tempPorcentaje = 0;
+		String strCuotaFija;
+		String strPresupuesto;
+		String strTipo;
+		
+		for(int i=1; i<5; i++){ //Son 4 prorrateos por edificio
+			//variables que recorren 4 valores a prorratear
+			posicionPorcentaje = posicionPorcentaje + 1;
+			posicionCuotaFija = posicionCuotaFija + 1;
+			posicionPresupuesto = posicionPresupuesto + 1;
+			
+			//Define si se crea o no el objeto Prorrateo
+			tempPorcentaje = Integer.parseInt(strLinea.split("\\|")[posicionPorcentaje].trim());
+			if(tempPorcentaje != 0){
+				myProrrateo = new Prorrateo();
+				myProrrateo.setPrt_posicion(i);
+				myProrrateo.setPrt_titulo("Porcentual # " + i);
+				myProrrateo.setPrt_porcentaje(tempPorcentaje);
+				
+				strCuotaFija = strLinea.split("\\|")[posicionCuotaFija].trim();
+				strPresupuesto = strLinea.split("\\|")[posicionPresupuesto].trim();
+				//Defino el tipo de prorrateo
+				strTipo = strCuotaFija.equals("0") ? "P" : "C";
+				strTipo = strCuotaFija.equals("0") && strPresupuesto.equals("0") ? "G" : strTipo;
+				myProrrateo.setPrt_tipo(strTipo);
+				
+				if (strTipo.equals("C")){
+					myProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strCuotaFija, Locale.UK, 2)));
+				}else if (strTipo.equals("P")){
+					myProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strPresupuesto, Locale.UK, 2)));
+				}else{
+					//myProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal("0", Locale.UK, 2)));
+				}
+				listaPorcentualesEdificio.add(myProrrateo);
+			}
+			
+			
 		}
 		return listaPorcentualesEdificio;
 	}
