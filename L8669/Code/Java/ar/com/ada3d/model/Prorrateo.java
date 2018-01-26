@@ -2,6 +2,7 @@ package ar.com.ada3d.model;
 
 import java.io.Serializable;
 import java.math.*;
+import java.util.Date;
 
 public class Prorrateo implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -14,8 +15,9 @@ public class Prorrateo implements Serializable{
 	private String prt_titulo;
 	// gastos, cuota fija o presupuesto
 	private String prt_tipo; 
+	
 	//define si la posición es utilizada o no (cero no se utiliza)
-	private int prt_porcentaje; 
+	private int prt_porcentaje;
 	private BigDecimal prt_importe;
 
 	//Getters and Setters

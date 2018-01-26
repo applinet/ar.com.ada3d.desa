@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Locale;
 import java.io.Serializable;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
+
 import org.openntf.domino.Document;
 
 import ar.com.ada3d.model.Edificio;
@@ -36,7 +39,6 @@ public class EdificioBean implements Serializable {
 	HashMap<String, Edificio> hmEdificios = new HashMap<String, Edificio>();
 	private static List<Edificio> listaEdificios;
 	private static List<Edificio> listaEdificiosTrabajo;
-	
 	
 
 	/*
@@ -161,21 +163,55 @@ public class EdificioBean implements Serializable {
 			myEdificio = new Edificio();
 			myEdificio.setEdf_codigo(strLinea.split("\\|")[0].trim());
 			myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
-			myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim());
+			myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim().split("-")[0]);
+			myEdificio.setEdf_localidad(strLinea.split("\\|")[2].trim().split("-")[1]);
 			myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
 			myEdificio.setEdf_fechaUltimaLiquidacion(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[4].trim()));
 			myEdificio.setEdf_frecuenciaLiquidacion  (Integer.parseInt(strLinea.split("\\|")[5].trim()));
 									
-			myEdificio.setListaProrrateos(cargaProrrateoEdificio(strLinea));
-			
-			
-			
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(myEdificio.getEdf_fechaUltimaLiquidacion());
 			cal.add(Calendar.MONTH, myEdificio.getEdf_frecuenciaLiquidacion());
 			cal.set(cal.DATE, cal.getActualMaximum(cal.DAY_OF_MONTH));
 			myEdificio.setEdf_fechaProximaLiquidacion(cal.getTime());
 
+			
+			//Defino el tipo de prorrateo			
+			String strTipo = strLinea.split("\\|")[14].trim();
+			//Creo el combo de fecha prorrateo si es cuota fija
+			if(strTipo.equals("") || strTipo.equals("N")){
+
+				List<SelectItem> options = new ArrayList<SelectItem>();
+			    SelectItem optionMesLiquedacion = new SelectItem();
+			    optionMesLiquedacion.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy"));
+			    optionMesLiquedacion.setValue("N");
+			    options.add(optionMesLiquedacion);
+
+			    if(strTipo.equals("")){//CF y fecha prorrateo le agrego 1 dia para que sea el dia 1 del mes siguiente
+			    	cal.add(Calendar.DATE, 1);
+					myEdificio.setEdf_cuotaFijaDia("B");
+			    }else{//CF y fecha prorrateo ídem liquidación
+			    	myEdificio.setEdf_cuotaFijaDia("N");
+			    	cal.add(Calendar.DATE, 1);
+			    }
+			    
+			    SelectItem optionMesSiguiente = new SelectItem();
+			    optionMesSiguiente.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy"));
+			    optionMesSiguiente.setValue("B");
+			    options.add(optionMesSiguiente);
+			    myEdificio.setEdf_cuotaFijaDiaOpcionesCombo(options);
+			    
+			    strTipo = "C";
+			    
+			}else if (strTipo.equals("P")){//Presupuesto
+				strTipo = "P";	
+			}else{
+				strTipo = "G";	
+			}	
+					
+		    
+			myEdificio.setListaProrrateos(cargaProrrateoEdificio(strLinea, strTipo));
+			
 			myEdificio.setEdf_isReadMode(true);
 			listaEdificios.add(myEdificio);
 			if(!docUsuario.getEdificiosNoAccessLista().contains(strLinea.split("\\|")[0].trim())){
@@ -190,16 +226,13 @@ public class EdificioBean implements Serializable {
 	/*
 	 * Al cargar un edificio en la misma consulta al AS400 tambien cargo los datos de prorrateo
 	 */
-	private List<Prorrateo> cargaProrrateoEdificio(String strLinea){
+	private List<Prorrateo> cargaProrrateoEdificio(String strLinea, String strTipo){
 		Prorrateo myProrrateo;
 		List<Prorrateo> listaPorcentualesEdificio = new ArrayList<Prorrateo>();
 		int posicionPorcentaje = 5;
 		int posicionCuotaFija = 9;
-		
 		int tempPorcentaje = 0;
-		String strCuotaFija;
-		String strPresupuesto;
-		String strTipo = strLinea.split("\\|")[13].trim();
+		String strValorCuotaFija;
 		
 		for(int i=1; i<5; i++){ //Son 4 prorrateos por edificio
 			//variables que recorren 4 valores a prorratear
@@ -214,30 +247,24 @@ public class EdificioBean implements Serializable {
 				myProrrateo.setPrt_titulo("Porcentual # " + i);
 				myProrrateo.setPrt_porcentaje(tempPorcentaje);
 				
-				strCuotaFija = strLinea.split("\\|")[posicionCuotaFija].trim();
+				//valor que va a tener la cuota fija o el presupuesto
+				strValorCuotaFija = strLinea.split("\\|")[posicionCuotaFija].trim();
 
-				//Defino el tipo de prorrateo
-				if (strTipo.equals("P")){
+				//Defino el tipo individual de prorrateo, pero si el valor es 0 es gasto
+				if (strValorCuotaFija.equals("0")){
+					myProrrateo.setPrt_tipo("G");
+				}else if (strTipo.equals("P")){
 					myProrrateo.setPrt_tipo("P");
-					myProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strCuotaFija, Locale.UK, 2)));
-				}else if(strTipo.equals("")){
+					myProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strValorCuotaFija, Locale.UK, 2)));
+				}else if(strTipo.equals("C")){
 					myProrrateo.setPrt_tipo("C");
-					myProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strCuotaFija, Locale.UK, 2)));
-				}else if(strTipo.equals("N")){
-					myProrrateo.setPrt_tipo("C");
-					myProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strCuotaFija, Locale.UK, 2)));
+					myProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strValorCuotaFija, Locale.UK, 2)));
 				}else{
 					myProrrateo.setPrt_tipo("G");
 				}
 				
-				
-				
-				
-				
 				listaPorcentualesEdificio.add(myProrrateo);
 			}
-			
-			
 		}
 		return listaPorcentualesEdificio;
 	}
@@ -264,18 +291,53 @@ public class EdificioBean implements Serializable {
 	}
 
 	
-	public String saveEdificio(Edificio edificio) {
+	/*
+	 * Update de tablas AS400 con los datos del edificio
+	 */
+	public void saveEdificio(Edificio prm_edificio) {
 		Document docDummy = JSFUtil.getDocDummy();
-		docDummy.appendItemValue("EDIF", edificio.getEdf_codigo());
-		docDummy.appendItemValue("DIRECC", edificio.getEdf_direccion());
-		docDummy.appendItemValue("E20A", edificio.getEdf_codigoVisual());
+		docDummy.appendItemValue("EDIF", prm_edificio.getEdf_codigo());
+		docDummy.appendItemValue("DIRECC", prm_edificio.getEdf_direccion());
+		docDummy.appendItemValue("E20A", prm_edificio.getEdf_codigoVisual());
 		
 		QueryAS400 query = new QueryAS400();
-		return "No se valido.";
+		
 		/*		
 		if (query.updateAS("updateEdificios", docDummy)) {
 			//System.out.println("FPR UpdateQuery OK_Codigo: " + edificio.getEdf_codigo());
 		}*/
+	}
+	
+
+	/*
+	 * Chequea los datos del edificio recibido por parámetros
+	 */
+	public ArrayList<String> strValidacionEdificio(Edificio prm_edificio){
+		/*FacesMessage message = new FacesMessage("No es válido");
+			// Throw exception so that it prevents document from being saved
+			throw new ValidatorException(message);
+		 */
+		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
+		String strTemp = "";
+		
+		/*Codigo Visual(reemplazo) 
+		 * - No puede ser = a un codigo visual existente
+		 * - No puede ser = a un codigo sasa que no sea el que estoy 
+		*/
+		
+		
+		//La direccion + localidad max. 27 long.
+		strTemp = prm_edificio.getEdf_direccion() + "-" + prm_edificio.getEdf_localidad();
+		if(strTemp.length() > 27){
+			listAcumulaErrores.add("El domicilio con la localidad, no deben superar los 26 caracteres.\n Una opción posible: " + strTemp.substring(0, 27));
+			listAcumulaErrores.add("varios errores");
+		}
+		
+		//El título de cada valor a prorratear max. 11 long. 
+
+		
+		return listAcumulaErrores;
+		
 	}
 
 	

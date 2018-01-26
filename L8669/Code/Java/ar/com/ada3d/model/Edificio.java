@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.model.SelectItem;
+
 public class Edificio implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -26,8 +28,11 @@ public class Edificio implements Serializable{
 	private String edf_cuit;
 	private boolean edf_isReadMode;
 	private List<Prorrateo> listaProrrateos;
+	// si es cuota fija define el mes de prorrateo (1 o 31)
+	private String edf_cuotaFijaDia;
+	private List<SelectItem> edf_cuotaFijaDiaOpcionesCombo;
 	
-	
+		
 	//TODO: private String edf_lockeo --> DocLock
 
 		
@@ -124,5 +129,19 @@ public class Edificio implements Serializable{
 	public void setListaProrrateos(List<Prorrateo> listaProrrateos) {
 		this.listaProrrateos = listaProrrateos;
 	}
+	public String getEdf_cuotaFijaDia() {
+		return edf_cuotaFijaDia;
+	}
+	public void setEdf_cuotaFijaDia(String edf_cuotaFijaDia) {
+		this.edf_cuotaFijaDia = edf_cuotaFijaDia;
+	}
+	public List<SelectItem> getEdf_cuotaFijaDiaOpcionesCombo() {
+		return edf_cuotaFijaDiaOpcionesCombo;
+	}
+	public void setEdf_cuotaFijaDiaOpcionesCombo(
+			List<SelectItem> edf_cuotaFijaDiaOpcionesCombo) {
+		this.edf_cuotaFijaDiaOpcionesCombo = edf_cuotaFijaDiaOpcionesCombo;
+	}
+
 	
 }
