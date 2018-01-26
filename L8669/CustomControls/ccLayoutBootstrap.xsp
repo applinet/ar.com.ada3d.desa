@@ -24,6 +24,7 @@
 	<xe:applicationLayout id="applicationLayout1">
 		<xp:callback facetName="facetMiddle" id="facetMiddle"></xp:callback>
 		<xe:this.facets>
+
 			<xe:djFilteringSelect id="djFilteringSelect2"
 				xp:key="MastHeader" queryExpr="#{javascript:return '*\$\{0\}*';}"
 				autoComplete="false" style="width:400.0px"
@@ -44,7 +45,8 @@
 					<xe:this.action><![CDATA[#{javascript:sessionScope.edificioSelected = this.getParent().getValue();}]]></xe:this.action>
 				</xp:eventHandler>
 			</xe:djFilteringSelect>
-			<xp:callback facetName="facetLeft" id="facetLeft" xp:key="LeftColumn">
+			<xp:callback facetName="facetLeft" id="facetLeft"
+				xp:key="LeftColumn">
 			</xp:callback>
 		</xe:this.facets>
 		<!-- Bootstrap configuration object for the app layout -->

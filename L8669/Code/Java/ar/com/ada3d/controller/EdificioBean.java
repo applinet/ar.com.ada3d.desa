@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.io.Serializable;
-import javax.faces.model.SelectItem;
 
+import javax.faces.model.SelectItem;
 import org.openntf.domino.Document;
 
 import ar.com.ada3d.model.Edificio;
@@ -133,6 +133,7 @@ public class EdificioBean implements Serializable {
 	/*
 	 * Agrego Edificios consultando As400, cada linea separa el dato por un pipe
 	 */
+	@SuppressWarnings({ "static-access" })
 	public void AddEdificiosAs400() {
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		if (!(listaEdificios == null)){
@@ -194,18 +195,16 @@ public class EdificioBean implements Serializable {
 		List<Prorrateo> listaPorcentualesEdificio = new ArrayList<Prorrateo>();
 		int posicionPorcentaje = 5;
 		int posicionCuotaFija = 9;
-		int posicionPresupuesto = 13;
 		
 		int tempPorcentaje = 0;
 		String strCuotaFija;
 		String strPresupuesto;
-		String strTipo;
+		String strTipo = strLinea.split("\\|")[13].trim();
 		
 		for(int i=1; i<5; i++){ //Son 4 prorrateos por edificio
 			//variables que recorren 4 valores a prorratear
 			posicionPorcentaje = posicionPorcentaje + 1;
 			posicionCuotaFija = posicionCuotaFija + 1;
-			posicionPresupuesto = posicionPresupuesto + 1;
 			
 			//Define si se crea o no el objeto Prorrateo
 			tempPorcentaje = Integer.parseInt(strLinea.split("\\|")[posicionPorcentaje].trim());
@@ -216,19 +215,25 @@ public class EdificioBean implements Serializable {
 				myProrrateo.setPrt_porcentaje(tempPorcentaje);
 				
 				strCuotaFija = strLinea.split("\\|")[posicionCuotaFija].trim();
-				strPresupuesto = strLinea.split("\\|")[posicionPresupuesto].trim();
+
 				//Defino el tipo de prorrateo
-				strTipo = strCuotaFija.equals("0") ? "P" : "C";
-				strTipo = strCuotaFija.equals("0") && strPresupuesto.equals("0") ? "G" : strTipo;
-				myProrrateo.setPrt_tipo(strTipo);
-				
-				if (strTipo.equals("C")){
+				if (strTipo.equals("P")){
+					myProrrateo.setPrt_tipo("P");
 					myProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strCuotaFija, Locale.UK, 2)));
-				}else if (strTipo.equals("P")){
-					myProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strPresupuesto, Locale.UK, 2)));
+				}else if(strTipo.equals("")){
+					myProrrateo.setPrt_tipo("C");
+					myProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strCuotaFija, Locale.UK, 2)));
+				}else if(strTipo.equals("N")){
+					myProrrateo.setPrt_tipo("C");
+					myProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strCuotaFija, Locale.UK, 2)));
 				}else{
-					//myProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal("0", Locale.UK, 2)));
+					myProrrateo.setPrt_tipo("G");
 				}
+				
+				
+				
+				
+				
 				listaPorcentualesEdificio.add(myProrrateo);
 			}
 			
@@ -259,17 +264,18 @@ public class EdificioBean implements Serializable {
 	}
 
 	
-	public void saveEdificio(Edificio edificio) {
+	public String saveEdificio(Edificio edificio) {
 		Document docDummy = JSFUtil.getDocDummy();
 		docDummy.appendItemValue("EDIF", edificio.getEdf_codigo());
 		docDummy.appendItemValue("DIRECC", edificio.getEdf_direccion());
 		docDummy.appendItemValue("E20A", edificio.getEdf_codigoVisual());
 		
 		QueryAS400 query = new QueryAS400();
-
+		return "No se valido.";
+		/*		
 		if (query.updateAS("updateEdificios", docDummy)) {
 			//System.out.println("FPR UpdateQuery OK_Codigo: " + edificio.getEdf_codigo());
-		}
+		}*/
 	}
 
 	
