@@ -104,6 +104,11 @@ public class QueryAS400 implements Serializable {
 					System.out.println("Columna:" + rsmd.getColumnLabel(i));
 				}
 			}
+			
+			if (configTabla.getMsgConsola().equals("1")){
+				System.out.println("KEY: " + configTabla.getClave());
+				System.out.println("SQL: " + configTabla.getStrsSQL());
+			}
 
 			int cont = 0;
 
@@ -118,6 +123,8 @@ public class QueryAS400 implements Serializable {
 						temp = temp + rs.getString(s).trim();
 					}
 				}
+				if (configTabla.getMsgConsola().equals("1"))
+					System.out.println("LINEA: " + temp);
 				returnArrlist.add(temp);
 			}
 			close(rs);

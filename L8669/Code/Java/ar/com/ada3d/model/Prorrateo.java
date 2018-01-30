@@ -2,7 +2,6 @@ package ar.com.ada3d.model;
 
 import java.io.Serializable;
 import java.math.*;
-import java.util.Date;
 
 public class Prorrateo implements Serializable{
 	private static final long serialVersionUID = 1L;

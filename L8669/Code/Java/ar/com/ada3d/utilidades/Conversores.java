@@ -20,7 +20,10 @@ public class Conversores {
 	 */
 	public static Date StringToDate(final String inputFormat,
 			String inputTimeStamp) {
-
+		//Arreglo ya que como es un nro puede venir un blanco (cero a la izquierda) 
+		if (inputFormat.length() > inputTimeStamp.length())
+			inputTimeStamp = "0" + inputTimeStamp;
+			
 		SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
 		Date convertedDate = null;
 		try {

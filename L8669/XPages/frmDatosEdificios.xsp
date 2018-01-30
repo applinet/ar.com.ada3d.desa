@@ -31,13 +31,15 @@
 								<xp:validateRequired
 									message="La dirección es un campo requerido.">
 								</xp:validateRequired>
+
+								<xp:validateLength minimum="1"></xp:validateLength>
 							</xp:this.validators>
 						</xp:inputText>
 					</xe:formRow>
 
-<xe:formRow id="rowLocalidad" label="Localidad"
+					<xe:formRow id="rowLocalidad" label="Localidad"
 						labelPosition="left">
-						<xp:inputText id="inputText1"
+						<xp:inputText id="edf_localidad"
 							value="#{edfObj.edf_localidad}" required="true"
 							readonly="#{edfObj.edf_isReadMode}"
 							onblur="this.value=this.value.toUpperCase();">
@@ -45,6 +47,8 @@
 								<xp:validateRequired
 									message="La localidad es un campo requerido.">
 								</xp:validateRequired>
+								<xp:validateLength minimum="1">
+								</xp:validateLength>
 							</xp:this.validators>
 						</xp:inputText>
 					</xe:formRow>
@@ -64,7 +68,7 @@
 
 					<xe:formRow id="rowCuit" label="CUIT"
 						labelPosition="left">
-						<xp:inputText id="edf_cuit" required="false"
+						<xp:inputText id="edf_cuit" required="true"
 							value="#{edfObj.edf_cuit}" readonly="#{edfObj.edf_isReadMode}"
 							validator="#{validadorBean.validateCUIT}">
 							<xp:this.validators>
@@ -152,7 +156,11 @@ sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.ac
 								<xp:inputText id="prt_titulo" disabled="#{edfObj.edf_isReadMode}"
 									styleClass="row form-inline"
 									value="#{rptProrrateoTitulo.prt_titulo}">
-								</xp:inputText>
+								<xp:this.validators>
+									<xp:validateLength maximum="11"
+										message="El largo no puede exceder 11 caracteres">
+									</xp:validateLength>
+								</xp:this.validators></xp:inputText>
 							</xp:repeat>
 						</xe:formRow>
 					</xe:formColumn>
@@ -239,9 +247,10 @@ sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.ac
 						</xp:comboBox>
 					</xe:formRow>
 
-					<xe:formRow id="formRow555" 
-					label="Imprimir títulos en liquidación" labelPosition="left">
-						<xp:comboBox id="comboBox1" defaultValue="0"
+					<xe:formRow id="rowImprimeTitulosEnLiquidacion" 
+					label="Imprimir títulos de los porcentuales" labelPosition="left">
+						<xp:comboBox id="edf_imprimeTitulosEnLiquidacion" disabled="#{edfObj.edf_isReadMode}"
+							value="#{edfObj.edf_imprimeTitulosEnLiquidacion}"
                            style="width:auto">
                             <xp:selectItem itemLabel="SI"
                                 itemValue="1">
@@ -250,6 +259,86 @@ sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.ac
                                 itemValue="0">
                             </xp:selectItem>
                         </xp:comboBox>
+					</xe:formRow>
+
+					
+					
+					<xe:formRow id="rowInteresPunitorioDeudores" 
+						label="Interés punitorio a unidades deudoras" labelPosition="left">
+						<xp:inputText id="edf_interesPunitorioDeudores" 
+							value="#{edfObj.edf_interesPunitorioDeudores}"
+							disabled="#{edfObj.edf_isReadMode}" style="text-align:right; width:60.0px; display: inline;">
+							<xp:this.converter>
+								<xp:convertNumber
+									pattern="#,##0.0;(#,##0.0)">
+								</xp:convertNumber>
+							</xp:this.converter>
+							<xp:this.validators>
+								<xp:validateLongRange minimum="0"
+									maximum="100"
+									message="El % de interés no puede superar el 100 %">
+								</xp:validateLongRange>
+							</xp:this.validators>
+						</xp:inputText>
+						<xp:label value="%" id="Signo1"></xp:label>
+					</xe:formRow>
+	
+					<xe:formRow id="rowRecargoSegundoVencimiento"
+						label="Recargo para el 2° vto de expensas" labelPosition="left">
+						<xp:inputText id="edf_recargoSegundoVencimiento"
+							value="#{edfObj.edf_recargoSegundoVencimiento}" disabled="#{edfObj.edf_isReadMode}"
+							style="text-align:right; width:60.0px; display: inline;">
+							<xp:this.converter>
+								<xp:convertNumber
+									pattern="#,##0.0;(#,##0.0)">
+								</xp:convertNumber>
+							</xp:this.converter>
+							<xp:this.validators>
+								<xp:validateLongRange minimum="0"
+									maximum="100"
+									message="El % de interés no puede superar el 100 %">
+								</xp:validateLongRange>
+							</xp:this.validators>
+						</xp:inputText>
+						<xp:label value="%" id="Signo2"></xp:label>
+					</xe:formRow>
+					
+					<xe:formRow id="rowFechaPrimerVencimientoRecibos"
+						label="Fecha del 1° vto en recibos" labelPosition="left">
+						<xp:inputText id="edf_fechaPrimerVencimientoRecibos"
+							value="#{edfObj.edf_fechaPrimerVencimientoRecibos}" disabled="true">
+							<xp:this.converter>
+								<xp:convertDateTime type="date"></xp:convertDateTime>
+							</xp:this.converter>
+							<xp:dateTimeHelper></xp:dateTimeHelper>
+						</xp:inputText>
+					</xe:formRow>
+
+					<xe:formRow id="rowFechaSegundoVencimientoRecibos"
+						label="Recargo para el 2° vto de expensas" labelPosition="left">
+						<xp:inputText id="edf_fechaSegundoVencimientoRecibos"
+							value="#{edfObj.edf_fechaSegundoVencimientoRecibos}" disabled="true">
+							<xp:this.converter>
+								<xp:convertDateTime type="date"></xp:convertDateTime>
+							</xp:this.converter>
+							<xp:dateTimeHelper></xp:dateTimeHelper>
+						</xp:inputText>
+					</xe:formRow>
+					
+					<xe:formRow id="rowModalidadInteresesPunitorios"
+						label="Modalidad de intereses punitorios" labelPosition="left">
+						<xp:comboBox id="edf_modalidadInteresesPunitorios" disabled="#{edfObj.edf_isReadMode}"
+							value="#{edfObj.edf_modalidadInteresesPunitorios}"
+                           style="width:auto">
+                            <xp:selectItem itemLabel="Interés s/Capital"
+                                itemValue="1">
+                            </xp:selectItem>
+                            <xp:selectItem itemLabel="Interés s/Interés"
+                                itemValue="0">
+                            </xp:selectItem>
+                        </xp:comboBox>
+                        
+						
 					</xe:formRow>
 
 					<xe:this.facets>
@@ -287,9 +376,11 @@ if(msgValidacion.isEmpty()){
 }else{
 	var msg=new javax.faces.application.FacesMessage();
 	for (i=0;i<msgValidacion.size();i++) {
-		facesContext.addMessage("Error",msg(msgValidacion.get(i)));
+		facesContext.addMessage(getComponent(msgValidacion.get(i).split("\~")[0]).getClientId(facesContext),msg(msgValidacion.get(i).split("\~")[1]));
 	}
 }}]]></xp:this.action>
+
+
 								</xp:eventHandler>
 							</xp:button>
 							</xp:div>

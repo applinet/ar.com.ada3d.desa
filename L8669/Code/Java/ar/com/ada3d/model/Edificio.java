@@ -1,6 +1,7 @@
 package ar.com.ada3d.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +32,12 @@ public class Edificio implements Serializable{
 	// si es cuota fija define el mes de prorrateo (1 o 31)
 	private String edf_cuotaFijaDia;
 	private List<SelectItem> edf_cuotaFijaDiaOpcionesCombo;
-	
+	private String edf_imprimeTitulosEnLiquidacion;
+	private BigDecimal edf_interesPunitorioDeudores;
+	private BigDecimal edf_recargoSegundoVencimiento;
+	private Date edf_fechaPrimerVencimientoRecibos;
+	private Date edf_fechaSegundoVencimientoRecibos;
+	private String edf_modalidadInteresesPunitorios;
 		
 	//TODO: private String edf_lockeo --> DocLock
 
@@ -141,6 +147,49 @@ public class Edificio implements Serializable{
 	public void setEdf_cuotaFijaDiaOpcionesCombo(
 			List<SelectItem> edf_cuotaFijaDiaOpcionesCombo) {
 		this.edf_cuotaFijaDiaOpcionesCombo = edf_cuotaFijaDiaOpcionesCombo;
+	}
+	
+	public String getEdf_imprimeTitulosEnLiquidacion() {
+		return edf_imprimeTitulosEnLiquidacion;
+	}
+	public void setEdf_imprimeTitulosEnLiquidacion(
+			String edf_imprimeTitulosEnLiquidacion) {
+		this.edf_imprimeTitulosEnLiquidacion = edf_imprimeTitulosEnLiquidacion;
+	}
+	public BigDecimal getEdf_interesPunitorioDeudores() {
+		return edf_interesPunitorioDeudores;
+	}
+	public void setEdf_interesPunitorioDeudores(
+			BigDecimal edf_interesPunitorioDeudores) {
+		this.edf_interesPunitorioDeudores = edf_interesPunitorioDeudores;
+	}
+	public BigDecimal getEdf_recargoSegundoVencimiento() {
+		return edf_recargoSegundoVencimiento;
+	}
+	public void setEdf_recargoSegundoVencimiento(
+			BigDecimal edf_recargoSegundoVencimiento) {
+		this.edf_recargoSegundoVencimiento = edf_recargoSegundoVencimiento;
+	}
+	public Date getEdf_fechaPrimerVencimientoRecibos() {
+		return edf_fechaPrimerVencimientoRecibos;
+	}
+	public void setEdf_fechaPrimerVencimientoRecibos(
+			Date edf_fechaPrimerVencimientoRecibos) {
+		this.edf_fechaPrimerVencimientoRecibos = edf_fechaPrimerVencimientoRecibos;
+	}
+	public Date getEdf_fechaSegundoVencimientoRecibos() {
+		return edf_fechaSegundoVencimientoRecibos;
+	}
+	public void setEdf_fechaSegundoVencimientoRecibos(
+			Date edf_fechaSegundoVencimientoRecibos) {
+		this.edf_fechaSegundoVencimientoRecibos = edf_fechaSegundoVencimientoRecibos;
+	}
+	public String getEdf_modalidadInteresesPunitorios() {
+		return edf_modalidadInteresesPunitorios;
+	}
+	public void setEdf_modalidadInteresesPunitorios(
+			String edf_modalidadInteresesPunitorios) {
+		this.edf_modalidadInteresesPunitorios = edf_modalidadInteresesPunitorios;
 	}
 
 	

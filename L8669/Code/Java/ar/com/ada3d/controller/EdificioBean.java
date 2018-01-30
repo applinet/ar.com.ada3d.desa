@@ -8,10 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.io.Serializable;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.model.SelectItem;
-import javax.faces.validator.ValidatorException;
-
 import org.openntf.domino.Document;
 
 import ar.com.ada3d.model.Edificio;
@@ -178,40 +175,53 @@ public class EdificioBean implements Serializable {
 			
 			//Defino el tipo de prorrateo			
 			String strTipo = strLinea.split("\\|")[14].trim();
-			//Creo el combo de fecha prorrateo si es cuota fija
+			String strTempTipo;
 			if(strTipo.equals("") || strTipo.equals("N")){
-
-				List<SelectItem> options = new ArrayList<SelectItem>();
-			    SelectItem optionMesLiquedacion = new SelectItem();
-			    optionMesLiquedacion.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy"));
-			    optionMesLiquedacion.setValue("N");
-			    options.add(optionMesLiquedacion);
-
-			    if(strTipo.equals("")){//CF y fecha prorrateo le agrego 1 dia para que sea el dia 1 del mes siguiente
-			    	cal.add(Calendar.DATE, 1);
-					myEdificio.setEdf_cuotaFijaDia("B");
-			    }else{//CF y fecha prorrateo ídem liquidación
-			    	myEdificio.setEdf_cuotaFijaDia("N");
-			    	cal.add(Calendar.DATE, 1);
-			    }
-			    
-			    SelectItem optionMesSiguiente = new SelectItem();
-			    optionMesSiguiente.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy"));
-			    optionMesSiguiente.setValue("B");
-			    options.add(optionMesSiguiente);
-			    myEdificio.setEdf_cuotaFijaDiaOpcionesCombo(options);
-			    
-			    strTipo = "C";
-			    
+			    strTempTipo = "C";
 			}else if (strTipo.equals("P")){//Presupuesto
-				strTipo = "P";	
+				strTempTipo = "P";	
 			}else{
-				strTipo = "G";	
+				strTempTipo = "G";	
 			}	
-					
 		    
-			myEdificio.setListaProrrateos(cargaProrrateoEdificio(strLinea, strTipo));
+			myEdificio.setListaProrrateos(cargaProrrateoEdificio(strLinea, strTempTipo));
+			//Creo el combo de fecha prorrateo si es cuota fija
+			if(strTipo.equals("") || strTipo.equals("N")){ //blanco puede ser por gastos
+				for(Prorrateo myProrrateo : myEdificio.getListaProrrateos()){
+					if(myProrrateo.getPrt_tipo().equals("C")){
+						List<SelectItem> options = new ArrayList<SelectItem>();
+					    SelectItem optionMesLiquedacion = new SelectItem();
+					    optionMesLiquedacion.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy"));
+					    optionMesLiquedacion.setValue("N");
+					    options.add(optionMesLiquedacion);
+
+					    if(strTipo.equals("")){//CF y fecha prorrateo le agrego 1 dia para que sea el dia 1 del mes siguiente
+					    	cal.add(Calendar.DATE, 1);
+							myEdificio.setEdf_cuotaFijaDia("B");
+					    }else{//CF y fecha prorrateo ídem liquidación
+					    	myEdificio.setEdf_cuotaFijaDia("N");
+					    	cal.add(Calendar.DATE, 1);
+					    }
+					    
+					    SelectItem optionMesSiguiente = new SelectItem();
+					    optionMesSiguiente.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy"));
+					    optionMesSiguiente.setValue("B");
+					    options.add(optionMesSiguiente);
+					    myEdificio.setEdf_cuotaFijaDiaOpcionesCombo(options);
+						break;
+					}
+				}
+			}
 			
+			
+			myEdificio.setEdf_imprimeTitulosEnLiquidacion("0"); //Falta definir el campo
+			
+			myEdificio.setEdf_interesPunitorioDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 1)));
+			myEdificio.setEdf_recargoSegundoVencimiento( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[16].trim(), Locale.UK, 1)));
+			myEdificio.setEdf_fechaPrimerVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[17].trim()));
+			myEdificio.setEdf_fechaSegundoVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[18].trim()));
+			myEdificio.setEdf_modalidadInteresesPunitorios(strLinea.split("\\|")[19].trim());
+			myEdificio.setEdf_cuit(strLinea.split("\\|")[20].trim());		
 			myEdificio.setEdf_isReadMode(true);
 			listaEdificios.add(myEdificio);
 			if(!docUsuario.getEdificiosNoAccessLista().contains(strLinea.split("\\|")[0].trim())){
@@ -311,6 +321,9 @@ public class EdificioBean implements Serializable {
 
 	/*
 	 * Chequea los datos del edificio recibido por parámetros
+	 * 
+	 * @usedIn: Boton save edificio
+	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
 	 */
 	public ArrayList<String> strValidacionEdificio(Edificio prm_edificio){
 		/*FacesMessage message = new FacesMessage("No es válido");
@@ -329,8 +342,8 @@ public class EdificioBean implements Serializable {
 		//La direccion + localidad max. 27 long.
 		strTemp = prm_edificio.getEdf_direccion() + "-" + prm_edificio.getEdf_localidad();
 		if(strTemp.length() > 27){
-			listAcumulaErrores.add("El domicilio con la localidad, no deben superar los 26 caracteres.\n Una opción posible: " + strTemp.substring(0, 27));
-			listAcumulaErrores.add("varios errores");
+			listAcumulaErrores.add("edf_direccion~El domicilio con la localidad, no deben superar los 26 caracteres.");
+			listAcumulaErrores.add("edf_localidad~Los siguientes caracteres exceden el largo permitido: " + strTemp.substring(0, 27) + " --> " + strTemp.substring(27));
 		}
 		
 		//El título de cada valor a prorratear max. 11 long. 
