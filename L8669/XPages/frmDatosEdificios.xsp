@@ -57,11 +57,15 @@
 						label="Código de reemplazo" labelPosition="left">
 						<xp:inputText id="edf_codigoVisual"
 							value="#{edfObj.edf_codigoVisual}" required="true"
-							readonly="#{edfObj.edf_isReadMode}">
+							readonly="#{edfObj.edf_isReadMode}"
+							onblur="this.value=this.value.toUpperCase();">
 							<xp:this.validators>
 								<xp:validateRequired
 									message="El codigo visual es un campo requerido.">
 								</xp:validateRequired>
+								<xp:validateLength minimum="3"
+									maximum="3" message="El código debe ser de 3 caracteres">
+								</xp:validateLength>
 							</xp:this.validators>
 						</xp:inputText>
 					</xe:formRow>
@@ -73,9 +77,12 @@
 							validator="#{validadorBean.validateCUIT}">
 							<xp:this.validators>
 								<xp:validateRequired
-									message="El CUIT es un campo requerido.">
+									message="El CUIT es un campo requerido. Ingrese 0 (cero) si no ingresa el CUIT.">
 								</xp:validateRequired>
 
+								<xp:validateLength minimum="1"
+									message="Si no conoce el CUIT ingrese cero">
+								</xp:validateLength>
 							</xp:this.validators>
 						</xp:inputText>
 					</xe:formRow>
@@ -157,8 +164,8 @@ sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.ac
 									styleClass="row form-inline"
 									value="#{rptProrrateoTitulo.prt_titulo}">
 								<xp:this.validators>
-									<xp:validateLength maximum="11"
-										message="El largo no puede exceder 11 caracteres">
+									<xp:validateLength maximum="15"
+										message="El largo no puede exceder 15 caracteres">
 									</xp:validateLength>
 								</xp:this.validators></xp:inputText>
 							</xp:repeat>
@@ -370,8 +377,8 @@ DocLock.addLock("edf_" + sessionScope.get("edfObj").edf_codigo, session.getEffec
 									submit="true" refreshMode="complete">
 									<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = edificioBean.strValidacionEdificio(sessionScope.get("edfObj"));
 if(msgValidacion.isEmpty()){
-	print("validación ok");
-	//edificioBean.saveEdificio(sessionScope.get("edfObj"));
+	//print("validación ok");
+	edificioBean.saveEdificio(sessionScope.get("edfObj"));
 	context.redirectToPage("viewDatosEdificios")
 }else{
 	var msg=new javax.faces.application.FacesMessage();
