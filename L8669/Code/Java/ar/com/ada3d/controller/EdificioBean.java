@@ -11,6 +11,7 @@ import java.io.Serializable;
 import javax.faces.model.SelectItem;
 import org.openntf.domino.Document;
 
+
 import ar.com.ada3d.model.Edificio;
 import ar.com.ada3d.model.Prorrateo;
 import ar.com.ada3d.utilidades.*;
@@ -160,6 +161,11 @@ public class EdificioBean implements Serializable {
 			myEdificio = new Edificio();
 			myEdificio.setEdf_codigo(strLinea.split("\\|")[0].trim());
 			myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
+			String tempDireccionLocalidad = strLinea.split("\\|")[2].trim();
+			if(!tempDireccionLocalidad.contains("-")){
+				throw new java.lang.Error("La direccion del edificio " + myEdificio.getEdf_codigo() + " no tiene un guión.");
+				//throw new java.lang.RuntimeException("La direccion del edificio " + myEdificio.getEdf_codigo() + " no tiene un guión.");
+			}
 			myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim().split("-")[0]);
 			myEdificio.setEdf_localidad(strLinea.split("\\|")[2].trim().split("-")[1]);
 			myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
@@ -279,6 +285,15 @@ public class EdificioBean implements Serializable {
 		return listaPorcentualesEdificio;
 	}
 	
+	public void onChangeProrrateos(Edificio prm_edificio){
+		for(Prorrateo myProrrateo : prm_edificio.getListaProrrateos()){
+			System.out.println("tipo: " + myProrrateo.getPrt_tipo());
+			System.out.println("importe: " + myProrrateo.getPrt_importe());
+			System.out.println("cod Cuota F: " + prm_edificio.getEdf_cuotaFijaDia());
+			prm_edificio.setEdf_cuotaFijaDia("B");
+		}
+	}
+	
 	
 	public void updateEdificiosAs400() {
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
@@ -290,7 +305,6 @@ public class EdificioBean implements Serializable {
 			e.printStackTrace();
 		}
 		for (String strLinea : nl) {
-			System.out.println("Ya ");
 			myEdificio = getEdificioMap(strLinea.split("\\|")[0].trim());
 			myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
 			myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim());
@@ -306,16 +320,15 @@ public class EdificioBean implements Serializable {
 	 */
 	public void saveEdificio(Edificio prm_edificio) {
 		Document docDummy = JSFUtil.getDocDummy();
-		docDummy.appendItemValue("EDIF", prm_edificio.getEdf_codigo());
-		docDummy.appendItemValue("DIRECC", prm_edificio.getEdf_direccion());
-		docDummy.appendItemValue("E20A", prm_edificio.getEdf_codigoVisual());
+		docDummy.appendItemValue("Codigo", prm_edificio.getEdf_codigo());
+		docDummy.appendItemValue("DIRECC", prm_edificio.getEdf_direccion() + "-" + prm_edificio.getEdf_localidad());
+		docDummy.appendItemValue("CodigoVisual", prm_edificio.getEdf_codigoVisual());
 		
 		QueryAS400 query = new QueryAS400();
 		
-		/*		
 		if (query.updateAS("updateEdificios", docDummy)) {
-			//System.out.println("FPR UpdateQuery OK_Codigo: " + edificio.getEdf_codigo());
-		}*/
+			System.out.println("FPR UpdateQuery OK_Codigo: " + prm_edificio.getEdf_codigo());
+		}
 	}
 	
 
@@ -333,11 +346,27 @@ public class EdificioBean implements Serializable {
 		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
 		String strTemp = "";
 		
-		/*Codigo Visual(reemplazo) 
+		/*INI - Codigo Visual(reemplazo)
+		 * - la consulta debe ser por SQL  
+		 * - Puede ser = al codigo del edificio actual
 		 * - No puede ser = a un codigo visual existente
 		 * - No puede ser = a un codigo sasa que no sea el que estoy 
 		*/
-		
+		QueryAS400 query = new QueryAS400();
+		try {
+			Document docDummy = JSFUtil.getDocDummy();
+			docDummy.appendItemValue("CodigoVisual", prm_edificio.getEdf_codigoVisual());
+			ArrayList<String> nl = query.getSelectAS("edificiosValidacionCodigoReemplazo", docDummy, false);
+			for (String strLinea : nl) {
+				if(!strLinea.split("\\|")[0].trim().equals(prm_edificio.getEdf_codigo())){
+					listAcumulaErrores.add("edf_codigoVisual~Código de reemplazo duplicado." + " El código " + prm_edificio.getEdf_codigoVisual() + " está siendo utilizado en otro edificio.");
+				}
+			}
+		} catch (NotesException e) {
+			e.printStackTrace();
+		}
+		//FIN - Codigo Visual(reemplazo)
+
 		
 		//La direccion + localidad max. 27 long.
 		strTemp = prm_edificio.getEdf_direccion() + "-" + prm_edificio.getEdf_localidad();

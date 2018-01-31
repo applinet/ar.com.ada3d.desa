@@ -147,113 +147,118 @@ sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.ac
 						</xp:inputText>
 					</xe:formRow>
 
-					<!-- INI Valores a Prorratear en 3 columnas -->
-					<xe:formRow id="rowPorcentuales"
-						label="Valores a Prorratear" labelPosition="left" labelWidth="80%">
-					</xe:formRow>
-
-
-					<xe:formColumn styleClass="form-group col-sm-3"
-						style="margin-left:5.0%">
-						<xe:formRow id="rowProrrateoDescripcion"
-							label="" labelPosition="left" labelWidth="50%">
-							<xp:repeat id="repeatProrrateoTitulo"
-								value="#{edfObj.listaProrrateos}" var="rptProrrateoTitulo"
-								indexVar="idxRptProrrateoTitulo">
-								<xp:inputText id="prt_titulo" disabled="#{edfObj.edf_isReadMode}"
-									styleClass="row form-inline"
-									value="#{rptProrrateoTitulo.prt_titulo}">
-								<xp:this.validators>
-									<xp:validateLength maximum="15"
-										message="El largo no puede exceder 15 caracteres">
-									</xp:validateLength>
-								</xp:this.validators></xp:inputText>
-							</xp:repeat>
+					<xp:div id="divPorcentuales">
+						<!-- INI Valores a Prorratear en 3 columnas -->
+						<xe:formRow id="rowPorcentuales"
+							label="Valores a Prorratear" labelPosition="left" labelWidth="80%">
 						</xe:formRow>
-					</xe:formColumn>
-
-					<xe:formColumn
-						styleClass="form-group col-sm-5">
-						<xe:formRow id="rowProrrateoTipo"
-							labelPosition="left" labelWidth="50%" styleClass="col-lg-12">
-							<xp:repeat id="repeat1"
-								value="#{edfObj.listaProrrateos}" var="rptProrrateoTipo"
-								indexVar="idxRptProrrateoTipo">
-								<xp:comboBox id="prt_tipo"
-									disabled="#{edfObj.edf_isReadMode}"
-									styleClass="row form-inline"
-									value="#{rptProrrateoTipo.prt_tipo}" >
-									<xp:selectItem
-										itemLabel="POR GASTOS" itemValue="G">
-									</xp:selectItem>
-									<xp:selectItem
-										itemLabel="CUOTA FIJA" itemValue="C">
-									</xp:selectItem>
-									<xp:selectItem
-										itemLabel="PRESUPUESTO" itemValue="P">
-									</xp:selectItem>
-								</xp:comboBox>
-
-
-							</xp:repeat>
+	
+	
+						<xe:formColumn styleClass="form-group col-sm-3"
+							style="margin-left:5.0%">
+							<xe:formRow id="rowProrrateoDescripcion"
+								label="" labelPosition="left" labelWidth="50%">
+								<xp:repeat id="repeatProrrateoTitulo"
+									value="#{edfObj.listaProrrateos}" var="rptProrrateoTitulo"
+									indexVar="idxRptProrrateoTitulo">
+									<xp:inputText id="prt_titulo" disabled="#{edfObj.edf_isReadMode}"
+										styleClass="row form-inline"
+										value="#{rptProrrateoTitulo.prt_titulo}">
+									<xp:this.validators>
+										<xp:validateLength maximum="15"
+											message="El largo no puede exceder 15 caracteres">
+										</xp:validateLength>
+									</xp:this.validators></xp:inputText>
+								</xp:repeat>
+							</xe:formRow>
+						</xe:formColumn>
+	
+						<xe:formColumn
+							styleClass="form-group col-sm-5">
+							<xe:formRow id="rowProrrateoTipo"
+								labelPosition="left" labelWidth="50%" styleClass="col-lg-12">
+								<xp:repeat id="repeat1"
+									value="#{edfObj.listaProrrateos}" var="rptProrrateoTipo"
+									indexVar="idxRptProrrateoTipo">
+									<xp:comboBox id="prt_tipo"
+										disabled="#{edfObj.edf_isReadMode}"
+										styleClass="row form-inline"
+										value="#{rptProrrateoTipo.prt_tipo}" >
+										<xp:selectItem
+											itemLabel="POR GASTOS" itemValue="G">
+										</xp:selectItem>
+										<xp:selectItem
+											itemLabel="CUOTA FIJA" itemValue="C">
+										</xp:selectItem>
+										<xp:selectItem
+											itemLabel="PRESUPUESTO" itemValue="P">
+										</xp:selectItem>
+										<xp:eventHandler event="onchange"
+											submit="true" refreshMode="partial" refreshId="tblEdificio">
+											<xp:this.action><![CDATA[#{javascript:edificioBean.onChangeProrrateos(sessionScope.get("edfObj"));}]]></xp:this.action>
+										</xp:eventHandler></xp:comboBox>
+	
+	
+								</xp:repeat>
+							</xe:formRow>
+						</xe:formColumn>
+	
+						<xe:formColumn
+							styleClass="form-group col-sm-4">
+							<xe:formRow id="rowProrrateoImporte"
+								labelWidth="50%" styleClass="col-lg-8">
+								<xp:repeat id="repeatProrrateoImporte"
+									value="#{edfObj.listaProrrateos}" var="rptProrrateoImporte"
+									indexVar="idxRptProrrateoImporte">
+									<xp:inputText id="prt_importe"
+										styleClass="row form-inline"
+										value="#{rptProrrateoImporte.prt_importe}"
+										style="text-align:right"
+										
+										disabled="#{rptProrrateoImporte.prt_importe eq null or edfObj.edf_isReadMode}">
+										<xp:this.converter>
+											<xp:convertNumber
+												pattern="#,##0.00;(#,##0.00)">
+											</xp:convertNumber>
+										</xp:this.converter>
+										<xp:eventHandler
+											event="onchange" submit="true" refreshMode="partial" refreshId="prt_total">
+										</xp:eventHandler>
+									</xp:inputText>
+								</xp:repeat>
+							</xe:formRow>
+						</xe:formColumn>
+						<!-- FIN Valores a Prorratear -->
+	
+						<!-- Sumatoria total general, es computado  -->
+						<xe:formRow id="rowProrrateoTotal"
+							labelWidth="70%" label="Total general a prorratear"
+							labelPosition="left" rendered="#{edfObj.listaProrrateos[0].prt_importe + edfObj.listaProrrateos[1].prt_importe + edfObj.listaProrrateos[2].prt_importe + edfObj.listaProrrateos[3].prt_importe ne 0}"
+							style="font-weight:bold;background-color:rgb(244,244,255);margin-right:50.0%">
+							<xp:inputText id="prt_total"
+								value="#{edfObj.listaProrrateos[0].prt_importe + edfObj.listaProrrateos[1].prt_importe + edfObj.listaProrrateos[2].prt_importe + edfObj.listaProrrateos[3].prt_importe}"
+								style="width:auto;background-image:url(3.png)">
+								<xp:this.converter>
+									<xp:convertNumber
+										pattern="#,##0.00;(#,##0.00)">
+									</xp:convertNumber>
+								</xp:this.converter>
+							</xp:inputText>
 						</xe:formRow>
-					</xe:formColumn>
-
-					<xe:formColumn
-						styleClass="form-group col-sm-4">
-						<xe:formRow id="rowProrrateoImporte"
-							labelWidth="50%" styleClass="col-lg-8">
-							<xp:repeat id="repeatProrrateoImporte"
-								value="#{edfObj.listaProrrateos}" var="rptProrrateoImporte"
-								indexVar="idxRptProrrateoImporte">
-								<xp:inputText id="prt_importe"
-									styleClass="row form-inline"
-									value="#{rptProrrateoImporte.prt_importe}"
-									style="text-align:right"
-									
-									disabled="#{rptProrrateoImporte.prt_importe eq null or edfObj.edf_isReadMode}">
-									<xp:this.converter>
-										<xp:convertNumber
-											pattern="#,##0.00;(#,##0.00)">
-										</xp:convertNumber>
-									</xp:this.converter>
-									<xp:eventHandler
-										event="onchange" submit="true" refreshMode="partial" refreshId="prt_total">
-									</xp:eventHandler>
-								</xp:inputText>
-							</xp:repeat>
+	
+						<!-- Fecha prorrateo Cuota Fija -->
+						<xe:formRow id="rowCuotaFijaDia" label="Mes de prorrateo y recibos" labelPosition="left"
+							rendered="#{edfObj.edf_cuotaFijaDia ne null}">
+							<xp:comboBox id="edf_cuotaFijaDia" disabled="#{edfObj.edf_isReadMode}"
+								value="#{edfObj.edf_cuotaFijaDia}" 
+								style="width:auto">
+								<xp:selectItems>
+										<xp:this.value><![CDATA[#{edfObj.edf_cuotaFijaDiaOpcionesCombo}]]></xp:this.value>
+									</xp:selectItems>
+							</xp:comboBox>
 						</xe:formRow>
-					</xe:formColumn>
-					<!-- FIN Valores a Prorratear -->
-
-					<!-- Sumatoria total general, es computado  -->
-					<xe:formRow id="rowProrrateoTotal"
-						labelWidth="70%" label="Total general a prorratear"
-						labelPosition="left" rendered="#{edfObj.listaProrrateos[0].prt_importe + edfObj.listaProrrateos[1].prt_importe + edfObj.listaProrrateos[2].prt_importe + edfObj.listaProrrateos[3].prt_importe ne 0}"
-						style="font-weight:bold;background-color:rgb(244,244,255);margin-right:50.0%">
-						<xp:inputText id="prt_total"
-							value="#{edfObj.listaProrrateos[0].prt_importe + edfObj.listaProrrateos[1].prt_importe + edfObj.listaProrrateos[2].prt_importe + edfObj.listaProrrateos[3].prt_importe}"
-							style="width:auto;background-image:url(3.png)">
-							<xp:this.converter>
-								<xp:convertNumber
-									pattern="#,##0.00;(#,##0.00)">
-								</xp:convertNumber>
-							</xp:this.converter>
-						</xp:inputText>
-					</xe:formRow>
-
-					<!-- Fecha prorrateo Cuota Fija -->
-					<xe:formRow id="rowCuotaFijaDia" label="Mes de prorrateo y recibos" labelPosition="left"
-						rendered="#{edfObj.edf_cuotaFijaDia ne null}">
-						<xp:comboBox id="edf_cuotaFijaDia" disabled="#{edfObj.edf_isReadMode}"
-							value="#{edfObj.edf_cuotaFijaDia}" 
-							style="width:auto">
-							<xp:selectItems>
-									<xp:this.value><![CDATA[#{edfObj.edf_cuotaFijaDiaOpcionesCombo}]]></xp:this.value>
-								</xp:selectItems>
-						</xp:comboBox>
-					</xe:formRow>
-
+					</xp:div>
+					
 					<xe:formRow id="rowImprimeTitulosEnLiquidacion" 
 					label="Imprimir títulos de los porcentuales" labelPosition="left">
 						<xp:comboBox id="edf_imprimeTitulosEnLiquidacion" disabled="#{edfObj.edf_isReadMode}"
@@ -344,10 +349,10 @@ sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.ac
                                 itemValue="0">
                             </xp:selectItem>
                         </xp:comboBox>
-                        
-						
 					</xe:formRow>
 
+					
+					
 					<xe:this.facets>
 						<xp:div xp:key="footer">
 							<xp:button value="Modificar" id="btnEdit"
