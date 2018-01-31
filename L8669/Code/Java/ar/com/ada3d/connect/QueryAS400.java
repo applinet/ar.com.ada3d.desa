@@ -85,6 +85,10 @@ public class QueryAS400 implements Serializable {
 		Vector<String> arrcampos = configTabla.getResultado();// Desde documento
 		// de
 		// configuracion
+		if (configTabla.getMsgConsola().equals("1")){
+			System.out.println("KEY: " + configTabla.getClave());
+			System.out.println("SQL: " + configTabla.getStrsSQL());
+		}
 		String columna = "";
 		try {
 			DriverManager
@@ -93,6 +97,7 @@ public class QueryAS400 implements Serializable {
 					configDs.getUserRead(), configDs.getPassRead());
 			Statement stmt = connection.createStatement();
 
+			
 			ResultSet rs = stmt.executeQuery(configTabla.getStrsSQL());
 
 			if (param_booDescColumnas) {
@@ -105,10 +110,7 @@ public class QueryAS400 implements Serializable {
 				}
 			}
 			
-			if (configTabla.getMsgConsola().equals("1")){
-				System.out.println("KEY: " + configTabla.getClave());
-				System.out.println("SQL: " + configTabla.getStrsSQL());
-			}
+			
 
 			int cont = 0;
 
