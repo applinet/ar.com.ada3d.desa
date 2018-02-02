@@ -11,6 +11,7 @@ public class Prorrateo implements Serializable{
 	}
 
 	private int prt_posicion;
+	private int prt_posicionEnGrilla;
 	private String prt_titulo;
 	// gastos, cuota fija o presupuesto
 	private String prt_tipo; 
@@ -26,6 +27,12 @@ public class Prorrateo implements Serializable{
 	}
 	public void setPrt_posicion(int prt_posicion) {
 		this.prt_posicion = prt_posicion;
+	}
+	public int getPrt_posicionEnGrilla() {
+		return prt_posicionEnGrilla;
+	}
+	public void setPrt_posicionEnGrilla(int prt_posicionEnGrilla) {
+		this.prt_posicionEnGrilla = prt_posicionEnGrilla;
 	}
 	public String getPrt_titulo() {
 		return prt_titulo;

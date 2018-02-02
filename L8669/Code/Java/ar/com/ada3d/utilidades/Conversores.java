@@ -2,6 +2,7 @@ package ar.com.ada3d.utilidades;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.math.BigDecimal;
 import java.text.DecimalFormatSymbols;
@@ -129,4 +130,15 @@ public class Conversores {
 		return str.toString();
 	}
 
+	
+	//Convert Date to Calendar
+	public static Calendar dateToCalendar(Date date) {
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar;
+
+	}
+
+	
 }

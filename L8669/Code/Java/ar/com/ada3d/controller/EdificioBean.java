@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Locale;
 import java.io.Serializable;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
+
 import org.openntf.domino.Document;
 
 
@@ -195,6 +198,7 @@ public class EdificioBean implements Serializable {
 			if(strTipo.equals("") || strTipo.equals("N")){ //blanco puede ser por gastos
 				for(Prorrateo myProrrateo : myEdificio.getListaProrrateos()){
 					if(myProrrateo.getPrt_tipo().equals("C")){
+						
 						List<SelectItem> options = new ArrayList<SelectItem>();
 					    SelectItem optionMesLiquedacion = new SelectItem();
 					    optionMesLiquedacion.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy"));
@@ -237,7 +241,22 @@ public class EdificioBean implements Serializable {
 			AddEdificioMap(myEdificio); // Lo agrego al mapa por código
 		}
 	}
+	
+	private List<SelectItem> opcionesDiaCuotaFija(Calendar cal){
+		List<SelectItem> options = new ArrayList<SelectItem>();
+	    SelectItem optionMesLiquedacion = new SelectItem();
+	    optionMesLiquedacion.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy"));
+	    optionMesLiquedacion.setValue("N");
+	    options.add(optionMesLiquedacion);
+	    
+	    cal.add(Calendar.DATE, 1);
+	    SelectItem optionMesSiguiente = new SelectItem();
+	    optionMesSiguiente.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy"));
+	    optionMesSiguiente.setValue("B");
+	    options.add(optionMesSiguiente);
+	    return options;
 
+	}
 	
 	/*
 	 * Al cargar un edificio en la misma consulta al AS400 tambien cargo los datos de prorrateo
@@ -248,6 +267,7 @@ public class EdificioBean implements Serializable {
 		int posicionPorcentaje = 5;
 		int posicionCuotaFija = 9;
 		int tempPorcentaje = 0;
+		int tempPosicionEnGrilla = 0;
 		String strValorCuotaFija;
 		
 		for(int i=1; i<5; i++){ //Son 4 prorrateos por edificio
@@ -260,6 +280,8 @@ public class EdificioBean implements Serializable {
 			if(tempPorcentaje != 0){
 				myProrrateo = new Prorrateo();
 				myProrrateo.setPrt_posicion(i);
+				myProrrateo.setPrt_posicionEnGrilla(tempPosicionEnGrilla);
+				tempPosicionEnGrilla = ++tempPosicionEnGrilla;
 				myProrrateo.setPrt_titulo("Porcentual # " + i);
 				myProrrateo.setPrt_porcentaje(tempPorcentaje);
 				
@@ -285,13 +307,70 @@ public class EdificioBean implements Serializable {
 		return listaPorcentualesEdificio;
 	}
 	
-	public void onChangeProrrateos(Edificio prm_edificio){
+	/*
+	 * Oculta o visualiza otros campos al cambiar la opción
+	 * 
+	 * @param: 
+	 * -El edificio que estoy modificando
+	 * -La posición que estoy modificando en la XPage (es un repeat)
+	 * 
+	 * @usedIn: en el combo de valores a prorratear
+	 */
+	public String onChangeProrrateos(Edificio prm_edificio, Integer prm_idxRptProrrateoTipo){
+		BigDecimal tempSumatoriaImportes = new BigDecimal(0);
+		ArrayList<String> tempArrayCuotaFijaDia = new ArrayList<String>();
+		String tempCuotaFijaDia = "";
 		for(Prorrateo myProrrateo : prm_edificio.getListaProrrateos()){
-			System.out.println("tipo: " + myProrrateo.getPrt_tipo());
-			System.out.println("importe: " + myProrrateo.getPrt_importe());
-			System.out.println("cod Cuota F: " + prm_edificio.getEdf_cuotaFijaDia());
-			prm_edificio.setEdf_cuotaFijaDia("B");
+			tempArrayCuotaFijaDia.add(myProrrateo.getPrt_tipo());
+			if (prm_idxRptProrrateoTipo.equals(myProrrateo.getPrt_posicionEnGrilla())){
+				//Solo modifico la linea del repeat que ha cambiado
+				if (myProrrateo.getPrt_tipo().equals("G")){
+					myProrrateo.setPrt_importe(null);
+					
+				}else{//CUOTA FIJA o Presupuesto
+					myProrrateo.setPrt_importe(new BigDecimal(1));
+					if (myProrrateo.getPrt_tipo().equals("C")){	//CF cargo el combo
+						prm_edificio.setEdf_cuotaFijaDiaOpcionesCombo(opcionesDiaCuotaFija(ar.com.ada3d.utilidades.Conversores.dateToCalendar(prm_edificio.getEdf_fechaProximaLiquidacion())));
+						tempCuotaFijaDia = "B";
+					}else{
+						tempCuotaFijaDia = "P";
+					}
+				}
+			}
+			
+			//Hago una sumatoria si da cero tengo que enviar un *
+			if(myProrrateo.getPrt_tipo().equals("G")){
+				tempSumatoriaImportes = tempSumatoriaImportes.add(new BigDecimal(0));
+			}else{
+				tempSumatoriaImportes = tempSumatoriaImportes.add(myProrrateo.getPrt_importe());
+			}
 		}
+		
+		//Al final chequeo todo antes de confirmar la cuotaFijaDia
+		if(tempSumatoriaImportes.equals(new BigDecimal(0))){
+			//Son todos gastos
+			prm_edificio.setEdf_cuotaFijaDia("*");
+		}else{
+			if(tempCuotaFijaDia.equals("P")){//Chequeo si cambio realmente a P
+				if(tempArrayCuotaFijaDia.contains("C") || tempArrayCuotaFijaDia.contains("B")){
+					return "rowPorcentuales~No puede seleccionar PRESUPUESTO si existe una CUOTA FIJA.";
+				}else{
+					prm_edificio.setEdf_cuotaFijaDia("P");
+				}
+			}else if(tempCuotaFijaDia.equals("C") || tempCuotaFijaDia.equals("B")){//Chequeo si cambio realmente a C
+				if(tempArrayCuotaFijaDia.contains("P")){
+					return "rowPorcentuales~No puede seleccionar CUOTA FIJA si existe un PRESUPUESTO .";
+				}else{
+					prm_edificio.setEdf_cuotaFijaDia(tempCuotaFijaDia);
+				}
+			}else if(tempCuotaFijaDia.equals("*")){//Chequeo si cambio realmente a *
+				if(tempArrayCuotaFijaDia.contains("P") || tempArrayCuotaFijaDia.contains("C") || tempArrayCuotaFijaDia.contains("B")){
+					prm_edificio.setEdf_cuotaFijaDia(tempCuotaFijaDia);
+				}
+			}
+			
+		}
+		return "";
 	}
 	
 	
@@ -375,8 +454,24 @@ public class EdificioBean implements Serializable {
 			listAcumulaErrores.add("edf_localidad~Los siguientes caracteres exceden el largo permitido: " + strTemp.substring(0, 27) + " --> " + strTemp.substring(27));
 		}
 		
+		//Prorrateos
+		ArrayList<String> tempArrayCuotaFijaDia = new ArrayList<String>();
+		for(Prorrateo myProrrateo : prm_edificio.getListaProrrateos()){
+			tempArrayCuotaFijaDia.add(myProrrateo.getPrt_tipo());
+		}
+		String tempCuotaFijaDia = prm_edificio.getEdf_cuotaFijaDia();
+		if(tempCuotaFijaDia.equals("P")){//Chequeo si cambio realmente a P
+			if(tempArrayCuotaFijaDia.contains("C") || tempArrayCuotaFijaDia.contains("B")){
+				listAcumulaErrores.add("rowPorcentuales~No puede seleccionar PRESUPUESTO si existe una CUOTA FIJA.");
+			}
+		}else if(tempCuotaFijaDia.equals("C") || tempCuotaFijaDia.equals("B")){//Chequeo si cambio realmente a C
+			if(tempArrayCuotaFijaDia.contains("P")){
+				listAcumulaErrores.add("rowPorcentuales~No puede seleccionar CUOTA FIJA si existe un PRESUPUESTO .");
+			}
+		}
+		
 		//El título de cada valor a prorratear max. 11 long. 
-
+		
 		
 		return listAcumulaErrores;
 		

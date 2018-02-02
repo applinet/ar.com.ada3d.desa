@@ -9,6 +9,8 @@
 	</xp:this.resources>
 	
 	
+	
+	
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="false">
 		<xp:this.facets>
 			
@@ -146,6 +148,13 @@ sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.ac
 							<xp:dateTimeHelper></xp:dateTimeHelper>
 						</xp:inputText>
 					</xe:formRow>
+					
+					<xe:formRow id="formRow1"
+						label="BORRAR_cuotaFijaDia" labelPosition="left">
+						<xp:inputText id="inputText1"
+							value="#{edfObj.edf_cuotaFijaDia}" disabled="true">
+						</xp:inputText>
+					</xe:formRow>
 
 					<xp:div id="divPorcentuales">
 						<!-- INI Valores a Prorratear en 3 columnas -->
@@ -193,9 +202,15 @@ sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.ac
 										<xp:selectItem
 											itemLabel="PRESUPUESTO" itemValue="P">
 										</xp:selectItem>
-										<xp:eventHandler event="onchange"
-											submit="true" refreshMode="partial" refreshId="tblEdificio">
-											<xp:this.action><![CDATA[#{javascript:edificioBean.onChangeProrrateos(sessionScope.get("edfObj"));}]]></xp:this.action>
+										<xp:eventHandler
+											event="onchange" submit="true" refreshMode="partial" refreshId="tblEdificio">
+											<xp:this.action><![CDATA[#{javascript:var msgValidacion:string = edificioBean.onChangeProrrateos(sessionScope.get("edfObj"), idxRptProrrateoTipo);
+if (!msgValidacion.equals("")){
+	var msg=new javax.faces.application.FacesMessage();
+	facesContext.addMessage(getComponent(msgValidacion.split("\~")[0]).getClientId(facesContext),msg(msgValidacion.split("\~")[1]));
+	view.postScript("window.scrollTo(0,0)");
+}		}]]></xp:this.action>
+
 										</xp:eventHandler></xp:comboBox>
 	
 	
@@ -248,7 +263,7 @@ sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.ac
 	
 						<!-- Fecha prorrateo Cuota Fija -->
 						<xe:formRow id="rowCuotaFijaDia" label="Mes de prorrateo y recibos" labelPosition="left"
-							rendered="#{edfObj.edf_cuotaFijaDia ne null}">
+							rendered="#{edfObj.edf_cuotaFijaDia eq 'C' || edfObj.edf_cuotaFijaDia eq 'B'}">
 							<xp:comboBox id="edf_cuotaFijaDia" disabled="#{edfObj.edf_isReadMode}"
 								value="#{edfObj.edf_cuotaFijaDia}" 
 								style="width:auto">
@@ -374,12 +389,24 @@ DocLock.addLock("edf_" + sessionScope.get("edfObj").edf_codigo, session.getEffec
 											name="/ViewDatosEdificios.xsp">
 										</xp:openPage>
 									</xp:this.action>
+
+									<xp:this.script><![CDATA[if (XSP._isDirty()){
+  if (confirm ("Está seguro de salir?" + "\n" + "\n" +
+    "Sus cambios no serán guardados." + "\n" + 
+    "Presione Aceptar para salir sin guardar, o Cancelar para permanecer en la página.")) {
+    return true;
+  } else {
+    return false;
+  }
+} else {
+  return true;
+}]]></xp:this.script>
 								</xp:eventHandler>
 							</xp:button>
 							<xp:button value="Confirmar" id="btnSave" styleClass="btn-success"
 								rendered="#{javascript:!edfObj.edf_isReadMode}">
 								<xp:eventHandler event="onclick"
-									submit="true" refreshMode="complete">
+									submit="true" refreshMode="partial" refreshId="tblEdificio">
 									<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = edificioBean.strValidacionEdificio(sessionScope.get("edfObj"));
 if(msgValidacion.isEmpty()){
 	//print("validación ok");
@@ -390,6 +417,8 @@ if(msgValidacion.isEmpty()){
 	for (i=0;i<msgValidacion.size();i++) {
 		facesContext.addMessage(getComponent(msgValidacion.get(i).split("\~")[0]).getClientId(facesContext),msg(msgValidacion.get(i).split("\~")[1]));
 	}
+	view.postScript("window.scrollTo(0,0)")
+	
 }}]]></xp:this.action>
 
 
