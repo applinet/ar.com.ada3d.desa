@@ -88,7 +88,7 @@ if(agent!=null){
 		<xe:djxDataGridColumn id="djxDataGridColumnE09B" field="E09B"
 			label="freq" width="30">
 		</xe:djxDataGridColumn>
-		<xe:djxDataGridColumn id="djxDataGridColumn1" field="E23B"
+		<xe:djxDataGridColumn id="djxDataGridColumn1" field="ESTADO2"
 			label="prt estado" width="50">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnTOTP1" field="TOTP1"
