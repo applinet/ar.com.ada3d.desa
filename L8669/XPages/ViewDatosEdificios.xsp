@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
-	xmlns:xc="http://www.ibm.com/xsp/custom">
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="false">
 		<xp:this.facets>
 			<xp:panel id="PNL_container" xp:key="facetMiddle">
-
+				
+				<xe:widgetContainer id="widgetContainer1" >
+				<xp:inputText id="search">
+					<xp:this.attrs>
+						<xp:attr value="Búsqueda rápida" name="placeHolder">
+						</xp:attr>
+					</xp:this.attrs>
+				</xp:inputText>
+				</xe:widgetContainer>
 				<xp:dataTable id="edificiosTable" var="unEdificio"
 					value="#{edificioBean.listaEdificiosTrabajo}" rows="15">
 					<xp:this.facets>
@@ -24,7 +33,8 @@
 
 					<xp:column id="edf_direccionColumn">
 						<xp:link escape="true"
-							text="#{unEdificio.edf_direccion}-#{unEdificio.edf_localidad}" id="edf_direccion">
+							text="#{unEdificio.edf_direccion}-#{unEdificio.edf_localidad}"
+							id="edf_direccion">
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="complete" id="eventHandler1">
 								<xp:this.action><![CDATA[#{javascript:sessionScope.put("edfObj", unEdificio)
@@ -47,9 +57,12 @@ context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
 
 					<xp:column id="column2"></xp:column>
 					<xp:column id="column3"></xp:column>
+
+
 				</xp:dataTable>
+				
 			</xp:panel>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>
-	
+
 </xp:view>
