@@ -16,7 +16,7 @@
 			
 			<xp:panel xp:key="facetMiddle"
 				style="background-image:url(edificios_blanco.png);background-repeat:no-repeat;background-position:top left">
-				
+			
 				<xe:formTable id="tblEdificio" formTitle="Edificio"
 					formDescription="Código SASA: #{edfObj.edf_codigo}"
 					fieldHelp="true" disableErrorSummary="false"
@@ -33,9 +33,15 @@
 								<xp:validateRequired
 									message="La dirección es un campo requerido.">
 								</xp:validateRequired>
-
 								<xp:validateLength minimum="1"></xp:validateLength>
 							</xp:this.validators>
+							<xp:eventHandler event="onkeyup"
+								submit="false">
+								<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+if (element.value.length > 27) {
+    element.value = element.value.substring(0, 27);
+}]]></xp:this.script>
+							</xp:eventHandler>
 						</xp:inputText>
 					</xe:formRow>
 
@@ -52,23 +58,37 @@
 								<xp:validateLength minimum="1">
 								</xp:validateLength>
 							</xp:this.validators>
+							<xp:eventHandler event="onkeyup"
+								submit="false">
+								<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+if (element.value.length > 27) {
+    element.value = element.value.substring(0, 27);
+}]]></xp:this.script>
+							</xp:eventHandler>
 						</xp:inputText>
 					</xe:formRow>
 
 					<xe:formRow id="rowCodigoVisual"
 						label="Código de reemplazo" labelPosition="left">
 						<xp:inputText id="edf_codigoVisual"
-							value="#{edfObj.edf_codigoVisual}" required="true"
+							value="#{edfObj.edf_codigoVisual}" 
 							readonly="#{edfObj.edf_isReadMode}"
 							onblur="this.value=this.value.toUpperCase();">
 							<xp:this.validators>
-								<xp:validateRequired
-									message="El codigo visual es un campo requerido.">
-								</xp:validateRequired>
+								
 								<xp:validateLength minimum="3"
 									maximum="3" message="El código debe ser de 3 caracteres">
 								</xp:validateLength>
 							</xp:this.validators>
+							<xp:eventHandler event="onkeyup"
+								submit="false">
+								<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+if (element.value.length > 3) {
+    element.value = element.value.substring(0, 3);
+}]]></xp:this.script>
+							</xp:eventHandler>
+
+
 						</xp:inputText>
 					</xe:formRow>
 
@@ -86,19 +106,22 @@
 									message="Si no conoce el CUIT ingrese cero">
 								</xp:validateLength>
 							</xp:this.validators>
+							<xp:eventHandler event="onkeyup"
+								submit="false">
+								<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+if (element.value.length > 11) {
+    element.value = element.value.substring(0, 11);
+}]]></xp:this.script>
+							</xp:eventHandler>
 						</xp:inputText>
 					</xe:formRow>
 
 					<xe:formRow id="rowFechaUltimaLiquidacion"
 						label="Fecha última liquidación" labelPosition="left">
-						<xp:inputText id="edf_fechaUltimaLiquidacion"
-							value="#{edfObj.edf_fechaUltimaLiquidacion}" disabled="true">
-							<xp:this.converter>
-								<xp:convertDateTime type="date">
-								</xp:convertDateTime>
-							</xp:this.converter>
-							<xp:dateTimeHelper></xp:dateTimeHelper>
-						</xp:inputText>
+						
+						<xp:text escape="true" id="edf_fechaUltimaLiquidacion"
+							value="#{edfObj.edf_fechaUltimaLiquidacion}" >
+						</xp:text>
 					</xe:formRow>
 
 					<xe:formRow id="rowFrecuenciaLiquidacion"
@@ -140,13 +163,10 @@ sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.ac
 
 					<xe:formRow id="rowFechaProximaLiquidacion"
 						label="Fecha próxima liquidación" labelPosition="left">
-						<xp:inputText id="edf_fechaProximaLiquidacion"
-							value="#{edfObj.edf_fechaProximaLiquidacion}" disabled="true">
-							<xp:this.converter>
-								<xp:convertDateTime type="date"></xp:convertDateTime>
-							</xp:this.converter>
-							<xp:dateTimeHelper></xp:dateTimeHelper>
-						</xp:inputText>
+						<xp:text escape="true" id="edf_fechaProximaLiquidacion"
+							value="#{edfObj.edf_fechaProximaLiquidacion}">
+							
+						</xp:text>
 					</xe:formRow>
 					
 					<xe:formRow id="formRow1"
@@ -203,13 +223,15 @@ sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.ac
 											itemLabel="PRESUPUESTO" itemValue="P">
 										</xp:selectItem>
 										<xp:eventHandler
-											event="onchange" submit="true" refreshMode="partial" refreshId="tblEdificio">
+											event="onchange" submit="true" refreshMode="partial"
+											refreshId="tblEdificio">
 											<xp:this.action><![CDATA[#{javascript:var msgValidacion:string = edificioBean.onChangeProrrateos(sessionScope.get("edfObj"), idxRptProrrateoTipo);
 if (!msgValidacion.equals("")){
 	var msg=new javax.faces.application.FacesMessage();
 	facesContext.addMessage(getComponent(msgValidacion.split("\~")[0]).getClientId(facesContext),msg(msgValidacion.split("\~")[1]));
 	view.postScript("window.scrollTo(0,0)");
 }		}]]></xp:this.action>
+
 
 										</xp:eventHandler></xp:comboBox>
 	
@@ -263,14 +285,14 @@ if (!msgValidacion.equals("")){
 	
 						<!-- Fecha prorrateo Cuota Fija -->
 						<xe:formRow id="rowCuotaFijaDia" label="Mes de prorrateo y recibos" labelPosition="left"
-							rendered="#{edfObj.edf_cuotaFijaDia eq 'C' || edfObj.edf_cuotaFijaDia eq 'B'}">
+							rendered="#{edfObj.edf_cuotaFijaDia eq 'N' || edfObj.edf_cuotaFijaDia eq 'B'}">
 							<xp:comboBox id="edf_cuotaFijaDia" disabled="#{edfObj.edf_isReadMode}"
 								value="#{edfObj.edf_cuotaFijaDia}" 
 								style="width:auto">
 								<xp:selectItems>
 										<xp:this.value><![CDATA[#{edfObj.edf_cuotaFijaDiaOpcionesCombo}]]></xp:this.value>
 									</xp:selectItems>
-							</xp:comboBox>
+								</xp:comboBox>
 						</xe:formRow>
 					</xp:div>
 					
@@ -278,12 +300,11 @@ if (!msgValidacion.equals("")){
 					label="Imprimir títulos de los porcentuales" labelPosition="left">
 						<xp:comboBox id="edf_imprimeTitulosEnLiquidacion" disabled="#{edfObj.edf_isReadMode}"
 							value="#{edfObj.edf_imprimeTitulosEnLiquidacion}"
-                           style="width:auto">
+                           style="width:auto" defaultValue="0">
                             <xp:selectItem itemLabel="SI"
                                 itemValue="1">
                             </xp:selectItem>
-                            <xp:selectItem itemLabel="NO"
-                                itemValue="0">
+                            <xp:selectItem itemLabel="NO" itemValue="0">
                             </xp:selectItem>
                         </xp:comboBox>
 					</xe:formRow>
@@ -306,6 +327,9 @@ if (!msgValidacion.equals("")){
 									message="El % de interés no puede superar el 100 %">
 								</xp:validateLongRange>
 							</xp:this.validators>
+							<xp:eventHandler event="onchange"
+								submit="true" refreshMode="partial" refreshId="edf_fechaPrimerVencimientoRecibos">
+							</xp:eventHandler>
 						</xp:inputText>
 						<xp:label value="%" id="Signo1"></xp:label>
 					</xe:formRow>
@@ -326,14 +350,19 @@ if (!msgValidacion.equals("")){
 									message="El % de interés no puede superar el 100 %">
 								</xp:validateLongRange>
 							</xp:this.validators>
+							<xp:eventHandler event="onchange"
+								submit="true" refreshMode="partial" refreshId="edf_fechaSegundoVencimientoRecibos">
+							</xp:eventHandler>
 						</xp:inputText>
 						<xp:label value="%" id="Signo2"></xp:label>
 					</xe:formRow>
 					
 					<xe:formRow id="rowFechaPrimerVencimientoRecibos"
 						label="Fecha del 1° vto en recibos" labelPosition="left">
-						<xp:inputText id="edf_fechaPrimerVencimientoRecibos"
-							value="#{edfObj.edf_fechaPrimerVencimientoRecibos}" disabled="true">
+						<xp:inputText
+							id="edf_fechaPrimerVencimientoRecibos"
+							value="#{edfObj.edf_fechaPrimerVencimientoRecibos}"
+							disabled="#{edfObj.edf_isReadMode or !(edfObj.edf_interesPunitorioDeudores gt 0)}">
 							<xp:this.converter>
 								<xp:convertDateTime type="date"></xp:convertDateTime>
 							</xp:this.converter>
@@ -342,9 +371,11 @@ if (!msgValidacion.equals("")){
 					</xe:formRow>
 
 					<xe:formRow id="rowFechaSegundoVencimientoRecibos"
-						label="Recargo para el 2° vto de expensas" labelPosition="left">
-						<xp:inputText id="edf_fechaSegundoVencimientoRecibos"
-							value="#{edfObj.edf_fechaSegundoVencimientoRecibos}" disabled="true">
+						label="Fecha del 2° vto en recibos" labelPosition="left">
+						<xp:inputText
+							id="edf_fechaSegundoVencimientoRecibos"
+							value="#{edfObj.edf_fechaSegundoVencimientoRecibos}"
+							disabled="#{edfObj.edf_isReadMode or !(edfObj.edf_recargoSegundoVencimiento gt 0)}">
 							<xp:this.converter>
 								<xp:convertDateTime type="date"></xp:convertDateTime>
 							</xp:this.converter>
@@ -380,6 +411,7 @@ DocLock.addLock("edf_" + sessionScope.get("edfObj").edf_codigo, session.getEffec
 }]]></xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
+							
 							<xp:button value="Cerrar" id="btnClose">
 								<xp:eventHandler event="onclick"
 									submit="true" refreshMode="complete" immediate="true">
@@ -424,9 +456,13 @@ if(msgValidacion.isEmpty()){
 
 								</xp:eventHandler>
 							</xp:button>
-							</xp:div>
+							<xp:messages id="messages1" styleClass="alert alert-error"
+								>
+							</xp:messages>
+						</xp:div>
 					</xe:this.facets>
 				</xe:formTable>
+				
 				<!-- 
 				<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
 	src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl= en&amp;geocode=&amp;q=Mendoza+1509,+CAP+FED&amp;aq=0&amp;sspn=0.011584,0.022724&amp;ie=UTF8&amp;hq=&amp;hnear=Mendoza+1509,+CAP+FED&amp;t=r&amp;view=map&amp;z=16&amp;ll=-34.5559016,-58.4488057&amp;output=embed">
