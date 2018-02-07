@@ -140,5 +140,11 @@ public class Conversores {
 
 	}
 
+	//Convert BigDecimal to String AS400 (12,16 = 1216) (0,01 = 1)
+	
+	public static String bigDecimalToAS400(BigDecimal prm_importe){
+		prm_importe = prm_importe.setScale(2, BigDecimal.ROUND_HALF_UP);
+		return prm_importe.toString().replace(",", "").replace(".", "");
+	}
 	
 }
