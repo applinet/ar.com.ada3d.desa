@@ -107,13 +107,13 @@ if(agent!=null){
 			label="$ 1 CF o Ppto.">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnCTFJ2" field="CTFJ2"
-			label="% 2 CF o Ppto.">
+			label="$ 2 CF o Ppto.">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnCTFJ3" field="CTFJ3"
-			label="% 3 CF o Ppto.">
+			label="$ 3 CF o Ppto.">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnCTFJ4" field="CTFJ4"
-			label="% 4 CF o Ppto.">
+			label="$ 4 CF o Ppto.">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnE14B" field="E14B"
 			label="print titulos %" width="60">
