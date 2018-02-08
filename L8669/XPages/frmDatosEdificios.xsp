@@ -149,14 +149,8 @@ if (element.value.length > 11) {
 								submit="true" refreshMode="partial"
 								refreshId="edf_fechaProximaLiquidacion"
 								disableValidators="true">
-								<xe:this.action><![CDATA[#{javascript:var fechaUltimaLiquidacion = sessionScope.edfObj.edf_fechaUltimaLiquidacion;
-var frecuencia = sessionScope.edfObj.edf_frecuenciaLiquidacion;
-
-var cal:java.util.Calendar = java.util.Calendar.getInstance();
-cal.setTime(fechaUltimaLiquidacion);
-cal.add(java.util.Calendar.MONTH, frecuencia);
-cal.set(java.util.Calendar.DATE, cal.getActualMaximum(cal.DAY_OF_MONTH));
-sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.action>
+								<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:edf_cuotaFijaDia}")]]></xp:this.onComplete>
+								<xe:this.action><![CDATA[#{javascript:edificioBean.onClickFrecuencia(sessionScope.get("edfObj"));}]]></xe:this.action>
 							</xp:eventHandler>
 						</xe:djHorizontalSlider>
 					</xe:formRow>
@@ -168,14 +162,7 @@ sessionScope.edfObj.edf_fechaProximaLiquidacion = cal.getTime();}]]></xe:this.ac
 							
 						</xp:text>
 					</xe:formRow>
-					
-					<xe:formRow id="formRow1"
-						label="BORRAR_cuotaFijaDia" labelPosition="left">
-						<xp:inputText id="inputText1"
-							value="#{edfObj.edf_cuotaFijaDia}" disabled="true">
-						</xp:inputText>
-					</xe:formRow>
-
+										
 					<xp:div id="divPorcentuales">
 						<!-- INI Valores a Prorratear en 3 columnas -->
 						<xe:formRow id="rowPorcentuales"
@@ -389,10 +376,10 @@ if (!msgValidacion.equals("")){
 							value="#{edfObj.edf_modalidadInteresesPunitorios}"
                            style="width:auto">
                             <xp:selectItem itemLabel="Interés s/Capital"
-                                itemValue="1">
+                                itemValue="SI">
                             </xp:selectItem>
                             <xp:selectItem itemLabel="Interés s/Interés"
-                                itemValue="0">
+                                itemValue="NO">
                             </xp:selectItem>
                         </xp:comboBox>
 					</xe:formRow>
@@ -456,8 +443,7 @@ if(msgValidacion.isEmpty()){
 
 								</xp:eventHandler>
 							</xp:button>
-							<xp:messages id="messages1" styleClass="alert alert-error"
-								>
+							<xp:messages id="messages1" styleClass="alert alert-error">
 							</xp:messages>
 						</xp:div>
 					</xe:this.facets>
