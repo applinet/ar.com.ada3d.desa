@@ -51,11 +51,11 @@
 		</xe:this.facets>
 		<!-- Bootstrap configuration object for the app layout -->
 		<xe:this.configuration>
-			<xe:bootstrapResponsiveConfiguration
-				banner="true" collapseLeftColumn="true" pageWidth="fluid"
-				fixedNavbar="fixed-top" productLogo="/logo.gif" productLogoClass="applicationLogo"
+			<xe:bootstrapResponsiveConfiguration banner="true"
+				collapseLeftColumn="true" pageWidth="fluid" fixedNavbar="fixed-top"
+				productLogo="/logo.gif" productLogoClass="applicationLogo"
 				productLogoAlt="Sistemas Administrativos" invertedNavbar="true"
-				titleBar="false">
+				titleBar="false" >
 				<xe:this.bannerApplicationLinks>
 					<xe:repeatTreeNode loaded="true" var="tree"
 						indexVar="index">
@@ -63,10 +63,12 @@
 							<xe:basicContainerNode style="menu-item">
 								<xe:this.label><![CDATA[#{javascript:requestScope.currNode = tree; tree.name}]]></xe:this.label>
 								<xe:this.children>
-									<xe:repeatTreeNode loaded="true" var="subtree"
-										indexVar="subindex" value="#{javascript:requestScope.currNode.items}">
+									<xe:repeatTreeNode loaded="true"
+										var="subtree" indexVar="subindex"
+										value="#{javascript:requestScope.currNode.items}">
 										<xe:this.children>
-											<xe:basicLeafNode label="#{subtree}"
+											<xe:basicLeafNode
+												label="#{subtree}"
 												href="#{javascript:requestScope.currPage = tree; tree.page[subindex]}">
 											</xe:basicLeafNode>
 										</xe:this.children>
@@ -82,14 +84,16 @@ if (dbConf != null){
 				</xe:this.bannerApplicationLinks>
 				<xe:this.bannerUtilityLinks>
 
-					<xe:basicContainerNode label="#{sessionScope.edificioSelected}"
-						rendered="false">
+					<xe:basicContainerNode
+						label="#{sessionScope.edificioSelected}" rendered="false">
 						<xe:this.children>
 							<xe:repeatTreeNode var="rptEdificios"
 								value="#{sessionScope.edificios}" indexVar="idxEdificios">
 								<xe:this.children>
-									<xe:basicLeafNode label="#{javascript:rptEdificios}"
-										submitValue="#{javascript:idxEdificios}" title="#{javascript:rptEdificios}"
+									<xe:basicLeafNode
+										label="#{javascript:rptEdificios}"
+										submitValue="#{javascript:idxEdificios}"
+										title="#{javascript:rptEdificios}"
 										onClick="alert('aho:' + XSP.getSubmitValue());">
 										<xe:this.href><![CDATA[#{javascript://return "/home.xsp/" + idxEdificios;}]]></xe:this.href>
 									</xe:basicLeafNode>
@@ -97,7 +101,8 @@ if (dbConf != null){
 							</xe:repeatTreeNode>
 						</xe:this.children>
 					</xe:basicContainerNode>
-					<xe:basicContainerNode label="#{javascript:return DocUsr.getUserMask();}">
+					<xe:basicContainerNode
+						label="#{javascript:return DocUsr.getUserMask();}">
 						<xe:this.children>
 							<xe:basicLeafNode submitValue="Deslogueo">
 
@@ -110,7 +115,8 @@ return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 
 
 
-							<xe:basicLeafNode label="Cambiar contraseña">
+							<xe:basicLeafNode
+								label="Cambiar contraseña">
 								<xe:this.href><![CDATA[#{javascript:facesContext.getExternalContext().getRequest().getContextPath()+ "?changepassword&redirectTo=names.nsf?logout"}]]></xe:this.href>
 							</xe:basicLeafNode>
 						</xe:this.children>
@@ -122,7 +128,8 @@ return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 
 
 				<xe:this.searchBar>
-					<xe:appSearchBar pageName="/borrar_BootstrapPopOver.xsp">
+					<xe:appSearchBar
+						pageName="/borrar_BootstrapPopOver.xsp">
 						<xe:this.options>
 
 						</xe:this.options>
@@ -135,7 +142,7 @@ return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 				</xe:this.titleBarTabs>
 				<xe:this.placeBarActions>
 					<xe:basicLeafNode label="Nuevo Administrador"
-						href="/frmDatosAdministrador.xsp">
+						href="/frmDatosAdministrador.xsp" styleClass="navbar-lower">
 					</xe:basicLeafNode>
 					<xe:basicLeafNode label="Nuevo Gasto"></xe:basicLeafNode>
 					<xe:basicLeafNode label="Reclamos"></xe:basicLeafNode>
