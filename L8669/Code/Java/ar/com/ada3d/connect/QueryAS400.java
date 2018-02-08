@@ -190,7 +190,7 @@ public class QueryAS400 implements Serializable {
 			Statement stmt = connection.createStatement();
 			
 			if (configTabla.getMsgConsola().equals("1"))
-				System.out.println("UPDATE: " + configTabla.getStrsSQL());
+				System.out.println(configTabla.getStrsSQL());
 			
 			int resultStrSql = stmt.executeUpdate(configTabla.getStrsSQL());
 			if (resultStrSql > 0){
