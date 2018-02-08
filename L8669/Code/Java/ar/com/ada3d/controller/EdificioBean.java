@@ -7,11 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.io.Serializable;
-
-import javax.faces.application.FacesMessage;
 import javax.faces.model.SelectItem;
-import javax.faces.validator.ValidatorException;
-
 import org.openntf.domino.Document;
 
 
@@ -79,7 +75,7 @@ public class EdificioBean implements Serializable {
 	 * 
 	 * @return: etiqueta y valor para xp:comboBox
 	 * 
-	 * @usedIn: en el combo al lado del boton Save de un formulario
+	 * @usedIn: layout tiene una propiedad para mostrar o no en cada XPage
 	 */
 	public static List<SelectItem> getComboboxMyEdificiosTrabajo() {
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
@@ -224,14 +220,21 @@ public class EdificioBean implements Serializable {
 			}
 			
 			
-			myEdificio.setEdf_imprimeTitulosEnLiquidacion("0"); //Falta definir el campo
-			
 			myEdificio.setEdf_interesPunitorioDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 1)));
 			myEdificio.setEdf_recargoSegundoVencimiento( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[16].trim(), Locale.UK, 1)));
+			
 			myEdificio.setEdf_fechaPrimerVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[17].trim()));
+			cal.setTime(myEdificio.getEdf_fechaPrimerVencimientoRecibos());
+			cal.add(Calendar.MONTH, myEdificio.getEdf_frecuenciaLiquidacion());
+			myEdificio.setEdf_fechaPrimerVencimientoRecibos(cal.getTime());
 			myEdificio.setEdf_fechaSegundoVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[18].trim()));
+			cal.setTime(myEdificio.getEdf_fechaSegundoVencimientoRecibos());
+			cal.add(Calendar.MONTH, myEdificio.getEdf_frecuenciaLiquidacion());
+			myEdificio.setEdf_fechaSegundoVencimientoRecibos(cal.getTime());
+			
 			myEdificio.setEdf_modalidadInteresesPunitorios(strLinea.split("\\|")[19].trim());
-			myEdificio.setEdf_cuit(strLinea.split("\\|")[20].trim());		
+			myEdificio.setEdf_cuit(strLinea.split("\\|")[20].trim());
+			myEdificio.setEdf_imprimeTitulosEnLiquidacion(strLinea.split("\\|")[21].trim().equals("1") ? "1":"0");
 			myEdificio.setEdf_isReadMode(true);
 			listaEdificios.add(myEdificio);
 			if(!docUsuario.getEdificiosNoAccessLista().contains(strLinea.split("\\|")[0].trim())){
@@ -281,7 +284,7 @@ public class EdificioBean implements Serializable {
 				myProrrateo = new Prorrateo();
 				myProrrateo.setPrt_posicion(i);
 				myProrrateo.setPrt_posicionEnGrilla(tempPosicionEnGrilla);
-				tempPosicionEnGrilla = ++tempPosicionEnGrilla;
+				tempPosicionEnGrilla = tempPosicionEnGrilla + 1;
 				myProrrateo.setPrt_titulo("Porcentual # " + i);
 				myProrrateo.setPrt_porcentaje(tempPorcentaje);
 				
@@ -328,7 +331,9 @@ public class EdificioBean implements Serializable {
 					myProrrateo.setPrt_importe(null);
 					
 				}else{//CUOTA FIJA o Presupuesto
-					myProrrateo.setPrt_importe(new BigDecimal(1));
+					if(myProrrateo.getPrt_importe() == null){
+						myProrrateo.setPrt_importe(new BigDecimal(1));						
+					}
 					if (myProrrateo.getPrt_tipo().equals("C")){	//CF cargo el combo
 						prm_edificio.setEdf_cuotaFijaDiaOpcionesCombo(opcionesDiaCuotaFija(ar.com.ada3d.utilidades.Conversores.dateToCalendar(prm_edificio.getEdf_fechaProximaLiquidacion())));
 						tempCuotaFijaDia = "B";
@@ -353,13 +358,13 @@ public class EdificioBean implements Serializable {
 		}else{
 			if(tempCuotaFijaDia.equals("P")){//Chequeo si cambio realmente a P
 				if(tempArrayCuotaFijaDia.contains("C") || tempArrayCuotaFijaDia.contains("B")){
-					return "rowPorcentuales~No puede seleccionar PRESUPUESTO si existe una CUOTA FIJA.";
+					return "prt_tipo~No puede seleccionar PRESUPUESTO si existe una CUOTA FIJA.";
 				}else{
 					prm_edificio.setEdf_cuotaFijaDia("P");
 				}
 			}else if(tempCuotaFijaDia.equals("C") || tempCuotaFijaDia.equals("B")){//Chequeo si cambio realmente a C
 				if(tempArrayCuotaFijaDia.contains("P")){
-					return "rowPorcentuales~No puede seleccionar CUOTA FIJA si existe un PRESUPUESTO .";
+					return "prt_tipo~No puede seleccionar CUOTA FIJA si existe un PRESUPUESTO .";
 				}else{
 					prm_edificio.setEdf_cuotaFijaDia(tempCuotaFijaDia);
 				}
@@ -372,6 +377,43 @@ public class EdificioBean implements Serializable {
 		}
 		return "";
 	}
+	
+	/*
+	 * Modifica los siguientes datos:
+	 * -Fecha próxima liquidacion
+	 * -Mes de prorrateo y recibos (solo si es cuota fija)
+	 * -Fecha 1er vto en recibos
+	 * -Fecha 2do vto en recibos
+	 * 
+	 * @param: 
+	 * -El edificio que estoy modificando
+	 * 
+	 * @usedIn: en el slider de frecuencia
+	 */
+	@SuppressWarnings("static-access")
+	public void onClickFrecuencia(Edificio prm_edificio){			
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(prm_edificio.getEdf_fechaUltimaLiquidacion());
+		cal.add(Calendar.MONTH, prm_edificio.getEdf_frecuenciaLiquidacion());
+		cal.set(cal.DATE, cal.getActualMaximum(cal.DAY_OF_MONTH));
+		prm_edificio.setEdf_fechaProximaLiquidacion(cal.getTime());
+		if(prm_edificio.getEdf_cuotaFijaDia().equals("N") || prm_edificio.getEdf_cuotaFijaDia().equals("B")){
+			System.out.println("aca");
+			prm_edificio.setEdf_cuotaFijaDiaOpcionesCombo(opcionesDiaCuotaFija(ar.com.ada3d.utilidades.Conversores.dateToCalendar(prm_edificio.getEdf_fechaProximaLiquidacion())));
+			
+		}
+		
+		
+		/*
+		cal.setTime(sessionScope.edfObj.edf_fechaPrimerVencimientoRecibos)
+		cal.add(java.util.Calendar.MONTH, frecuencia);
+		sessionScope.edfObj.edf_fechaPrimerVencimientoRecibos = cal.getTime();
+		*/
+		
+	}
+	
+	
+	
 	
 	
 	public void updateEdificiosAs400() {
@@ -402,11 +444,34 @@ public class EdificioBean implements Serializable {
 		docDummy.appendItemValue("Codigo", prm_edificio.getEdf_codigo());
 		docDummy.appendItemValue("DIRECC", prm_edificio.getEdf_direccion() + "-" + prm_edificio.getEdf_localidad());
 		docDummy.appendItemValue("CodigoVisual", prm_edificio.getEdf_codigoVisual());
+		docDummy.appendItemValue("frecuencia", prm_edificio.getEdf_frecuenciaLiquidacion());
+		docDummy.appendItemValue("imprimirTitulos", prm_edificio.getEdf_imprimeTitulosEnLiquidacion());
+		docDummy.appendItemValue("CTFJ1", "0");
+		docDummy.appendItemValue("CTFJ2", "0");
+		docDummy.appendItemValue("CTFJ3", "0");
+		docDummy.appendItemValue("CTFJ4", "0");
+		docDummy.appendItemValue("E12", ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(prm_edificio.getEdf_interesPunitorioDeudores(),1));
+		docDummy.appendItemValue("E08A", ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(prm_edificio.getEdf_recargoSegundoVencimiento(),1));
+		
+		
+		for(Prorrateo myProrrateo: prm_edificio.getListaProrrateos()){
+			if (myProrrateo.getPrt_importe() != null){
+				docDummy.replaceItemValue("CTFJ" + myProrrateo.getPrt_posicion(), ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myProrrateo.getPrt_importe(), 2));
+			}
+		}
+
+		docDummy.appendItemValue("ESTADO2", prm_edificio.getEdf_cuotaFijaDia().equals("B")? "" : prm_edificio.getEdf_cuotaFijaDia());
+		docDummy.appendItemValue("E13A", prm_edificio.getEdf_modalidadInteresesPunitorios());
 		
 		QueryAS400 query = new QueryAS400();
 		
-		if (query.updateAS("updateEdificios", docDummy)) {
-			System.out.println("FPR UpdateQuery OK_Codigo: " + prm_edificio.getEdf_codigo());
+		if (query.updateAS("updateEdificiosPH_E01", docDummy)) {
+			if (!query.updateAS("updateEdificiosValoresCTFJ", docDummy)) {
+				if (!query.updateAS("updateEdificiosValoresCTFJ_insert", docDummy))						
+					throw new java.lang.Error("No se pudo actualizar la tabla PH_CTFJ.");
+			}
+		}else{
+			throw new java.lang.Error("No se pudo actualizar la tabla PH_E01.");
 		}
 	}
 	
@@ -462,15 +527,41 @@ public class EdificioBean implements Serializable {
 		String tempCuotaFijaDia = prm_edificio.getEdf_cuotaFijaDia();
 		if(tempCuotaFijaDia.equals("P")){//Chequeo si cambio realmente a P
 			if(tempArrayCuotaFijaDia.contains("C") || tempArrayCuotaFijaDia.contains("B")){
-				listAcumulaErrores.add("rowPorcentuales~No puede seleccionar PRESUPUESTO si existe una CUOTA FIJA.");
+				listAcumulaErrores.add("prt_tipo~No puede seleccionar PRESUPUESTO si existe una CUOTA FIJA.");
 			}
 		}else if(tempCuotaFijaDia.equals("C") || tempCuotaFijaDia.equals("B")){//Chequeo si cambio realmente a C
 			if(tempArrayCuotaFijaDia.contains("P")){
-				listAcumulaErrores.add("rowPorcentuales~No puede seleccionar CUOTA FIJA si existe un PRESUPUESTO .");
+				listAcumulaErrores.add("prt_tipo~No puede seleccionar CUOTA FIJA si existe un PRESUPUESTO .");
 			}
 		}
 		
 		//El título de cada valor a prorratear max. 11 long. 
+		
+		
+		//Fecha primer y segundo vencimiento
+		if(prm_edificio.getEdf_interesPunitorioDeudores().compareTo(BigDecimal.ZERO) > 0){
+			Calendar calMin = Calendar.getInstance();
+			calMin.setTime(prm_edificio.getEdf_fechaProximaLiquidacion());
+			calMin.add(Calendar.DATE, 1);
+			
+			Calendar calNew = Calendar.getInstance();
+			calNew.setTime(prm_edificio.getEdf_fechaPrimerVencimientoRecibos());
+			
+			if (calNew.before(calMin)) {
+				listAcumulaErrores.add("edf_fechaPrimerVencimientoRecibos~La fecha de primer vto. no puede ser menor a " + ar.com.ada3d.utilidades.Conversores.DateToString(calMin.getTime(), "dd/MM/yyyy" ));
+			}
+			
+			if(prm_edificio.getEdf_recargoSegundoVencimiento().compareTo(BigDecimal.ZERO) > 0){
+				calMin.setTime(prm_edificio.getEdf_fechaPrimerVencimientoRecibos());
+				calMin.add(Calendar.DATE, 1);
+				calNew.setTime(prm_edificio.getEdf_fechaSegundoVencimientoRecibos());
+				if (calNew.before(calMin)) {
+					listAcumulaErrores.add("edf_fechaSegundoVencimientoRecibos~La fecha de 2° vto. debe ser mayor al 1° vto ");
+				}
+			}
+			
+			
+		}
 		
 		
 		return listAcumulaErrores;
