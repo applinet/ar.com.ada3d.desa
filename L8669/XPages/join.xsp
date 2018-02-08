@@ -65,16 +65,16 @@ if(agent!=null){
 	<xe:djxDataGrid id="djxDataGrid1" store="dataStore" title="GridData"
 		autoHeight="25">
 		<xe:djxDataGridColumn id="djxDataGridColumn4" field="ADMI"
-			label="adm dep" width="50">
+			label="adm dep ADMI" width="50">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumn23" field="E09A"
-			label="est proc" width="50">
+			label="est proc E09A" width="50">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumn3" field="EDIF"
 			label="EDIF" width="50">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumn33" field="E20A"
-			label="cod visual" width="50">
+			label="cod visual E20A" width="50">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumn5" field="DIRECC"
 			width="250" label="DIRECC">
@@ -83,55 +83,55 @@ if(agent!=null){
 			label="CUIT" width="100">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumn22" field="ULQFEC"
-			label="ultima liquidacion">
+			label="ultima liquidacion ULQFEC">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnE09B" field="E09B"
-			label="freq" width="30">
+			label="freq E09B" width="50">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumn1" field="ESTADO2"
-			label="prt estado" width="50">
+			label="prt estado ESTADO2" width="75">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnTOTP1" field="TOTP1"
-			label="% 1 Aplicado">
+			label="% 1 Aplicado TOTP1">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnTOTP2" field="TOTP2"
-			label="% 2 Aplicado">
+			label="% 2 Aplicado TOTP2">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnTOTP3" field="TOTP3"
-			label="% 3 Aplicado">
+			label="% 3 Aplicado TOTP3">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnTOTP4" field="TOTP4"
-			label="% 4 Aplicado">
+			label="% 4 Aplicado TOTP4">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnCTFJ1" field="CTFJ1"
-			label="$ 1 CF o Ppto.">
+			label="$ 1 CF o Ppto. CTFJ1">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnCTFJ2" field="CTFJ2"
-			label="$ 2 CF o Ppto.">
+			label="$ 2 CF o Ppto. CTFJ2">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnCTFJ3" field="CTFJ3"
-			label="$ 3 CF o Ppto.">
+			label="$ 3 CF o Ppto. CTFJ3">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnCTFJ4" field="CTFJ4"
-			label="$ 4 CF o Ppto.">
+			label="$ 4 CF o Ppto. CTFJ4">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnE14B" field="E14B"
-			label="print titulos %" width="60">
+			label="print titulos % E14B" width="60">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnE12" field="E12"
-			label="Interes punit" width="60">
+			label="Interes punit E12" width="60">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnE08A" field="E08A"
-			label="Recargo 2do vto" width="60">
+			label="Recargo 2do vto E08A" width="60">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnVTOEX1" field="VTOEX1"
-			label="fecha 1er vto" width="60">
+			label="fecha 1er vto VTOEX1" width="65">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnVTOEX2" field="VTOEX2"
-			label="fecha 2do vto" width="60">
+			label="fecha 2do vto VTOEX2" width="65">
 		</xe:djxDataGridColumn>
 		<xe:djxDataGridColumn id="djxDataGridColumnE13A" field="E13A"
-			label="modal interes" width="60">
+			label="modal interes E13A" width="60">
 		</xe:djxDataGridColumn>
 	</xe:djxDataGrid>
 
