@@ -12,6 +12,7 @@ import org.openntf.domino.Document;
 
 
 import ar.com.ada3d.model.Edificio;
+import ar.com.ada3d.model.Porcentual;
 import ar.com.ada3d.model.Prorrateo;
 import ar.com.ada3d.utilidades.*;
 import lotus.domino.NotesException;
@@ -220,25 +221,22 @@ public class EdificioBean implements Serializable {
 			}
 			
 			
-			myEdificio.setEdf_interesPunitorioDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 1)));
-			myEdificio.setEdf_recargoSegundoVencimiento( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[16].trim(), Locale.UK, 1)));
+			myEdificio.setEdf_importeInteresPunitorioDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 1)));
+			myEdificio.setEdf_importeRecargoSegundoVencimiento( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[16].trim(), Locale.UK, 1)));
 			
 			myEdificio.setEdf_fechaPrimerVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[17].trim()));
-			cal.setTime(myEdificio.getEdf_fechaPrimerVencimientoRecibos());
-			cal.add(Calendar.MONTH, myEdificio.getEdf_frecuenciaLiquidacion());
-			myEdificio.setEdf_fechaPrimerVencimientoRecibos(cal.getTime());
 			myEdificio.setEdf_fechaSegundoVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[18].trim()));
-			cal.setTime(myEdificio.getEdf_fechaSegundoVencimientoRecibos());
-			cal.add(Calendar.MONTH, myEdificio.getEdf_frecuenciaLiquidacion());
-			myEdificio.setEdf_fechaSegundoVencimientoRecibos(cal.getTime());
 			
 			myEdificio.setEdf_modalidadInteresesPunitorios(strLinea.split("\\|")[19].trim());
 			myEdificio.setEdf_cuit(strLinea.split("\\|")[20].trim());
 			myEdificio.setEdf_imprimeTitulosEnLiquidacion(strLinea.split("\\|")[21].trim().equals("1") ? "1":"0");
+			
+			//Voy a cargar todos los porcentuales, los utilizados y los no utilizados
+			myEdificio.setListaPorcentuales(cargaPorcentualEdificio(strLinea));
+		
 			myEdificio.setEdf_isReadMode(true);
 			listaEdificios.add(myEdificio);
 			if(!docUsuario.getEdificiosNoAccessLista().contains(strLinea.split("\\|")[0].trim())){
-				//System.out.println("FPR - " + docUsuario.getUser() + " - " + strLinea.split("\\|")[2].trim());
 				listaEdificiosTrabajo.add(myEdificio);
 			}
 			AddEdificioMap(myEdificio); // Lo agrego al mapa por código
@@ -266,20 +264,20 @@ public class EdificioBean implements Serializable {
 	 */
 	private List<Prorrateo> cargaProrrateoEdificio(String strLinea, String strTipo){
 		Prorrateo myProrrateo;
-		List<Prorrateo> listaPorcentualesEdificio = new ArrayList<Prorrateo>();
+		List<Prorrateo> listaProrrateosEdificio = new ArrayList<Prorrateo>();
 		int posicionPorcentaje = 5;
 		int posicionCuotaFija = 9;
 		int tempPorcentaje = 0;
 		int tempPosicionEnGrilla = 0;
 		String strValorCuotaFija;
 		
-		for(int i=1; i<5; i++){ //Son 4 prorrateos por edificio
+		for(int i=1; i<5; i++){ //Son 4 porcentuales por ahora
 			//variables que recorren 4 valores a prorratear
 			posicionPorcentaje = posicionPorcentaje + 1;
 			posicionCuotaFija = posicionCuotaFija + 1;
 			
 			//Define si se crea o no el objeto Prorrateo
-			tempPorcentaje = Integer.parseInt(strLinea.split("\\|")[posicionPorcentaje].trim());
+			tempPorcentaje = Integer.parseInt(strLinea.split("\\|")[posicionPorcentaje].trim()); 
 			if(tempPorcentaje != 0){
 				myProrrateo = new Prorrateo();
 				myProrrateo.setPrt_posicion(i);
@@ -304,12 +302,36 @@ public class EdificioBean implements Serializable {
 					myProrrateo.setPrt_tipo("G");
 				}
 				
-				listaPorcentualesEdificio.add(myProrrateo);
+				listaProrrateosEdificio.add(myProrrateo);
 			}
 		}
-		return listaPorcentualesEdificio;
+		return listaProrrateosEdificio;
 	}
 	
+	/*
+	 * Al cargar un edificio en la misma consulta al AS400 tambien cargo los datos de porcentuales
+	 */
+	
+	private List<Porcentual> cargaPorcentualEdificio(String strLinea){
+		Porcentual myPorcentual;
+		List<Porcentual> listaPorcentualesEdificio = new ArrayList<Porcentual>();
+		int posicionPorcentaje = 6;
+		int posicionHonorarios = 22;
+		int posicionEnGrilla = 0;
+		for(int i=1; i<5; i++){ //Son 4 porcentuales por ahora
+			myPorcentual = new Porcentual();
+			myPorcentual.setPorc_posicion(i);
+			myPorcentual.setPorc_titulo("Honorarios % " + i);
+			myPorcentual.setPorc_porcentaje(Integer.parseInt(strLinea.split("\\|")[posicionPorcentaje].trim()));
+			myPorcentual.setPorc_importeHonorarios(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[posicionHonorarios].trim(), Locale.UK, 2)));
+			posicionPorcentaje = posicionPorcentaje + 1;
+			posicionHonorarios = posicionHonorarios + 1;
+			posicionEnGrilla = posicionEnGrilla + 1;
+			listaPorcentualesEdificio.add(myPorcentual);
+		}
+		return listaPorcentualesEdificio;
+		
+	}
 	/*
 	 * Oculta o visualiza otros campos al cambiar la opción
 	 * 
@@ -398,9 +420,7 @@ public class EdificioBean implements Serializable {
 		cal.set(cal.DATE, cal.getActualMaximum(cal.DAY_OF_MONTH));
 		prm_edificio.setEdf_fechaProximaLiquidacion(cal.getTime());
 		if(prm_edificio.getEdf_cuotaFijaDia().equals("N") || prm_edificio.getEdf_cuotaFijaDia().equals("B")){
-			System.out.println("aca");
 			prm_edificio.setEdf_cuotaFijaDiaOpcionesCombo(opcionesDiaCuotaFija(ar.com.ada3d.utilidades.Conversores.dateToCalendar(prm_edificio.getEdf_fechaProximaLiquidacion())));
-			
 		}
 		
 		
@@ -450,18 +470,38 @@ public class EdificioBean implements Serializable {
 		docDummy.appendItemValue("CTFJ2", "0");
 		docDummy.appendItemValue("CTFJ3", "0");
 		docDummy.appendItemValue("CTFJ4", "0");
-		docDummy.appendItemValue("E12", ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(prm_edificio.getEdf_interesPunitorioDeudores(),1));
-		docDummy.appendItemValue("E08A", ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(prm_edificio.getEdf_recargoSegundoVencimiento(),1));
+		docDummy.appendItemValue("E12", ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(prm_edificio.getEdf_importeInteresPunitorioDeudores(),1));
+		docDummy.appendItemValue("E08A", ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(prm_edificio.getEdf_importeRecargoSegundoVencimiento(),1));
+		docDummy.appendItemValue("VTOEX1", ar.com.ada3d.utilidades.Conversores.DateToString(prm_edificio.getEdf_fechaPrimerVencimientoRecibos(), "ddMMyy"));
+		docDummy.appendItemValue("VTOEX2", ar.com.ada3d.utilidades.Conversores.DateToString(prm_edificio.getEdf_fechaSegundoVencimientoRecibos(), "ddMMyy"));
 		
 		
+		//Recorro los prorrateos para cargar Cuota Fija o Presupuesto
 		for(Prorrateo myProrrateo: prm_edificio.getListaProrrateos()){
 			if (myProrrateo.getPrt_importe() != null){
 				docDummy.replaceItemValue("CTFJ" + myProrrateo.getPrt_posicion(), ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myProrrateo.getPrt_importe(), 2));
 			}
 		}
-
+		//Estado blanco de AS400 yo lo tengo como B. Se reemplaza
 		docDummy.appendItemValue("ESTADO2", prm_edificio.getEdf_cuotaFijaDia().equals("B")? "" : prm_edificio.getEdf_cuotaFijaDia());
 		docDummy.appendItemValue("E13A", prm_edificio.getEdf_modalidadInteresesPunitorios());
+		
+		for (Porcentual myPorcentual : prm_edificio.getListaPorcentuales()){
+			switch (myPorcentual.getPorc_posicion()){
+			case 1:
+				docDummy.replaceItemValue("E391", ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myPorcentual.getPorc_importeHonorarios(), 2));
+				break; 
+			case 2:
+				docDummy.replaceItemValue("E392", ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myPorcentual.getPorc_importeHonorarios(), 2));
+				break; 
+			case 3:
+				docDummy.replaceItemValue("E441", ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myPorcentual.getPorc_importeHonorarios(), 2));
+				break; 
+			case 4:
+				docDummy.replaceItemValue("E442", ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myPorcentual.getPorc_importeHonorarios(), 2));
+				break; 
+			}
+		}
 		
 		QueryAS400 query = new QueryAS400();
 		
@@ -469,6 +509,10 @@ public class EdificioBean implements Serializable {
 			if (!query.updateAS("updateEdificiosValoresCTFJ", docDummy)) {
 				if (!query.updateAS("updateEdificiosValoresCTFJ_insert", docDummy))						
 					throw new java.lang.Error("No se pudo actualizar la tabla PH_CTFJ.");
+			}
+			
+			if (!query.updateAS("updateEdificiosDIFED", docDummy)) {
+				throw new java.lang.Error("No se pudo actualizar la tabla PH_DIFED.");
 			}
 		}else{
 			throw new java.lang.Error("No se pudo actualizar la tabla PH_E01.");
@@ -539,7 +583,7 @@ public class EdificioBean implements Serializable {
 		
 		
 		//Fecha primer y segundo vencimiento
-		if(prm_edificio.getEdf_interesPunitorioDeudores().compareTo(BigDecimal.ZERO) > 0){
+		if(prm_edificio.getEdf_importeInteresPunitorioDeudores().compareTo(BigDecimal.ZERO) > 0){
 			Calendar calMin = Calendar.getInstance();
 			calMin.setTime(prm_edificio.getEdf_fechaProximaLiquidacion());
 			calMin.add(Calendar.DATE, 1);
@@ -551,7 +595,7 @@ public class EdificioBean implements Serializable {
 				listAcumulaErrores.add("edf_fechaPrimerVencimientoRecibos~La fecha de primer vto. no puede ser menor a " + ar.com.ada3d.utilidades.Conversores.DateToString(calMin.getTime(), "dd/MM/yyyy" ));
 			}
 			
-			if(prm_edificio.getEdf_recargoSegundoVencimiento().compareTo(BigDecimal.ZERO) > 0){
+			if(prm_edificio.getEdf_importeRecargoSegundoVencimiento().compareTo(BigDecimal.ZERO) > 0){
 				calMin.setTime(prm_edificio.getEdf_fechaPrimerVencimientoRecibos());
 				calMin.add(Calendar.DATE, 1);
 				calNew.setTime(prm_edificio.getEdf_fechaSegundoVencimientoRecibos());
