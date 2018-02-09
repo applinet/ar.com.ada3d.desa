@@ -133,6 +133,18 @@ if(agent!=null){
 		<xe:djxDataGridColumn id="djxDataGridColumnE13A" field="E13A"
 			label="modal interes E13A" width="60">
 		</xe:djxDataGridColumn>
+		<xe:djxDataGridColumn id="djxDataGridColumnE391" field="E391"
+			label="honor %1 E391" width="60">
+		</xe:djxDataGridColumn>
+		<xe:djxDataGridColumn id="djxDataGridColumnE392" field="E392"
+			label="honor %2 E392" width="50">
+		</xe:djxDataGridColumn>
+		<xe:djxDataGridColumn id="djxDataGridColumnE441" field="E441"
+			label="honor %3 E441" width="50">
+		</xe:djxDataGridColumn>
+		<xe:djxDataGridColumn id="djxDataGridColumnE442" field="E442"
+			label="honor %4 E442" width="50">
+		</xe:djxDataGridColumn>
 	</xe:djxDataGrid>
 
 </xp:view>

@@ -33,12 +33,15 @@ public class Edificio implements Serializable{
 	private String edf_cuotaFijaDia;
 	private List<SelectItem> edf_cuotaFijaDiaOpcionesCombo;
 	private String edf_imprimeTitulosEnLiquidacion;
-	private BigDecimal edf_interesPunitorioDeudores;
-	private BigDecimal edf_recargoSegundoVencimiento;
+	private BigDecimal edf_importeInteresPunitorioDeudores;
+	private BigDecimal edf_importeRecargoSegundoVencimiento;
 	private Date edf_fechaPrimerVencimientoRecibos;
 	private Date edf_fechaSegundoVencimientoRecibos;
 	private String edf_modalidadInteresesPunitorios;
-		
+	private List<Porcentual> listaPorcentuales;
+	private BigDecimal edf_importeFranqueo;
+	private BigDecimal edf_importeMultaDeudores;
+
 	//TODO: private String edf_lockeo --> DocLock
 
 		
@@ -156,19 +159,19 @@ public class Edificio implements Serializable{
 			String edf_imprimeTitulosEnLiquidacion) {
 		this.edf_imprimeTitulosEnLiquidacion = edf_imprimeTitulosEnLiquidacion;
 	}
-	public BigDecimal getEdf_interesPunitorioDeudores() {
-		return edf_interesPunitorioDeudores;
+	public BigDecimal getEdf_importeInteresPunitorioDeudores() {
+		return edf_importeInteresPunitorioDeudores;
 	}
-	public void setEdf_interesPunitorioDeudores(
-			BigDecimal edf_interesPunitorioDeudores) {
-		this.edf_interesPunitorioDeudores = edf_interesPunitorioDeudores;
+	public void setEdf_importeInteresPunitorioDeudores(
+			BigDecimal edf_importeInteresPunitorioDeudores) {
+		this.edf_importeInteresPunitorioDeudores = edf_importeInteresPunitorioDeudores;
 	}
-	public BigDecimal getEdf_recargoSegundoVencimiento() {
-		return edf_recargoSegundoVencimiento;
+	public BigDecimal getEdf_importeRecargoSegundoVencimiento() {
+		return edf_importeRecargoSegundoVencimiento;
 	}
-	public void setEdf_recargoSegundoVencimiento(
-			BigDecimal edf_recargoSegundoVencimiento) {
-		this.edf_recargoSegundoVencimiento = edf_recargoSegundoVencimiento;
+	public void setEdf_importeRecargoSegundoVencimiento(
+			BigDecimal edf_importeRecargoSegundoVencimiento) {
+		this.edf_importeRecargoSegundoVencimiento = edf_importeRecargoSegundoVencimiento;
 	}
 	public Date getEdf_fechaPrimerVencimientoRecibos() {
 		return edf_fechaPrimerVencimientoRecibos;
@@ -191,6 +194,22 @@ public class Edificio implements Serializable{
 			String edf_modalidadInteresesPunitorios) {
 		this.edf_modalidadInteresesPunitorios = edf_modalidadInteresesPunitorios;
 	}
-
-	
+	public List<Porcentual> getListaPorcentuales() {
+		return listaPorcentuales;
+	}
+	public void setListaPorcentuales(List<Porcentual> listaPorcentuales) {
+		this.listaPorcentuales = listaPorcentuales;
+	}
+	public BigDecimal getEdf_importeFranqueo() {
+		return edf_importeFranqueo;
+	}
+	public void setEdf_importeFranqueo(BigDecimal edf_importeFranqueo) {
+		this.edf_importeFranqueo = edf_importeFranqueo;
+	}
+	public BigDecimal getEdf_importeMultaDeudores() {
+		return edf_importeMultaDeudores;
+	}
+	public void setEdf_importeMultaDeudores(BigDecimal edf_importeMultaDeudores) {
+		this.edf_importeMultaDeudores = edf_importeMultaDeudores;
+	}
 }

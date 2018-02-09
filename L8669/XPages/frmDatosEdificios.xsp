@@ -23,7 +23,6 @@
 					disableRowError="false" 
 					style="padding-left:20.0%;padding-right:20.0%" >
 					
-					
 					<xe:formRow id="rowDireccion" label="Domicilio"
 						labelPosition="left">
 						<xp:inputText id="edf_direccion"
@@ -300,8 +299,8 @@ if (!msgValidacion.equals("")){
 					
 					<xe:formRow id="rowInteresPunitorioDeudores" 
 						label="Interés punitorio a unidades deudoras" labelPosition="left">
-						<xp:inputText id="edf_interesPunitorioDeudores" 
-							value="#{edfObj.edf_interesPunitorioDeudores}"
+						<xp:inputText id="edf_importeInteresPunitorioDeudores" 
+							value="#{edfObj.edf_importeInteresPunitorioDeudores}"
 							disabled="#{edfObj.edf_isReadMode}" style="text-align:right; width:60.0px; display: inline;">
 							<xp:this.converter>
 								<xp:convertNumber
@@ -310,8 +309,8 @@ if (!msgValidacion.equals("")){
 							</xp:this.converter>
 							<xp:this.validators>
 								<xp:validateLongRange minimum="0"
-									maximum="100"
-									message="El % de interés no puede superar el 100 %">
+									maximum="9999"
+									message="El % de interés no puede superar el 9999 %">
 								</xp:validateLongRange>
 							</xp:this.validators>
 							<xp:eventHandler event="onchange"
@@ -323,8 +322,8 @@ if (!msgValidacion.equals("")){
 	
 					<xe:formRow id="rowRecargoSegundoVencimiento"
 						label="Recargo para el 2° vto de expensas" labelPosition="left">
-						<xp:inputText id="edf_recargoSegundoVencimiento"
-							value="#{edfObj.edf_recargoSegundoVencimiento}" disabled="#{edfObj.edf_isReadMode}"
+						<xp:inputText id="edf_importeRecargoSegundoVencimiento"
+							value="#{edfObj.edf_importeRecargoSegundoVencimiento}" disabled="#{edfObj.edf_isReadMode}"
 							style="text-align:right; width:60.0px; display: inline;">
 							<xp:this.converter>
 								<xp:convertNumber
@@ -333,8 +332,8 @@ if (!msgValidacion.equals("")){
 							</xp:this.converter>
 							<xp:this.validators>
 								<xp:validateLongRange minimum="0"
-									maximum="100"
-									message="El % de interés no puede superar el 100 %">
+									maximum="9999"
+									message="El % de interés no puede superar el 9999 %">
 								</xp:validateLongRange>
 							</xp:this.validators>
 							<xp:eventHandler event="onchange"
@@ -349,7 +348,7 @@ if (!msgValidacion.equals("")){
 						<xp:inputText
 							id="edf_fechaPrimerVencimientoRecibos"
 							value="#{edfObj.edf_fechaPrimerVencimientoRecibos}"
-							disabled="#{edfObj.edf_isReadMode or !(edfObj.edf_interesPunitorioDeudores gt 0)}">
+							disabled="#{edfObj.edf_isReadMode or !(edfObj.edf_importeInteresPunitorioDeudores gt 0)}">
 							<xp:this.converter>
 								<xp:convertDateTime type="date"></xp:convertDateTime>
 							</xp:this.converter>
@@ -362,7 +361,7 @@ if (!msgValidacion.equals("")){
 						<xp:inputText
 							id="edf_fechaSegundoVencimientoRecibos"
 							value="#{edfObj.edf_fechaSegundoVencimientoRecibos}"
-							disabled="#{edfObj.edf_isReadMode or !(edfObj.edf_recargoSegundoVencimiento gt 0)}">
+							disabled="#{edfObj.edf_isReadMode or !(edfObj.edf_importeRecargoSegundoVencimiento gt 0)}">
 							<xp:this.converter>
 								<xp:convertDateTime type="date"></xp:convertDateTime>
 							</xp:this.converter>
@@ -384,6 +383,49 @@ if (!msgValidacion.equals("")){
                         </xp:comboBox>
 					</xe:formRow>
 
+<xe:formColumn styleClass="form-group col-sm-3"
+							style="margin-left:2.0%">
+							<xe:formRow id="rowPorcentualTitulo"
+								labelPosition="left" labelWidth="50%">
+								<xp:repeat id="repeatPorcentualTitulo"
+									value="#{edfObj.listaPorcentuales}" var="rptPorcentualTitulo"
+									indexVar="idxRptPorcentualTitulo" >
+
+									<xp:inputText id="porc_titulo"
+										rendered="#{rptPorcentualTitulo.porc_porcentaje gt 0}"
+										styleClass="row form-inline"
+										value="#{rptPorcentualTitulo.porc_titulo}"
+										style="font-weight:bold" disabled="true">
+									</xp:inputText>
+								</xp:repeat>
+							</xe:formRow>
+						</xe:formColumn>
+						
+						<xe:formColumn
+							styleClass="form-group col-sm-4">
+							<xe:formRow id="formRow1"
+								labelWidth="50%" styleClass="col-lg-8" >
+								<xp:repeat id="repeat2"
+									value="#{edfObj.listaPorcentuales}" var="rptPorcentualHonorarios"
+									indexVar="idxRptPorcentualHonorarios">
+									<xp:inputText id="porc_importeHonorarios"
+										styleClass="row form-inline"
+										value="#{rptPorcentualHonorarios.porc_importeHonorarios}"
+										style="text-align:right"
+										rendered="#{rptPorcentualHonorarios.porc_porcentaje gt 0}"
+										disabled="#{edfObj.edf_isReadMode}">
+										<xp:this.converter>
+											<xp:convertNumber
+												pattern="#,##0.00;(#,##0.00)">
+											</xp:convertNumber>
+										</xp:this.converter>
+										<xp:eventHandler
+											event="onchange" submit="true" refreshMode="partial" refreshId="prt_total">
+										</xp:eventHandler>
+									</xp:inputText>
+								</xp:repeat>
+							</xe:formRow>
+						</xe:formColumn>
 					
 					
 					<xe:this.facets>
@@ -447,7 +489,7 @@ if(msgValidacion.isEmpty()){
 							</xp:messages>
 						</xp:div>
 					</xe:this.facets>
-				</xe:formTable>
+					</xe:formTable>
 				
 				<!-- 
 				<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
