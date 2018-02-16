@@ -732,3 +732,26 @@ function clearMap( map:Map ){
 	  map.remove( iterator.next() );
 	 }
 }
+
+function btnAplicarMasivo(strKey:String){
+	if(getComponent(strKey).getValue() == null){
+		viewScope.MessageType="E";
+		viewScope.MessageText="Debe ingresar un valor";
+		return;		
+	}
+	
+	var msgValidacion:java.util.ArrayList = edificioBean.strValidacionMasivoEdificios(strKey, getComponent(strKey).getValue());
+	if(msgValidacion.isEmpty()){
+		viewScope.MessageType="S";
+		viewScope.MessageText = [];
+		viewScope.MessageText.push(["Se aplicaron los cambios solicitados."]);
+		viewScope.MessageText.push(["Para guardar estos cambios presione 'Confirmar cambios'"]);
+		getComponent(strKey).setValue('');
+	}else{
+		var msg=new javax.faces.application.FacesMessage();
+		for (i=0;i<msgValidacion.size();i++) {
+			facesContext.addMessage(getComponent(msgValidacion.get(i).split("\~")[0]).getClientId(facesContext),msg(msgValidacion.get(i).split("\~")[1]));
+		}
+		view.postScript("window.scrollTo(0,0)")
+	}
+}

@@ -13,12 +13,23 @@
 					</xp:this.attrs>
 				</xp:inputText>
 				</xe:widgetContainer>
+				
+				
 				<xp:dataTable id="edificiosTable" var="unEdificio"
 					value="#{edificioBean.listaEdificiosTrabajo}" rows="15">
 					<xp:this.facets>
-						<xp:pager layout="Previous Group Next"
-							xp:key="header" id="pagerHeader">
-						</xp:pager>
+						<xp:panel xp:key="header">
+							<xp:pager layout="Previous Group Next"
+								id="pagerHeader">
+							</xp:pager>
+							<xp:button value="Modificar automaticamente" id="button1"><xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+	<xp:this.action>
+		<xp:openPage
+			name="/frmDatosEdificiosModificacionAutomatica.xsp">
+		</xp:openPage>
+	</xp:this.action></xp:eventHandler></xp:button>
+						</xp:panel>
+						
 						<xp:pager layout="Previous Group Next"
 							xp:key="footer" id="pagerFooter">
 						</xp:pager>

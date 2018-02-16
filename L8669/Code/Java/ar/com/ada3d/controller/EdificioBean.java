@@ -18,6 +18,8 @@ import ar.com.ada3d.utilidades.*;
 import lotus.domino.NotesException;
 import ar.com.ada3d.connect.QueryAS400;
 import ar.com.ada3d.utilidades.DocUsr;
+import java.math.BigDecimal;
+import java.util.*;
 
 /*
  * Cuando hablo de edificios son todos los de la administracion.
@@ -38,7 +40,7 @@ public class EdificioBean implements Serializable {
 	private static List<Edificio> listaEdificios;
 	private static List<Edificio> listaEdificiosTrabajo;
 	
-
+	
 	/*
 	 * Esto devuelve para cada usuario el ComboBox de Edificios autorizados para
 	 * trabajar
@@ -233,7 +235,11 @@ public class EdificioBean implements Serializable {
 			
 			//Voy a cargar todos los porcentuales, los utilizados y los no utilizados
 			myEdificio.setListaPorcentuales(cargaPorcentualEdificio(strLinea));
-		
+			
+			//TODO: falta saber que campo tomar del AS400
+			myEdificio.setEdf_importeFranqueo( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 2)));
+			myEdificio.setEdf_importeMultaDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 2)));
+			
 			myEdificio.setEdf_isReadMode(true);
 			listaEdificios.add(myEdificio);
 			if(!docUsuario.getEdificiosNoAccessLista().contains(strLinea.split("\\|")[0].trim())){
@@ -612,6 +618,39 @@ public class EdificioBean implements Serializable {
 		
 	}
 
+	public ArrayList<String> strValidacionMasivoEdificios(String prm_campo, Object prm_valor){
+		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
+		System.out.println("clase:" + prm_valor.getClass().getName());
+		if(prm_valor instanceof String){
+			if(prm_valor.equals("") || prm_valor.equals("0")){
+				listAcumulaErrores.add(prm_campo + "~Debe ingresar un valor.");
+				
+			}else{
+				System.out.println("w:" + prm_valor);
+			}
+		}else if(prm_valor instanceof Double || prm_valor instanceof Long){
+			BigDecimal valor = new BigDecimal(prm_valor.toString());
+			valor = valor.setScale(1, RoundingMode.HALF_EVEN);
+			for(Edificio myEdificio : listaEdificiosTrabajo){
+				if (prm_campo.equals("importeInteresPunitorioDeudoresMasivo"))
+					myEdificio.setEdf_importeInteresPunitorioDeudores(valor);
+				if (prm_campo.equals("recargoSegundoVencimientoMasivo"))
+					myEdificio.setEdf_importeRecargoSegundoVencimiento(valor);
+			}
+		}else if(prm_valor instanceof Date){
+			for(Edificio myEdificio : listaEdificiosTrabajo){
+				if (prm_campo.equals("fechaPrimerVtoMasivo"))
+					myEdificio.setEdf_fechaPrimerVencimientoRecibos((Date) prm_valor);
+				if (prm_campo.equals("fechaSegundoVtoMasivo"))
+					myEdificio.setEdf_fechaSegundoVencimientoRecibos((Date) prm_valor);
+			}
+		
+		}else{
+			listAcumulaErrores.add(prm_campo + "~No es un número.");
+		}
+		
+		return listAcumulaErrores;
+	}
 	
 	//*** Getters & Setters *****
 	
