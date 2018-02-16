@@ -428,6 +428,31 @@ if (!msgValidacion.equals("")){
 						</xe:formColumn>
 					
 					
+					<xe:formRow id="rowImporteFranqueo" 
+						label="Franqueo" labelPosition="left">
+						<xp:inputText id="edf_importeFranqueo" 
+							value="#{edfObj.edf_importeFranqueo}"
+							disabled="#{edfObj.edf_isReadMode}" style="text-align:right; width:60.0px; display: inline;">
+							<xp:this.converter>
+								<xp:convertNumber
+									pattern="#,##0.0;(#,##0.0)">
+								</xp:convertNumber>
+							</xp:this.converter>
+						</xp:inputText>
+					</xe:formRow>
+					<xe:formRow id="rowImporteMultaDeudores" 
+						label="Multa a deudores" labelPosition="left">
+						<xp:inputText id="edf_importeMultaDeudores" 
+							value="#{edfObj.edf_importeMultaDeudores}"
+							disabled="#{edfObj.edf_isReadMode}" style="text-align:right; width:60.0px; display: inline;">
+							<xp:this.converter>
+								<xp:convertNumber
+									pattern="#,##0.0;(#,##0.0)">
+								</xp:convertNumber>
+							</xp:this.converter>
+						</xp:inputText>
+					</xe:formRow>
+					
 					<xe:this.facets>
 						<xp:div xp:key="footer">
 							<xp:button value="Modificar" id="btnEdit"
