@@ -55,7 +55,7 @@
 				collapseLeftColumn="true" pageWidth="fluid" fixedNavbar="fixed-top"
 				productLogo="/logo.gif" productLogoClass="applicationLogo"
 				productLogoAlt="Sistemas Administrativos" invertedNavbar="true"
-				titleBar="false" >
+				titleBar="false">
 				<xe:this.bannerApplicationLinks>
 					<xe:repeatTreeNode loaded="true" var="tree"
 						indexVar="index">
@@ -141,13 +141,13 @@ return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 
 				</xe:this.titleBarTabs>
 				<xe:this.placeBarActions>
-					<xe:basicLeafNode label="Nuevo Administrador"
-						href="/frmDatosAdministrador.xsp" styleClass="navbar-lower">
-					</xe:basicLeafNode>
-					<xe:basicLeafNode label="Nuevo Gasto"></xe:basicLeafNode>
-					<xe:basicLeafNode label="Reclamos"></xe:basicLeafNode>
-					<xe:basicLeafNode label="Vencimientos"></xe:basicLeafNode>
+					<xe:beanTreeNode
+						loaded="${not(empty(compositeData.property_PlaceBarActions))}"
+						nodeBean="#{compositeData.property_PlaceBarActions}">
+					</xe:beanTreeNode>
 				</xe:this.placeBarActions>
+				<xe:this.placeBar><![CDATA[#{javascript:compositeData.get("property_PlaceBarTitle") != ""}]]></xe:this.placeBar>
+				<xe:this.placeBarName><![CDATA[#{javascript:compositeData.get("property_PlaceBarTitle")}]]></xe:this.placeBarName>
 			</xe:bootstrapResponsiveConfiguration>
 		</xe:this.configuration>
 

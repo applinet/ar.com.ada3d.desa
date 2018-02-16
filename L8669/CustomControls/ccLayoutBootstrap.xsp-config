@@ -20,5 +20,18 @@
         <required>true</required>
       </property-extension>
     </property>
+    <property>
+      <property-name>property_PlaceBarTitle</property-name>
+      <property-class>string</property-class>
+      <property-extension>
+        <designer-extension>
+          <default-value>false</default-value>
+        </designer-extension>
+      </property-extension>
+    </property>
+    <property>
+      <property-name>property_PlaceBarActions</property-name>
+      <property-class>string</property-class>
+    </property>
   </composite-component>
 </faces-config>
