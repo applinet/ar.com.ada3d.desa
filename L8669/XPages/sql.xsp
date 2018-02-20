@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" pageTitle="SQL"
-	xmlns:xc="http://www.ibm.com/xsp/custom">
-	<xc:ccDebugToolbar defaultCollapsed="false" collapseTo="left"></xc:ccDebugToolbar>
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar">
+
+	<debug:toolbar defaultCollapsed="false" collapseTo="left"></debug:toolbar>
 	<xp:this.resources>
 		<xp:script src="/viernes.jss" clientSide="false"></xp:script>
 	</xp:this.resources>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
-	xmlns:xc="http://www.ibm.com/xsp/custom">
-	<xc:ccDebugToolbar defaultCollapsed="false" collapseTo="left"></xc:ccDebugToolbar>
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar">
+	<debug:toolbar defaultCollapsed="false" collapseTo="left"></debug:toolbar>
 	<xp:panel style="margin-left:20px;margin-top:20px">
 		<xp:label id="label1" value="Tabla de Lockeo de Documentos"
 			style="font-family:Comic Sans MS,sans-serif;font-size:18pt">
@@ -39,5 +40,5 @@ return map;}]]></xp:this.value>
 			</xp:tr>
 		</xp:repeat>
 	</xp:table>
-	
+
 </xp:view>
