@@ -452,29 +452,27 @@ if (!msgValidacion.equals("")){
 							</xp:this.converter>
 						</xp:inputText>
 					</xe:formRow>
-					
 					<xe:this.facets>
 						<xp:div xp:key="footer">
-							<xp:button value="Modificar" id="btnEdit"
-								rendered="#{edfObj.edf_isReadMode}">
+							<xc:ccFXdocLock></xc:ccFXdocLock>
+							<xp:button value="Modificar" id="btnEdit">
+
+								<xp:this.rendered><![CDATA[#{javascript:if(edfObj.edf_lockedBy != null){
+	if(!DocLock.getLock("edf_" + edfObj.edf_codigo).equals(session.getEffectiveUserName()))
+		return false;		
+}
+edfObj.edf_isReadMode; }]]></xp:this.rendered>
 								<xp:eventHandler event="onclick"
 									submit="true" refreshMode="partial" refreshId="tblEdificio">
-
-									<xp:this.action><![CDATA[#{javascript:sessionScope.get("edfObj").edf_isReadMode = false;
-DocLock.addLock("edf_" + sessionScope.get("edfObj").edf_codigo, session.getEffectiveUserName())
-}]]></xp:this.action>
+									<xp:this.action><![CDATA[#{javascript:edificioBean.editEdificio(sessionScope.get("edfObj"));}]]></xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
-							
+
 							<xp:button value="Cerrar" id="btnClose">
 								<xp:eventHandler event="onclick"
 									submit="true" refreshMode="complete" immediate="true">
 
-									<xp:this.action>
-										<xp:openPage
-											name="/ViewDatosEdificios.xsp">
-										</xp:openPage>
-									</xp:this.action>
+									
 
 									<xp:this.script><![CDATA[if (XSP._isDirty()){
   if (confirm ("Está seguro de salir?" + "\n" + "\n" +
@@ -487,7 +485,19 @@ DocLock.addLock("edf_" + sessionScope.get("edfObj").edf_codigo, session.getEffec
 } else {
   return true;
 }]]></xp:this.script>
-								</xp:eventHandler>
+									<xp:this.action>
+										<xp:actionGroup>
+											<xp:this.condition><![CDATA[#{javascript:if(!edfObj.edf_isReadMode)
+	DocLock.removeLock("edf_" + sessionScope.get("edfObj").edf_codigo)
+return true;	}]]></xp:this.condition>
+											<xp:openPage
+												name="/ViewDatosEdificios.xsp">
+											</xp:openPage>
+
+
+
+										</xp:actionGroup>
+									</xp:this.action></xp:eventHandler>
 							</xp:button>
 							<xp:button value="Confirmar" id="btnSave" styleClass="btn-success"
 								rendered="#{javascript:!edfObj.edf_isReadMode}">
