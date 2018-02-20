@@ -19,6 +19,8 @@ package ar.com.ada3d.utilidades;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import org.openntf.domino.Session;
+
 
 public class DocLock implements Serializable {
 	private static final long serialVersionUID = 2L;
@@ -40,8 +42,10 @@ public class DocLock implements Serializable {
 	}
 
 	public void addLock(String UNID, String Key) {
-		synchronized (this._map) {
-			this._map.put(UNID, Key);
+		if(!isLocked(UNID)){
+			synchronized (this._map) {
+				this._map.put(UNID, Key);
+			}
 		}
 	}
 
@@ -52,8 +56,11 @@ public class DocLock implements Serializable {
 	}
 
 	public void removeLock(String UNID) {
-		synchronized (this._map) {
-			this._map.remove(UNID);
+		Session session = JSFUtil.getSession();
+		if(this._map.get(UNID).equals(session.getEffectiveUserName())){
+			synchronized (this._map) {
+				this._map.remove(UNID);
+			}
 		}
 	}
 

@@ -41,10 +41,8 @@ public class Edificio implements Serializable{
 	private List<Porcentual> listaPorcentuales;
 	private BigDecimal edf_importeFranqueo;
 	private BigDecimal edf_importeMultaDeudores;
-
-	//TODO: private String edf_lockeo --> DocLock
-
-		
+	private String edf_lockedBy;
+	
 	//Getters and Setters
 	
 	public String getEdf_codigo() {
@@ -212,4 +210,11 @@ public class Edificio implements Serializable{
 	public void setEdf_importeMultaDeudores(BigDecimal edf_importeMultaDeudores) {
 		this.edf_importeMultaDeudores = edf_importeMultaDeudores;
 	}
+	public String getEdf_lockedBy() {
+		return edf_lockedBy;
+	}
+	public void setEdf_lockedBy(String edf_lockedBy) {
+		this.edf_lockedBy = edf_lockedBy;
+	}
+	
 }
