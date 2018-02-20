@@ -748,9 +748,10 @@ function btnAplicarMasivo(strKey:String){
 		viewScope.MessageText.push(["Para guardar estos cambios presione 'Confirmar cambios'"]);
 		getComponent(strKey).setValue('');
 	}else{
-		var msg=new javax.faces.application.FacesMessage();
+		viewScope.MessageType="W";
+		viewScope.MessageText = [];
 		for (i=0;i<msgValidacion.size();i++) {
-			facesContext.addMessage(getComponent(msgValidacion.get(i).split("\~")[0]).getClientId(facesContext),msg(msgValidacion.get(i).split("\~")[1]));
+			viewScope.MessageText.push([msgValidacion.get(i).split("\~")[1]]);
 		}
 		view.postScript("window.scrollTo(0,0)")
 	}

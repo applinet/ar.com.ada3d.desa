@@ -14,6 +14,7 @@ default: result = 'unknown';
 result;}]]>
 		</xp:this.styleClass>
 		
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&#215;</a>
 			<xp:repeat id="repeat1" rows="30" var="rptMessages" value="#{viewScope.MessageText}">
 			<xp:span >
 			<xp:this.styleClass><![CDATA[#{javascript:var msgtype = severity=viewScope.MessageType || sessionScope.MessageType || "";
