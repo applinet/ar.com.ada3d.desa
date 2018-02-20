@@ -52,12 +52,6 @@ if (key == 13) {
 												pattern="#,##0.0;(#,##0.0)">
 											</xp:convertNumber>
 										</xp:this.converter>
-										<xp:this.validators>
-											<xp:validateLongRange
-												minimum="0" maximum="9999"
-												message="El % de interés no puede superar el 9999 %">
-											</xp:validateLongRange>
-										</xp:this.validators>
 									</xp:inputText>
 									<xp:label value="%" id="label9"></xp:label>
 								</xe:widgetContainer>
@@ -130,12 +124,6 @@ if (key == 13) {
 												pattern="#,##0.0;(#,##0.0)">
 											</xp:convertNumber>
 										</xp:this.converter>
-										<xp:this.validators>
-											<xp:validateLongRange
-												minimum="0" maximum="9999"
-												message="El % de interés no puede superar el 9999 %">
-											</xp:validateLongRange>
-										</xp:this.validators>
 									</xp:inputText>
 									<xp:label value="%" id="label10"></xp:label>
 								</xe:widgetContainer>
