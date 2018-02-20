@@ -58,8 +58,10 @@ public class QueryAS400 implements Serializable {
 		if (!initConexion())
 			return null;
 		Document docTabla = JSFUtil.getDocConexiones_y_Tablas(param_clave);
-		if (docTabla == null)
+		if (docTabla == null){
+			System.out.println("*** ERROR -> FALTA DOCUMENTO DE CONFIGURACION: " + param_clave);
 			return null;
+		}
 		CfgTablas configTabla = new CfgTablas(docTabla);
 
 		// INI - Siempre hay que hacer esto para que complete la biblioteca en
