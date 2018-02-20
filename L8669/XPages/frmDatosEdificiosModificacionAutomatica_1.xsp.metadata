@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="53a" sequence="2" unid="175466D6B34E103D832582360066BC84">
+<created><datetime dst="true">20180216T164209,32-02</datetime></created>
+<modified><datetime dst="true">20180216T164209,35-02</datetime></modified>
+<revised><datetime dst="true">20180216T164209,34-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180216T164209,35-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180216T164209,33-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
+<wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
+<item name="$TITLE"><text>frmDatosEdificiosModificacionAutomatica_1.xsp</text></item>
+<item name="$Flags"><text>gC~4K</text></item>
+
+
+<item name="$FileNames" sign="true"><text>frmDatosEdificiosModificacionAutomatica_1.xsp</text></item></note>
