@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.io.Serializable;
 import javax.faces.model.SelectItem;
 import org.openntf.domino.Document;
+import org.openntf.domino.Session;
 
 
 import ar.com.ada3d.model.Edificio;
@@ -138,6 +139,7 @@ public class EdificioBean implements Serializable {
 	@SuppressWarnings({ "static-access" })
 	public void AddEdificiosAs400() {
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
+
 		if (!(listaEdificios == null)){
 			listaEdificios.clear();
 			listaEdificiosTrabajo.clear();
@@ -146,7 +148,7 @@ public class EdificioBean implements Serializable {
 		}	
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		ArrayList<String> nl = null;
-		Edificio myEdificio;
+		Edificio myEdificio = null;
 		
 		try {
 			nl = query.getSelectAS("controllerEdificios", null, false);
@@ -160,87 +162,9 @@ public class EdificioBean implements Serializable {
 			if (listaEdificiosTrabajo == null) {
 				listaEdificiosTrabajo = new ArrayList<Edificio>();
 			}
-			myEdificio = new Edificio();
-			myEdificio.setEdf_codigo(strLinea.split("\\|")[0].trim());
-			myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
-			String tempDireccionLocalidad = strLinea.split("\\|")[2].trim();
-			if(!tempDireccionLocalidad.contains("-")){
-				throw new java.lang.Error("La direccion del edificio " + myEdificio.getEdf_codigo() + " no tiene un guión.");
-				//throw new java.lang.RuntimeException("La direccion del edificio " + myEdificio.getEdf_codigo() + " no tiene un guión.");
-			}
-			myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim().split("-")[0]);
-			myEdificio.setEdf_localidad(strLinea.split("\\|")[2].trim().split("-")[1]);
-			myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
-			myEdificio.setEdf_fechaUltimaLiquidacion(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[4].trim()));
-			myEdificio.setEdf_frecuenciaLiquidacion  (Integer.parseInt(strLinea.split("\\|")[5].trim()));
-									
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(myEdificio.getEdf_fechaUltimaLiquidacion());
-			cal.add(Calendar.MONTH, myEdificio.getEdf_frecuenciaLiquidacion());
-			cal.set(cal.DATE, cal.getActualMaximum(cal.DAY_OF_MONTH));
-			myEdificio.setEdf_fechaProximaLiquidacion(cal.getTime());
-
+					
+			myEdificio = actualizoUnEdificioAs400( myEdificio, strLinea, true);
 			
-			//Defino el tipo de prorrateo			
-			String strTipo = strLinea.split("\\|")[14].trim();
-			String strTempTipo;
-			if(strTipo.equals("") || strTipo.equals("N")){
-			    strTempTipo = "C";
-			}else if (strTipo.equals("P")){//Presupuesto
-				strTempTipo = "P";	
-			}else{
-				strTempTipo = "G";	
-			}	
-		    
-			myEdificio.setListaProrrateos(cargaProrrateoEdificio(strLinea, strTempTipo));
-			//Creo el combo de fecha prorrateo si es cuota fija
-			if(strTipo.equals("") || strTipo.equals("N")){ //blanco puede ser por gastos
-				for(Prorrateo myProrrateo : myEdificio.getListaProrrateos()){
-					if(myProrrateo.getPrt_tipo().equals("C")){
-						
-						List<SelectItem> options = new ArrayList<SelectItem>();
-					    SelectItem optionMesLiquedacion = new SelectItem();
-					    optionMesLiquedacion.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy"));
-					    optionMesLiquedacion.setValue("N");
-					    options.add(optionMesLiquedacion);
-
-					    if(strTipo.equals("")){//CF y fecha prorrateo le agrego 1 dia para que sea el dia 1 del mes siguiente
-					    	cal.add(Calendar.DATE, 1);
-							myEdificio.setEdf_cuotaFijaDia("B");
-					    }else{//CF y fecha prorrateo ídem liquidación
-					    	myEdificio.setEdf_cuotaFijaDia("N");
-					    	cal.add(Calendar.DATE, 1);
-					    }
-					    
-					    SelectItem optionMesSiguiente = new SelectItem();
-					    optionMesSiguiente.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy"));
-					    optionMesSiguiente.setValue("B");
-					    options.add(optionMesSiguiente);
-					    myEdificio.setEdf_cuotaFijaDiaOpcionesCombo(options);
-						break;
-					}
-				}
-			}
-			
-			
-			myEdificio.setEdf_importeInteresPunitorioDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 1)));
-			myEdificio.setEdf_importeRecargoSegundoVencimiento( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[16].trim(), Locale.UK, 1)));
-			
-			myEdificio.setEdf_fechaPrimerVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[17].trim()));
-			myEdificio.setEdf_fechaSegundoVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[18].trim()));
-			
-			myEdificio.setEdf_modalidadInteresesPunitorios(strLinea.split("\\|")[19].trim());
-			myEdificio.setEdf_cuit(strLinea.split("\\|")[20].trim());
-			myEdificio.setEdf_imprimeTitulosEnLiquidacion(strLinea.split("\\|")[21].trim().equals("1") ? "1":"0");
-			
-			//Voy a cargar todos los porcentuales, los utilizados y los no utilizados
-			myEdificio.setListaPorcentuales(cargaPorcentualEdificio(strLinea));
-			
-			//TODO: falta saber que campo tomar del AS400
-			myEdificio.setEdf_importeFranqueo( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 2)));
-			myEdificio.setEdf_importeMultaDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 2)));
-			
-			myEdificio.setEdf_isReadMode(true);
 			listaEdificios.add(myEdificio);
 			if(!docUsuario.getEdificiosNoAccessLista().contains(strLinea.split("\\|")[0].trim())){
 				listaEdificiosTrabajo.add(myEdificio);
@@ -437,30 +361,132 @@ public class EdificioBean implements Serializable {
 		*/
 		
 	}
+
 	
-	
-	
-	
-	
-	public void updateEdificiosAs400() {
-		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
-		ArrayList<String> nl = null;
-		Edificio myEdificio;
-		try {
-			nl = query.getSelectAS("controllerEdificios", null, false);
-		} catch (NotesException e) {
-			e.printStackTrace();
-		}
-		for (String strLinea : nl) {
-			myEdificio = getEdificioMap(strLinea.split("\\|")[0].trim());
-			myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
-			myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim());
-			myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
+	private Edificio actualizoUnEdificioAs400(Edificio myEdificio, String strLinea, boolean isNew) {
+		DocLock lockeos = (DocLock) JSFUtil.resolveVariable("DocLock");
+		if(isNew){
+			myEdificio = new Edificio();
+			myEdificio.setEdf_codigo(strLinea.split("\\|")[0].trim());
+		}else{
+			//Es una actualizacion
+			Document docDummy = JSFUtil.getDocDummy();
+			docDummy.appendItemValue("Codigo", myEdificio.getEdf_codigo());
+			QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
+			ArrayList<String> nl = null;
+			try {
+				nl = query.getSelectAS("controllerUnEdificio", docDummy, false);
+			} catch (NotesException e) {
+				e.printStackTrace();
+			}
 			
-		
+			strLinea = nl.get(0);
+				
 		}
+		//Agrego el usuario si el edificio está lockeado
+		if(lockeos.isLocked("edf_" + myEdificio.getEdf_codigo()))
+			myEdificio.setEdf_lockedBy(lockeos.getLock("edf_" + myEdificio.getEdf_codigo()));
+
+		myEdificio.setEdf_codigoVisual(strLinea.split("\\|")[1].trim());
+		String tempDireccionLocalidad = strLinea.split("\\|")[2].trim();
+		if(!tempDireccionLocalidad.contains("-")){
+			throw new java.lang.Error("La direccion del edificio " + myEdificio.getEdf_codigo() + " no tiene un guión.");
+			//throw new java.lang.RuntimeException("La direccion del edificio " + myEdificio.getEdf_codigo() + " no tiene un guión.");
+		}
+		myEdificio.setEdf_direccion(strLinea.split("\\|")[2].trim().split("-")[0]);
+		myEdificio.setEdf_localidad(strLinea.split("\\|")[2].trim().split("-")[1]);
+		myEdificio.setEdf_estadoProceso(strLinea.split("\\|")[3].trim());
+		myEdificio.setEdf_fechaUltimaLiquidacion(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[4].trim()));
+		myEdificio.setEdf_frecuenciaLiquidacion  (Integer.parseInt(strLinea.split("\\|")[5].trim()));
+								
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(myEdificio.getEdf_fechaUltimaLiquidacion());
+		cal.add(Calendar.MONTH, myEdificio.getEdf_frecuenciaLiquidacion());
+		cal.set(cal.DATE, cal.getActualMaximum(cal.DAY_OF_MONTH));
+		myEdificio.setEdf_fechaProximaLiquidacion(cal.getTime());
+
+		
+		//Defino el tipo de prorrateo			
+		String strTipo = strLinea.split("\\|")[14].trim();
+		String strTempTipo;
+		if(strTipo.equals("") || strTipo.equals("N")){
+		    strTempTipo = "C";
+		}else if (strTipo.equals("P")){//Presupuesto
+			strTempTipo = "P";	
+		}else{
+			strTempTipo = "G";	
+		}	
+	    
+		myEdificio.setListaProrrateos(cargaProrrateoEdificio(strLinea, strTempTipo));
+		//Creo el combo de fecha prorrateo si es cuota fija
+		if(strTipo.equals("") || strTipo.equals("N")){ //blanco puede ser por gastos
+			for(Prorrateo myProrrateo : myEdificio.getListaProrrateos()){
+				if(myProrrateo.getPrt_tipo().equals("C")){
+					
+					List<SelectItem> options = new ArrayList<SelectItem>();
+				    SelectItem optionMesLiquedacion = new SelectItem();
+				    optionMesLiquedacion.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy"));
+				    optionMesLiquedacion.setValue("N");
+				    options.add(optionMesLiquedacion);
+
+				    if(strTipo.equals("")){//CF y fecha prorrateo le agrego 1 dia para que sea el dia 1 del mes siguiente
+				    	cal.add(Calendar.DATE, 1);
+						myEdificio.setEdf_cuotaFijaDia("B");
+				    }else{//CF y fecha prorrateo ídem liquidación
+				    	myEdificio.setEdf_cuotaFijaDia("N");
+				    	cal.add(Calendar.DATE, 1);
+				    }
+				    
+				    SelectItem optionMesSiguiente = new SelectItem();
+				    optionMesSiguiente.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy"));
+				    optionMesSiguiente.setValue("B");
+				    options.add(optionMesSiguiente);
+				    myEdificio.setEdf_cuotaFijaDiaOpcionesCombo(options);
+					break;
+				}
+			}
+		}
+		
+		
+		myEdificio.setEdf_importeInteresPunitorioDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 1)));
+		myEdificio.setEdf_importeRecargoSegundoVencimiento( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[16].trim(), Locale.UK, 1)));
+		
+		myEdificio.setEdf_fechaPrimerVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[17].trim()));
+		myEdificio.setEdf_fechaSegundoVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[18].trim()));
+		
+		myEdificio.setEdf_modalidadInteresesPunitorios(strLinea.split("\\|")[19].trim());
+		myEdificio.setEdf_cuit(strLinea.split("\\|")[20].trim());
+		myEdificio.setEdf_imprimeTitulosEnLiquidacion(strLinea.split("\\|")[21].trim().equals("1") ? "1":"0");
+		
+		//Voy a cargar todos los porcentuales, los utilizados y los no utilizados
+		myEdificio.setListaPorcentuales(cargaPorcentualEdificio(strLinea));
+		
+		//TODO: falta saber que campo tomar del AS400
+		myEdificio.setEdf_importeFranqueo( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 2)));
+		myEdificio.setEdf_importeMultaDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 2)));
+		
+		myEdificio.setEdf_isReadMode(true);
+		return myEdificio;
 	}
 
+
+	/*
+	 * Actualizo solo el edificio que voy a modificar
+	 * Lock del edificio
+	 */
+	public void editEdificio(Edificio prm_edificio) {
+		actualizoUnEdificioAs400(prm_edificio, "", false);
+		Session session = JSFUtil.getSession();
+		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
+		if (lock.isLocked("edf_" + prm_edificio.getEdf_codigo())){
+			if (!lock.getLock("edf_" + prm_edificio.getEdf_codigo()).equals(session.getEffectiveUserName()))
+				return;
+		}
+		lock.addLock("edf_" + prm_edificio.getEdf_codigo(), session.getEffectiveUserName());
+		prm_edificio.setEdf_isReadMode(false);
+		prm_edificio.setEdf_lockedBy(session.getEffectiveUserName());
+		
+	}
 	
 	/*
 	 * Update de tablas AS400 con los datos del edificio
@@ -523,6 +549,8 @@ public class EdificioBean implements Serializable {
 		}else{
 			throw new java.lang.Error("No se pudo actualizar la tabla PH_E01.");
 		}
+		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
+		lock.removeLock("edf_" + prm_edificio.getEdf_codigo());
 	}
 	
 
@@ -620,7 +648,6 @@ public class EdificioBean implements Serializable {
 
 	public ArrayList<String> strValidacionMasivoEdificios(String prm_campo, Object prm_valor){
 		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
-		System.out.println("clase:" + prm_valor.getClass().getName());
 		if(prm_valor instanceof String){
 			if(prm_valor.equals("") || prm_valor.equals("0")){
 				listAcumulaErrores.add(prm_campo + "~Debe ingresar un valor.");
@@ -629,20 +656,66 @@ public class EdificioBean implements Serializable {
 				System.out.println("w:" + prm_valor);
 			}
 		}else if(prm_valor instanceof Double || prm_valor instanceof Long){
+			
+		
+			
+			
 			BigDecimal valor = new BigDecimal(prm_valor.toString());
+			if(valor.compareTo(new BigDecimal(9999)) == 1){
+				listAcumulaErrores.add(prm_campo + "~El % de interés no puede superar el 9999 %" );
+				return listAcumulaErrores;
+			}
+				
 			valor = valor.setScale(1, RoundingMode.HALF_EVEN);
 			for(Edificio myEdificio : listaEdificiosTrabajo){
-				if (prm_campo.equals("importeInteresPunitorioDeudoresMasivo"))
-					myEdificio.setEdf_importeInteresPunitorioDeudores(valor);
-				if (prm_campo.equals("recargoSegundoVencimientoMasivo"))
-					myEdificio.setEdf_importeRecargoSegundoVencimiento(valor);
+				//Primero valido que no este lockeado
+				if(myEdificio.getEdf_lockedBy() == null || myEdificio.getEdf_lockedBy() == JSFUtil.getSession().getEffectiveUserName()){
+					if (prm_campo.equals("importeInteresPunitorioDeudoresMasivo"))
+						myEdificio.setEdf_importeInteresPunitorioDeudores(valor);
+					if (prm_campo.equals("recargoSegundoVencimientoMasivo"))
+						myEdificio.setEdf_importeRecargoSegundoVencimiento(valor);
+				}else{
+					listAcumulaErrores.add(prm_campo + "~El edificio " + myEdificio.getEdf_codigo() + " no se pudo actualizar ya que estaba siendo modificado por otro usuario." );
+				}
+					
 			}
 		}else if(prm_valor instanceof Date){
 			for(Edificio myEdificio : listaEdificiosTrabajo){
-				if (prm_campo.equals("fechaPrimerVtoMasivo"))
-					myEdificio.setEdf_fechaPrimerVencimientoRecibos((Date) prm_valor);
-				if (prm_campo.equals("fechaSegundoVtoMasivo"))
-					myEdificio.setEdf_fechaSegundoVencimientoRecibos((Date) prm_valor);
+				//Primero valido que no este lockeado
+				if(myEdificio.getEdf_lockedBy() == null || myEdificio.getEdf_lockedBy() == JSFUtil.getSession().getEffectiveUserName()){
+					//Voy a validar las fechas ingresadas en cada edificio
+
+					Calendar calMin = Calendar.getInstance();
+					calMin.setTime(myEdificio.getEdf_fechaProximaLiquidacion());
+					calMin.add(Calendar.DATE, 1);
+					
+					if(myEdificio.getEdf_importeInteresPunitorioDeudores().compareTo(BigDecimal.ZERO) > 0 && prm_campo.equals("fechaPrimerVtoMasivo")){
+						
+						Calendar calNew = Calendar.getInstance();
+						calNew.setTime((Date) prm_valor);
+						
+						if (calNew.before(calMin)) {
+							listAcumulaErrores.add(prm_campo + "~Edificio " + myEdificio.getEdf_codigo() + " la fecha de primer vto. no puede ser menor a " + ar.com.ada3d.utilidades.Conversores.DateToString(calMin.getTime(), "dd/MM/yyyy" ));
+						}else{
+							myEdificio.setEdf_fechaPrimerVencimientoRecibos((Date) prm_valor);
+						}
+					}
+					
+					if(myEdificio.getEdf_importeRecargoSegundoVencimiento().compareTo(BigDecimal.ZERO) > 0 && prm_campo.equals("fechaSegundoVtoMasivo")){
+						calMin.setTime(myEdificio.getEdf_fechaPrimerVencimientoRecibos());
+						calMin.add(Calendar.DATE, 1);
+						Calendar calNew = Calendar.getInstance();
+						calNew.setTime(myEdificio.getEdf_fechaSegundoVencimientoRecibos());
+						if (calNew.before(calMin)) {
+							listAcumulaErrores.add(prm_campo + "~Edificio " + myEdificio.getEdf_codigo() + " la fecha de 2° vto. debe ser mayor al 1° vto ");
+						}else{
+							myEdificio.setEdf_fechaSegundoVencimientoRecibos((Date) prm_valor);
+						}
+					}
+					
+				}else{
+					listAcumulaErrores.add(prm_campo + "~El edificio " + myEdificio.getEdf_codigo() + " no se pudo actualizar ya que estaba siendo modificado por otro usuario." );
+				}
 			}
 		
 		}else{
