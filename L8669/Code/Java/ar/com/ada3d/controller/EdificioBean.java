@@ -42,12 +42,10 @@ public class EdificioBean implements Serializable {
 	private static List<Edificio> listaEdificiosTrabajo;
 	
 	
-	/*
+	/**
 	 * Esto devuelve para cada usuario el ComboBox de Edificios autorizados para
 	 * trabajar
-	 * 
 	 * @return: etiqueta y valor para xp:comboBox
-	 * 
 	 * @usedIn: Combo principal en ccLayoutBootstrap, está asociado a una
 	 * sessionScope(edificioSelected)
 	 */
@@ -73,13 +71,11 @@ public class EdificioBean implements Serializable {
 		return options;
 	}
 
-	/*
+	/**
 	 * Esto devuelve para cada usuario el ComboBox de Edificios autorizados para
 	 * trabajar y en estadoProceso=1
-	 * 
-	 * @return: etiqueta y valor para xp:comboBox
-	 * 
-	 * @usedIn: layout tiene una propiedad para mostrar o no en cada XPage
+	 * @return etiqueta y valor para xp:comboBox
+	 * @usedIn layout tiene una propiedad para mostrar o no en cada XPage
 	 */
 	public static List<SelectItem> getComboboxMyEdificiosTrabajo() {
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
@@ -110,21 +106,18 @@ public class EdificioBean implements Serializable {
 		return result;
 	}
 
-	/*
-	 * Agrego edificios de a uno
-	 * 
-	 * @Param: objeto Edificio
+	/**
+	 * Agrego edificios de a uno al hashMap
+	 * @param objeto Edificio
 	 */
 	public void AddEdificioMap(Edificio prmEdificio) {
 		hmEdificios.put(prmEdificio.getEdf_codigo(), prmEdificio);
 	}
 
-	/*
+	/**
 	 * Obtengo un edificio por el codigo SASA
-	 * 
-	 * @Param: el codigo de edificio
-	 * 
-	 * @Return: un objeto Edificio o nulo
+	 * @param texto con el codigo de edificio
+	 * @return un objeto Edificio o nulo
 	 */
 	public Edificio getEdificioMap(String prmCodigoEdificio) {
 		if (hmEdificios.containsKey(prmCodigoEdificio)) {
@@ -133,10 +126,9 @@ public class EdificioBean implements Serializable {
 		return null;
 	}
 
-	/*
+	/**
 	 * Agrego Edificios consultando As400, cada linea separa el dato por un pipe
 	 */
-	@SuppressWarnings({ "static-access" })
 	public void AddEdificiosAs400() {
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 
@@ -163,7 +155,7 @@ public class EdificioBean implements Serializable {
 				listaEdificiosTrabajo = new ArrayList<Edificio>();
 			}
 					
-			myEdificio = actualizoUnEdificioAs400( myEdificio, strLinea, true);
+			myEdificio = actualizoUnEdificioAs400( myEdificio, strLinea);
 			
 			listaEdificios.add(myEdificio);
 			if(!docUsuario.getEdificiosNoAccessLista().contains(strLinea.split("\\|")[0].trim())){
@@ -172,6 +164,7 @@ public class EdificioBean implements Serializable {
 			AddEdificioMap(myEdificio); // Lo agrego al mapa por código
 		}
 	}
+	
 	
 	private List<SelectItem> opcionesDiaCuotaFija(Calendar cal){
 		List<SelectItem> options = new ArrayList<SelectItem>();
@@ -189,8 +182,11 @@ public class EdificioBean implements Serializable {
 
 	}
 	
-	/*
+	/**
 	 * Al cargar un edificio en la misma consulta al AS400 tambien cargo los datos de prorrateo
+	 * @param strLinea de AS400 que estoy procesando
+	 * @param tipo de prorrateo del edificio
+	 * @return la lista de prorrateos
 	 */
 	private List<Prorrateo> cargaProrrateoEdificio(String strLinea, String strTipo){
 		Prorrateo myProrrateo;
@@ -238,8 +234,10 @@ public class EdificioBean implements Serializable {
 		return listaProrrateosEdificio;
 	}
 	
-	/*
+	/**
 	 * Al cargar un edificio en la misma consulta al AS400 tambien cargo los datos de porcentuales
+	 * @param strLinea de AS400 que estoy procesando
+	 * @return lista con porcentuales
 	 */
 	
 	private List<Porcentual> cargaPorcentualEdificio(String strLinea){
@@ -262,13 +260,11 @@ public class EdificioBean implements Serializable {
 		return listaPorcentualesEdificio;
 		
 	}
-	/*
-	 * Oculta o visualiza otros campos al cambiar la opción
-	 * 
-	 * @param: 
-	 * -El edificio que estoy modificando
-	 * -La posición que estoy modificando en la XPage (es un repeat)
-	 * 
+	
+	/**
+	 * Prorrateo: Oculta o visualiza otros campos al cambiar la opción
+	 * @param El edificio que estoy modificando
+	 * @param La posición que estoy modificando en la XPage (es un repeat)
 	 * @usedIn: en el combo de valores a prorratear
 	 */
 	public String onChangeProrrateos(Edificio prm_edificio, Integer prm_idxRptProrrateoTipo){
@@ -330,17 +326,14 @@ public class EdificioBean implements Serializable {
 		return "";
 	}
 	
-	/*
+	/**
 	 * Modifica los siguientes datos:
 	 * -Fecha próxima liquidacion
 	 * -Mes de prorrateo y recibos (solo si es cuota fija)
 	 * -Fecha 1er vto en recibos
 	 * -Fecha 2do vto en recibos
-	 * 
-	 * @param: 
-	 * -El edificio que estoy modificando
-	 * 
-	 * @usedIn: en el slider de frecuencia
+	 * @param El edificio que estoy modificando
+	 * @usedIn Slider de frecuencia
 	 */
 	@SuppressWarnings("static-access")
 	public void onClickFrecuencia(Edificio prm_edificio){			
@@ -362,10 +355,17 @@ public class EdificioBean implements Serializable {
 		
 	}
 
-	
-	private Edificio actualizoUnEdificioAs400(Edificio myEdificio, String strLinea, boolean isNew) {
+	/**
+	 * Actualizo solo el edificio recibido
+	 * @usedIn: Es una clase privada solo se usa aca
+	 * @Param objeto Edificio por actualizar
+	 * @Param strLinea leida del AS, solo con datos si es un nuevo el objeto. (blanco si es una actualización)
+	 * @return objeto Edificio
+	 */
+	@SuppressWarnings("static-access")
+	private Edificio actualizoUnEdificioAs400(Edificio myEdificio, String strLinea) {
 		DocLock lockeos = (DocLock) JSFUtil.resolveVariable("DocLock");
-		if(isNew){
+		if(!strLinea.equals("")){
 			myEdificio = new Edificio();
 			myEdificio.setEdf_codigo(strLinea.split("\\|")[0].trim());
 		}else{
@@ -470,12 +470,13 @@ public class EdificioBean implements Serializable {
 	}
 
 
-	/*
-	 * Actualizo solo el edificio que voy a modificar
-	 * Lock del edificio
+	/**
+	 * Funcion en el boton editar
+	 * Actualizo solo el edificio que voy a modificar y lockea el edificio
+	 * @usedIn: Boton edit edificio
 	 */
 	public void editEdificio(Edificio prm_edificio) {
-		actualizoUnEdificioAs400(prm_edificio, "", false);
+		actualizoUnEdificioAs400(prm_edificio, "");
 		Session session = JSFUtil.getSession();
 		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
 		if (lock.isLocked("edf_" + prm_edificio.getEdf_codigo())){
@@ -488,7 +489,7 @@ public class EdificioBean implements Serializable {
 		
 	}
 	
-	/*
+	/**
 	 * Update de tablas AS400 con los datos del edificio
 	 */
 	public void saveEdificio(Edificio prm_edificio) {
@@ -554,9 +555,8 @@ public class EdificioBean implements Serializable {
 	}
 	
 
-	/*
-	 * Chequea los datos del edificio recibido por parámetros
-	 * 
+	/**
+	 * Chequea los datos del edificio recibido por parámetros antes de guardarlos
 	 * @usedIn: Boton save edificio
 	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
 	 */
@@ -646,19 +646,21 @@ public class EdificioBean implements Serializable {
 		
 	}
 
+	
+	/**
+	 * Validación cuando se modifica de forma masiva los edificios.
+	 * Fechas de Vto e Intereses
+	 * @usedIn: Boton btnAplicarMasivo en el formulario de Modificacion Automática
+	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
+	 */
 	public ArrayList<String> strValidacionMasivoEdificios(String prm_campo, Object prm_valor){
 		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
 		if(prm_valor instanceof String){
-			if(prm_valor.equals("") || prm_valor.equals("0")){
+			
+			if(prm_valor.equals("") || prm_valor.equals("0"))
 				listAcumulaErrores.add(prm_campo + "~Debe ingresar un valor.");
-				
-			}else{
-				System.out.println("w:" + prm_valor);
-			}
+			
 		}else if(prm_valor instanceof Double || prm_valor instanceof Long){
-			
-		
-			
 			
 			BigDecimal valor = new BigDecimal(prm_valor.toString());
 			if(valor.compareTo(new BigDecimal(9999)) == 1){
@@ -666,22 +668,26 @@ public class EdificioBean implements Serializable {
 				return listAcumulaErrores;
 			}
 				
-			valor = valor.setScale(1, RoundingMode.HALF_EVEN);
+			valor = valor.setScale(1, RoundingMode.HALF_EVEN);//redondeo si puso mas de 1 decimal
 			for(Edificio myEdificio : listaEdificiosTrabajo){
-				//Primero valido que no este lockeado
+				//Actualizo el edificio
+				//myEdificio = actualizoUnEdificioAs400(myEdificio, "");
+				//Valido que no este lockeado
 				if(myEdificio.getEdf_lockedBy() == null || myEdificio.getEdf_lockedBy() == JSFUtil.getSession().getEffectiveUserName()){
 					if (prm_campo.equals("importeInteresPunitorioDeudoresMasivo"))
 						myEdificio.setEdf_importeInteresPunitorioDeudores(valor);
 					if (prm_campo.equals("recargoSegundoVencimientoMasivo"))
 						myEdificio.setEdf_importeRecargoSegundoVencimiento(valor);
 				}else{
-					listAcumulaErrores.add(prm_campo + "~El edificio " + myEdificio.getEdf_codigo() + " no se pudo actualizar ya que estaba siendo modificado por otro usuario." );
+					listAcumulaErrores.add(prm_campo + "~El edificio " + myEdificio.getEdf_codigo() + " no se pudo actualizar ya que está siendo modificado por: " + myEdificio.getEdf_lockedBy().substring(4) );
 				}
 					
 			}
 		}else if(prm_valor instanceof Date){
 			for(Edificio myEdificio : listaEdificiosTrabajo){
-				//Primero valido que no este lockeado
+				//Actualizo el edificio
+				//myEdificio = actualizoUnEdificioAs400(myEdificio, "");
+				//Valido que no este lockeado
 				if(myEdificio.getEdf_lockedBy() == null || myEdificio.getEdf_lockedBy() == JSFUtil.getSession().getEffectiveUserName()){
 					//Voy a validar las fechas ingresadas en cada edificio
 
@@ -714,7 +720,7 @@ public class EdificioBean implements Serializable {
 					}
 					
 				}else{
-					listAcumulaErrores.add(prm_campo + "~El edificio " + myEdificio.getEdf_codigo() + " no se pudo actualizar ya que estaba siendo modificado por otro usuario." );
+					listAcumulaErrores.add(prm_campo + "~El edificio " + myEdificio.getEdf_codigo() + " no se pudo actualizar ya que está siendo modificado por: " + myEdificio.getEdf_lockedBy().substring(4) );
 				}
 			}
 		
