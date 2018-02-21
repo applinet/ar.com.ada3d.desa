@@ -5,6 +5,7 @@
 		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
 
 		<xp:styleSheet href="/home_Main.min.css"></xp:styleSheet>
+		<xp:script src="/CheckLogin.js" clientSide="true"></xp:script>
 	</xp:this.resources>
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="true">
 		<xp:this.facets>
