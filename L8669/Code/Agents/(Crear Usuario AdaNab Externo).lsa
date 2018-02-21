@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='83258203004F19D9'>
-<noteinfo noteid='21e' unid='473F9C1F9F29DEEF832581AF0072EA4A' sequence='50'>
+<noteinfo noteid='21e' unid='473F9C1F9F29DEEF832581AF0072EA4A' sequence='51'>
 <created><datetime dst='true'>20171004T185510,82-02</datetime></created>
-<modified><datetime dst='true'>20171227T122401,17-02</datetime></modified>
-<revised><datetime dst='true'>20171114T112329,59-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20171227T122401,17-02</datetime></lastaccessed>
+<modified><datetime dst='true'>20180220T180603,63-02</datetime></modified>
+<revised><datetime dst='true'>20180220T180603,62-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20180220T180603,63-02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20171227T122401,17-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -143,5 +143,5 @@ AAAAOgAAGgoA0ogAOgAAGgsA0sAAHQAAGhQAXtwBKswAfSgBI6YaFQALAAAEAAk6VwAaFgBeuAIr
 AiOmGiEAS1gDLBQHXkQGiwgjMRoiABwaIwAaJABL3AEsUAcUFZgWk5sjMRolABwaJgAdAgAAABEA
 FAAAAAAA//8BAAMADQAAABAAOAASAAoAAAA=
 </rawitemdata></item>
-<item name='$AssistVersion'><datetime>20171031T082659,34-03</datetime></item></note>
+<item name='$AssistVersion'><datetime>20180220T170603,69-03</datetime></item></note>
 
