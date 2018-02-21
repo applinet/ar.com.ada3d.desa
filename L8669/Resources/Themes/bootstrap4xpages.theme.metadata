@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="13a" sequence="43" unid="8B192E46FDF1F46B03258146006BF356">
+<noteinfo noteid="13a" sequence="58" unid="8B192E46FDF1F46B03258146006BF356">
 <created><datetime>20170621T163906,46-03</datetime></created>
-<modified><datetime dst="true">20180220T180558,84-02</datetime></modified>
-<revised><datetime dst="true">20180220T180558,83-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180220T180558,84-02</datetime></lastaccessed>
+<modified><datetime dst="true">20180221T170340,78-02</datetime></modified>
+<revised><datetime dst="true">20180221T170340,77-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180221T170340,78-02</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20171227T122400,07-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -13,4 +13,4 @@
 
 
 <item name="$FileNames" sign="true"><text>bootstrap4xpages.theme</text></item>
-<item name="$CSSFiles"><text>bootstrap-extended.css</text></item></note>
+<item name="$CSSFiles"><textlist><text>bootstrap-extended.css</text></textlist></item></note>
