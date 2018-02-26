@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="542" sequence="11" unid="4A454AC31E2519848325823900659856">
+<noteinfo noteid="542" sequence="36" unid="4A454AC31E2519848325823900659856">
 <created><datetime dst="true">20180219T162941,34-02</datetime></created>
-<modified><datetime dst="true">20180219T163727,68-02</datetime></modified>
-<revised><datetime dst="true">20180219T163727,67-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180219T163727,68-02</datetime></lastaccessed>
+<modified><datetime dst="true">20180222T193955,93-02</datetime></modified>
+<revised><datetime dst="true">20180222T193955,92-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180222T193955,93-02</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20180219T162941,35-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -11,12 +11,13 @@
 <item name="$TITLE"><text>ccFXdocLock.xsp</text></item>
 
 
-<item name="$DesignerVersion"><text>9.0.1</text></item>
 
 
 
 
 
+<item name="$FileNames" sign="true"><text>ccFXdocLock.xsp</text></item>
 
 
-<item name="$FileNames" sign="true"><text>ccFXdocLock.xsp</text></item></note>
+<item name="$Comment" sign="true"><text>Mensaje en pantalla de objetos lockeados</text></item>
+<item name="$DesignerVersion" sign="true"><text>8.5.3</text></item></note>

@@ -121,13 +121,13 @@ public class CfgTablas implements Serializable {
 		
 		try {
 			Vector vecResult;
-			// System.out.println("setStrsSQL_tabla=" + this.getTabla());
+			 //System.out.println("setStrsSQL_tabla=" + this.getTabla());
 			vecResult = s.evaluate(this.getTabla(), docTarget);
 			this.setTabla(vecResult.elementAt(0).toString());
-			// System.out.println("setStrsSQL_select=" + this.getSelect());
+			 //System.out.println("setStrsSQL_select=" + this.getSelect());
 			vecResult = s.evaluate(this.getSelect(), docTarget);
 			this.setSelect(vecResult.elementAt(0).toString());
-			// System.out.println("setStrsSQL_where=" + this.getWhere());
+			 //System.out.println("setStrsSQL_where=" + this.getWhere());
 			if (this.getWhere().equals(""))
 				this.setWhere("''");
 			vecResult = s.evaluate(this.getWhere(), docTarget);

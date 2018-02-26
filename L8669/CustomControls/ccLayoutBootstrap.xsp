@@ -11,7 +11,7 @@
 		</xp:script>
 		<xp:styleSheet href="/bootstrap-extended.css"></xp:styleSheet>
 	</xp:this.resources>
-	
+
 
 	<xp:this.afterPageLoad><![CDATA[#{javascript:if (!userBean.accessRoles.toString().contains('[usrInitial]')){
 	if	(!sessionScope.edificioSelected)

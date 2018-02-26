@@ -94,7 +94,7 @@ x$( "#{id:button1}" ).popover();
 						<xp:this.valueList>
 
 							<![CDATA[#{javascript:var result = "<ul>";
-var listaEdificios = edificioBean.getObjDataEdificiosPorUsuario();
+var listaEdificios = edificioBean.getArraySrtringListaEdificios(false);
 for (var i = 0; i < listaEdificios.length; i++) {
 	// Agrego la metadata por cada entrada al array:
 	var codigoEdificio:string = listaEdificios[i].split("|")[1].trim();
