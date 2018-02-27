@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="496" sequence="5" unid="B14882C83511ACC783258209004B3758">
-<created><datetime dst="true">20180102T114133,68-02</datetime></created>
-<modified><datetime dst="true">20180102T115719,86-02</datetime></modified>
-<revised><datetime dst="true">20180102T115719,85-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180102T115719,86-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20180102T114133,69-02</datetime></addedtofile></noteinfo>
+<noteinfo noteid="19a6" sequence="2" unid="95B96387B3E9F9538325824000646DC8">
+<created><datetime dst="true">20180226T161657,04-02</datetime></created>
+<modified><datetime dst="true">20180226T161702,21-02</datetime></modified>
+<revised><datetime dst="true">20180226T161702,20-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180226T161702,21-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180226T161659,82-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
-<item name="$Flags"><text>34567Cg~[</text></item>
 <item name="$TITLE"><text>ar/com/ada3d/utilidades/Conversores.java</text></item>
+
+
+
+<item name="$Flags"><text>34567Cg~[P</text></item>
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
 

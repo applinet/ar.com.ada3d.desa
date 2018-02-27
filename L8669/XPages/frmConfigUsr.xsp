@@ -47,7 +47,7 @@ return value.dummyAction();}]]></xe:this.saveObject>
 		hago automatico con un custom control, pero en edicion a veces quedaba
 		colgado
 	-->
-	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
+	
 	<xp:this.resources>
 		<xp:script src="/MenuTools" clientSide="false"></xp:script>
 		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
@@ -602,7 +602,7 @@ return true;}]]></xp:this.rendered>
 							</xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
-
+			<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
 				</xp:panel><!-- FIN PANEL DE BOTONES  -->
 			</xp:panel><!-- FIN PANEL MIDDLE  -->
 		</xp:this.facets>

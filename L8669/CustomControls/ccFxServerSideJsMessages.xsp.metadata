@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="532" sequence="70" unid="7E0149B781D85A848325823600538118">
-<created><datetime dst="true">20180216T131205,36-02</datetime></created>
-<modified><datetime dst="true">20180222T194054,02-02</datetime></modified>
-<revised><datetime dst="true">20180222T194054,01-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180222T194054,02-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20180216T131205,38-02</datetime></addedtofile></noteinfo>
+<noteinfo noteid="18b6" sequence="8" unid="4A3036755470AD7B832582400061AA31">
+<created><datetime dst="true">20180226T154645,61-02</datetime></created>
+<modified><datetime dst="true">20180226T154740,01-02</datetime></modified>
+<revised><datetime dst="true">20180226T154740,00-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180226T154740,01-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180226T154645,62-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$TITLE"><text>ccFxServerSideJsMessages.xsp</text></item>
-<item name="$Flags"><text>gC~4;</text></item>
-
-
-
-
-
+<item name="$Flags"><text>gC~4;P</text></item>
 
 
 <item name="$FileNames" sign="true"><text>ccFxServerSideJsMessages.xsp</text></item>
 
 
-<item name="$Comment" sign="true"><text>Mensajes de errores y warning con viewScope.MessageType</text></item>
-<item name="$DesignerVersion" sign="true"><text>8.5.3</text></item></note>
+<item name="$DesignerVersion"><text>9.0.1</text></item>
+
+
+
+
+</note>

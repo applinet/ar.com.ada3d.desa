@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581C400577E0E" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="222" sequence="128" unid="D7D6884E92DF7585832581AA003AF612">
-<created><datetime dst="true">20170929T084400,82-02</datetime></created>
-<modified><datetime dst="true">20171025T201043,56-02</datetime></modified>
-<revised><datetime dst="true">20171025T201030,38-02</datetime></revised>
-<lastaccessed><datetime dst="true">20171025T201043,56-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20171025T135543,73-02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Notes Standard Control/O=SASA</name><name>CN=ADMINISTRADOR DOMINO/O=SASA</name><name>CN=Notes Standard Control/O=SASA</name></updatedby>
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="19ae" sequence="2" unid="D6B8F3C32D46188E8325824000646DCA">
+<created><datetime dst="true">20180226T161657,06-02</datetime></created>
+<modified><datetime dst="true">20180226T161702,36-02</datetime></modified>
+<revised><datetime dst="true">20180226T161702,35-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180226T161702,36-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180226T161700,07-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
-<item name="$Flags"><text>34567Cg~[</text></item>
 <item name="$TITLE"><text>ar/com/ada3d/utilidades/DocUsr.java</text></item>
 
+
+
+<item name="$Flags"><text>34567Cg~[P</text></item>
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
 
-<item name="$FileNames" sign="true"><text>ar/com/ada3d/utilidades/DocUsr.java</text></item>
-
-</note>
+<item name="$FileNames" sign="true"><text>ar/com/ada3d/utilidades/DocUsr.java</text></item></note>

@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='83258203004F19D9'>
-<noteinfo noteid='4ca' unid='01E36C7E5ED68EFF83258227005395B4' sequence='14'>
+<noteinfo noteid='4ca' unid='01E36C7E5ED68EFF83258227005395B4' sequence='19'>
 <created><datetime dst='true'>20180201T131258,12-02</datetime></created>
-<modified><datetime dst='true'>20180220T180603,69-02</datetime></modified>
-<revised><datetime dst='true'>20180220T180603,68-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20180220T180603,69-02</datetime></lastaccessed>
+<modified><datetime dst='true'>20180227T111013,03-02</datetime></modified>
+<revised><datetime dst='true'>20180209T104343,23-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20180227T111013,03-02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20180201T131258,26-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -34,7 +34,7 @@ gQYAAAAA
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$AssistRunInfo' summary='true'>
 <rawitemdata type='3'>
-BgABAAAACAAOBQAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAzgAAAAAAAAAAAAAAAAAAABAAAAAA
+BgAAAgAACAD+GQAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAzgAAAAAAAAAAAAAAAAAAABAAAAAA
 AAAAqjdmAC+CJYMAAAAAtOtFAC+CJYPZGU8AA4IlgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
 ZCBydW5uaW5nIGFnZW50ICcoU2Rvam9BczQwMF9qb2luX2VkaWYpfFNkb2pvQXM0MDBfam9pbl9l
 ZGlmJyBvbiAwMi8wOS8yMDE4IDE1OjM2OjI4DQpSYW4gTG90dXNTY3JpcHQgY29kZQ0KRG9uZSBy
@@ -459,5 +459,6 @@ E1NAFYUlv31UDL99/A6/m6UaSwE64P0aTAFbLABHLAB9BA+/pRpOARpQAUu8FCycGCMaUQFiBBQA
 BjZYBBAAqacEGlQBHBpVARpWAUu8FCycGCMaVwEp0Bh9bA8UBlSTv32AD78WfYwPqL8VBlSTv32o
 D7+bhCMaWQEdAgAAABEAHAAAAAAA//8BAAMADAAAABMAOACjAFQAtgBwBLwACgAAAMs=
 </rawitemdata></item>
-<item name='$AssistVersion'><datetime>20180220T170603,72-03</datetime></item></note>
+<item name='$AssistVersion'><datetime>20180209T094343,21-03</datetime></item>
+<item name='$POID'><datetime dst='true'>20180209T104343,23-02</datetime></item></note>
 

@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="832581D800495D1C" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="512" sequence="5" unid="5D1CBAB9D3706B4E032581E2004FAE07">
-<created><datetime>20171124T113018,95-03</datetime></created>
-<modified><datetime>20171124T113725,16-03</datetime></modified>
-<revised><datetime>20171124T113725,15-03</datetime></revised>
-<lastaccessed><datetime>20171124T113725,15-03</datetime></lastaccessed>
-<addedtofile><datetime>20171124T113018,95-03</datetime></addedtofile></noteinfo>
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="19ba" sequence="2" unid="7074AC4C04DA16C48325824000646DCD">
+<created><datetime dst="true">20180226T161657,09-02</datetime></created>
+<modified><datetime dst="true">20180226T161702,72-02</datetime></modified>
+<revised><datetime dst="true">20180226T161702,71-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180226T161702,72-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180226T161700,40-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
-<item name="$Flags"><text>34567Cg~[</text></item>
 <item name="$TITLE"><text>packFernando/clasefer.java</text></item>
+
+
+
+<item name="$Flags"><text>34567Cg~[P</text></item>
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
 
-<item name="$FileNames" sign="true"><text>packFernando/clasefer.java</text></item>
-
-
-</note>
+<item name="$FileNames" sign="true"><text>packFernando/clasefer.java</text></item></note>
