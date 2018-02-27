@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="18fe" sequence="8" unid="348353BD62DA3E2F832582400061B769">
+<noteinfo noteid="18fe" sequence="11" unid="348353BD62DA3E2F832582400061B769">
 <created><datetime dst="true">20180226T154719,45-02</datetime></created>
-<modified><datetime dst="true">20180226T181131,38-02</datetime></modified>
-<revised><datetime dst="true">20180226T181131,37-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180226T181131,38-02</datetime></lastaccessed>
+<modified><datetime dst="true">20180227T120540,43-02</datetime></modified>
+<revised><datetime dst="true">20180227T120540,42-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180227T120540,43-02</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20180226T154719,47-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
-<item name="$Comment"><text>*** PRUEBA - BORRAR ***</text></item>
 <item name="$TITLE"><text>frmConfigUsr.xsp</text></item>
 <item name="$Flags"><text>gC~4KP</text></item>
-<item name="$DesignerVersion"><text>9.0.1</text></item>
 
 
 
@@ -18,6 +16,8 @@
 
 
 <item name="$FileNames" sign="true"><text>frmConfigUsr.xsp</text></item>
+<item name="$Comment" sign="true"><text>Formulario de Usuarios</text></item>
+<item name="$DesignerVersion"><text>9.0.1</text></item>
 
 
 

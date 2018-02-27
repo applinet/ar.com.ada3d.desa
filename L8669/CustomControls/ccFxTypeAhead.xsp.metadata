@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="18ba" sequence="8" unid="9221334B274A293D832582400061AA7B">
+<noteinfo noteid="18ba" sequence="11" unid="9221334B274A293D832582400061AA7B">
 <created><datetime dst="true">20180226T154646,35-02</datetime></created>
-<modified><datetime dst="true">20180226T154739,93-02</datetime></modified>
-<revised><datetime dst="true">20180226T154739,92-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180226T154739,93-02</datetime></lastaccessed>
+<modified><datetime dst="true">20180227T120540,60-02</datetime></modified>
+<revised><datetime dst="true">20180227T120540,59-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180227T120540,60-02</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20180226T154646,37-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -14,9 +14,10 @@
 <item name="$FileNames" sign="true"><text>ccFxTypeAhead.xsp</text></item>
 
 
+
+
+
+<item name="$Comment" sign="true"><text>Para Edificios</text></item>
 <item name="$DesignerVersion"><text>9.0.1</text></item>
-
-
-
 
 </note>

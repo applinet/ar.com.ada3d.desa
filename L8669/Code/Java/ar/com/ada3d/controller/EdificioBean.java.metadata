@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="416" sequence="195" unid="8816C0E0FB38C644832581F70064263E">
-<created><datetime dst="true">20171215T161353,90-02</datetime></created>
-<modified><datetime dst="true">20171229T112950,37-02</datetime></modified>
-<revised><datetime dst="true">20171229T112950,36-02</datetime></revised>
-<lastaccessed><datetime dst="true">20171229T112950,37-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20171227T122403,41-02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Notes Standard Control/O=SASA</name><name>CN=Yanina Narella Campos/O=SASA</name><name>CN=Notes Standard Control/O=SASA</name><name>CN=Yanina Narella Campos/O=SASA</name><name>CN=Notes Standard Control/O=SASA</name></updatedby>
+<noteinfo noteid="198a" sequence="42" unid="B09234608ADD45908325824000646DC1">
+<created><datetime dst="true">20180226T161656,97-02</datetime></created>
+<modified><datetime dst="true">20180226T202532,17-02</datetime></modified>
+<revised><datetime dst="true">20180226T202532,16-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180226T202532,17-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180226T161658,98-02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
-<item name="$Flags"><text>34567Cg~[</text></item>
-
-
-
 <item name="$TITLE"><text>ar/com/ada3d/controller/EdificioBean.java</text></item>
+
+<item name="$Flags"><text>34567Cg~[P</text></item>
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
 
-<item name="$FileNames" sign="true"><text>ar/com/ada3d/controller/EdificioBean.java</text></item></note>
+
+<item name="$FileNames" sign="true"><text>ar/com/ada3d/controller/EdificioBean.java</text></item>
+
+</note>

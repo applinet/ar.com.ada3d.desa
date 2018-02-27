@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="189e" sequence="8" unid="1AEA9546E8A48A46832582400061A8CE">
+<noteinfo noteid="189e" sequence="11" unid="1AEA9546E8A48A46832582400061A8CE">
 <created><datetime dst="true">20180226T154642,06-02</datetime></created>
-<modified><datetime dst="true">20180226T154740,49-02</datetime></modified>
-<revised><datetime dst="true">20180226T154740,48-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180226T154740,49-02</datetime></lastaccessed>
+<modified><datetime dst="true">20180227T120540,74-02</datetime></modified>
+<revised><datetime dst="true">20180227T120540,73-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180227T120540,74-02</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20180226T154642,08-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -14,10 +14,10 @@
 <item name="$FileNames" sign="true"><text>ccButtonTogle.xsp</text></item>
 
 
-<item name="$DesignerVersion"><text>9.0.1</text></item>
 
 
 
 <item name="$Comment" sign="true"><text>Boton que cambia al hacer click (SI/NO)</text></item>
+<item name="$DesignerVersion"><text>9.0.1</text></item>
 
 </note>

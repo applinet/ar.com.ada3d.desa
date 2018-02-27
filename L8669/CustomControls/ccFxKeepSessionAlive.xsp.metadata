@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="18aa" sequence="8" unid="EA122A68C993A1E3832582400061A97D">
+<noteinfo noteid="18aa" sequence="11" unid="EA122A68C993A1E3832582400061A97D">
 <created><datetime dst="true">20180226T154643,81-02</datetime></created>
-<modified><datetime dst="true">20180226T154740,25-02</datetime></modified>
-<revised><datetime dst="true">20180226T154740,24-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180226T154740,25-02</datetime></lastaccessed>
+<modified><datetime dst="true">20180227T120540,68-02</datetime></modified>
+<revised><datetime dst="true">20180227T120540,67-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180227T120540,68-02</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20180226T154643,83-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -14,9 +14,10 @@
 <item name="$FileNames" sign="true"><text>ccFxKeepSessionAlive.xsp</text></item>
 
 
+
+
+
+<item name="$Comment" sign="true"><text>*** No utilizado aun ***</text></item>
 <item name="$DesignerVersion"><text>9.0.1</text></item>
-
-
-
 
 </note>

@@ -5,16 +5,7 @@
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="false">
 		<xp:this.facets>
 			<xp:panel id="PNL_container" xp:key="facetMiddle">
-				<xe:widgetContainer id="widgetContainer1" >
-				<xp:inputText id="search">
-					<xp:this.attrs>
-						<xp:attr value="Búsqueda rápida" name="placeHolder">
-						</xp:attr>
-					</xp:this.attrs>
-				</xp:inputText>
-				</xe:widgetContainer>
-				
-				
+				<xc:ccFxTypeAhead></xc:ccFxTypeAhead>
 				<xp:dataTable id="edificiosTable" var="unEdificio"
 					value="#{edificioBean.listaEdificiosTrabajo}" rows="15">
 					<xp:this.facets>
@@ -82,10 +73,10 @@ context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
 						</xp:this.facets>
 						<xp:text escape="true"
 							value="#{unEdificio.edf_importeInteresPunitorioDeudores}" id="edf_importeInteresPunitorioDeudores">
-							
 						</xp:text>
 						<xp:label value="%" id="Signo1"></xp:label>
 					</xp:column>
+					
 					<xp:column id="edf_fechaPrimerVencimientoRecibosColumn">
 						<xp:this.facets>
 							<xp:label value="1er Vto" id="label6" xp:key="header" style="font-weight:bold"></xp:label>
@@ -96,8 +87,6 @@ context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
 							
 						</xp:text>
 					</xp:column>
-					
-					
 					<xp:column id="edf_importeRecargoSegundoVencimientoColumn">
 						<xp:this.facets>
 							<xp:label value="Interés 2do Vto" id="label7" xp:key="header" style="font-weight:bold"></xp:label>
@@ -115,12 +104,8 @@ context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
 							value="#{unEdificio.edf_fechaSegundoVencimientoRecibos}" id="edf_fechaSegundoVencimientoRecibos">
 						</xp:text>
 					</xp:column>
-
-
 				</xp:dataTable>
-				
 			</xp:panel>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>
-
 </xp:view>
