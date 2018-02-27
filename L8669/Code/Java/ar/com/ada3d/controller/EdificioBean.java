@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.io.Serializable;
 import javax.faces.model.SelectItem;
+
 import org.openntf.domino.Document;
 import org.openntf.domino.Session;
 
@@ -40,7 +41,8 @@ public class EdificioBean implements Serializable {
 	HashMap<String, Edificio> hmEdificios = new HashMap<String, Edificio>();
 	private static List<Edificio> listaEdificios;
 	private static List<Edificio> listaEdificiosTrabajo;
-	
+	private boolean isMasivoActualizado = false;
+
 	
 	/**
 	 * Esto devuelve para cada usuario el ComboBox de Edificios autorizados para
@@ -96,10 +98,18 @@ public class EdificioBean implements Serializable {
 		return options;
 	}
 
+	/**
+	 * Devuelve un string con la lista de edificios
+	 *  @param verdadero devuelve solo los que trabaja el usuario, sino todos
+	 *  @return un string con la lista de edificios
+	 *  @usedin frmConfigUsr para traer la lista de edificios autorizados para el usuario
+	 *  @usedin typeAhead de edificios
+	 * */
 		
-	public ArrayList<String> getObjDataEdificiosPorUsuario() {
+	public ArrayList<String> getArraySrtringListaEdificios(boolean prm_isDeTrabajo) {
 		ArrayList<String> result = new ArrayList<String>();
-		for (Edificio miEdificio : listaEdificios) {
+		List<Edificio> lista = prm_isDeTrabajo ? listaEdificiosTrabajo : listaEdificios;
+		for (Edificio miEdificio : lista) {
 			result.add(miEdificio.getEdf_direccion() + "|"
 					+ miEdificio.getEdf_codigo());
 		}
@@ -110,7 +120,7 @@ public class EdificioBean implements Serializable {
 	 * Agrego edificios de a uno al hashMap
 	 * @param objeto Edificio
 	 */
-	public void AddEdificioMap(Edificio prmEdificio) {
+	private void AddEdificioMap(Edificio prmEdificio) {
 		hmEdificios.put(prmEdificio.getEdf_codigo(), prmEdificio);
 	}
 
@@ -129,7 +139,7 @@ public class EdificioBean implements Serializable {
 	/**
 	 * Agrego Edificios consultando As400, cada linea separa el dato por un pipe
 	 */
-	public void AddEdificiosAs400() {
+	private void AddEdificiosAs400() {
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 
 		if (!(listaEdificios == null)){
@@ -450,7 +460,7 @@ public class EdificioBean implements Serializable {
 		
 		myEdificio.setEdf_importeInteresPunitorioDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 1)));
 		myEdificio.setEdf_importeRecargoSegundoVencimiento( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[16].trim(), Locale.UK, 1)));
-		
+				
 		myEdificio.setEdf_fechaPrimerVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[17].trim()));
 		myEdificio.setEdf_fechaSegundoVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[18].trim()));
 		
@@ -535,6 +545,7 @@ public class EdificioBean implements Serializable {
 				break; 
 			}
 		}
+		
 		
 		QueryAS400 query = new QueryAS400();
 		
@@ -648,7 +659,8 @@ public class EdificioBean implements Serializable {
 
 	
 	/**
-	 * Validación cuando se modifica de forma masiva los edificios.
+	 * Validación cuando se modifica de forma masiva los edificios. 
+	 * Los edificios modificados van a ser loqueados
 	 * Fechas de Vto e Intereses
 	 * @usedIn: Boton btnAplicarMasivo en el formulario de Modificacion Automática
 	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
@@ -667,28 +679,39 @@ public class EdificioBean implements Serializable {
 				listAcumulaErrores.add(prm_campo + "~El % de interés no puede superar el 9999 %" );
 				return listAcumulaErrores;
 			}
-				
+			//ArrayList<String> edif = new ArrayList<String>();	
 			valor = valor.setScale(1, RoundingMode.HALF_EVEN);//redondeo si puso mas de 1 decimal
 			for(Edificio myEdificio : listaEdificiosTrabajo){
 				//Actualizo el edificio
 				//myEdificio = actualizoUnEdificioAs400(myEdificio, "");
 				//Valido que no este lockeado
-				if(myEdificio.getEdf_lockedBy() == null || myEdificio.getEdf_lockedBy() == JSFUtil.getSession().getEffectiveUserName()){
-					if (prm_campo.equals("importeInteresPunitorioDeudoresMasivo"))
+				
+				if(myEdificio.getEdf_lockedBy() == null || myEdificio.getEdf_lockedBy().equals(JSFUtil.getSession().getEffectiveUserName())){
+					if (prm_campo.equals("importeInteresPunitorioDeudoresMasivo")){
 						myEdificio.setEdf_importeInteresPunitorioDeudores(valor);
-					if (prm_campo.equals("recargoSegundoVencimientoMasivo"))
+						myEdificio.setEdf_importeMasivoE12(valor);
+					}
+					if (prm_campo.equals("recargoSegundoVencimientoMasivo")){
 						myEdificio.setEdf_importeRecargoSegundoVencimiento(valor);
+						myEdificio.setEdf_importeMasivoE08A(valor);
+					}
+					lockearEdificio(myEdificio, JSFUtil.getSession().getEffectiveUserName());//lock de los que estoy modificando
+					isMasivoActualizado = true;
+					
 				}else{
 					listAcumulaErrores.add(prm_campo + "~El edificio " + myEdificio.getEdf_codigo() + " no se pudo actualizar ya que está siendo modificado por: " + myEdificio.getEdf_lockedBy().substring(4) );
 				}
 					
 			}
+			//listaMasivoSql.add("SET E12=" + ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(valor,1) + " WHERE EDIF IN (" + edif.toString() + ")");
 		}else if(prm_valor instanceof Date){
+			//Para las fechas voy a presentar un unico mensaje ya que existen más validaciones
+			ArrayList<String> arrAcumulaErrorCodigoEdificio = new ArrayList<String>();
 			for(Edificio myEdificio : listaEdificiosTrabajo){
 				//Actualizo el edificio
 				//myEdificio = actualizoUnEdificioAs400(myEdificio, "");
 				//Valido que no este lockeado
-				if(myEdificio.getEdf_lockedBy() == null || myEdificio.getEdf_lockedBy() == JSFUtil.getSession().getEffectiveUserName()){
+				if(myEdificio.getEdf_lockedBy() == null || myEdificio.getEdf_lockedBy().equals(JSFUtil.getSession().getEffectiveUserName())){
 					//Voy a validar las fechas ingresadas en cada edificio
 
 					Calendar calMin = Calendar.getInstance();
@@ -701,35 +724,135 @@ public class EdificioBean implements Serializable {
 						calNew.setTime((Date) prm_valor);
 						
 						if (calNew.before(calMin)) {
-							listAcumulaErrores.add(prm_campo + "~Edificio " + myEdificio.getEdf_codigo() + " la fecha de primer vto. no puede ser menor a " + ar.com.ada3d.utilidades.Conversores.DateToString(calMin.getTime(), "dd/MM/yyyy" ));
+							arrAcumulaErrorCodigoEdificio.add(myEdificio.getEdf_codigo());
+							//listAcumulaErrores.add(prm_campo + "~Edificio " + myEdificio.getEdf_codigo() + " la fecha de primer vto. no puede ser menor a " + ar.com.ada3d.utilidades.Conversores.DateToString(calMin.getTime(), "dd/MM/yyyy" ));
 						}else{
 							myEdificio.setEdf_fechaPrimerVencimientoRecibos((Date) prm_valor);
+							lockearEdificio(myEdificio, JSFUtil.getSession().getEffectiveUserName());//lock de los que estoy modificando
+							isMasivoActualizado = true;
 						}
+					}else if(myEdificio.getEdf_importeInteresPunitorioDeudores().compareTo(BigDecimal.ZERO) == 0 && prm_campo.equals("fechaPrimerVtoMasivo")){
+						listAcumulaErrores.add(prm_campo + "~El % de interés del edificio " + myEdificio.getEdf_codigo() + " no tiene un valor (es cero) no se modifica la fecha." );
 					}
 					
 					if(myEdificio.getEdf_importeRecargoSegundoVencimiento().compareTo(BigDecimal.ZERO) > 0 && prm_campo.equals("fechaSegundoVtoMasivo")){
 						calMin.setTime(myEdificio.getEdf_fechaPrimerVencimientoRecibos());
-						calMin.add(Calendar.DATE, 1);
 						Calendar calNew = Calendar.getInstance();
-						calNew.setTime(myEdificio.getEdf_fechaSegundoVencimientoRecibos());
+						calNew.setTime((Date) prm_valor);
 						if (calNew.before(calMin)) {
-							listAcumulaErrores.add(prm_campo + "~Edificio " + myEdificio.getEdf_codigo() + " la fecha de 2° vto. debe ser mayor al 1° vto ");
+							arrAcumulaErrorCodigoEdificio.add(myEdificio.getEdf_codigo());
+							//listAcumulaErrores.add(prm_campo + "~Edificio " + myEdificio.getEdf_codigo() + " la fecha de 2° vto. debe ser mayor al 1° vto ");
 						}else{
 							myEdificio.setEdf_fechaSegundoVencimientoRecibos((Date) prm_valor);
+							lockearEdificio(myEdificio, JSFUtil.getSession().getEffectiveUserName());//lock de los que estoy modificando
+							isMasivoActualizado = true;
 						}
+					}else if(myEdificio.getEdf_importeRecargoSegundoVencimiento().compareTo(BigDecimal.ZERO) == 0 && prm_campo.equals("fechaSegundoVtoMasivo")){
+						listAcumulaErrores.add(prm_campo + "~El % de interés del edificio " + myEdificio.getEdf_codigo() + " no tiene un valor (es cero) no se modifica la fecha." );
 					}
 					
 				}else{
 					listAcumulaErrores.add(prm_campo + "~El edificio " + myEdificio.getEdf_codigo() + " no se pudo actualizar ya que está siendo modificado por: " + myEdificio.getEdf_lockedBy().substring(4) );
 				}
 			}
-		
+			if(!arrAcumulaErrorCodigoEdificio.isEmpty()){
+				listAcumulaErrores.add(prm_campo + "~Los edificios " + arrAcumulaErrorCodigoEdificio.toString() + " no han sido modificados con las fechas ingresadas, favor de revisar. El resto de los edificios han sido actualizados.");
+			}
 		}else{
 			listAcumulaErrores.add(prm_campo + "~No es un número.");
 		}
 		
+		
 		return listAcumulaErrores;
 	}
+	
+	/**
+	 * Escribe en AS400 los datos modificados masivamente
+	 * Ya fueron validados y estan lockeados, al final se liberan
+	 * @usedIn Boton btnConfirmarMasivo en el formulario de Modificacion Automática
+	 * @return Si no actualizaron nada presento el mensaje
+	 */
+	public ArrayList<String> saveMasivoEdificios() {
+		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
+		if(isMasivoActualizado){
+			QueryAS400 query = new QueryAS400();
+			DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
+			ArrayList<String> listSQL = new ArrayList<String>();
+			ArrayList<String> listE12 = new ArrayList<String>();
+			String tempE12 = "";
+			ArrayList<String> listE08A = new ArrayList<String>();
+			String tempE08A = "";
+			for(Edificio myEdificio : listaEdificiosTrabajo){
+				System.out.println("0");
+				//ini E12
+				if(myEdificio.getEdf_importeMasivoE12() != null){
+					if(myEdificio.getEdf_importeMasivoE12().compareTo(BigDecimal.ZERO) > 0){
+						if(tempE12.equals("")){
+							System.out.println("1");
+							tempE12 = ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myEdificio.getEdf_importeMasivoE12(),1);
+							listE12.add(myEdificio.getEdf_codigo());
+						}
+						else if (tempE12.equals(ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myEdificio.getEdf_importeMasivoE12(),1))){
+							listE12.add(myEdificio.getEdf_codigo());						
+						}else{
+							listSQL.add("UPDATE L8669B.PH_E01 SET E12 = " + tempE12 + " WHERE EDIF IN (" + listE12.toString().replace("[","").replace("]","") + ")");
+							tempE12 = ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myEdificio.getEdf_importeMasivoE12(),1);
+							listE12.clear();
+							listE12.add(myEdificio.getEdf_codigo());
+						}
+					}
+				}
+				//fin E12
+				
+				//ini E08A
+				if(myEdificio.getEdf_importeMasivoE08A() != null){
+					if(myEdificio.getEdf_importeMasivoE08A().compareTo(BigDecimal.ZERO) > 0){
+						if(tempE08A.equals("")){
+							System.out.println("2");
+							tempE08A = ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myEdificio.getEdf_importeMasivoE08A(),1);
+							listE08A.add(myEdificio.getEdf_codigo());
+						}
+						else if (tempE08A.equals(ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myEdificio.getEdf_importeMasivoE08A(),1))){
+							listE08A.add(myEdificio.getEdf_codigo());						
+						}else{
+							listSQL.add("UPDATE L8669B.PH_E01 SET E08A = " + tempE12 + " WHERE EDIF IN (" + listE12.toString().replace("[","").replace("]","") + ")");
+							tempE08A = ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myEdificio.getEdf_importeMasivoE08A(),1);
+							listE08A.clear();
+							listE08A.add(myEdificio.getEdf_codigo());
+						}
+					}
+				}
+				//fin E08A
+				
+			}
+			if(!listE12.isEmpty())
+				listSQL.add("UPDATE L8669B.PH_E01 SET E12 = " + tempE12 + " WHERE EDIF IN (" + listE12.toString().replace("[","").replace("]","") + ")");
+			if(!listE08A.isEmpty())
+				listSQL.add("UPDATE L8669B.PH_E01 SET E08A = " + tempE12 + " WHERE EDIF IN (" + listE12.toString().replace("[","").replace("]","") + ")");
+			System.out.println("SQL: " + listSQL.toString());
+			isMasivoActualizado = false;//reinicio flag de actualizacion
+		}else{
+			listAcumulaErrores.add("widgetContainer1" + "~No se ha encontrado ningún cambio. Recuerde presionar 'Aplicar' y una vez que los vea en pantalla podrá confirmarlos.");
+		}
+		return listAcumulaErrores;
+		
+	}
+
+	
+	/**
+	 * Lockeo de edificio en el objeto Edificio y en el bean DocLock
+	 * @param el obleto edificio
+	 * @param el nombre de usuario
+	 * */
+	private void lockearEdificio(Edificio prm_Edificio, String prm_userName){
+		DocLock lockeos = (DocLock) JSFUtil.resolveVariable("DocLock");
+		//Agrego el usuario si el edificio está lockeado
+		if(!lockeos.isLocked("edf_" + prm_Edificio.getEdf_codigo())){
+			lockeos.addLock("edf_" + prm_Edificio.getEdf_codigo(), prm_userName);
+			prm_Edificio.setEdf_lockedBy(lockeos.getLock("edf_" + prm_Edificio.getEdf_codigo()));
+		}
+	}
+	
 	
 	//*** Getters & Setters *****
 	

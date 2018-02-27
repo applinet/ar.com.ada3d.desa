@@ -42,6 +42,10 @@ public class Edificio implements Serializable{
 	private BigDecimal edf_importeFranqueo;
 	private BigDecimal edf_importeMultaDeudores;
 	private String edf_lockedBy;
+	private BigDecimal edf_importeMasivoE12;
+	private BigDecimal edf_importeMasivoE08A;
+	private Date edf_fechaMasivoVTOEX1;
+	private Date edf_fechaMasivoVTOEX2;
 	
 	//Getters and Setters
 	
@@ -215,6 +219,30 @@ public class Edificio implements Serializable{
 	}
 	public void setEdf_lockedBy(String edf_lockedBy) {
 		this.edf_lockedBy = edf_lockedBy;
+	}
+	public BigDecimal getEdf_importeMasivoE12() {
+		return edf_importeMasivoE12;
+	}
+	public void setEdf_importeMasivoE12(BigDecimal edf_importeMasivoE12) {
+		this.edf_importeMasivoE12 = edf_importeMasivoE12;
+	}
+	public BigDecimal getEdf_importeMasivoE08A() {
+		return edf_importeMasivoE08A;
+	}
+	public void setEdf_importeMasivoE08A(BigDecimal edf_importeMasivoE08A) {
+		this.edf_importeMasivoE08A = edf_importeMasivoE08A;
+	}
+	public Date getEdf_fechaMasivoVTOEX1() {
+		return edf_fechaMasivoVTOEX1;
+	}
+	public void setEdf_fechaMasivoVTOEX1(Date edf_fechaMasivoVTOEX1) {
+		this.edf_fechaMasivoVTOEX1 = edf_fechaMasivoVTOEX1;
+	}
+	public Date getEdf_fechaMasivoVTOEX2() {
+		return edf_fechaMasivoVTOEX2;
+	}
+	public void setEdf_fechaMasivoVTOEX2(Date edf_fechaMasivoVTOEX2) {
+		this.edf_fechaMasivoVTOEX2 = edf_fechaMasivoVTOEX2;
 	}
 	
 }
