@@ -1,4 +1,4 @@
-function checkLogin() {
+function checkIdleSession() {
    dojo.xhrGet({
      url : window.location.href.split('.nsf')[0] + ".nsf?opendatabase",
      handleAs : 'text',
@@ -17,5 +17,5 @@ function checkLogin() {
 };
 // El codigo chequea cada 16 mins (16 mins * 60 segs por minuto * 1000 millisegundos = 960000).
 dojo.addOnLoad(function(){
-    setInterval("checkLogin()", 960000);
+    setInterval("checkIdleSession(	)", 120000);
 });
