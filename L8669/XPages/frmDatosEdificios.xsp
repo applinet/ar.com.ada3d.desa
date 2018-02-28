@@ -461,7 +461,7 @@ if (!msgValidacion.equals("")){
 							<xc:ccFXdocLock></xc:ccFXdocLock>
 							<xp:button value="Modificar" id="btnEdit">
 
-								<xp:this.rendered><![CDATA[#{javascript:if(edfObj.edf_lockedBy != null){
+								<xp:this.rendered><![CDATA[#{javascript:if(DocLock.isLocked("edf_" + edfObj.edf_codigo)){
 	if(!DocLock.getLock("edf_" + edfObj.edf_codigo).equals(session.getEffectiveUserName()))
 		return false;		
 }

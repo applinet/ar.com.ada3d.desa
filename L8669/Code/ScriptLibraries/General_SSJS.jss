@@ -753,6 +753,7 @@ function btnAplicarMasivo(strKey:String){
 		for (i=0;i<msgValidacion.size();i++) {
 			viewScope.MessageText.push([msgValidacion.get(i).split("\~")[1]]);
 		}
+		getComponent(strKey).setValue('');
 		view.postScript("window.scrollTo(0,0)")
 	}
 }

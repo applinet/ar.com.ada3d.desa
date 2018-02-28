@@ -18,23 +18,24 @@
 				</xp:label>
 			</xp:td>
 			<xp:td style="width:150px;text-align:center">
-				<xp:label value="Id" id="label3"
+				<xp:label value="Key" id="label3"
 					style="font-weight:bold">
 				</xp:label>
 			</xp:td>
 		</xp:tr>
-		<xp:repeat id="repeat2" rows="30" var="customers">
+		<xp:repeat id="repeat2" rows="9999" var="mapaDocLock">
 			<xp:this.value><![CDATA[#{javascript:var map=DocLock.getMap().entrySet();
 return map;}]]></xp:this.value>
 			<xp:tr>
 				<xp:td>
 					<xp:text escape="true" id="computedField1"
-						value="#{javascript:customers.getValue()}">
+						value="#{javascript:mapaDocLock.getValue()}">
 					</xp:text>
 				</xp:td>
 				<xp:td>
 					<xp:text escape="true" id="computedField2"
-						value="#{javascript:customers.getKey()}">
+						value="#{javascript:mapaDocLock.getKey()}"
+						style="color:rgb(0,0,255)">
 					</xp:text>
 				</xp:td>
 			</xp:tr>
