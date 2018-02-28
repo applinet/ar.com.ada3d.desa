@@ -2,8 +2,11 @@ package ar.com.ada3d.utilidades;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.math.BigDecimal;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
@@ -150,4 +153,11 @@ public class Conversores {
 		return prm_importe.toString().replace(",", "").replace(".", "");
 	}
 	
+	public static ArrayList<String> mergeTwoArrayRemoveDuplicate(ArrayList<String> arr1, ArrayList<String> arr2){
+		HashSet<String> retorno = (HashSet<String>) new HashSet<String>();
+		retorno.addAll(arr1);
+		retorno.addAll(arr2);
+		List<String> ret = new ArrayList<String>(retorno);
+		return (ArrayList<String>) ret;
+	}
 }
