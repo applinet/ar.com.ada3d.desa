@@ -14,10 +14,9 @@
 					<xe:basicLeafNode label="Confirmar cambios">
 						<xe:this.onClick><![CDATA[document.getElementById("#{id:btnConfirmarMasivo}").click();]]></xe:this.onClick>
 					</xe:basicLeafNode>
-					<xe:pageTreeNode
-						page="frmDatosEdificiosModificacionAutomatica"
-						label="Restaurar a estado original">
-					</xe:pageTreeNode>
+					<xe:basicLeafNode label="Restaurar a estado original">
+						<xe:this.onClick><![CDATA[document.getElementById("#{id:btnRestaurarMasivo}").click();]]></xe:this.onClick>
+					</xe:basicLeafNode>
 				</xe:this.dropDownNodes>
 				<xp:table styleClass="table table-responsive">
 					<xp:tr valign="top">
@@ -32,8 +31,7 @@
 								<xp:inputText
 									id="importeInteresPunitorioDeudoresMasivo"
 									style="text-align:right; width:100.0px; display: inline;">
-									<xp:eventHandler event="onkeypress"
-										submit="false">
+									<xp:eventHandler event="onkeypress"	submit="false">
 										<xp:this.script><![CDATA[var key = thisEvent.keyCode || thisEvent.which;
 if (key == 13) {
     document.getElementById("#{id:btnAplicar1}").click();
@@ -104,7 +102,6 @@ if (key == 13) {
 									<xp:eventHandler event="onkeypress"
 										submit="false">
 										<xp:this.script><![CDATA[var key = thisEvent.keyCode || thisEvent.which;
-console.log("key = " + key);
 if (key == 13) {
     document.getElementById("#{id:btnAplicar3}").click();
     return true;
@@ -139,7 +136,6 @@ if (key == 13) {
 									<xp:eventHandler event="onkeypress"
 										submit="false">
 										<xp:this.script><![CDATA[var key = thisEvent.keyCode || thisEvent.which;
-console.log("key = " + key);
 if (key == 13) {
     document.getElementById("#{id:btnAplicar4}").click();
     return true;
@@ -248,31 +244,31 @@ if (key == 13) {
 					</xp:column>
 				</xp:dataTable>
 				<div id="divHiddenAplicar" style="display: none;">
-					<xp:button value="btnHidden" id="btnAplicar1">
+					<xp:button value="btnIntereses1" id="btnAplicar1">
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="partial" refreshId="PNL_container">
 							<xp:this.action><![CDATA[#{javascript:btnAplicarMasivo("importeInteresPunitorioDeudoresMasivo");}]]></xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
-					<xp:button value="btnHidden" id="btnAplicar2">
+					<xp:button value="btnVto1" id="btnAplicar2">
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="partial" refreshId="PNL_container">
 							<xp:this.action><![CDATA[#{javascript:btnAplicarMasivo("fechaPrimerVtoMasivo");}]]></xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
-					<xp:button value="btnHidden" id="btnAplicar3">
+					<xp:button value="btnIntereses2" id="btnAplicar3">
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="partial" refreshId="PNL_container">
 							<xp:this.action><![CDATA[#{javascript:btnAplicarMasivo("recargoSegundoVencimientoMasivo");}]]></xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
-					<xp:button value="btnHidden" id="btnAplicar4">
+					<xp:button value="btnVto1" id="btnAplicar4">
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="partial" refreshId="PNL_container">
 							<xp:this.action><![CDATA[#{javascript:btnAplicarMasivo("fechaSegundoVtoMasivo");}]]></xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
-					<xp:button value="btnHidden"
+					<xp:button value="btnConfirmarMasivo"
 						id="btnConfirmarMasivo">
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="partial" refreshId="PNL_container">
@@ -286,12 +282,15 @@ if(!msgValidacion.isEmpty()){
 }}]]></xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
+					<xp:button value="btnRestaurarMasivo" id="btnRestaurarMasivo">
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action><![CDATA[#{javascript:DocLock.removeAllMyLocks();
+	context.redirectToPage("frmDatosEdificiosModificacionAutomatica");}]]></xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
 				</div>	
 			</xp:panel>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>
-	
-	<xp:eventHandler event="onClientLoad" submit="true"
-		refreshMode="norefresh">
-		<xp:this.action><![CDATA[#{javascript:userScope.put("miUsuario", "fernando");}]]></xp:this.action>
-	</xp:eventHandler></xp:view>
+</xp:view>
