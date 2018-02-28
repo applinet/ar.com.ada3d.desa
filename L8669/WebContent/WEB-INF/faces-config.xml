@@ -34,6 +34,13 @@
     <managed-bean-scope>view</managed-bean-scope>
   </managed-bean>
   <managed-bean>
+    <description>Porcentuales de Edificios</description>
+    <managed-bean-name>porcentualMasivoBean</managed-bean-name>
+    <managed-bean-class>ar.com.ada3d.controller.PorcentualMasivoBean
+		</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+  </managed-bean>
+  <managed-bean>
     <description>Validadores</description>
     <managed-bean-name>validadorBean</managed-bean-name>
     <managed-bean-class>ar.com.ada3d.utilidades.Validadores</managed-bean-class>
