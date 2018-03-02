@@ -22,7 +22,7 @@
 					<xp:tr valign="top">
 						<xp:td style="width:20.0%">
 							<xe:widgetContainer id="widgetContainer2"
-								titleBarText="Interés 1° Vto.">
+								titleBarText="Honorarios">
 								<xe:this.dropDownNodes>
 									<xe:basicLeafNode label="Aplicar">
 										<xe:this.onClick><![CDATA[document.getElementById("#{id:btnAplicar1}").click();]]></xe:this.onClick>
@@ -46,9 +46,9 @@ if (key == 13) {
 										</xp:attr>
 									</xp:this.attrs>
 									<xp:this.converter>
-										<xp:convertNumber
-											pattern="#,##0.0;(#,##0.0)">
-										</xp:convertNumber>
+										<xp:customConverter getAsString="#{javascript:value.toString()}">
+											<xp:this.getAsObject><![CDATA[#{javascript:parseFloat(value.replace(/,/g,"\."))}]]></xp:this.getAsObject>
+										</xp:customConverter>
 									</xp:this.converter>
 								</xp:inputText>
 								<xp:label value="%" id="label9"></xp:label>
@@ -63,80 +63,63 @@ if (key == 13) {
 				<xc:ccFxServerSideJsMessages></xc:ccFxServerSideJsMessages>
 			</xe:widgetContainer>
 
-			<xp:dataTable id="edificiosTable" var="unEdificio"
-					value="#{porcentualMasivoBean.listaEdificiosTrabajo}" rows="1000"
+			<xp:dataTable id="edificiosTable" var="unPorcentual"
+					value="#{porcentualMasivoBean.listaHonorariosEdificiosTrabajo}" rows="1000"
 					styleClass="table table-responsive">
-					<xp:column id="edf_codigoColumn">
+					<xp:column id="porc_edf_codigoColumn">
 						<xp:this.facets>
-							<xp:label value="Codigo SASA" id="label1"
+							<xp:label value="Codigo SASA" id="labelPorc_edf_codigo"
 								xp:key="header" style="font-weight:bold">
 							</xp:label>
 						</xp:this.facets>
 						<xp:text escape="true"
-							value="#{unEdificio.edf_codigo}" id="edf_codigo">
+							value="#{unPorcentual.porc_edf_codigo}" id="porc_edf_codigo">
 						</xp:text>
 					</xp:column>
-					<xp:column id="edf_direccionColumn">
+					<xp:column id="porc_tituloColumn">
 						<xp:this.facets>
-							<xp:label value="Domicilio" id="label2"
+							<xp:label value="Titulo" id="labelPorc_titulo"
 								xp:key="header" style="font-weight:bold">
 							</xp:label>
 						</xp:this.facets>
 						<xp:text escape="true"
-							value="#{unEdificio.edf_direccion}-#{unEdificio.edf_localidad}"
-							id="edf_direccion">
+							value="#{unPorcentual.porc_titulo}" id="porc_titulo">
+						</xp:text>
+					</xp:column>
+					<xp:column id="porc_porcentajeColumn">
+						<xp:this.facets>
+							<xp:label value="Porcentual" id="labelPorc_porcentaje"
+								xp:key="header" style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:text escape="true"
+							value="#{unPorcentual.porc_porcentaje}" id="porc_porcentaje">
 						</xp:text>
 					</xp:column>
 					<xp:column
-						id="edf_importeInteresPunitorioDeudoresColumn"
+						id="porc_importeHonorariosColumn"
 						style="text-align:center">
 						<xp:this.facets>
-							<xp:label value="Interés 1er Vto"
-								id="label5" xp:key="header" style="font-weight:bold">
+							<xp:label value="Honorarios"
+								id="labelPorc_importeHonorarios" xp:key="header" style="font-weight:bold">
 							</xp:label>
 						</xp:this.facets>
 						<xp:text escape="true"
-							value="#{unEdificio.edf_importeInteresPunitorioDeudores}"
-							id="edf_importeInteresPunitorioDeudores">
-						</xp:text>
-						<xp:label value="%" id="Signo1"></xp:label>
-					</xp:column>
-					<xp:column
-						id="edf_fechaPrimerVencimientoRecibosColumn">
-						<xp:this.facets>
-							<xp:label value="1er Vto" id="label6"
-								xp:key="header" style="font-weight:bold">
-							</xp:label>
-						</xp:this.facets>
-						<xp:text escape="true"
-							value="#{unEdificio.edf_fechaPrimerVencimientoRecibos}"
-							id="edf_fechaPrimerVencimientoRecibos">
+							value="#{unPorcentual.porc_importeHonorarios}"
+							id="porc_importeHonorarios">
 						</xp:text>
 					</xp:column>
 					<xp:column
-						id="edf_importeRecargoSegundoVencimientoColumn"
+						id="porc_posicionColumn"
 						style="text-align:center">
 						<xp:this.facets>
-							<xp:label value="Interés 2do Vto"
-								id="label7" xp:key="header" style="font-weight:bold">
+							<xp:label value="Posicion"
+								id="labelPorc_posicion" xp:key="header" style="font-weight:bold">
 							</xp:label>
 						</xp:this.facets>
 						<xp:text escape="true"
-							value="#{unEdificio.edf_importeRecargoSegundoVencimiento}"
-							id="edf_importeRecargoSegundoVencimiento">
-						</xp:text>
-						<xp:label value="%" id="Signo2"></xp:label>
-					</xp:column>
-					<xp:column
-						id="edf_fechaSegundoVencimientoRecibosColumn">
-						<xp:this.facets>
-							<xp:label value="2do Vto" id="label8"
-								xp:key="header" style="font-weight:bold">
-							</xp:label>
-						</xp:this.facets>
-						<xp:text escape="true"
-							value="#{unEdificio.edf_fechaSegundoVencimientoRecibos}"
-							id="edf_fechaSegundoVencimientoRecibos">
+							value="#{unPorcentual.porc_posicion}"
+							id="porc_posicion">
 						</xp:text>
 					</xp:column>
 				</xp:dataTable>
