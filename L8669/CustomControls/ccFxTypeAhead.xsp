@@ -5,7 +5,7 @@
 
 	<xe:widgetContainer id="widgetContainerTypeAhead"
 		styleClass="form-inline" style="width:50%">
-		<xp:inputText id="typeAheadSearch" style="width:80%"
+		<xp:inputText id="typeAheadSearch" style="width:100%"
 			immediate="true">
 			<xp:this.attrs>
 				<xp:attr
