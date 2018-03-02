@@ -31,7 +31,7 @@ for (var i = 0; i < listaEdificios.length; i++) {
 		
     results.push({
 	    codigoEdificio: codigoEdificio,
-	    descripcionEdificio: listaEdificios[i].split("|")[0].trim(),
+	    descripcionEdificio: "(" + codigoEdificio + ") " + listaEdificios[i].split("|")[0].trim(),
 	    selected: seleccionado
     });
 }
@@ -385,7 +385,7 @@ var dbConf = new Array(@DbName()[0], confDb.getFilePath());
 								<xp:this.value><![CDATA[#{javascript:"<tbody>"}]]></xp:this.value>
 							</xp:text>
 							<xp:table styleClass="table-hover">
-								<xp:repeat id="repeatEdificiosPorUsuario" rows="15"
+								<xp:repeat id="repeatEdificiosPorUsuario" rows="50"
 									var="rptEdificiosPorUsuario" style="width:400px"
 									value="#{objDataEdificiosPorUsuario}" indexVar="idxEdificios">
 

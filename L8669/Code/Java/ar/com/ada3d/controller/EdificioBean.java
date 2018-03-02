@@ -42,6 +42,8 @@ public class EdificioBean implements Serializable {
 	private static List<Edificio> listaEdificios;
 	private static List<Edificio> listaEdificiosTrabajo;
 	private boolean isMasivoActualizado = false;
+	@SuppressWarnings("unused")
+	private int cantidadTotalEdificiosTrabajo;
 
 	
 	/**
@@ -141,7 +143,10 @@ public class EdificioBean implements Serializable {
 	 */
 	private void AddEdificiosAs400() {
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
-
+		
+		//Para convertir a Array de un Vector<Object>
+		ArrayList<String> tempEdificiosSinAcceso = docUsuario.getEdificiosNoAccessLista();		
+		
 		if (!(listaEdificios == null)){
 			listaEdificios.clear();
 			listaEdificiosTrabajo.clear();
@@ -168,7 +173,9 @@ public class EdificioBean implements Serializable {
 			myEdificio = actualizoUnEdificioAs400( myEdificio, strLinea);
 			
 			listaEdificios.add(myEdificio);
-			if(!docUsuario.getEdificiosNoAccessLista().contains(strLinea.split("\\|")[0].trim())){
+			if (tempEdificiosSinAcceso.isEmpty()){
+				listaEdificiosTrabajo.add(myEdificio);				
+			}else if(!tempEdificiosSinAcceso.contains(strLinea.split("\\|")[0].trim())){
 				listaEdificiosTrabajo.add(myEdificio);
 			}
 			AddEdificioMap(myEdificio); // Lo agrego al mapa por código
@@ -721,6 +728,8 @@ public class EdificioBean implements Serializable {
 					Calendar calMin = Calendar.getInstance();
 					calMin.setTime(myEdificio.getEdf_fechaProximaLiquidacion());
 					calMin.add(Calendar.DATE, 1);
+					Calendar calMax = Calendar.getInstance();
+					calMax.setTime(myEdificio.getEdf_fechaSegundoVencimientoRecibos());
 					
 					//1° Vto
 					if(myEdificio.getEdf_importeInteresPunitorioDeudores().compareTo(BigDecimal.ZERO) > 0 && prm_campo.equals("fechaPrimerVtoMasivo")){
@@ -732,7 +741,12 @@ public class EdificioBean implements Serializable {
 						calNew.set(Calendar.SECOND, 0);
 						calNew.set(Calendar.MILLISECOND, 0);
 						
-						if (calNew.before(calMin) || calNew.equals(calMin)) {
+						if(myEdificio.getEdf_codigo().equals("VE$")){
+							System.out.println("calNew:" + ar.com.ada3d.utilidades.Conversores.DateToString(calNew.getTime(), "dd/MM/yyyy") );
+							System.out.println("calMax:" + ar.com.ada3d.utilidades.Conversores.DateToString(calMax.getTime(), "dd/MM/yyyy") );
+							System.out.println("is after" + calNew.after(calMax));
+						}
+						if (calNew.before(calMin) || calNew.equals(calMin) || calNew.equals(calMax) || (calNew.after(calMax) && myEdificio.getEdf_importeRecargoSegundoVencimiento().compareTo(BigDecimal.ZERO) > 0)) {
 							arrAcumulaErrorCodigoEdificio.add(myEdificio.getEdf_codigo());
 							//listAcumulaErrores.add(prm_campo + "~Edificio " + myEdificio.getEdf_codigo() + " la fecha de primer vto. no puede ser menor a " + ar.com.ada3d.utilidades.Conversores.DateToString(calMin.getTime(), "dd/MM/yyyy" ));
 						}else{
@@ -778,7 +792,7 @@ public class EdificioBean implements Serializable {
 				if (countEdificiosModificados > 0){
 					listAcumulaErrores.add(prm_campo + "~Los edificios " + arrAcumulaErrorCodigoEdificio.toString().replace("[","").replace("]","") + " no han sido modificados con la fecha " + tempFecha + " , favor de revisar. Se actualizaron " + countEdificiosModificados + " edificios.");
 				}else{
-					listAcumulaErrores.add(prm_campo + "~No se ha modificado ningún edificio con la fecha " + tempFecha + " , favor de revisar.");
+					listAcumulaErrores.add(prm_campo + "~No se ha modificado ningún edificio con la fecha " + tempFecha + " , favor de revisar. Recuerde que la fecha de 1er Vto. debe ser menor que la de 2do Vto.");
 				}
 			}
 		}else{
@@ -829,7 +843,7 @@ public class EdificioBean implements Serializable {
 						myEdificio.setEdf_importeMasivoE12(null);//reinicio valores
 				}
 				//fin E12
-				
+	
 				//ini E08A
 				if(myEdificio.getEdf_importeMasivoE08A() != null){
 						if(tempE08A.equals("")){
@@ -885,8 +899,6 @@ public class EdificioBean implements Serializable {
 				//fin VTOEX2
 			}// FIN recorrer edificios
 
-			
-			
 			if(!listaEdificiosE12.isEmpty()){
 				listSQL.add("PH_E01~SET E12 = " + tempE12 + " WHERE EDIF IN (" + listaEdificiosE12.toString().replace("[","").replace("]","") + ")");
 			}
@@ -915,7 +927,7 @@ public class EdificioBean implements Serializable {
 				Document docDummy = JSFUtil.getDocDummy();
 				String tempLista = temp.split("\\~")[1];
 				docDummy.appendItemValue("tabla", temp.split("\\~")[0]);
-				docDummy.appendItemValue("LISTA_EDIF", tempLista.replace(",","', '").replace("(","('").replace(")","')"));
+				docDummy.appendItemValue("LISTA_EDIF", tempLista.replace(", ","', '").replace("(","('").replace(")","')"));
 				if (query.updateAS("updateMasivoEdificios", docDummy)) {
 					
 				}else{
@@ -946,6 +958,7 @@ public class EdificioBean implements Serializable {
 	}
 	
 	
+	
 	//*** Getters & Setters *****
 	
 	public List<Edificio> getListaEdificios() {
@@ -970,6 +983,10 @@ public class EdificioBean implements Serializable {
 
 	public void setEdificio(Edificio edificio) {
 		this.edificio = edificio;
+	}
+
+	public int getCantidadTotalEdificiosTrabajo() {
+		return listaEdificiosTrabajo.size();
 	}
 
 }
