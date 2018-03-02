@@ -1,15 +1,15 @@
 package ar.com.ada3d.utilidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
 import org.openntf.domino.*;
 import org.openntf.domino.xsp.XspOpenLogUtil;
 
 public class DocUsr implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private final HashMap<String, String> _map;
-	private Vector<Object> edificiosNoAccessLista;
+	private ArrayList<String> edificiosNoAccessLista;
 
 
 	public DocUsr() {
@@ -50,8 +50,13 @@ public class DocUsr implements Serializable{
 					this._map.put("userDB", currentDB.getFileName().substring(
 							currentDB.getFileName().length() - 8, 5));
 
-					this.edificiosNoAccessLista = docUsuario
-							.getItemValue("usr_EdificiosSinAcceso_cod");
+					//Para convertir de Vector<Object> a un ArrayList<String> 
+					ArrayList<String> tempEdificiosSinAcceso = new ArrayList<String>();
+					for (Object object : docUsuario
+							.getItemValue("usr_EdificiosSinAcceso_cod")) {
+						tempEdificiosSinAcceso.add(object.toString());
+					}
+					this.edificiosNoAccessLista = tempEdificiosSinAcceso;
 				}
 				
 			} else {
@@ -156,11 +161,11 @@ public class DocUsr implements Serializable{
 		return ret;
 	}
 
-	public Vector<Object> getEdificiosNoAccessLista() {
+	public ArrayList<String> getEdificiosNoAccessLista() {
 		return edificiosNoAccessLista;
 	}
 
-	public void setEdificiosNoAccessLista(Vector<Object> edificiosNoAccessLista) {
+	public void setEdificiosNoAccessLista(ArrayList<String> edificiosNoAccessLista) {
 		this.edificiosNoAccessLista = edificiosNoAccessLista;
 	}
 
