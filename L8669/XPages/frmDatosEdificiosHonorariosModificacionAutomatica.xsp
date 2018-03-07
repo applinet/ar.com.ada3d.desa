@@ -29,7 +29,7 @@
 									</xe:basicLeafNode>
 								</xe:this.dropDownNodes>
 								<xp:inputText
-									id="importeInteresPunitorioDeudoresMasivo"
+									id="interesPunitorioDeudoresMasivo"
 									style="text-align:right; width:100.0px; display: inline;">
 									<xp:eventHandler event="onkeypress"	submit="false">
 										<xp:this.script><![CDATA[var key = thisEvent.keyCode || thisEvent.which;
@@ -127,7 +127,7 @@ if (key == 13) {
 					<xp:button value="btnIntereses1" id="btnAplicar1">
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="partial" refreshId="PNL_container">
-							<xp:this.action><![CDATA[#{javascript:btnAplicarMasivo("importeInteresPunitorioDeudoresMasivo");}]]></xp:this.action>
+							<xp:this.action><![CDATA[#{javascript:btnAplicarMasivo("interesPunitorioDeudoresMasivo");}]]></xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
 					<xp:button value="btnVto1" id="btnAplicar2">

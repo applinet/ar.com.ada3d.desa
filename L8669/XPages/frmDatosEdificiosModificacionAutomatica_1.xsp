@@ -38,7 +38,7 @@ context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
 						</xp:link>
 					</xp:column>
 					<xp:column
-						id="edf_importeInteresPunitorioDeudoresColumn"
+						id="edf_interesPunitorioDeudoresColumn"
 						style="text-align:center">
 						<xp:this.facets>
 							<xp:label value="Interés 1er Vto"
@@ -46,8 +46,8 @@ context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
 							</xp:label>
 						</xp:this.facets>
 						<xp:text escape="true"
-							value="#{unEdificio.edf_importeInteresPunitorioDeudores}"
-							id="edf_importeInteresPunitorioDeudores">
+							value="#{unEdificio.edf_interesPunitorioDeudores}"
+							id="edf_interesPunitorioDeudores">
 						</xp:text>
 						<xp:label value="%" id="Signo1"></xp:label>
 					</xp:column>
@@ -64,7 +64,7 @@ context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
 						</xp:text>
 					</xp:column>
 					<xp:column
-						id="edf_importeRecargoSegundoVencimientoColumn"
+						id="edf_interesRecargoSegundoVencimientoColumn"
 						style="text-align:center">
 						<xp:this.facets>
 							<xp:label value="Interés 2do Vto"
@@ -72,8 +72,8 @@ context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
 							</xp:label>
 						</xp:this.facets>
 						<xp:text escape="true"
-							value="#{unEdificio.edf_importeRecargoSegundoVencimiento}"
-							id="edf_importeRecargoSegundoVencimiento">
+							value="#{unEdificio.edf_interesRecargoSegundoVencimiento}"
+							id="edf_interesRecargoSegundoVencimiento">
 						</xp:text>
 						<xp:label value="%" id="Signo2"></xp:label>
 					</xp:column>
@@ -95,7 +95,7 @@ context.redirectToPage("frmDatosEdificios.xsp")}]]></xp:this.action>
 					<xp:button value="btnHidden" id="btnAplicar1">
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="partial" refreshId="PNL_container">
-							<xp:this.action><![CDATA[#{javascript:btnAplicarMasivo("importeInteresPunitorioDeudoresMasivo");}]]></xp:this.action>
+							<xp:this.action><![CDATA[#{javascript:btnAplicarMasivo("interesPunitorioDeudoresMasivo");}]]></xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
 					<xp:button value="btnHidden" id="btnAplicar2">
