@@ -39,8 +39,10 @@
 								</xe:this.dropDownNodes>
 								<xp:inputText
 									id="interesPunitorioDeudoresMasivo"
-									style="text-align:right; width:100.0px; display: inline;">
-									<xp:eventHandler event="onkeypress"	submit="false">
+									style="text-align:right; width:100.0px; display: inline;"
+									tabindex="1">
+									<xp:eventHandler event="onkeypress"
+										submit="false">
 										<xp:this.script><![CDATA[var key = thisEvent.keyCode || thisEvent.which;
 if (key == 13) {
     document.getElementById("#{id:btnAplicarInteresPunitorioDeudoresMasivo}").click();
@@ -74,7 +76,7 @@ if (key == 13) {
 									</xe:basicLeafNode>
 								</xe:this.dropDownNodes>
 								<xp:inputText
-									id="fechaPrimerVtoMasivo">
+									id="fechaPrimerVtoMasivo" tabindex="2">
 									<xp:eventHandler event="onkeypress"
 										submit="false">
 										<xp:this.script><![CDATA[var key = thisEvent.keyCode || thisEvent.which;
@@ -109,7 +111,8 @@ if (key == 13) {
 								</xe:this.dropDownNodes>
 								<xp:inputText
 									id="recargoSegundoVencimientoMasivo"
-									style="text-align:right; width:100.0px; display: inline;">
+									style="text-align:right; width:100.0px; display: inline;"
+									tabindex="3">
 									<xp:eventHandler event="onkeypress"
 										submit="false">
 										<xp:this.script><![CDATA[var key = thisEvent.keyCode || thisEvent.which;
@@ -148,7 +151,7 @@ if (key == 13) {
 									</xe:basicLeafNode>
 								</xe:this.dropDownNodes>
 								<xp:inputText
-									id="fechaSegundoVtoMasivo">
+									id="fechaSegundoVtoMasivo" tabindex="4">
 									<xp:eventHandler event="onkeypress"
 										submit="false">
 										<xp:this.script><![CDATA[var key = thisEvent.keyCode || thisEvent.which;
