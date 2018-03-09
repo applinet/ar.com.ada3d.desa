@@ -143,8 +143,6 @@ public class EdificioBean implements Serializable {
 	 */
 	private void AddEdificiosAs400() {
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
-		
-		//Para convertir a Array de un Vector<Object>
 		ArrayList<String> tempEdificiosSinAcceso = docUsuario.getEdificiosNoAccessLista();		
 		if (!(listaEdificios == null)){
 			listaEdificios.clear();
@@ -681,8 +679,6 @@ public class EdificioBean implements Serializable {
 			}else if(prm_edificio.getEdf_fechaSegundoVencimientoRecibos() != null){
 				Calendar calSegundoVto = Calendar.getInstance();
 				calSegundoVto.setTime(prm_edificio.getEdf_fechaSegundoVencimientoRecibos());
-				if(prm_edificio.getEdf_codigo().equals("VE:")) System.out.println("calPrimerVto:" + calPrimerVto.getTime());
-				if(prm_edificio.getEdf_codigo().equals("VE:")) System.out.println("calSegundoVto:" + calSegundoVto.getTime());
 				if(calPrimerVto.after(calSegundoVto)){
 					strAcumulaErrores = "edf_fechaPrimerVencimientoRecibos~" + prm_edificio.getEdf_codigo() + ". La fecha de segundo vto. no permite modificar la fecha de primer vto.";
 				}
@@ -1128,7 +1124,7 @@ public class EdificioBean implements Serializable {
 						else if (tempE08A.equals(ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myEdificio.getEdf_importeMasivoE08A(),1))){
 							listaEdificiosE08A.add(myEdificio.getEdf_codigo());						
 						}else{
-							listSQL.add("PH_E01~SET E08A = " + tempE12 + " WHERE EDIF IN (" + listaEdificiosE08A.toString().replace("[","").replace("]","") + ")");
+							listSQL.add("PH_E01~SET E08A = " + tempE08A + " WHERE EDIF IN (" + listaEdificiosE08A.toString().replace("[","").replace("]","") + ")");
 							tempE08A = ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myEdificio.getEdf_importeMasivoE08A(),1);
 							listaEdificiosE08A.clear();//reinicio valores
 							listaEdificiosE08A.add(myEdificio.getEdf_codigo());
@@ -1178,7 +1174,7 @@ public class EdificioBean implements Serializable {
 				listSQL.add("PH_E01~SET E12 = " + tempE12 + " WHERE EDIF IN (" + listaEdificiosE12.toString().replace("[","").replace("]","") + ")");
 			}
 			if(!listaEdificiosE08A.isEmpty()){
-				listSQL.add("PH_E01~SET E08A = " + tempE12 + " WHERE EDIF IN (" + listaEdificiosE08A.toString().replace("[","").replace("]","") + ")");
+				listSQL.add("PH_E01~SET E08A = " + tempE08A + " WHERE EDIF IN (" + listaEdificiosE08A.toString().replace("[","").replace("]","") + ")");
 			}
 			if(!listaEdificiosVTOEX1.isEmpty()){
 				listSQL.add("PH_DIFED~SET VTOEX1 = " + tempVTOEX1 + " WHERE EDIF IN (" + listaEdificiosVTOEX1.toString().replace("[","").replace("]","") + ")");
