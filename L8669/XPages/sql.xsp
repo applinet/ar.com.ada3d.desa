@@ -3,7 +3,7 @@
 	xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar">
 
-	<debug:toolbar defaultCollapsed="false" collapseTo="left"></debug:toolbar>
+	
 	<xp:this.resources>
 		<xp:script src="/viernes.jss" clientSide="false"></xp:script>
 	</xp:this.resources>
