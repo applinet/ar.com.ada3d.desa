@@ -1,17 +1,21 @@
 package ar.com.ada3d.connect;
 
 import java.io.Serializable;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import org.openntf.domino.Document;
 
+import ar.com.ada3d.model.Porcentual;
 import ar.com.ada3d.utilidades.CfgDataSource;
 import ar.com.ada3d.utilidades.CfgTablas;
 import ar.com.ada3d.utilidades.JSFUtil;
@@ -98,7 +102,8 @@ public class QueryAS400 implements Serializable {
 			connection = DriverManager.getConnection(configDs.getUrlConexion(),
 					configDs.getUserRead(), configDs.getPassRead());
 			Statement stmt = connection.createStatement();
-
+			
+		
 			
 			ResultSet rs = stmt.executeQuery(configTabla.getStrsSQL());
 
@@ -226,9 +231,9 @@ public class QueryAS400 implements Serializable {
 	 * 
 	 * @return: Verdadero si realizó el update, sino falso
 	 */
-	public boolean updateBatchAS(String param_clave, Document param_doc) {
+	public boolean updateBatchAS(String param_clave, Document param_doc,  List<Porcentual> listaHonorariosEdificiosTrabajo) {
 		Connection connection = null;
-		
+		PreparedStatement pstmt = null;
 		if (!initConexion()) return false;
 		Document docTabla = JSFUtil.getDocConexiones_y_Tablas(param_clave);
 		if (docTabla == null)
@@ -252,33 +257,33 @@ public class QueryAS400 implements Serializable {
 
 		
 		try {
-			System.out.println("1");
 			DriverManager
 					.registerDriver(new com.ibm.as400.access.AS400JDBCDriver());
-			System.out.println("2");
 			connection = DriverManager.getConnection(configDs.getUrlConexion(),
 					configDs.getUserWrite(), configDs.getPassWrite());
-			System.out.println("3");
 			
-			Statement stmt = connection.createStatement();
-			System.out.println("4");
 			
-			//if (configTabla.getMsgConsola().equals("1"))
-				//System.out.println(configTabla.getStrsSQL());
+			pstmt = connection.prepareStatement("UPDATE L8669B.PH_E01 SET ? = ? WHERE EDIF=?");
 			
-			connection.setAutoCommit(false);
 			
-			String insertEmp1 = "UPDATE L8669B.PH_E01 SET E391 = 125 WHERE EDIF IN ('VE$')";
-			String insertEmp2 = "UPDATE L8669B.PH_E01 SET E391 = 126 WHERE EDIF IN ('VE>')";
-			String insertEmp3 = "UPDATE L8669B.PH_E01 SET E391 = 127 WHERE EDIF IN ('VE:')";
-			System.out.println("5");
-			stmt.addBatch(insertEmp1);//inserting Query in stmt
-			stmt.addBatch(insertEmp2);
-			stmt.addBatch(insertEmp3);
-			stmt.executeBatch();
+			pstmt.setString(1, "E391");
+			pstmt.setInt(2, 777);
+			pstmt.setString(3, "VE$");
+			pstmt.addBatch();
+			pstmt.setString(1, "E391");
+			pstmt.setInt(2, 888);
+			pstmt.setString(3,"VE>");
+			pstmt.addBatch();
+			int[] numUpdates = pstmt.executeBatch();
+			for (int i=0; i < numUpdates.length; i++) {
+				if (numUpdates[i] == Statement.SUCCESS_NO_INFO)
+			      System.out.println("Execution " + i +": unknown number of rows updated");
+			}
 			connection.commit();
+			
 			return true;
-		
+			
+			
 		} catch (SQLException e) {
 			System.out.println("**ERROR UPDATE ** (param_clave:" + param_clave
 					+ ") - " + e.getMessage());
@@ -287,6 +292,8 @@ public class QueryAS400 implements Serializable {
 		
 		finally {
 			try {
+				if (pstmt != null)
+					pstmt.close();
 				if (connection != null)
 					connection.close();
 			} catch (SQLException e) {
