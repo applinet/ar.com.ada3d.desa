@@ -75,6 +75,7 @@
 										</xe:this.children>
 									</xe:repeatTreeNode>
 								</xe:this.children>
+								
 							</xe:basicContainerNode>
 						</xe:this.children>
 						<xe:this.value><![CDATA[#{javascript:var dbConf:NotesDatabase = getDbCfg();//base configuracion
