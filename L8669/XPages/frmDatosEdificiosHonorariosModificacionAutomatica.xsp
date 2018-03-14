@@ -4,7 +4,17 @@
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.resources>
 		<xp:styleSheet href="/xpDataTable.css"></xp:styleSheet>
-	</xp:this.resources>	
+		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js"
+			clientSide="true">
+		</xp:script>
+	</xp:this.resources>
+
+	<xp:scriptBlock id="scriptBlockMaskedJquery">
+		<xp:this.value><![CDATA[jQuery(function($){
+	x$("#{id:porcentajePorAplicar}").mask('000,0', {reverse: true});
+});    ]]></xp:this.value>
+	</xp:scriptBlock>
+
 	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="false">
 		<xp:this.facets>
@@ -67,7 +77,8 @@ if (key == 13) {
 										id="label10"
 										style="text-align:right; display: inline;margin-left:5.0%">
 									</xp:label>
-									<xp:comboBox id="comboBox1" value="#{porcentualMasivoBean.tipoRedondeo}"
+									<xp:comboBox id="comboBox1"
+										value="#{porcentualMasivoBean.tipoRedondeo}"
 										style="text-align:right; width:200.0px; display: inline;">
 										<xp:selectItem
 											itemLabel="Según cálculo" itemValue="2">
@@ -84,7 +95,7 @@ if (key == 13) {
 										<xp:selectItem
 											itemLabel="Cuatro últimas cifras" itemValue="-2">
 										</xp:selectItem>
-										
+
 										<xp:eventHandler
 											event="onchange" submit="false">
 											<xp:this.script><![CDATA[if(document.getElementById("#{id:porcentajePorAplicar}").value != null && document.getElementById("#{id:porcentajePorAplicar}").value != '' )
@@ -159,7 +170,7 @@ if (key == 13) {
 					<xp:button value="btnAplicarMasivo"
 						id="btnAplicarMasivo">
 						<xp:eventHandler event="onclick" submit="true"
-							refreshMode="partial" refreshId="PNL_container">
+							refreshMode="partial" refreshId="edificiosTable">
 							<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = porcentualMasivoBean.modificoHonorariosMasivos(getComponent("porcentajePorAplicar").getValue());
 //getComponent("porcentajePorAplicar").getValue()
 if(msgValidacion.isEmpty()){

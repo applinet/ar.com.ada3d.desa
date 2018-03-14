@@ -74,6 +74,7 @@ public class PorcentualMasivoBean implements Serializable {
 		List<Porcentual> listaPorcentualesEdificio = new ArrayList<Porcentual>();
 		BigDecimal tempImporteHonorarios; //Para definir antes si es cero no va
 		int posicionPorcentaje = 1;
+		int posicionReal = 1;
 		int posicionHonorarios = 5;
 		for(int i=1; i<5; i++){ //Son 4 porcentuales por ahora
 			tempImporteHonorarios = new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[posicionHonorarios].trim(), Locale.UK, 2));
@@ -81,8 +82,8 @@ public class PorcentualMasivoBean implements Serializable {
 			if(tempImporteHonorarios.compareTo(BigDecimal.ZERO) != 0 && !strLinea.split("\\|")[posicionPorcentaje].trim().equals("0")){ //				
 				myPorcentual = new Porcentual();
 				myPorcentual.setPorc_edf_codigo(strLinea.split("\\|")[0].trim());
-				myPorcentual.setPorc_posicion(i);
-				myPorcentual.setPorc_titulo("Honorarios % " + i);
+				myPorcentual.setPorc_posicion(posicionReal);
+				myPorcentual.setPorc_titulo("Honorarios % " + posicionReal);
 				myPorcentual.setPorc_porcentaje(Integer.parseInt(strLinea.split("\\|")[posicionPorcentaje].trim()));
 				myPorcentual.setPorc_importeHonorarios(tempImporteHonorarios);
 				myPorcentual.setPorc_importeHonorariosMasivo(tempImporteHonorarios);
@@ -90,6 +91,7 @@ public class PorcentualMasivoBean implements Serializable {
 				posicionHonorarios = posicionHonorarios + 1;
 				listaPorcentualesEdificio.add(myPorcentual);
 			}
+			posicionReal = posicionReal + 1;
 		}
 		
 		return listaPorcentualesEdificio;
@@ -105,8 +107,8 @@ public class PorcentualMasivoBean implements Serializable {
 		}else if(prm_valor instanceof Double || prm_valor instanceof Long){
 			
 			BigDecimal valor = new BigDecimal(prm_valor.toString());
-			if(valor.compareTo(new BigDecimal(9999)) == 1){ //Hasta 9999
-				listAcumulaErrores.add("porcentajePorAplicar~El % de aumento no puede superar el 9999 %" );
+			if(valor.compareTo(new BigDecimal(999)) == 1){ //Hasta 999
+				listAcumulaErrores.add("porcentajePorAplicar~El % de aumento no puede superar el 999 %" );
 				return listAcumulaErrores;
 			}
 			if(valor.compareTo(new BigDecimal(-99)) == -1){ //Hasta -99
@@ -139,7 +141,7 @@ public class PorcentualMasivoBean implements Serializable {
 			
 			QueryAS400 query = new QueryAS400();
 			
-			if (query.updateBatchAS("updateEdificiosPH_E01", null)) {
+			if (query.updateBatchAS("updateEdificiosPH_E01", null, listaHonorariosEdificiosTrabajo)) {
 				System.out.println("update ok");
 			}else{
 				throw new java.lang.Error("No se pudo actualizar la tabla PH_E01.");
