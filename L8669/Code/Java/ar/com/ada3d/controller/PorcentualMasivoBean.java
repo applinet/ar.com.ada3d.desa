@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.openntf.domino.Document;
+
 import lotus.domino.NotesException;
 
 import ar.com.ada3d.connect.QueryAS400;
@@ -19,7 +21,7 @@ public class PorcentualMasivoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public PorcentualMasivoBean() {
-		AddPorcentualAs400();
+		fillPorcentualAs400();
 	}
 
 	public List<Porcentual> listaHonorariosEdificiosTrabajo;
@@ -27,8 +29,11 @@ public class PorcentualMasivoBean implements Serializable {
 	private String tipoRedondeo;
 	
 	
-	//Agregar tomando del AS400
-	private void AddPorcentualAs400() {
+	/**
+	 * Completa la lista de porcentuales desde el AS400
+	 * Carga los valores en: listaHonorariosEdificiosTrabajo
+	 * */
+	private void fillPorcentualAs400() {
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		ArrayList<String> tempEdificiosSinAcceso = docUsuario.getEdificiosNoAccessLista();
 		
@@ -97,6 +102,11 @@ public class PorcentualMasivoBean implements Serializable {
 		return listaPorcentualesEdificio;
 	}
 	
+	/**
+	 * En la vista de honorarios masivos actualiza los valores temporalen en pantalla
+	 * @param el % que tengo que aplicarle a cada honorario
+	 * @return un array de texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
+	 * */
 	public ArrayList<String> modificoHonorariosMasivos(Object prm_valor){		
 		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
 		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
@@ -122,9 +132,9 @@ public class PorcentualMasivoBean implements Serializable {
 			for (Porcentual myPorcentual : listaHonorariosEdificiosTrabajo){
 				if( (lock.isLocked("edf_" + myPorcentual.getPorc_edf_codigo()) && lock.getLock("edf_" + myPorcentual.getPorc_edf_codigo()).equals(strUsuario) ) || !lock.isLocked("edf_" + myPorcentual.getPorc_edf_codigo())  ){
 					tempCalculo = myPorcentual.getPorc_importeHonorarios().multiply(valor).divide(new BigDecimal(100));
-					tempCalculo = tempCalculo.setScale(enteroTipoRedondeo, RoundingMode.HALF_EVEN);//ajusto a 2 decimales
-					
-					myPorcentual.setPorc_importeHonorariosMasivo(myPorcentual.getPorc_importeHonorarios().add(tempCalculo));
+					tempCalculo = myPorcentual.getPorc_importeHonorarios().add(tempCalculo); //Hago la suma con todos los decimales
+					tempCalculo = tempCalculo.setScale(enteroTipoRedondeo, RoundingMode.HALF_EVEN);//ajusto a los decimales solicitados
+					myPorcentual.setPorc_importeHonorariosMasivo(tempCalculo.setScale(2, RoundingMode.HALF_EVEN)); //le agrego los 2 decimales al guardar
 					isMasivoActualizado = true;
 				}else{
 					listAcumulaErrores.add("porcentajePorAplicar~El edificio " + myPorcentual.getPorc_edf_codigo() + " no se pudo actualizar ya que está siendo modificado por: " + lock.getLock("edf_" + myPorcentual.getPorc_edf_codigo()).substring(4) );
@@ -134,17 +144,22 @@ public class PorcentualMasivoBean implements Serializable {
 		return(listAcumulaErrores);
 	}
 	
+	/**
+	 * En la vista de honorarios masivos guarda los valores temporalen en AS400
+	 * @return un array de texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
+	 * */
 	public ArrayList<String> saveMasivoHonorarios(){
 		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
-		String strSQL;
 		if(isMasivoActualizado){
 			
 			QueryAS400 query = new QueryAS400();
+			Document docDummy = JSFUtil.getDocDummy();
+			docDummy.appendItemValue("LISTA_EDIF", "SET");
 			
-			if (query.updateBatchAS("updateEdificiosPH_E01", null, listaHonorariosEdificiosTrabajo)) {
-				System.out.println("update ok");
+			if (query.updateBatchAS("updateMasivoHonorariosEdificiosBatch", docDummy, listaHonorariosEdificiosTrabajo)) {
+				System.out.println("saveMasivoHonorarios --> updateBatch ok");
 			}else{
-				throw new java.lang.Error("No se pudo actualizar la tabla PH_E01.");
+				listAcumulaErrores.add("No se pudo actualizar la tabla PH_E01.");
 			}
 /*			
 			DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
@@ -157,7 +172,6 @@ public class PorcentualMasivoBean implements Serializable {
 				
 			}
 	*/		
-			listAcumulaErrores.add("porcentajePorAplicar~Gabando.");
 		}
 		return listAcumulaErrores;
 	}

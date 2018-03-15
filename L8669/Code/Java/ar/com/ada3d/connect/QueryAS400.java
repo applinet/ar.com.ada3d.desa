@@ -1,8 +1,7 @@
 package ar.com.ada3d.connect;
 
 import java.io.Serializable;
-import java.sql.Array;
-import java.sql.Connection;
+import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +13,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.openntf.domino.Document;
+import org.openntf.domino.logging.IOpenLogItem.DebugLevel;
 
 import ar.com.ada3d.model.Porcentual;
 import ar.com.ada3d.utilidades.CfgDataSource;
@@ -223,17 +223,22 @@ public class QueryAS400 implements Serializable {
 	}
 
 	
-	/*
-	 * Realiza un Update al AS400 utilizando un documento de configuración que
+	/**
+	 * Realiza un Update al AS400 de Honorariosutilizando un documento de configuración que
 	 * envio el nombre por parámetros. Si le envío un doc en parametros utiliza
 	 * ese, sino el de parametros. Tener en cuenta que si envio un doc, de
 	 * cargar la biblioteca tal como la genera docDummy
-	 * 
+	 * @param clave que busca en la base de configuracion
+	 * @param documento dummy que evalua con el doc de configuracion
+	 * @param lista de porcentuales
 	 * @return: Verdadero si realizó el update, sino falso
 	 */
-	public boolean updateBatchAS(String param_clave, Document param_doc,  List<Porcentual> listaHonorariosEdificiosTrabajo) {
+	public boolean updateBatchAS(String param_clave, Document param_doc,  List<Porcentual> prm_listaHonorariosEdificiosTrabajo) {
 		Connection connection = null;
-		PreparedStatement pstmt = null;
+		PreparedStatement pstmt_1 = null;
+		PreparedStatement pstmt_2 = null;
+		PreparedStatement pstmt_3 = null;
+		PreparedStatement pstmt_4 = null;
 		if (!initConexion()) return false;
 		Document docTabla = JSFUtil.getDocConexiones_y_Tablas(param_clave);
 		if (docTabla == null)
@@ -255,6 +260,8 @@ public class QueryAS400 implements Serializable {
 		// FIN - Siempre hay que hacer esto para que complete la biblioteca en
 		// el sql
 
+		if (configTabla.getMsgConsola().equals("1"))
+			System.out.println(configTabla.getStrsSQL());
 		
 		try {
 			DriverManager
@@ -262,23 +269,74 @@ public class QueryAS400 implements Serializable {
 			connection = DriverManager.getConnection(configDs.getUrlConexion(),
 					configDs.getUserWrite(), configDs.getPassWrite());
 			
+			ArrayList<String> tempControlPorcentual = new ArrayList<String>();
+			pstmt_1 = connection.prepareStatement(configTabla.getStrsSQL() + "E391=? WHERE EDIF=?");
+			pstmt_2 = connection.prepareStatement(configTabla.getStrsSQL() + "E392=? WHERE EDIF=?");
+			pstmt_3 = connection.prepareStatement(configTabla.getStrsSQL() + "E441=? WHERE EDIF=?");
+			pstmt_4 = connection.prepareStatement(configTabla.getStrsSQL() + "E442=? WHERE EDIF=?");
 			
-			pstmt = connection.prepareStatement("UPDATE L8669B.PH_E01 SET ? = ? WHERE EDIF=?");
-			
-			
-			pstmt.setString(1, "E391");
-			pstmt.setInt(2, 777);
-			pstmt.setString(3, "VE$");
-			pstmt.addBatch();
-			pstmt.setString(1, "E391");
-			pstmt.setInt(2, 888);
-			pstmt.setString(3,"VE>");
-			pstmt.addBatch();
-			int[] numUpdates = pstmt.executeBatch();
-			for (int i=0; i < numUpdates.length; i++) {
-				if (numUpdates[i] == Statement.SUCCESS_NO_INFO)
-			      System.out.println("Execution " + i +": unknown number of rows updated");
+			for (Porcentual myPorcentual : prm_listaHonorariosEdificiosTrabajo){
+				switch (myPorcentual.getPorc_posicion()){
+				case 1:
+					pstmt_1.setString(1, ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myPorcentual.getPorc_importeHonorariosMasivo(), 2));
+					pstmt_1.setString(2, myPorcentual.getPorc_edf_codigo());
+					pstmt_1.addBatch();
+					if(!tempControlPorcentual.contains("1"))
+						tempControlPorcentual.add("1");
+					break; 
+				case 2:
+					pstmt_2.setString(1, ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myPorcentual.getPorc_importeHonorariosMasivo(), 2));
+					pstmt_2.setString(2, myPorcentual.getPorc_edf_codigo());
+					pstmt_2.addBatch();
+					if(!tempControlPorcentual.contains("2"))
+						tempControlPorcentual.add("2");
+					break; 
+				case 3:
+					pstmt_3.setString(1, ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myPorcentual.getPorc_importeHonorariosMasivo(), 2));
+					pstmt_3.setString(2, myPorcentual.getPorc_edf_codigo());
+					pstmt_3.addBatch();
+					if(!tempControlPorcentual.contains("3"))
+						tempControlPorcentual.add("3");
+					break; 
+				case 4:
+					pstmt_4.setString(1, ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myPorcentual.getPorc_importeHonorariosMasivo(), 2));
+					pstmt_4.setString(2, myPorcentual.getPorc_edf_codigo());
+					pstmt_4.addBatch();
+					if(!tempControlPorcentual.contains("4"))
+						tempControlPorcentual.add("4");
+					break; 
+				}
 			}
+			
+			int[] numUpdates = null;
+			if(tempControlPorcentual.contains("1")){
+				numUpdates = pstmt_1.executeBatch();
+				for (int i=0; i < numUpdates.length; i++) {
+					if (numUpdates[i] == Statement.SUCCESS_NO_INFO)
+						System.out.println("Execution_1 " + i +": unknown number of rows updated");
+				}
+			}
+			if(tempControlPorcentual.contains("2")){
+				numUpdates = pstmt_2.executeBatch();
+				for (int i=0; i < numUpdates.length; i++) {
+					if (numUpdates[i] == Statement.SUCCESS_NO_INFO)
+						System.out.println("Execution_2 " + i +": unknown number of rows updated");
+				}
+			}
+			if(tempControlPorcentual.contains("3")){
+				numUpdates = pstmt_3.executeBatch();
+				for (int i=0; i < numUpdates.length; i++) {
+					if (numUpdates[i] == Statement.SUCCESS_NO_INFO)
+						System.out.println("Execution_3 " + i +": unknown number of rows updated");
+				}
+			}
+			if(tempControlPorcentual.contains("4")){
+				numUpdates = pstmt_4.executeBatch();
+				for (int i=0; i < numUpdates.length; i++) {
+					if (numUpdates[i] == Statement.SUCCESS_NO_INFO)
+						System.out.println("Execution_4 " + i +": unknown number of rows updated");
+				}
+			}		
 			connection.commit();
 			
 			return true;
@@ -292,8 +350,14 @@ public class QueryAS400 implements Serializable {
 		
 		finally {
 			try {
-				if (pstmt != null)
-					pstmt.close();
+				if (pstmt_1 != null)
+					pstmt_1.close();
+				if (pstmt_2 != null)
+					pstmt_2.close();
+				if (pstmt_3 != null)
+					pstmt_3.close();
+				if (pstmt_4 != null)
+					pstmt_4.close();
 				if (connection != null)
 					connection.close();
 			} catch (SQLException e) {
