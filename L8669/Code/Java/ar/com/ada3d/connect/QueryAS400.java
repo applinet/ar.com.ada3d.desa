@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Vector;
 
 import org.openntf.domino.Document;
-import org.openntf.domino.logging.IOpenLogItem.DebugLevel;
-
 import ar.com.ada3d.model.Porcentual;
 import ar.com.ada3d.utilidades.CfgDataSource;
 import ar.com.ada3d.utilidades.CfgTablas;

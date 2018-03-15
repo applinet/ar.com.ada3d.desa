@@ -17,9 +17,9 @@
 	<xp:scriptBlock id="scriptBlockMaskedJquery">
 		<xp:this.value><![CDATA[jQuery(function($){
     $(".classPrt_importe").mask('0.000.000,00', {reverse: true}); //Por clase porque es un repeat
-    $(".classPorc_importeHonorarios").mask('00,00', {reverse: true}); //Por clase porque es un repeat
+    $(".classPorc_importeHonorarios").mask('0.000.000,00', {reverse: true}); //Por clase porque es un repeat
 	x$("#{id:edf_interesPunitorioDeudores}").mask('000,0', {reverse: true});
-    x$("#{id:edf_interesRecargoSegundoVencimiento}").mask('00,0', {reverse: true});
+    x$("#{id:edf_interesRecargoSegundoVencimiento}").mask('0.000,0', {reverse: true});
     x$("#{id:edf_importeFranqueo}").mask('0,0', {reverse: true});
     x$("#{id:edf_importeMultaDeudores}").mask('00.000,0', {reverse: true});
 });
@@ -337,7 +337,7 @@ if (!msgValidacion.equals("")){
 						<xp:inputText id="edf_interesPunitorioDeudores"
 							value="#{edfObj.edf_interesPunitorioDeudores}"
 							disabled="#{edfObj.edf_isReadMode}"
-							style="text-align:right; width:70.0px; display: inline;">
+							style="text-align:right; width:80.0px; display: inline;">
 							<xp:this.converter>
 								<xp:convertNumber
 									pattern="#,##0.0;(#,##0.0)">
@@ -363,7 +363,7 @@ if (!msgValidacion.equals("")){
 							id="edf_interesRecargoSegundoVencimiento"
 							value="#{edfObj.edf_interesRecargoSegundoVencimiento}"
 							disabled="#{edfObj.edf_isReadMode}"
-							style="text-align:right; width:70.0px; display: inline;">
+							style="text-align:right; width:80.0px; display: inline;">
 							<xp:this.converter>
 								<xp:convertNumber
 									pattern="#,##0.0;(#,##0.0)">
@@ -448,7 +448,7 @@ if (!msgValidacion.equals("")){
 						</xe:formRow>
 					</xe:formColumn>
 
-					<xe:formColumn styleClass="form-group col-sm-4">
+					<xe:formColumn styleClass="form-group col-sm-5">
 						<xe:formRow id="formRow1" labelWidth="50%"
 							styleClass="col-lg-8">
 							<xp:repeat id="repeat2"

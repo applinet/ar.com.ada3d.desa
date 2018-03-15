@@ -115,17 +115,20 @@ public class PorcentualMasivoBean implements Serializable {
 		if(prm_valor == null){
 			listAcumulaErrores.add("porcentajePorAplicar~Debe ingresar un valor.");	
 		}else if(prm_valor instanceof Double || prm_valor instanceof Long){
-			
+			BigDecimal maxImporteHonorarios  = new BigDecimal("9999999.99"); //Es el maximo aceptado por AS400 (5 posiciones AS400)
 			BigDecimal valor = new BigDecimal(prm_valor.toString());
-			if(valor.compareTo(new BigDecimal(999)) == 1){ //Hasta 999
-				listAcumulaErrores.add("porcentajePorAplicar~El % de aumento no puede superar el 999 %" );
+			BigDecimal maxValor  = new BigDecimal("999.9");
+			BigDecimal minValor  = new BigDecimal("-99.9");
+			
+			if(valor.compareTo(maxValor) == 1){ //Hasta 999
+				listAcumulaErrores.add("porcentajePorAplicar~El % de aumento no puede superar el 999,9 %" );
 				return listAcumulaErrores;
 			}
-			if(valor.compareTo(new BigDecimal(-99)) == -1){ //Hasta -99
-				listAcumulaErrores.add("porcentajePorAplicar~El % de disminución no puede ser menor que 99 %" );
+			if(valor.compareTo(minValor) == -1){ //Hasta -99
+				listAcumulaErrores.add("porcentajePorAplicar~El % de disminución no puede ser menor que 99,9 %" );
 				return listAcumulaErrores;
 			}
-			//valor = valor.setScale(1, RoundingMode.HALF_EVEN);//redondeo si puso mas de 1 decimal
+			//valor = valor.setScale(1, RoundingMode.HALF_EVEN);//redondeo si puso mas de 1 decimal, ya no puede
 			BigDecimal tempCalculo;
 			int enteroTipoRedondeo = Integer.parseInt(tipoRedondeo);
 			
@@ -134,8 +137,13 @@ public class PorcentualMasivoBean implements Serializable {
 					tempCalculo = myPorcentual.getPorc_importeHonorarios().multiply(valor).divide(new BigDecimal(100));
 					tempCalculo = myPorcentual.getPorc_importeHonorarios().add(tempCalculo); //Hago la suma con todos los decimales
 					tempCalculo = tempCalculo.setScale(enteroTipoRedondeo, RoundingMode.HALF_EVEN);//ajusto a los decimales solicitados
-					myPorcentual.setPorc_importeHonorariosMasivo(tempCalculo.setScale(2, RoundingMode.HALF_EVEN)); //le agrego los 2 decimales al guardar
-					isMasivoActualizado = true;
+					if(tempCalculo.compareTo(maxImporteHonorarios) == 1){ //Maximo permitido por AS400
+						listAcumulaErrores.add("porcentajePorAplicar~El valor máximo de honorarios es de 9.999.999,99. El edificio " + myPorcentual.getPorc_edf_codigo() + " como supera ese máximo, se visualiza con el máximo posible.");
+						myPorcentual.setPorc_importeHonorariosMasivo(maxImporteHonorarios); 
+					}else{
+						myPorcentual.setPorc_importeHonorariosMasivo(tempCalculo.setScale(2, RoundingMode.HALF_EVEN)); //le agrego los 2 decimales al guardar
+						isMasivoActualizado = true;
+					}
 				}else{
 					listAcumulaErrores.add("porcentajePorAplicar~El edificio " + myPorcentual.getPorc_edf_codigo() + " no se pudo actualizar ya que está siendo modificado por: " + lock.getLock("edf_" + myPorcentual.getPorc_edf_codigo()).substring(4) );
 				}

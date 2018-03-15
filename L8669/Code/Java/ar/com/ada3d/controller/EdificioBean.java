@@ -2,7 +2,6 @@ package ar.com.ada3d.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.math.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -754,14 +753,25 @@ public class EdificioBean implements Serializable {
 			
 		}else if(prm_valor instanceof Double || prm_valor instanceof Long){
 			
-			//Validacion de ambos campos de Intereses
-			
 			BigDecimal valor = new BigDecimal(prm_valor.toString());
-			if(valor.compareTo(new BigDecimal(9999)) == 1){
-				listAcumulaErrores.add(prm_campo + "~El % de interés no puede superar el 9999 %" );
-				return listAcumulaErrores;
+			//valor = valor.setScale(1, RoundingMode.HALF_EVEN);//redondeo si puso mas de 1 decimal --> no puede poner + decimales
+			BigDecimal maxInteresPunitorioDeudoresMasivo  = new BigDecimal("999.9");
+			BigDecimal maxInteresRecargoSegundoVencimiento  = new BigDecimal("9999.9");
+			//Validacion de ambos campos de Intereses tienen distinta longitud
+			if (prm_campo.equals("interesPunitorioDeudoresMasivo")){
+				// 4 posiciones AS400
+				if(valor.compareTo(maxInteresPunitorioDeudoresMasivo) == 1){
+					listAcumulaErrores.add(prm_campo + "~El % de interés no puede superar el 999,9 %" );
+					return listAcumulaErrores;
+				}
+			}else{
+				// 5 posiciones AS400
+				if(valor.compareTo(maxInteresRecargoSegundoVencimiento) == 1){
+					listAcumulaErrores.add(prm_campo + "~El % de interés no puede superar el 9.999,9 %" );
+					return listAcumulaErrores;
+				}
 			}
-			valor = valor.setScale(1, RoundingMode.HALF_EVEN);//redondeo si puso mas de 1 decimal
+			
 			for(Edificio myEdificio : listaEdificiosTrabajo){
 				//Actualizo el edificio
 				//myEdificio = actualizoUnEdificioAs400(myEdificio, "");
