@@ -139,7 +139,9 @@ public class PorcentualMasivoBean implements Serializable {
 					tempCalculo = tempCalculo.setScale(enteroTipoRedondeo, RoundingMode.HALF_EVEN);//ajusto a los decimales solicitados
 					if(tempCalculo.compareTo(maxImporteHonorarios) == 1){ //Maximo permitido por AS400
 						listAcumulaErrores.add("porcentajePorAplicar~El valor máximo de honorarios es de 9.999.999,99. El edificio " + myPorcentual.getPorc_edf_codigo() + " como supera ese máximo, se visualiza con el máximo posible.");
-						myPorcentual.setPorc_importeHonorariosMasivo(maxImporteHonorarios); 
+						if(myPorcentual.getPorc_importeHonorarios().compareTo(maxImporteHonorarios) != 0){
+							myPorcentual.setPorc_importeHonorariosMasivo(maxImporteHonorarios); 
+						}
 					}else{
 						myPorcentual.setPorc_importeHonorariosMasivo(tempCalculo.setScale(2, RoundingMode.HALF_EVEN)); //le agrego los 2 decimales al guardar
 						isMasivoActualizado = true;

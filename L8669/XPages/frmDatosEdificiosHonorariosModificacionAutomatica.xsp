@@ -170,7 +170,7 @@ if (key == 13) {
 						<xp:text escape="true"
 							value="#{unPorcentual.porc_importeHonorariosMasivo}"
 							id="porc_importeHonorariosMasivo">
-							<xp:this.styleClass><![CDATA[#{javascript:porcentualMasivoBean.isMasivoActualizado ? "edificioMasivoCambiado" : ""}]]></xp:this.styleClass>
+							<xp:this.styleClass><![CDATA[#{unPorcentual.porc_importeHonorariosMasivo ne unPorcentual.porc_importeHonorarios ? "edificioMasivoCambiado" : ""}]]></xp:this.styleClass>
 							<xp:this.converter>
 								<xp:convertNumber
 									pattern="#,##0.00;(#,##0.00)">
