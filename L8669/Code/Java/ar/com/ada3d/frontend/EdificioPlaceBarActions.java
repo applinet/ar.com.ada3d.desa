@@ -21,6 +21,11 @@ private void addLeaf(String label) {
 	node.setLabel(label);
 	//node.setHref("/Project_View.xsp" );
 	//node.setOnClick("alert('On Click');");
+	//String script = "window.open(\"" + url.toString() + "\");";
+	String script = "XSP.getElementById(\"" + "#{id:btnClose}" + "\").click()"; 
+    node.setOnClick(script);            
+
+	//node.setOnClick("XSP.getElementById('#{id:btnClose}').click()");
 	addChild(node);
 }
 

@@ -142,8 +142,8 @@ return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 
 
 				</xe:this.titleBarTabs>
-				<xe:this.placeBarActions>
-					<xe:beanTreeNode
+				<xe:this.placeBarActions id="fer">
+					<xe:beanTreeNode 
 						loaded="${not(empty(compositeData.property_PlaceBarActions))}"
 						nodeBean="#{compositeData.property_PlaceBarActions}">
 					</xe:beanTreeNode>
