@@ -75,7 +75,7 @@
 										</xe:this.children>
 									</xe:repeatTreeNode>
 								</xe:this.children>
-								
+
 							</xe:basicContainerNode>
 						</xe:this.children>
 						<xe:this.value><![CDATA[#{javascript:var dbConf:NotesDatabase = getDbCfg();//base configuracion
@@ -142,14 +142,15 @@ return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 
 
 				</xe:this.titleBarTabs>
-				<xe:this.placeBarActions id="fer">
-					<xe:beanTreeNode 
+				<xe:this.placeBarActions>
+					<xe:beanTreeNode
 						loaded="${not(empty(compositeData.property_PlaceBarActions))}"
 						nodeBean="#{compositeData.property_PlaceBarActions}">
 					</xe:beanTreeNode>
 				</xe:this.placeBarActions>
-				<xe:this.placeBar><![CDATA[#{javascript:compositeData.get("property_PlaceBarTitle") != ""}]]></xe:this.placeBar>
+
 				<xe:this.placeBarName><![CDATA[#{javascript:compositeData.get("property_PlaceBarTitle")}]]></xe:this.placeBarName>
+				<xe:this.placeBar><![CDATA[#{javascript:compositeData.get("property_hasPlaceBar")}]]></xe:this.placeBar>
 			</xe:bootstrapResponsiveConfiguration>
 		</xe:this.configuration>
 

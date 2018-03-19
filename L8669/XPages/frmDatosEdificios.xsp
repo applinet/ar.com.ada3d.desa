@@ -37,15 +37,89 @@
 
 	
 	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
- 
-	<xc:ccLayoutBootstrap property_ShowComboEdificio="false"
-		property_PlaceBarActions="ar.com.ada3d.frontend.EdificioPlaceBarActions"
-		property_PlaceBarTitle="Edificio">
+	
+	<xp:div id="buttonBarAffix" styleClass="navbar navbar-inverse"
+		style="width:70%;background-color:rgb(248,247,251);border-color:rgb(247,243,253);text-align:center;margin-top:%;padding-top:5.0px;margin-left:15.0%;margin-right:15.0%">
+		<xp:this.attrs>
+			<xp:attr name="data-spy" value="affix"></xp:attr>
+			<xp:attr name="data-offset-top" value="80"></xp:attr>
+		</xp:this.attrs>
+		<xp:div id="buttonBar">
+		
+		<xp:button value="Modificar" id="btnEdit">
+
+			<xp:this.rendered><![CDATA[#{javascript:if(DocLock.isLocked("edf_" + edfObj.edf_codigo)){
+		if(!DocLock.getLock("edf_" + edfObj.edf_codigo).equals(session.getEffectiveUserName()))
+			return false;		
+	}
+	edfObj.edf_isReadMode; }]]></xp:this.rendered>
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="partial" refreshId="tblEdificio">
+				<xp:this.action><![CDATA[#{javascript:edificioBean.editEdificio(sessionScope.get("edfObj"));}]]></xp:this.action>
+				<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:buttonBar}")]]></xp:this.onComplete>
+			</xp:eventHandler>
+		</xp:button>
+
+		<xp:button value="Cerrar" id="btnClose" styleClass="btn-info">
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="complete" immediate="true">
+
+
+
+				<xp:this.script><![CDATA[if (XSP._isDirty()){
+	  if (confirm ("Está seguro de salir?" + "\n" + "\n" +
+	    "Sus cambios no serán guardados." + "\n" + 
+	    "Presione Aceptar para salir sin guardar, o Cancelar para permanecer en la página.")) {
+	    return true;
+	  } else {
+	    return false;
+	  }
+	} else {
+	  return true;
+	}]]></xp:this.script>
+				<xp:this.action>
+					<xp:actionGroup>
+						<xp:this.condition><![CDATA[#{javascript:if(!edfObj.edf_isReadMode)
+		DocLock.removeLock("edf_" + sessionScope.get("edfObj").edf_codigo)
+	return true;	}]]></xp:this.condition>
+						<xp:openPage name="/ViewDatosEdificios.xsp">
+						</xp:openPage>
+
+
+
+					</xp:actionGroup>
+				</xp:this.action>
+			</xp:eventHandler>
+		</xp:button>
+		<xp:button value="Confirmar" id="btnSave"
+			styleClass="btn-success"
+			rendered="#{javascript:!edfObj.edf_isReadMode}">
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="partial" refreshId="tblEdificio">
+				<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = edificioBean.strValidacionEdificio(sessionScope.get("edfObj"));
+	if(msgValidacion.isEmpty()){	
+		edificioBean.saveEdificio(sessionScope.get("edfObj"));
+		context.redirectToPage("viewDatosEdificios")
+	}else{
+		var msg=new javax.faces.application.FacesMessage();
+		for (i=0;i<msgValidacion.size();i++) {
+			facesContext.addMessage(getComponent(msgValidacion.get(i).split("\~")[0]).getClientId(facesContext),msg(msgValidacion.get(i).split("\~")[1]));
+		}
+		view.postScript("window.scrollTo(0,0)")
+		
+	}}]]></xp:this.action>
+
+				<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
+			</xp:eventHandler>
+		</xp:button>
+		</xp:div>
+	</xp:div>
+	<xc:ccLayoutBootstrap property_ShowComboEdificio="false">
+		<xc:this.property_PlaceBarTitle><![CDATA[""]]></xc:this.property_PlaceBarTitle>
 		<xp:this.facets>
 
 			<xp:panel xp:key="facetMiddle"
 				style="background-image:url(edificios_blanco.png);background-repeat:no-repeat;background-position:top left">
-
 				<xe:formTable id="tblEdificio" formTitle="Edificio"
 					formDescription="Código SASA: #{edfObj.edf_codigo}"
 					fieldHelp="true" disableErrorSummary="false"
@@ -532,4 +606,10 @@ if (!msgValidacion.equals("")){
 
 
 
-</xp:view>
+	<xp:eventHandler event="onClientLoad" submit="false">
+		<xp:this.script><![CDATA[$('.applayout-titlebar').attr('id', 'titleBar');
+$('#titleBar').affix({
+//in order to make it ‘sticky’ to the top…
+offset: {top: 40}
+});]]></xp:this.script>
+	</xp:eventHandler></xp:view>
