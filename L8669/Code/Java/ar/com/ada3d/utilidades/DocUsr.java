@@ -10,12 +10,13 @@ public class DocUsr implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private final HashMap<String, String> _map;
 	private ArrayList<String> edificiosNoAccessLista;
+	private ArrayList<String> ultimaActividad;
+
 
 
 	public DocUsr() {
 		//System.out.println("FPR - Constr. DocUsr");
-		this._map = new HashMap<String, String>();
-		
+		this._map = new HashMap<String, String>();		
 		updateDocUsr();
 	}
 
@@ -169,4 +170,19 @@ public class DocUsr implements Serializable{
 		this.edificiosNoAccessLista = edificiosNoAccessLista;
 	}
 
+	
+	
+	public ArrayList<String> getUltimaActividad() {
+		return ultimaActividad;
+	}
+
+	public void setUltimaActividad(ArrayList<String> ultimaActividad) {
+		this.ultimaActividad = ultimaActividad;
+	}
+
+	public void setUltimaActividad(String ultimaActividad) {
+		if(this.ultimaActividad == null)
+			this.ultimaActividad = new ArrayList<String>();
+		this.ultimaActividad.add(0, ultimaActividad);
+	}
 }

@@ -121,6 +121,9 @@ return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 								label="Cambiar contraseña">
 								<xe:this.href><![CDATA[#{javascript:facesContext.getExternalContext().getRequest().getContextPath()+ "?changepassword&redirectTo=names.nsf?logout"}]]></xe:this.href>
 							</xe:basicLeafNode>
+							<xe:basicLeafNode
+								label="Mis últimos cambios" href="/breadCrum.xsp">
+							</xe:basicLeafNode>
 						</xe:this.children>
 						<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
 					</xe:basicContainerNode>

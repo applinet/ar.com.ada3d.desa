@@ -496,6 +496,9 @@ public class EdificioBean implements Serializable {
 				return;
 		}
 		lock.addLock("edf_" + prm_edificio.getEdf_codigo(), session.getEffectiveUserName());
+		//log de las actividades en la session
+		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
+		docUsuario.setUltimaActividad(setLog("Ha editado el edificio " + prm_edificio.getEdf_codigo()));
 		prm_edificio.setEdf_isReadMode(false);
 		prm_edificio.setEdf_lockedBy(session.getEffectiveUserName());
 		
@@ -574,6 +577,9 @@ public class EdificioBean implements Serializable {
 		}
 		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
 		lock.removeLock("edf_" + prm_edificio.getEdf_codigo());
+		//log de las actividades en la session
+		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
+		docUsuario.setUltimaActividad(setLog("Ha guardado los cambios del edificio " + prm_edificio.getEdf_codigo()));
 	}
 	
 
@@ -1239,6 +1245,11 @@ public class EdificioBean implements Serializable {
 	}
 	
 	
+	private String setLog(String log){
+		Calendar cal = Calendar.getInstance();
+		return ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy HH:mm:ss") + " - " + log;
+		
+	}
 	
 	//*** Getters & Setters *****
 	
