@@ -1,0 +1,5 @@
+.xsp .navbar.applayout-placebar {
+	position: fixed;
+    right: 20px;
+    z-index: 99999;
+}

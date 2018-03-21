@@ -7,14 +7,14 @@ public class EdificioPlaceBarActions extends BasicNodeList {
 private static final long serialVersionUID = 1L;
 
 public EdificioPlaceBarActions() {
-	addLeaf("Modificar Fecha 1er Vto.");
-	addLeaf("Fecha 2do Vto.");
-	addLeaf("Intereses a Deudores");
-	addLeaf("Recargo para el 2do. Vto.");
+	addLeaf("Nuevo Gasto", "btnClose");
+	addLeaf("Alta de Proveedor", "btnSave");
+	addLeaf("Pagar", "btnPagar");
+	addLeaf("Recalcular", "btnClose");
 	
 }
 
-private void addLeaf(String label) {
+private void addLeaf(String label, String boton) {
 	
 	BasicLeafTreeNode node = new
 	BasicLeafTreeNode();
@@ -22,7 +22,8 @@ private void addLeaf(String label) {
 	//node.setHref("/Project_View.xsp" );
 	//node.setOnClick("alert('On Click');");
 	//String script = "window.open(\"" + url.toString() + "\");";
-	String script = "XSP.getElementById(\"" + "#{id:btnClose}" + "\").click()"; 
+	//String script = "$(\"[id$='#{id:btnClose}']\").get(0).click()" ; 
+	String script = "dojo.query(\"[id$='" + boton + "']\")[0].click();";
     node.setOnClick(script);            
 
 	//node.setOnClick("XSP.getElementById('#{id:btnClose}').click()");
