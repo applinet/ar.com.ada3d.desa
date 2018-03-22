@@ -16,8 +16,7 @@ public EdificioPlaceBarActions() {
 
 private void addLeaf(String label, String boton) {
 	
-	BasicLeafTreeNode node = new
-	BasicLeafTreeNode();
+	BasicLeafTreeNode node = new BasicLeafTreeNode();
 	node.setLabel(label);
 	//node.setHref("/Project_View.xsp" );
 	//node.setOnClick("alert('On Click');");

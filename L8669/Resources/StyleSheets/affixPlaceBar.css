@@ -3,3 +3,8 @@
     right: 20px;
     z-index: 99999;
 }
+.xsp .navbar.applayout-titlebar {
+	position: fixed;
+    right: 20px;
+    z-index: 99999;
+}

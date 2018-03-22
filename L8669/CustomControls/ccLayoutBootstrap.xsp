@@ -24,6 +24,7 @@
 	<xc:ccRolDesarrollo_Debug>
 		<xc:this.propertyFormName><![CDATA[#{javascript:"docUsuario"}]]></xc:this.propertyFormName>
 	</xc:ccRolDesarrollo_Debug>
+									    
 	<xe:applicationLayout id="applicationLayout1">
 		<xp:callback facetName="facetMiddle" id="facetMiddle"></xp:callback>
 		<xe:this.facets>
@@ -68,7 +69,7 @@
 				collapseLeftColumn="true" pageWidth="fluid" fixedNavbar="fixed-top"
 				productLogo="/logo.gif" productLogoClass="applicationLogo"
 				productLogoAlt="Sistemas Administrativos" invertedNavbar="true"
-				titleBar="false">
+				placeBar="false">
 				<xe:this.bannerApplicationLinks>
 					<xe:repeatTreeNode loaded="true" var="tree"
 						indexVar="index">
@@ -144,28 +145,33 @@ return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 				</xe:this.bannerUtilityLinks>
 
 
-				<xe:this.searchBar>
-					<xe:appSearchBar
-						pageName="/borrar_BootstrapPopOver.xsp">
-						<xe:this.options>
 
-						</xe:this.options>
-					</xe:appSearchBar>
-				</xe:this.searchBar>
 				<xe:this.titleBarTabs>
 
 
 
-				</xe:this.titleBarTabs>
-				<xe:this.placeBarActions>
+
+
+
+
+
+
+
+
+
 					<xe:beanTreeNode
 						loaded="${not(empty(compositeData.property_PlaceBarActions))}"
 						nodeBean="#{compositeData.property_PlaceBarActions}">
 					</xe:beanTreeNode>
+				</xe:this.titleBarTabs>
+				<xe:this.placeBarActions>
+
 				</xe:this.placeBarActions>
 
-				<xe:this.placeBarName><![CDATA[#{javascript:compositeData.get("property_PlaceBarTitle")}]]></xe:this.placeBarName>
-				<xe:this.placeBar><![CDATA[#{javascript:compositeData.get("property_hasPlaceBar")}]]></xe:this.placeBar>
+
+				<xe:this.titleBarName><![CDATA[#{javascript:compositeData.get("property_PlaceBarTitle")}]]></xe:this.titleBarName>
+
+				<xe:this.titleBar><![CDATA[#{javascript:compositeData.get("property_hasPlaceBar")}]]></xe:this.titleBar>
 			</xe:bootstrapResponsiveConfiguration>
 		</xe:this.configuration>
 
@@ -204,5 +210,7 @@ facesContext.getExternalContext().redirect(url);}]]></xp:this.action>
 			</xp:eventHandler>
 		</xp:button>
 		<xp:br></xp:br>
+		
+		
 		</div>
 </xp:view>
