@@ -97,17 +97,18 @@
 			<xp:eventHandler event="onclick" submit="true"
 				refreshMode="partial" refreshId="tblEdificio">
 				<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = edificioBean.strValidacionEdificio(sessionScope.get("edfObj"));
-	if(msgValidacion.isEmpty()){	
-		edificioBean.saveEdificio(sessionScope.get("edfObj"));
-		context.redirectToPage("viewDatosEdificios")
-	}else{
-		var msg=new javax.faces.application.FacesMessage();
-		for (i=0;i<msgValidacion.size();i++) {
-			facesContext.addMessage(getComponent(msgValidacion.get(i).split("\~")[0]).getClientId(facesContext),msg(msgValidacion.get(i).split("\~")[1]));
-		}
-		view.postScript("window.scrollTo(0,0)")
-		
-	}}]]></xp:this.action>
+if(!msgValidacion.isEmpty()){
+	facesMsgValidation(msgValidacion);
+	view.postScript("window.scrollTo(0,0)");
+	return;
+}	
+msgValidacion = edificioBean.saveEdificio(sessionScope.get("edfObj"));
+if(!msgValidacion.isEmpty()){
+	facesMsgValidation(msgValidacion);
+	view.postScript("window.scrollTo(0,0)");
+}else{
+	context.redirectToPage("viewDatosEdificios")
+}}]]></xp:this.action>
 
 				<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
 			</xp:eventHandler>
@@ -425,12 +426,6 @@ if (!msgValidacion.equals("")){
 									pattern="#,##0.0;(#,##0.0)">
 								</xp:convertNumber>
 							</xp:this.converter>
-							<xp:this.validators>
-								<xp:validateLongRange minimum="0"
-									maximum="9999"
-									message="El % de interés no puede superar el 9999 %">
-								</xp:validateLongRange>
-							</xp:this.validators>
 							<xp:eventHandler event="onchange"
 								submit="true" refreshMode="partial"
 								refreshId="edf_fechaPrimerVencimientoRecibos">
@@ -451,12 +446,6 @@ if (!msgValidacion.equals("")){
 									pattern="#,##0.0;(#,##0.0)">
 								</xp:convertNumber>
 							</xp:this.converter>
-							<xp:this.validators>
-								<xp:validateLongRange minimum="0"
-									maximum="9999"
-									message="El % de interés no puede superar el 9999 %">
-								</xp:validateLongRange>
-							</xp:this.validators>
 							<xp:eventHandler event="onchange"
 								submit="true" refreshMode="partial"
 								refreshId="edf_fechaSegundoVencimientoRecibos">

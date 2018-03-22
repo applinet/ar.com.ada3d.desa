@@ -43,7 +43,7 @@ public class DocUsr implements Serializable{
 					this._map.put("userMaskName", docUsuario
 							.getItemValueString("usr_UserMaskName_des"));
 					this._map.put("userSequential", docUsuario
-							.getItemValueString("usr_UserSequential_nro"));
+							.getItemValueString("usr_UserSequential_des"));
 					this._map.put("userStatus", docUsuario
 							.getItemValueString("usr_Status_des"));
 					this._map.put("userSeg", docUsuario
@@ -128,7 +128,7 @@ public class DocUsr implements Serializable{
 	}
 
 	@SuppressWarnings("unused")
-	private String getUserSec() {
+	public String getUserSec() {
 		String ret;
 		synchronized (this._map) {
 			ret = this._map.get("userSequential");
@@ -170,7 +170,6 @@ public class DocUsr implements Serializable{
 		this.edificiosNoAccessLista = edificiosNoAccessLista;
 	}
 
-	
 	
 	public ArrayList<String> getUltimaActividad() {
 		return ultimaActividad;
