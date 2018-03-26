@@ -116,7 +116,7 @@ if(!msgValidacion.isEmpty()){
 		</xp:div>
 	</xp:div>
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="false">
-		<xc:this.property_PlaceBarTitle><![CDATA[""]]></xc:this.property_PlaceBarTitle>
+
 		<xp:this.facets>
 
 			<xp:panel xp:key="facetMiddle"

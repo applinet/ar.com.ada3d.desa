@@ -21,7 +21,7 @@
       </property-extension>
     </property>
     <property>
-      <property-name>property_PlaceBarTitle</property-name>
+      <property-name>property_TitleBarTitle</property-name>
       <property-class>string</property-class>
       <property-extension>
         <designer-extension>
@@ -30,11 +30,11 @@
       </property-extension>
     </property>
     <property>
-      <property-name>property_PlaceBarActions</property-name>
+      <property-name>property_TitleBarActions</property-name>
       <property-class>string</property-class>
     </property>
     <property>
-      <property-name>property_hasPlaceBar</property-name>
+      <property-name>property_hasTitleBar</property-name>
       <property-class>boolean</property-class>
       <property-extension>
         <designer-extension>

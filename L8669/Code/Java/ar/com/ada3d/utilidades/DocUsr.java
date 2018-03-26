@@ -127,7 +127,6 @@ public class DocUsr implements Serializable{
 		return ret;
 	}
 
-	@SuppressWarnings("unused")
 	public String getUserSec() {
 		String ret;
 		synchronized (this._map) {

@@ -4,8 +4,8 @@
 	<xp:this.resources>
 		<xp:styleSheet href="/a2_docs.min.css"></xp:styleSheet>
 	</xp:this.resources>
-	<xc:ccLayoutBootstrap property_PlaceBarTitle="false"
-		property_hasPlaceBar="false" property_ShowComboEdificio="false">
+	<xc:ccLayoutBootstrap property_TitleBarTitle="false"
+		property_hasTitleBar="false" property_ShowComboEdificio="false">
 		<xp:this.facets>
 			
 			<xp:panel styleClass="bs-callout bs-callout-danger"
