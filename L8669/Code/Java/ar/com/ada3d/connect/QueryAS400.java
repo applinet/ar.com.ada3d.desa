@@ -82,7 +82,7 @@ public class QueryAS400 implements Serializable {
 		// el sql
 
 		Connection connection = null;
-
+		
 		ArrayList<String> returnArrlist = new ArrayList<String>(); // variable
 		// que
 		// devuelvo
@@ -105,6 +105,7 @@ public class QueryAS400 implements Serializable {
 			
 			ResultSet rs = stmt.executeQuery(configTabla.getStrsSQL());
 
+			
 			if (param_booDescColumnas) {
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int columnCount = rsmd.getColumnCount();
@@ -127,7 +128,11 @@ public class QueryAS400 implements Serializable {
 					if (s.contains("@text_")) {
 						temp = temp + s.substring(6);
 					} else {
-						temp = temp + rs.getString(s).trim();
+						if(rs.getString(s) == null){
+							temp = temp + "";
+						}else{
+							temp = temp + rs.getString(s).trim();
+						}
 					}
 				}
 				if (configTabla.getMsgConsola().equals("1"))
