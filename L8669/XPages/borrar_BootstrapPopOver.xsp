@@ -128,7 +128,7 @@ return result + "</ul>";
 				<xp:br></xp:br>
 				<xp:br></xp:br>
 
-				Edificio:&#160;
+				Esdificio:&#160;
 				<xe:djFilteringSelect id="djFilteringSelect2"
 					queryExpr="#{javascript:return '*\$\{0\}*';}"
 					autoComplete="false">

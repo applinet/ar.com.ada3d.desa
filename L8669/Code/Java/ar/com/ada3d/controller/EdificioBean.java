@@ -50,7 +50,7 @@ public class EdificioBean implements Serializable {
 	 * trabajar
 	 * @return: etiqueta y valor para xp:comboBox
 	 * @usedIn: Combo principal en ccLayoutBootstrap, está asociado a una
-	 * sessionScope(edificioSelected)
+	 * sessionScope(edificioWork)
 	 */
 	public List<SelectItem> getComboboxMyEdificios() {
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
@@ -75,22 +75,30 @@ public class EdificioBean implements Serializable {
 	}
 
 	/**
-	 * Esto devuelve para cada usuario el ComboBox de Edificios autorizados para
-	 * trabajar y en estadoProceso=1
-	 * @return etiqueta y valor para xp:comboBox
+	 * Esto devuelve para cada usuario el ComboBox de Edificios autorizados para trabajar 
+	 * Si el parametro se invierte en la primer linea y queda en falso para devolver los edificios en estadoProceso=1
+	 * @return etiqueta y valor para xp:comboBox. En la etiqueta viene siempre la direccion el resto son 
+	 * booleanos. El valor siempre es el codigo del edificio
 	 * @usedIn layout tiene una propiedad para mostrar o no en cada XPage
+	 * @param prm_isNoChequearEstado si es verdadero devuelve todos los edificios sin importar el estado
+	 * @param prm_isIncluyeCodigoVisual si en la descripcion del combo muestra el codigo visual
+	 * @param prm_isIncluyeFechaUltimaLiquidacion  si en la descripcion del combo muestra la Fecha
 	 */
-	public static List<SelectItem> getComboboxMyEdificiosTrabajo() {
+	public static List<SelectItem> getComboBoxEdificiosQueTengoAutorizados(Boolean prm_isNoChequearEstado, Boolean prm_isIncluyeCodigoVisual, Boolean prm_isIncluyeFechaUltimaLiquidacion) {
+		prm_isNoChequearEstado = prm_isNoChequearEstado ? false : true;
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
+		String incluyeCodigoVisual;
+		String incluyeFechaUltimaLiquidacion;
 		List<SelectItem> options = new ArrayList<SelectItem>();
 		for (Edificio miEdificio : listaEdificios) {
-			if (miEdificio.getEdf_estadoProceso().equals("1")) { // solo
-																	// estado=1
+			if (miEdificio.getEdf_estadoProceso().equals("1") || prm_isNoChequearEstado) { // solo estado=1
 				if (!docUsuario.getEdificiosNoAccessLista().contains(
 						miEdificio.getEdf_codigo())) { // Solo edificios
 														// autorizados
 					SelectItem option = new SelectItem();
-					option.setLabel(miEdificio.getEdf_direccion());
+					incluyeCodigoVisual = prm_isIncluyeCodigoVisual ? miEdificio.getEdf_codigoVisual().equals("") ? miEdificio.getEdf_codigo(): miEdificio.getEdf_codigoVisual() + " " : "";
+					incluyeFechaUltimaLiquidacion = prm_isIncluyeFechaUltimaLiquidacion ? ar.com.ada3d.utilidades.Conversores.DateToString(miEdificio.getEdf_fechaUltimaLiquidacion(), "dd/MM/yyyy" ):"";
+					option.setLabel( incluyeCodigoVisual + miEdificio.getEdf_direccion() + " " + incluyeFechaUltimaLiquidacion);
 					option.setValue(miEdificio.getEdf_codigo());
 					options.add(option);
 				}
@@ -474,8 +482,8 @@ public class EdificioBean implements Serializable {
 		myEdificio.setListaPorcentuales(cargaPorcentualEdificio(strLinea));
 		
 		//TODO: falta saber que campo tomar del AS400
-		myEdificio.setEdf_importeFranqueo( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 2)));
-		myEdificio.setEdf_importeMultaDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 2)));
+		myEdificio.setEdf_importeFranqueo( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[26].trim(), Locale.US, 2)));
+		myEdificio.setEdf_importeMultaDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[27].trim(), Locale.US, 2)));
 		
 		myEdificio.setEdf_isReadMode(true);
 		return myEdificio;
