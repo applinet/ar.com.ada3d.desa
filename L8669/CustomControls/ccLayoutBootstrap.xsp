@@ -12,14 +12,6 @@
 		<xp:styleSheet href="/bootstrap-extended.css"></xp:styleSheet>
 	</xp:this.resources>
 
-
-
-	<xp:this.afterPageLoad><![CDATA[#{javascript:if (!userBean.accessRoles.toString().contains('[usrInitial]')){
-	if	(!sessionScope.edificioSelected){
-		sessionScope.edificioSelected = edificioBean.getListaEdificiosTrabajo().get(0).edf_codigo;
-	}	 
-}		}]]></xp:this.afterPageLoad>
-
 	<xc:ccRolDesarrollo_Debug>
 		<xc:this.propertyFormName><![CDATA[#{javascript:"docUsuario"}]]></xc:this.propertyFormName>
 	</xc:ccRolDesarrollo_Debug>
@@ -57,27 +49,11 @@
 					<xp:attr name="data-offset-top" value="80"></xp:attr>
 				</xp:this.attrs>
 				<xp:this.rendered><![CDATA[#{javascript:compositeData.get("property_ShowComboEdificio") && !userBean.accessRoles.toString().contains('[usrInitial]')}]]></xp:this.rendered>
-				<xe:djFilteringSelect id="djFilteringSelect2"
-					queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
-					style="width:400.0px"
-					defaultValue="#{javascript:return sessionScope.edificioSelected}">
-
-					<xe:this.rendered><![CDATA[#{javascript:compositeData.get("property_ShowComboEdificio") && !userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
-
-					<xp:selectItems>
-						<xp:this.value><![CDATA[#{javascript:edificioBean.getComboboxMyEdificios()}]]></xp:this.value>
-					</xp:selectItems>
-					<xe:this.dojoAttributes>
-						<xp:dojoAttribute name="required"
-							value="false">
-						</xp:dojoAttribute>
-
-					</xe:this.dojoAttributes>
-					<xp:eventHandler event="onChange" submit="true"
-						refreshMode="partial" refreshId="djFilteringSelect2">
-						<xe:this.action><![CDATA[#{javascript:sessionScope.edificioSelected = this.getParent().getValue();}]]></xe:this.action>
-					</xp:eventHandler>
-				</xe:djFilteringSelect>
+				<xc:ccComboBoxEdificios
+					property_SoloEdificiosEnProceso="false"
+					property_VisualizarCodigo="true"
+					property_VisualizarFechaUltimaLiquidacion="true">
+				</xc:ccComboBoxEdificios>
 			</xp:div>
 			<xp:callback facetName="facetLeft" id="facetLeft"
 				xp:key="LeftColumn">
