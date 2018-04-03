@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom" xmlns:xe="http://www.ibm.com/xsp/coreex" xmlns:xf="http://www.ibm.com/xsp/xflow"
 	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar">
-	<xp:panel>
+	<xp:panel >
 		<xp:this.rendered><![CDATA[#{javascript:var v:Array = database.queryAccessRoles(session.getEffectiveUserName());
 @IsMember("[Desarrollo]", v)}]]></xp:this.rendered>
-		<debug:toolbar defaultCollapsed="false" collapseTo="left"
-			rendered="#{javascript:sessionScope.showDebugToolbar}"></debug:toolbar>
+		<debug:toolbar defaultCollapsed="true" collapseTo="left"
+			rendered="#{javascript:sessionScope.showDebugToolbar}">
+		</debug:toolbar>
 	</xp:panel>
 
 	<xp:panel loaded="true" id="dbgPanel" style="padding-left:20px">
