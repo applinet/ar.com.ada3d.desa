@@ -12,15 +12,38 @@ public class Validadores {
 	  * Validación del número de CUIT / CUIL. 
 	  * @param number Número a validar. 
 	  * @throws DocumentException cuando el número de CUIT / CUIL no es 
-	  * válido. Salvo que sea 0 que no lo valido 
+	  * válido. Salvo que sea 0 (cero) que no lo valido 
 	  */ 
 	 
-	public void validateCUIT(FacesContext facesContext, UIComponent component,
+	public void validateCUIT0(FacesContext facesContext, UIComponent component,
 			Object value) {
 
 		String number = value.toString();
 		if (number.equals("0"))
 			return;
+		
+
+		if (!validacionCUIT(number)) {
+			FacesMessage message = new FacesMessage("El CUIT es inválido.");
+			throw new ValidatorException(message);
+		}
+	}
+	
+	 /** 
+	  * Validación del número de CUIT / CUIL. 
+	  * @param number Número a validar. 
+	  * @throws DocumentException cuando el número de CUIT / CUIL no es 
+	  * válido.  
+	  */
+	public void validateCUIT(FacesContext facesContext, UIComponent component,
+			Object value) {
+		if (!validacionCUIT(value.toString())) {
+			FacesMessage message = new FacesMessage("El CUIT es inválido.");
+			throw new ValidatorException(message);
+		}
+	}
+	
+	private boolean validacionCUIT(String number){
 		boolean res = false;
 
 		if (number != null && number.trim().length() != 0) {
@@ -56,11 +79,7 @@ public class Validadores {
 				e.printStackTrace();
 			}
 		}
-
-		if (!res) {
-			FacesMessage message = new FacesMessage("El CUIT es inválido.");
-			throw new ValidatorException(message);
-		}
+		return res;
 	}
   
 }
