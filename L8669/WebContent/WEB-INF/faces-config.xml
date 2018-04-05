@@ -12,35 +12,41 @@
     <managed-bean-class>com.bootstrap4xpages.NamesDataStore
 		</managed-bean-class>
   </managed-bean>
-  <managed-bean>
+  <managed-bean id="DocLock">
     <description>lockea los documentos por usuario</description>
     <managed-bean-name>DocLock</managed-bean-name>
     <managed-bean-class>ar.com.ada3d.utilidades.DocLock
 		</managed-bean-class>
     <managed-bean-scope>application</managed-bean-scope>
   </managed-bean>
-  <managed-bean>
+  <managed-bean id="DocUsr">
     <description>Documento de usuario</description>
     <managed-bean-name>DocUsr</managed-bean-name>
     <managed-bean-class>ar.com.ada3d.utilidades.DocUsr
 		</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
-  <managed-bean>
+  <managed-bean id="edificioBean">
     <description>Lista de Edificios</description>
     <managed-bean-name>edificioBean</managed-bean-name>
     <managed-bean-class>ar.com.ada3d.controller.EdificioBean
 		</managed-bean-class>
     <managed-bean-scope>view</managed-bean-scope>
   </managed-bean>
-  <managed-bean>
+  <managed-bean id="porcentualMasivoBean">
     <description>Porcentuales de Edificios</description>
     <managed-bean-name>porcentualMasivoBean</managed-bean-name>
     <managed-bean-class>ar.com.ada3d.controller.PorcentualMasivoBean
 		</managed-bean-class>
     <managed-bean-scope>view</managed-bean-scope>
   </managed-bean>
-  <managed-bean>
+  <managed-bean id="proveedorBean">
+    <description>Proveedores</description>
+    <managed-bean-name>proveedorBean</managed-bean-name>
+    <managed-bean-class>ar.com.ada3d.controller.ProveedorBean</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
+  <managed-bean id="validadorBean">
     <description>Validadores</description>
     <managed-bean-name>validadorBean</managed-bean-name>
     <managed-bean-class>ar.com.ada3d.utilidades.Validadores</managed-bean-class>
