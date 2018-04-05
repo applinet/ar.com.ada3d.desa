@@ -1,12 +1,9 @@
 package ar.com.ada3d.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Porcentual implements Serializable{
+public class Porcentual {
 	
-	private static final long serialVersionUID = 1L;
-
 	public Porcentual() {
 	
 	}
