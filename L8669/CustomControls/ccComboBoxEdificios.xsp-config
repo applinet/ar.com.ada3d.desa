@@ -34,5 +34,15 @@
         <required>true</required>
       </property-extension>
     </property>
+    <property>
+      <property-name>property_AnchoPxCombo</property-name>
+      <property-class>string</property-class>
+      <property-extension>
+        <designer-extension>
+          <default-value>auto</default-value>
+        </designer-extension>
+        <required>true</required>
+      </property-extension>
+    </property>
   </composite-component>
 </faces-config>

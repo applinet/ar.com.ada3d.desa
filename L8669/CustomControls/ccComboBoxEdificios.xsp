@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xe:djFilteringSelect id="djComboEdificios"
-		queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
-		style="width:400.0px">
+		queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false">
 
 		<xe:this.defaultValue><![CDATA[#{javascript:if(sessionScope.edificioWork == null){
 	edificioBean.getComboBoxEdificiosQueTengoAutorizados(compositeData.get("property_SoloEdificiosEnProceso"), compositeData.get("property_VisualizarCodigo"), compositeData.get("property_VisualizarFechaUltimaLiquidacion")).get(0).edf_codigo;
 }
 sessionScope.edificioWork;}]]></xe:this.defaultValue>
+		<xe:this.style><![CDATA[#{javascript:var prop = compositeData.get("property_AnchoPxCombo");
+if(prop == "auto")
+	return "";
+style='width:' + prop + 'px';}]]></xe:this.style>
 		<xp:selectItems>
 			<xp:this.value><![CDATA[#{javascript:edificioBean.getComboBoxEdificiosQueTengoAutorizados(compositeData.get("property_SoloEdificiosEnProceso"), compositeData.get("property_VisualizarCodigo"), compositeData.get("property_VisualizarFechaUltimaLiquidacion"));}]]></xp:this.value>
 		</xp:selectItems>
@@ -17,8 +20,10 @@ sessionScope.edificioWork;}]]></xe:this.defaultValue>
 
 		</xe:this.dojoAttributes>
 		<xp:eventHandler event="onChange" submit="true"
-			refreshMode="partial" refreshId="djComboEdificios">
-			<xe:this.action><![CDATA[#{javascript:print("valor:" + this.getParent().getValue());sessionScope.edificioWork = this.getParent().getValue();}]]></xe:this.action>
+			refreshMode="partial" refreshId="djComboEdificios"
+			disableValidators="true">
+			<xe:this.action><![CDATA[#{javascript:sessionScope.edificioWork = this.getParent().getValue();}]]></xe:this.action>
+
 		</xp:eventHandler>
 	</xe:djFilteringSelect>
 </xp:view>
