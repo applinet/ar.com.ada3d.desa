@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+
+	<xe:widgetContainer id="widgetContainerTypeAhead"
+		styleClass="form-inline" style="width:50%">
+		<xp:inputText id="typeAheadSearch" style="width:100%"
+			immediate="true">
+			<xp:this.attrs>
+				<xp:attr name="placeHolder">
+					<xp:this.value><![CDATA[#{javascript:compositeData.get("pty_PlaceHolder")}]]></xp:this.value>
+				</xp:attr>
+			</xp:this.attrs>
+
+			<xp:typeAhead var="startValue" valueMarkup="true"
+				ignoreCase="true" mode="partial">
+				<xp:this.valueList>
+					<![CDATA[#{javascript:var result = "<ul>";
+var lista = compositeData.get("pty_Lista") 
+for (var i = 0; i < lista.length; i++) {
+	// Agrego la metadata por cada entrada al array:
+	
+	var linea1:string = lista[i].split("|")[0].trim();
+	var linea2:string = lista[i].split("|")[1].trim();
+	var lineaAlias:string = lista[i].split("|")[2].trim();
+	if(lista[i].toLowerCase().contains(startValue.toLowerCase())){
+		result += '<li><span class="informal"><p style="color:red">'+ compositeData.get("pty_Linea1") + linea1 + '</p></span>' 
+		+ '<span class="informal"><p>' + compositeData.get("pty_Linea2") +  linea2 + '</p></span>' +
+		'<span class="informal">' + compositeData.get("pty_LineaAlias") + '</span>' + lineaAlias
+		+ '</li>';		 
+	}
+}
+return result + "</ul>";}]]>
+				</xp:this.valueList>
+				<xp:this.minChars><![CDATA[#{javascript:compositeData.get("pty_MinChars")}]]></xp:this.minChars>
+			</xp:typeAhead>
+			<xp:eventHandler event="onchange" submit="false">
+				<xp:this.script><![CDATA[document.getElementById("#{id:btnEnterTypeAhead}").click();]]></xp:this.script>
+			</xp:eventHandler>
+		</xp:inputText>
+		<xc:ccFxServerSideJsMessages></xc:ccFxServerSideJsMessages>
+		<div id="divHiddenTypeAhead" style="display: none;">
+			<xp:button value="btnHidden" id="btnEnterTypeAhead">
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" refreshId="widgetContainerTypeAhead"
+					immediate="true">
+					<xp:this.action><![CDATA[#{javascript:var condicion = proveedorBean.getProveedorPorCuit(getComponent("typeAheadSearch").getValue());
+if(condicion != null){
+	proveedorBean.proveedor = condicion;
+	context.redirectToPage("frmProveedor.xsp")
+}else{
+	viewScope.MessageType="E";
+	viewScope.MessageText = [];
+	viewScope.MessageText.push(["Debe seleccionar el proveedor y luego presionar <enter>."]);
+}}]]></xp:this.action>
+				</xp:eventHandler>
+			</xp:button>
+		</div>
+	</xe:widgetContainer>
+</xp:view>

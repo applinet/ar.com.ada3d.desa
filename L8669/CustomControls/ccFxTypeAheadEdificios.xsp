@@ -8,29 +8,29 @@
 		<xp:inputText id="typeAheadSearch" style="width:100%"
 			immediate="true">
 			<xp:this.attrs>
-				<xp:attr
-					value="Búsqueda por código de edificio o domicilio"
-					name="placeHolder">
+				<xp:attr name="placeHolder">
+					<xp:this.value><![CDATA[#{javascript:compositeData.get("pty_PlaceHolder")}]]></xp:this.value>
 				</xp:attr>
 			</xp:this.attrs>
 
 			<xp:typeAhead var="startValue" valueMarkup="true"
-				ignoreCase="true" mode="partial" minChars="2">
+				ignoreCase="true" mode="partial">
 				<xp:this.valueList>
 					<![CDATA[#{javascript:var result = "<ul>";
-var listaEdificios = edificioBean.getArraySrtringListaEdificios(true);
-for (var i = 0; i < listaEdificios.length; i++) {
+var lista = compositeData.get("pty_Lista") 
+for (var i = 0; i < lista.length; i++) {
 	// Agrego la metadata por cada entrada al array:
-	var codigoEdificio:string = listaEdificios[i].split("|")[1].trim();
-	var direccionEdificio:string = listaEdificios[i].split("|")[0].trim();
-	if(listaEdificios[i].toLowerCase().contains(startValue.toLowerCase())){
-		result += '<li><span class="informal"><p style="color:red">'+'Dirección: '+ direccionEdificio
-		+ '</p></span><span class="informal">Código: </span>' + codigoEdificio
+	var linearoja:string = lista[i].split("|")[0].trim();
+	var segundalinea:string = lista[i].split("|")[1].trim();
+	if(lista[i].toLowerCase().contains(startValue.toLowerCase())){
+		result += '<li><span class="informal"><p style="color:red">'+ compositeData.get("pty_TituloLineaRoja") + linearoja
+		+ '</p></span><span class="informal">'+ compositeData.get("pty_TituloSegundaLinea")+ '</span>' + segundalinea
 		+ '<span class="informal"></li>';		 
 	}
 }
 return result + "</ul>";}]]>
 				</xp:this.valueList>
+				<xp:this.minChars><![CDATA[#{javascript:compositeData.get("pty_MinChars")}]]></xp:this.minChars>
 			</xp:typeAhead>
 			<xp:eventHandler event="onchange" submit="false">
 				<xp:this.script><![CDATA[document.getElementById("#{id:btnEnterTypeAhead}").click();]]></xp:this.script>
