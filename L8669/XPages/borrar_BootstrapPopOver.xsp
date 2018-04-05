@@ -2,13 +2,13 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 xmlns:xe="http://www.ibm.com/xsp/coreex">
 	
-	<script type="text/javascript" src="bootstrapconfirmation/bootstrap-confirmation.js">
-	</script>
-	<xp:scriptBlock id="scriptBlock2">
+	
+	<xp:scriptBlock id="scriptBlock1">
 		<xp:this.value><![CDATA[
 $(document).ready(
 function() {
-x$( "#{id:button1}" ).popover();
+x$( "#{id:btnToro}" ).popover({ trigger: "hover" });
+x$( "#{id:btnLoro}" ).popover();
 }
 );
 ]]></xp:this.value>
@@ -16,18 +16,8 @@ x$( "#{id:button1}" ).popover();
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="true">
 		<xp:this.facets>
 			<xp:panel xp:key="facetMiddle">
-				<xp:br></xp:br>
-				<button type="button" id="example"
-					class="btn btn-lg btn-danger" data-toggle="popover"
-					title="Bootstrap Popover"
-					data-content="And here's some amazing content. It's very engaging. Right?">
-					Bootstrap Popover
-				</button>
-				<xp:br></xp:br>
-				<xp:br></xp:br>
-				<xp:button value="Bootstrap Popover" id="button1"
-					styleClass="btn btn-primary btn-lg"
-					style="color:rgb(255,255,255)">
+			<xp:button  id="btnToro"
+					styleClass="btn btn-primary btn-lg">
 					<xp:this.attrs>
 						<xp:attr name="data-toggle" value="popover"></xp:attr>
 						<xp:attr name="title"
@@ -37,15 +27,39 @@ x$( "#{id:button1}" ).popover();
 							value="Add small overlays of content, like those on the iPad, to any element for housing secondary information.">
 						</xp:attr>
 					</xp:this.attrs>
+					Bootstrap Popover
 					<span class="glyphicon glyphicon-question-sign"></span>
 				</xp:button>
+				<xp:br></xp:br>
+				
+				
+				
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				
+				<xp:button  id="btnLoro"
+					styleClass="btn btn-primary btn-lg">
+					<xp:this.attrs>
+						<xp:attr name="data-toggle" value="confirmation"></xp:attr>
+						<xp:attr name="data-btn-ok-label" value="Continue"></xp:attr>
+						<xp:attr name="data-btn-ok-icon" value="glyphicon glyphicon-share-alt"></xp:attr>
+						<xp:attr name="data-title" value="Is it ok?"></xp:attr>
+						<xp:attr name="data-btn-ok-icon" value="glyphicon glyphicon-share-alt"></xp:attr>
+						<xp:attr name="data-content" value="This might be dangerous"></xp:attr>
+					</xp:this.attrs>
+					Bootstrap Popover
+					<span class="glyphicon glyphicon-question-sign"></span>
+				</xp:button>
+				
+				
+				
 				<xp:br></xp:br>
 				<xp:br></xp:br>
 				<xe:dropDownButton id="dropDownButton1"
 					style="font-weight:bold">
 					<xe:this.treeNodes>
 						<xe:basicContainerNode
-							label="#{sessionScope.edificioSelected}">
+							label="#{sessionScope.edificioWork}">
 							<xe:this.children>
 								<xe:repeatTreeNode var="rptEdificios"
 									value="#{javascript:edificioBean.listaEdificios}"
@@ -65,7 +79,7 @@ x$( "#{id:button1}" ).popover();
 					<xp:eventHandler event="onItemClick" submit="true"
 						refreshMode="partial">
 						<xe:this.action>
-							<![CDATA[#{javascript:sessionScope.edificioSelected = context.getSubmittedValue()}]]>
+							<![CDATA[#{javascript:sessionScope.edificiowork = context.getSubmittedValue()}]]>
 						</xe:this.action>
 					</xp:eventHandler>
 				</xe:dropDownButton>
@@ -79,7 +93,7 @@ x$( "#{id:button1}" ).popover();
 						itemValue="0">
 					</xp:selectItem>
 					<xp:selectItems>
-						<xp:this.value><![CDATA[#{javascript:edificioBean.getComboboxMyEdificiosTrabajo()}]]></xp:this.value>
+						<xp:this.value><![CDATA[#{javascript:edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, true, true)}]]></xp:this.value>
 					</xp:selectItems>
 
 				</xp:comboBox>
@@ -113,18 +127,7 @@ return result + "</ul>";
 					</xp:typeAhead>
 
 				</xp:inputText>
-				<xe:valuePicker id="valuePicker1" for="inputText1"
-					dialogTitle="Select a category">
-					<xe:this.dataProvider>
-						<xe:simpleValuePicker
-							valueList="#{javascript:edificioBean.listaEdificios.edf_direccion}">
-
-
-						</xe:simpleValuePicker>
-					</xe:this.dataProvider>
-				</xe:valuePicker>
-
-
+				
 				<xp:br></xp:br>
 				<xp:br></xp:br>
 
@@ -133,7 +136,7 @@ return result + "</ul>";
 					queryExpr="#{javascript:return '*\$\{0\}*';}"
 					autoComplete="false">
 					<xp:selectItems>
-						<xp:this.value><![CDATA[#{javascript:edificioBean.getComboboxMyEdificiosTrabajo()}]]></xp:this.value>
+						<xp:this.value><![CDATA[#{javascript:edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, true, true)}]]></xp:this.value>
 					</xp:selectItems>
 
 				</xe:djFilteringSelect>
