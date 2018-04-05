@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	
+	<!-- When the page loads, will need to force the bean to populate the current list -->
+	<xp:this.beforeRenderResponse><![CDATA[#{javascript:proveedorBean.viewProveedores();}]]></xp:this.beforeRenderResponse>
+	
+	<xc:ccLayoutBootstrap property_ShowComboEdificio="false">
+		<xp:this.facets>
+			<xp:panel id="PNL_container" xp:key="facetMiddle">
+				<xc:ccFxTypeAheadProveedores
+					pty_PlaceHolder="Búsqueda por razón social / domicilio / CUIT"
+					pty_MinChars="2"
+					pty_Lista="#{javascript:proveedorBean.getArraySrtringListaProveedores(true)}"
+					pty_Linea1="Razón Social: " pty_Linea2="Domicilio: "
+					pty_LineaAlias="CUIt: ">
+				</xc:ccFxTypeAheadProveedores>
+				<xp:dataTable id="proveedoresTable" var="proveedor"
+					value="#{proveedorBean.listaProveedores}" rows="15">
+					<xp:this.facets>
+						<xp:panel xp:key="header">
+							<xp:pager layout="Previous Group Next"
+								id="pagerHeader">
+							</xp:pager>
+							
+						</xp:panel>
+
+						<xp:pager layout="Previous Group Next"
+							xp:key="footer" id="pagerFooter">
+						</xp:pager>
+					</xp:this.facets>
+
+					<xp:column id="edf_codigoColumn">
+						<xp:this.facets>
+							<xp:label value="Razón social" id="label1"
+								xp:key="header" style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:text escape="true"
+							value="#{proveedor.prv_razon}" id="edf_codigo">
+						</xp:text>
+					</xp:column>
+
+					<xp:column id="edf_direccionColumn">
+						<xp:this.facets>
+							<xp:label value="Domicilio" id="label2"
+								xp:key="header" style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:link escape="true"
+							text="#{proveedor.prv_domici}"
+							id="edf_direccion">
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler1">
+								<xp:this.action><![CDATA[#{javascript:proveedorBean.setProveedor(proveedor);context.redirectToPage("frmProveedor.xsp")}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</xp:column>
+
+					
+				</xp:dataTable>
+			</xp:panel>
+		</xp:this.facets>
+	</xc:ccLayoutBootstrap>
+</xp:view>

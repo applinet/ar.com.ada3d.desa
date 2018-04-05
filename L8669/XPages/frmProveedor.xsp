@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.resources>
+		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js"
+			clientSide="true">
+		</xp:script>
+	</xp:this.resources>
+
+	<xp:scriptBlock id="scriptBlockMaskedJquery">
+		<xp:this.value><![CDATA[jQuery(function($){
+    x$("#{id:prv_cuit}").mask('00-00000000-0', {placeholder: "__-________-_"});
+});    ]]></xp:this.value>
+	</xp:scriptBlock>
+
+	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
+	<xc:ccLayoutBootstrap property_ShowComboEdificio="false"
+		property_hasTitleBar="false">
+		<xp:this.facets>
+			<xp:panel id="PNL_Principal" xp:key="facetMiddle">
+			<xe:formTable id="formTableGastos" formTitle="Proveedor"
+				disableErrorSummary="false" disableRowError="false"
+				style="padding-left:10.0%;padding-right:10.0%"
+				labelPosition="above">
+				<xp:div styleClass="form-inline">
+					<xe:formColumn styleClass="form-group col-sm-6">
+						<xe:formRow id="rowPrv_razonSocial"
+							label="Razón Social" style="padding-right:2.0%"
+							for="prv_razonSocial">
+							<xp:inputText id="prv_razonSocial"
+								required="true" onblur="this.value=this.value.toUpperCase();"
+								value="#{proveedorBean.proveedor.prv_razon}">
+								<xp:this.validators>
+
+									<xp:validateLength minimum="1"
+										maximum="34"
+										message="La razón social puede tener hasta 34 caracteres">
+									</xp:validateLength>
+
+									<xp:validateRequired
+										message="La razón social es un campo requerido">
+									</xp:validateRequired>
+								</xp:this.validators>
+								<xp:eventHandler event="onkeyup"
+									submit="false">
+									<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+if (element.value.length > 34) {
+    element.value = element.value.substring(0, 34);
+}]]></xp:this.script>
+								</xp:eventHandler>
+							</xp:inputText>
+						</xe:formRow>
+					</xe:formColumn>
+					<xe:formColumn styleClass="form-group col-sm-6">
+						<xe:formRow id="rowPrv_cuit" label="C.U.I.T."
+							style="padding-right:2.0%" for="prv_cuit">
+							<xp:inputText id="prv_cuit" required="true"
+								validator="#{validadorBean.validateCUIT}"
+								value="#{proveedorBean.proveedor.prv_cuit}">
+								<xp:this.validators>
+									<xp:validateRequired
+										message="El CUIT es un campo requerido.">
+									</xp:validateRequired>
+								</xp:this.validators>
+								<xp:eventHandler event="onkeyup"
+									submit="false">
+									<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+		if (element.value.length > 13) {
+		    element.value = element.value.substring(0, 13);
+		}]]></xp:this.script>
+								</xp:eventHandler>
+							</xp:inputText>
+
+						</xe:formRow>
+
+					</xe:formColumn>
+				</xp:div>
+				<xp:div styleClass="form-inline">
+					<xe:formColumn styleClass="form-group col-sm-6">
+						<xe:formRow id="rowPrv_domicilio"
+							label="Domicilio" style="padding-right:2.0%"
+							for="prv_domicilio">
+							<xp:inputText id="prv_domicilio"
+								required="true" onblur="this.value=this.value.toUpperCase();"
+								value="#{proveedorBean.proveedor.prv_domici}">
+								<xp:this.validators>
+
+									<xp:validateLength minimum="1"
+										maximum="34"
+										message="El domicilio puede tener hasta 34 caracteres">
+									</xp:validateLength>
+									<xp:validateRequired
+										message="El domicilio es un campo requerido">
+									</xp:validateRequired>
+								</xp:this.validators>
+								<xp:eventHandler event="onkeyup"
+									submit="false">
+									<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+		if (element.value.length > 34) {
+		    element.value = element.value.substring(0, 34);
+		}]]></xp:this.script>
+								</xp:eventHandler>
+							</xp:inputText>
+
+						</xe:formRow>
+					</xe:formColumn>
+					<xe:formColumn styleClass="form-group col-sm-6">
+						<xe:formRow id="rowPrv_localidad"
+							label="Localidad" style="padding-right:2.0%"
+							for="prv_localidad">
+							<xp:inputText id="prv_localidad"
+								required="true" onblur="this.value=this.value.toUpperCase();"
+								value="#{proveedorBean.proveedor.prv_locali}">
+								<xp:this.validators>
+
+									<xp:validateLength minimum="1"
+										maximum="34"
+										message="La localidad puede tener hasta 34 caracteres">
+									</xp:validateLength>
+									<xp:validateRequired
+										message="La localidad es un campo requerido">
+									</xp:validateRequired>
+								</xp:this.validators>
+								<xp:eventHandler event="onkeyup"
+									submit="false">
+									<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+		if (element.value.length > 34) {
+		    element.value = element.value.substring(0, 34);
+		}]]></xp:this.script>
+								</xp:eventHandler>
+							</xp:inputText>
+						</xe:formRow>
+					</xe:formColumn>
+				</xp:div>
+
+
+				<xe:this.facets>
+					<xp:div xp:key="footer">
+
+						<xp:button value="Confirmar" id="btnSave"
+							styleClass="btn-success">
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="partial" refreshId="PNL_Principal">
+								<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = proveedorBean.saveProveedor();
+if(!msgValidacion.isEmpty()){
+	facesMsgValidation(msgValidacion);
+	view.postScript("window.scrollTo(0,0)");
+}else{
+	proveedorBean.proveedorSelected = proveedorBean.proveedor.prv_cuit.replaceAll("-", "");
+	if(context.getHistoryUrl(1).equals("/frmGastos.xsp")){
+		context.redirectToPage("/frmGastos.xsp");
+	}else{
+		context.redirectToPrevious();
+	}
+}}]]></xp:this.action>
+
+								<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
+							</xp:eventHandler>
+						</xp:button>
+						<xp:button value="Cerrar" id="btnClose" styleClass="btn-info">
+							<xp:eventHandler event="onclick" submit="true"
+								refreshMode="complete" immediate="true">
+				
+				
+				
+								<xp:this.script><![CDATA[if (XSP._isDirty()){
+					  if (confirm ("Está seguro de salir?" + "\n" + "\n" +
+					    "Sus cambios no serán guardados." + "\n" + 
+					    "Presione Aceptar para salir sin guardar, o Cancelar para permanecer en la página.")) {
+					    return true;
+					  } else {
+					    return false;
+					  }
+					} else {
+					  return true;
+					}]]></xp:this.script>
+								
+								<xp:this.action>
+
+
+
+
+
+
+										<xp:openPage
+											name="/ViewProveedores.xsp">
+										</xp:openPage>
+										
+								</xp:this.action></xp:eventHandler>
+						</xp:button>
+					</xp:div>
+				</xe:this.facets>
+			</xe:formTable>
+
+			</xp:panel>
+
+		</xp:this.facets>
+	</xc:ccLayoutBootstrap>
+</xp:view>
