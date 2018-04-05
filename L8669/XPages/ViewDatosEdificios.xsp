@@ -5,7 +5,11 @@
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="false">
 		<xp:this.facets>
 			<xp:panel id="PNL_container" xp:key="facetMiddle">
-				<xc:ccFxTypeAhead></xc:ccFxTypeAhead>
+				<xc:ccFxTypeAheadEdificios pty_PlaceHolder="Búsqueda por código de edificio o domicilio"
+					pty_TituloLineaRoja="Dirección: " pty_TituloSegundaLinea="Código: "
+					pty_MinChars="2"
+					pty_Lista="#{javascript:edificioBean.getArraySrtringListaEdificios(true)}">
+				</xc:ccFxTypeAheadEdificios>
 				<xp:dataTable id="edificiosTable" var="unEdificio"
 					value="#{edificioBean.listaEdificiosTrabajo}" rows="15">
 					<xp:this.facets>
