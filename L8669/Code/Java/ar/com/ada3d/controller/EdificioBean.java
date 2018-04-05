@@ -11,7 +11,6 @@ import javax.faces.model.SelectItem;
 import org.openntf.domino.Document;
 import org.openntf.domino.Session;
 
-
 import ar.com.ada3d.model.Edificio;
 import ar.com.ada3d.model.Porcentual;
 import ar.com.ada3d.model.Prorrateo;
@@ -30,11 +29,6 @@ import java.util.*;
  * */
 public class EdificioBean implements Serializable {
 
-	public EdificioBean() {
-		//System.out.println("FPR - Constr. Edificios y llamada AS400");
-		AddEdificiosAs400();
-	}
-
 	private Edificio edificio;
 	private static final long serialVersionUID = 1L;
 	HashMap<String, Edificio> hmEdificios = new HashMap<String, Edificio>();
@@ -44,6 +38,10 @@ public class EdificioBean implements Serializable {
 	@SuppressWarnings("unused")
 	private int cantidadTotalEdificiosTrabajo;
 
+	public EdificioBean() {
+		//System.out.println("FPR - Constr. Edificios y llamada AS400");
+		AddEdificiosAs400();
+	}
 	
 	/**
 	 * Esto devuelve para cada usuario el ComboBox de Edificios autorizados para
@@ -167,6 +165,7 @@ public class EdificioBean implements Serializable {
 			e.printStackTrace();
 		}
 		for (String strLinea : nl) {
+			
 			if (listaEdificios == null) {
 				listaEdificios = new ArrayList<Edificio>();
 			}
@@ -182,6 +181,7 @@ public class EdificioBean implements Serializable {
 				listaEdificiosTrabajo.add(myEdificio);
 			}
 			AddEdificioMap(myEdificio); // Lo agrego al mapa por código
+			myEdificio = null;
 		}
 	}
 	
@@ -384,17 +384,21 @@ public class EdificioBean implements Serializable {
 	 */
 	@SuppressWarnings("static-access")
 	private Edificio actualizoUnEdificioAs400(Edificio myEdificio, String strLinea) {
+		String controlador;
 		DocLock lockeos = (DocLock) JSFUtil.resolveVariable("DocLock");
 		if(!strLinea.equals("")){
+			controlador = "controllerEdificios";
 			myEdificio = new Edificio();
 			myEdificio.setEdf_codigo(strLinea.split("\\|")[0].trim());
 		}else{
 			//Es una actualizacion
+			controlador = "controllerUnEdificio";
 			Document docDummy = JSFUtil.getDocDummy();
 			docDummy.appendItemValue("Codigo", myEdificio.getEdf_codigo());
 			QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 			ArrayList<String> nl = null;
 			try {
+				
 				nl = query.getSelectAS("controllerUnEdificio", docDummy, false);
 			} catch (NotesException e) {
 				e.printStackTrace();
@@ -403,6 +407,7 @@ public class EdificioBean implements Serializable {
 			strLinea = nl.get(0);
 				
 		}
+		try {
 		//Agrego el usuario si el edificio está lockeado
 		if(lockeos.isLocked("edf_" + myEdificio.getEdf_codigo()))
 			myEdificio.setEdf_lockedBy(lockeos.getLock("edf_" + myEdificio.getEdf_codigo()));
@@ -425,7 +430,6 @@ public class EdificioBean implements Serializable {
 		cal.set(cal.DATE, cal.getActualMaximum(cal.DAY_OF_MONTH));
 		myEdificio.setEdf_fechaProximaLiquidacion(cal.getTime());
 
-		
 		//Defino el tipo de prorrateo			
 		String strTipo = strLinea.split("\\|")[14].trim();
 		String strTempTipo;
@@ -465,7 +469,6 @@ public class EdificioBean implements Serializable {
 				}
 			}
 		}
-		
 		myEdificio.setEdf_interesPunitorioDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[15].trim(), Locale.US, 1)));
 		myEdificio.setEdf_interesRecargoSegundoVencimiento( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[16].trim(), Locale.UK, 1)));
 
@@ -484,8 +487,10 @@ public class EdificioBean implements Serializable {
 		//TODO: falta saber que campo tomar del AS400
 		myEdificio.setEdf_importeFranqueo( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[26].trim(), Locale.US, 2)));
 		myEdificio.setEdf_importeMultaDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[27].trim(), Locale.US, 2)));
-		
 		myEdificio.setEdf_isReadMode(true);
+		} catch(ArrayIndexOutOfBoundsException excepcion){
+			System.out.println(controlador + excepcion.getMessage());
+        }
 		return myEdificio;
 	}
 
@@ -497,6 +502,7 @@ public class EdificioBean implements Serializable {
 	 */
 	public void editEdificio(Edificio prm_edificio) {
 		actualizoUnEdificioAs400(prm_edificio, "");
+		
 		Session session = JSFUtil.getSession();
 		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
 		if (lock.isLocked("edf_" + prm_edificio.getEdf_codigo())){
@@ -523,7 +529,7 @@ public class EdificioBean implements Serializable {
 		docDummy.appendItemValue("CodigoVisual", prm_edificio.getEdf_codigoVisual());
 		docDummy.appendItemValue("frecuencia", prm_edificio.getEdf_frecuenciaLiquidacion());
 		docDummy.appendItemValue("imprimirTitulos", prm_edificio.getEdf_imprimeTitulosEnLiquidacion());
-		docDummy.appendItemValue("CUIT", prm_edificio.getEdf_cuit());
+		docDummy.appendItemValue("CUIT", prm_edificio.getEdf_cuit().replaceAll("-", ""));
 		docDummy.appendItemValue("CTFJ1", "0");
 		docDummy.appendItemValue("CTFJ2", "0");
 		docDummy.appendItemValue("CTFJ3", "0");
@@ -577,9 +583,10 @@ public class EdificioBean implements Serializable {
 		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
 		if (query.updateAS("updateEdificiosPH_E01", docDummy)) {
 			if (!query.updateAS("updateEdificiosValoresCTFJ", docDummy)) {
-				if (!query.updateAS("updateEdificiosValoresCTFJ_insert", docDummy))				
+				if (!query.updateAS("updateEdificiosValoresCTFJ_insert", docDummy)){				
 					listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 					System.out.println("ERROR: " + errCode + " METH:saveEdificio" + "_EDIF:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo actualizar la tabla PH_CTFJ.");
+				}
 			}
 			
 			if (!query.updateAS("updateEdificiosDIFED", docDummy)) {
@@ -594,10 +601,14 @@ public class EdificioBean implements Serializable {
 			listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 			System.out.println("ERROR: " + errCode + " METH:saveEdificio" + "_EDIF:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo actualizar la tabla PH_E01.");
 		}
-		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
-		lock.removeLock("edf_" + prm_edificio.getEdf_codigo());
-		//log de las actividades en la session
-		docUsuario.setUltimaActividad(setLog("Ha guardado los cambios del edificio " + prm_edificio.getEdf_codigo()));
+		if (listAcumulaErroresAS400.isEmpty()){
+			DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
+			lock.removeLock("edf_" + prm_edificio.getEdf_codigo());
+			//log de las actividades en la session
+			docUsuario.setUltimaActividad(setLog("Ha guardado los cambios del edificio " + prm_edificio.getEdf_codigo()));			
+		}else{
+			docUsuario.setUltimaActividad(setLog("No se han guardado todos los cambios del edificio " + prm_edificio.getEdf_codigo() + "(ERROR: " + errCode + ")"));
+		}
 		return listAcumulaErroresAS400;
 	}
 	

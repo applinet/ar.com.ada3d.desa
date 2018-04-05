@@ -25,17 +25,15 @@
 		<xp:this.value><![CDATA[jQuery(function($){
     $(".classPrt_importe").mask('0.000.000,00', {reverse: true}); //Por clase porque es un repeat
     $(".classPorc_importeHonorarios").mask('0.000.000,00', {reverse: true}); //Por clase porque es un repeat
-	x$("#{id:edf_interesPunitorioDeudores}").mask('000,0', {reverse: true});
-    x$("#{id:edf_interesRecargoSegundoVencimiento}").mask('0.000,0', {reverse: true});
-    x$("#{id:edf_importeFranqueo}").mask('0,0', {reverse: true});
-    x$("#{id:edf_importeMultaDeudores}").mask('00.000,0', {reverse: true});
-});
- 
+	x$("#{id:edf_interesPunitorioDeudores}").mask('000,0', {reverse: true});    x$("#{id:edf_interesRecargoSegundoVencimiento}").mask('0.000,0', {reverse: true});    x$("#{id:edf_importeFranqueo}").mask('0,0', {reverse: true});    x$("#{id:edf_importeMultaDeudores}").mask('00.000,0', {reverse: true});
+    x$("#{id:edf_cuit}").mask('00-00000000-0', {placeholder: "__-________-_"});
+});
+ 
     ]]></xp:this.value>
 	</xp:scriptBlock>
-	
 
-	
+
+
 	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
 	
 	<xp:div id="buttonBarAffix" styleClass="navbar navbar-inverse"
@@ -77,19 +75,22 @@
 	} else {
 	  return true;
 	}]]></xp:this.script>
+				
 				<xp:this.action>
 					<xp:actionGroup>
-						<xp:this.condition><![CDATA[#{javascript:if(!edfObj.edf_isReadMode)
-		DocLock.removeLock("edf_" + sessionScope.get("edfObj").edf_codigo)
-	return true;	}]]></xp:this.condition>
+						<xp:this.condition><![CDATA[#{javascript:if(!edfObj.edf_isReadMode){
+	if (DocLock == null) print("es nulo");
+		
+	DocLock.removeLock("edf_" + sessionScope.get("edfObj").edf_codigo)
+}	
+return true;	}]]></xp:this.condition>
 						<xp:openPage name="/ViewDatosEdificios.xsp">
 						</xp:openPage>
 
 
 
 					</xp:actionGroup>
-				</xp:this.action>
-			</xp:eventHandler>
+				</xp:this.action></xp:eventHandler>
 		</xp:button>
 		<xp:button value="Confirmar" id="btnSave"
 			styleClass="btn-success"
@@ -199,7 +200,7 @@ if (element.value.length > 3) {
 						labelPosition="left">
 						<xp:inputText id="edf_cuit" required="true"
 							value="#{edfObj.edf_cuit}" readonly="#{edfObj.edf_isReadMode}"
-							validator="#{validadorBean.validateCUIT}">
+							validator="#{validadorBean.validateCUIT0}">
 							<xp:this.validators>
 								<xp:validateRequired
 									message="El CUIT es un campo requerido. Ingrese 0 (cero) si no ingresa el CUIT.">
@@ -212,8 +213,8 @@ if (element.value.length > 3) {
 							<xp:eventHandler event="onkeyup"
 								submit="false">
 								<xp:this.script><![CDATA[var element = thisEvent.srcElement;
-if (element.value.length > 11) {
-    element.value = element.value.substring(0, 11);
+if (element.value.length > 13) {
+    element.value = element.value.substring(0, 13);
 }]]></xp:this.script>
 							</xp:eventHandler>
 						</xp:inputText>
