@@ -31,6 +31,9 @@ public class ProveedorBean implements Serializable{
 		setProveedor(new Proveedor());
 	}
 	
+	public void editFormulario(){
+		this.proveedor.setPrv_isReadMode(false);
+	}
 	
 	/**Cuando presiona btnSave Proveedor
 	 */
@@ -89,6 +92,7 @@ public class ProveedorBean implements Serializable{
 			myProveedor.setPrv_domici(strLinea.split("\\|")[1].trim());
 			myProveedor.setPrv_locali(strLinea.split("\\|")[2].trim());
 			myProveedor.setPrv_cuit(strLinea.split("\\|")[3].trim());
+			myProveedor.setPrv_isReadMode(true);
 			listaProveedores.add(myProveedor);
 		}
 	}

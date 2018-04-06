@@ -20,8 +20,8 @@
 			<xp:panel id="PNL_Principal" xp:key="facetMiddle">
 			<xe:formTable id="formTableGastos" formTitle="Proveedor"
 				disableErrorSummary="false" disableRowError="false"
-				style="padding-left:10.0%;padding-right:10.0%"
-				labelPosition="above">
+				style="padding-left:10.0%;padding-right:10.0%">
+				<xe:this.labelPosition><![CDATA[#{javascript:proveedorBean.proveedor.prv_isReadMode ? "left" : "above";}]]></xe:this.labelPosition>
 				<xp:div styleClass="form-inline">
 					<xe:formColumn styleClass="form-group col-sm-6">
 						<xe:formRow id="rowPrv_razonSocial"
@@ -29,7 +29,8 @@
 							for="prv_razonSocial">
 							<xp:inputText id="prv_razonSocial"
 								required="true" onblur="this.value=this.value.toUpperCase();"
-								value="#{proveedorBean.proveedor.prv_razon}">
+								value="#{proveedorBean.proveedor.prv_razon}"
+								readonly="#{proveedorBean.proveedor.prv_isReadMode}">
 								<xp:this.validators>
 
 									<xp:validateLength minimum="1"
@@ -56,7 +57,8 @@ if (element.value.length > 34) {
 							style="padding-right:2.0%" for="prv_cuit">
 							<xp:inputText id="prv_cuit" required="true"
 								validator="#{validadorBean.validateCUIT}"
-								value="#{proveedorBean.proveedor.prv_cuit}">
+								value="#{proveedorBean.proveedor.prv_cuit}"
+								readonly="#{proveedorBean.proveedor.prv_isReadMode}">
 								<xp:this.validators>
 									<xp:validateRequired
 										message="El CUIT es un campo requerido.">
@@ -82,7 +84,8 @@ if (element.value.length > 34) {
 							for="prv_domicilio">
 							<xp:inputText id="prv_domicilio"
 								required="true" onblur="this.value=this.value.toUpperCase();"
-								value="#{proveedorBean.proveedor.prv_domici}">
+								value="#{proveedorBean.proveedor.prv_domici}"
+								readonly="#{proveedorBean.proveedor.prv_isReadMode}">
 								<xp:this.validators>
 
 									<xp:validateLength minimum="1"
@@ -110,7 +113,8 @@ if (element.value.length > 34) {
 							for="prv_localidad">
 							<xp:inputText id="prv_localidad"
 								required="true" onblur="this.value=this.value.toUpperCase();"
-								value="#{proveedorBean.proveedor.prv_locali}">
+								value="#{proveedorBean.proveedor.prv_locali}"
+								readonly="#{proveedorBean.proveedor.prv_isReadMode}">
 								<xp:this.validators>
 
 									<xp:validateLength minimum="1"
@@ -137,7 +141,17 @@ if (element.value.length > 34) {
 				<xe:this.facets>
 					<xp:div xp:key="footer">
 
+						<xp:button value="Modificar" id="btnEdit"
+							rendered="#{proveedorBean.proveedor.prv_isReadMode}">
+
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="partial" refreshId="PNL_Principal">
+								<xp:this.action><![CDATA[#{javascript:proveedorBean.editFormulario();}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:button>
 						<xp:button value="Confirmar" id="btnSave"
+							rendered="#{!proveedorBean.proveedor.prv_isReadMode}"
 							styleClass="btn-success">
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="partial" refreshId="PNL_Principal">
@@ -157,12 +171,13 @@ if(!msgValidacion.isEmpty()){
 								<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
 							</xp:eventHandler>
 						</xp:button>
-						<xp:button value="Cerrar" id="btnClose" styleClass="btn-info">
-							<xp:eventHandler event="onclick" submit="true"
-								refreshMode="complete" immediate="true">
-				
-				
-				
+						<xp:button value="Cerrar" id="btnClose"
+							styleClass="btn-info">
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" immediate="true">
+
+
+
 								<xp:this.script><![CDATA[if (XSP._isDirty()){
 					  if (confirm ("Está seguro de salir?" + "\n" + "\n" +
 					    "Sus cambios no serán guardados." + "\n" + 
@@ -174,7 +189,7 @@ if(!msgValidacion.isEmpty()){
 					} else {
 					  return true;
 					}]]></xp:this.script>
-								
+
 								<xp:this.action>
 
 
@@ -182,11 +197,12 @@ if(!msgValidacion.isEmpty()){
 
 
 
-										<xp:openPage
-											name="/ViewProveedores.xsp">
-										</xp:openPage>
-										
-								</xp:this.action></xp:eventHandler>
+									<xp:openPage
+										name="/ViewProveedores.xsp">
+									</xp:openPage>
+
+								</xp:this.action>
+							</xp:eventHandler>
 						</xp:button>
 					</xp:div>
 				</xe:this.facets>
