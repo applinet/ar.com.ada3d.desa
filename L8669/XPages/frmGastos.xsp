@@ -23,41 +23,19 @@ x$( "#{id:btnNewProveedor}" ).popover();
 							styleClass="form-group col-sm-6 form-inline">
 							<xe:formRow id="rowPrv_id" label="Proveedor"
 								labelPosition="right" styleClass="col-sm-10 form-inline">
-								<xc:ccComboBoxProveedores
-									property_SoloEdificiosEnProceso="false"
-									property_VisualizarCodigo="false"
-									property_VisualizarFechaUltimaLiquidacion="false"
-									property_AnchoPxCombo="auto">
-								</xc:ccComboBoxProveedores>
-								&#160;
-								  <xp:button id="btnNewProveedor"
-									styleClass="btn btn-success" type="button">
-									<xp:this.attrs>
-										<xp:attr name="data-toggle"
-											value="popover">
-										</xp:attr>
-										<xp:attr name="data-trigger"
-											value="hover">
-										</xp:attr>
-										<xp:attr name="title"
-											value="Alta">
-										</xp:attr>
-										<xp:attr name="data-content"
-											value="Presione para agregar un proveedor que no se encuentra en la lista">
-										</xp:attr>
-										<xp:attr name="data-placement"
-											value="bottom">
-										</xp:attr>
-									</xp:this.attrs>
-									<xp:text id="iconWarning"
-										tagName="i" styleClass="glyphicon glyphicon-plus-sign">
-									</xp:text>
-									<xp:eventHandler event="onclick"
-										submit="true" refreshMode="complete" immediate="true">
-										<xp:this.action><![CDATA[#{javascript:proveedorBean.createNewProveedor();context.redirectToPage("frmProveedor.xsp")}]]></xp:this.action>
-									</xp:eventHandler></xp:button>
-
-
+								<xe:djextListTextBox id="gts_prv_cuit"
+									value="#{requestScope.category}" multipleTrim="true"
+									multipleSeparator=",">
+								</xe:djextListTextBox>
+								<xe:valuePicker id="valuePicker1"
+									for="djextListTextBox1" dialogTitle="Category"
+									dojoType="extlib.dijit.PickerCheckbox">
+									<xe:this.dataProvider>
+										<xe:simpleValuePicker valueList="red,green,blue"
+											valueListSeparator=",">
+										</xe:simpleValuePicker>
+									</xe:this.dataProvider>
+								</xe:valuePicker>
 							</xe:formRow>
 						</xe:formColumn>
 						<xe:formColumn
