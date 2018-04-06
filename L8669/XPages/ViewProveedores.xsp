@@ -38,7 +38,7 @@
 							</xp:label>
 						</xp:this.facets>
 						<xp:text escape="true"
-							value="#{proveedor.prv_razon}" id="edf_codigo">
+							value="#{proveedor.prv_razonSocial}" id="edf_codigo">
 						</xp:text>
 					</xp:column>
 
@@ -49,7 +49,7 @@
 							</xp:label>
 						</xp:this.facets>
 						<xp:link escape="true"
-							text="#{proveedor.prv_domici}"
+							text="#{proveedor.prv_domicilio}"
 							id="edf_direccion">
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="complete" id="eventHandler1">

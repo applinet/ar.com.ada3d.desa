@@ -29,7 +29,7 @@
 							for="prv_razonSocial">
 							<xp:inputText id="prv_razonSocial"
 								required="true" onblur="this.value=this.value.toUpperCase();"
-								value="#{proveedorBean.proveedor.prv_razon}"
+								value="#{proveedorBean.proveedor.prv_razonSocial}"
 								readonly="#{proveedorBean.proveedor.prv_isReadMode}">
 								<xp:this.validators>
 
@@ -84,7 +84,7 @@ if (element.value.length > 34) {
 							for="prv_domicilio">
 							<xp:inputText id="prv_domicilio"
 								required="true" onblur="this.value=this.value.toUpperCase();"
-								value="#{proveedorBean.proveedor.prv_domici}"
+								value="#{proveedorBean.proveedor.prv_domicilio}"
 								readonly="#{proveedorBean.proveedor.prv_isReadMode}">
 								<xp:this.validators>
 
@@ -113,7 +113,7 @@ if (element.value.length > 34) {
 							for="prv_localidad">
 							<xp:inputText id="prv_localidad"
 								required="true" onblur="this.value=this.value.toUpperCase();"
-								value="#{proveedorBean.proveedor.prv_locali}"
+								value="#{proveedorBean.proveedor.prv_localidad}"
 								readonly="#{proveedorBean.proveedor.prv_isReadMode}">
 								<xp:this.validators>
 
