@@ -2,15 +2,15 @@ package ar.com.ada3d.model;
 
 
 public class Proveedor {
-	private String prv_razon;
-	private String prv_domici;
-	private String prv_locali;
+	private String prv_razonSocial;
+	private String prv_domicilio;
+	private String prv_localidad;
 	private String prv_cuit;
-	private String prv_telef;
-	private String prv_tipoFa;
+	private String prv_telefono;
+	private String prv_tipoFactura;
 	private String prv_estado;
 	private String prv_codadm;
-	private String prv_contac;
+	private String prv_contacto;
 	private boolean prv_isReadMode;
 	
 	public Proveedor() {
@@ -19,28 +19,28 @@ public class Proveedor {
 
 	//Getters & Setters
 	
-	public String getPrv_razon() {
-		return prv_razon;
+	public String getPrv_razonSocial() {
+		return prv_razonSocial;
 	}
 
-	public void setPrv_razon(String prv_razon) {
-		this.prv_razon = prv_razon;
+	public void setPrv_razonSocial(String prv_razonSocial) {
+		this.prv_razonSocial = prv_razonSocial;
 	}
 
-	public String getPrv_domici() {
-		return prv_domici;
+	public String getPrv_domicilio() {
+		return prv_domicilio;
 	}
 
-	public void setPrv_domici(String prv_domici) {
-		this.prv_domici = prv_domici;
+	public void setPrv_domicilio(String prv_domicilio) {
+		this.prv_domicilio = prv_domicilio;
 	}
 
-	public String getPrv_locali() {
-		return prv_locali;
+	public String getPrv_localidad() {
+		return prv_localidad;
 	}
 
-	public void setPrv_locali(String prv_locali) {
-		this.prv_locali = prv_locali;
+	public void setPrv_localidad(String prv_localidad) {
+		this.prv_localidad = prv_localidad;
 	}
 
 	public String getPrv_cuit() {
@@ -51,20 +51,20 @@ public class Proveedor {
 		this.prv_cuit = prv_cuit;
 	}
 
-	public String getPrv_telef() {
-		return prv_telef;
+	public String getPrv_telefono() {
+		return prv_telefono;
 	}
 
-	public void setPrv_telef(String prv_telef) {
-		this.prv_telef = prv_telef;
+	public void setPrv_telefono(String prv_telefono) {
+		this.prv_telefono = prv_telefono;
 	}
 
-	public String getPrv_tipoFa() {
-		return prv_tipoFa;
+	public String getPrv_tipoFactura() {
+		return prv_tipoFactura;
 	}
 
-	public void setPrv_tipoFa(String prv_tipoFa) {
-		this.prv_tipoFa = prv_tipoFa;
+	public void setPrv_tipoFactura(String prv_tipoFactura) {
+		this.prv_tipoFactura = prv_tipoFactura;
 	}
 
 	public String getPrv_estado() {
@@ -83,12 +83,12 @@ public class Proveedor {
 		this.prv_codadm = prv_codadm;
 	}
 
-	public String getPrv_contac() {
-		return prv_contac;
+	public String getPrv_contacto() {
+		return prv_contacto;
 	}
 
-	public void setPrv_contac(String prv_contac) {
-		this.prv_contac = prv_contac;
+	public void setPrv_contacto(String prv_contacto) {
+		this.prv_contacto = prv_contacto;
 	}
 
 	public boolean isPrv_isReadMode() {
@@ -97,6 +97,5 @@ public class Proveedor {
 
 	public void setPrv_isReadMode(boolean prv_isReadMode) {
 		this.prv_isReadMode = prv_isReadMode;
-	}
-	
+	}	
 }

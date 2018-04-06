@@ -42,11 +42,11 @@ public class ProveedorBean implements Serializable{
 		try {
 			//TODO: Validar datos del proveedor. Duplicidad
 			Document docDummy = JSFUtil.getDocDummy();
-			docDummy.appendItemValue("razon", proveedor.getprv_razonSocial());
-			docDummy.appendItemValue("domici", proveedor.getprv_domicilio());
-			docDummy.appendItemValue("locali", proveedor.getprv_localidad());
+			docDummy.appendItemValue("razon", proveedor.getPrv_razonSocial());
+			docDummy.appendItemValue("domici", proveedor.getPrv_domicilio());
+			docDummy.appendItemValue("locali", proveedor.getPrv_localidad());
 			docDummy.appendItemValue("cuit", proveedor.getPrv_cuit().replaceAll("-", ""));
-			docDummy.appendItemValue("telef", proveedor.getprv_telefono());
+			docDummy.appendItemValue("telef", proveedor.getPrv_telefono());
 			
 			QueryAS400 query = new QueryAS400();
 			DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
@@ -88,9 +88,9 @@ public class ProveedorBean implements Serializable{
 		listaProveedores = new ArrayList<Proveedor>();
 		for (String strLinea : nl) {
 			Proveedor myProveedor = new Proveedor();
-			myProveedor.setprv_razonSocial(strLinea.split("\\|")[0].trim());
-			myProveedor.setprv_domicilio(strLinea.split("\\|")[1].trim());
-			myProveedor.setprv_localidad(strLinea.split("\\|")[2].trim());
+			myProveedor.setPrv_razonSocial(strLinea.split("\\|")[0].trim());
+			myProveedor.setPrv_domicilio(strLinea.split("\\|")[1].trim());
+			myProveedor.setPrv_localidad(strLinea.split("\\|")[2].trim());
 			myProveedor.setPrv_cuit(strLinea.split("\\|")[3].trim());
 			myProveedor.setPrv_isReadMode(true);
 			listaProveedores.add(myProveedor);
@@ -113,7 +113,7 @@ public class ProveedorBean implements Serializable{
 				proveedorSelected = myProveedor.getPrv_cuit();
 			SelectItem option = new SelectItem();
 			
-			option.setLabel(myProveedor.getprv_razonSocial());
+			option.setLabel(myProveedor.getPrv_razonSocial());
 			option.setValue(myProveedor.getPrv_cuit());
 			options.add(option);
 		}
@@ -135,7 +135,7 @@ public class ProveedorBean implements Serializable{
 			fillListaProveedores();
 		List<Proveedor> lista = prm_isDeTrabajo ? listaProveedores : listaProveedores;
 		for (Proveedor myProveedor : lista) {
-			result.add(myProveedor.getprv_razonSocial() + "|" + myProveedor.getprv_domicilio() +"|" + myProveedor.getPrv_cuit());
+			result.add(myProveedor.getPrv_razonSocial() + "|" + myProveedor.getPrv_domicilio() +"|" + myProveedor.getPrv_cuit());
 		}
 		return result;
 	}
