@@ -24,18 +24,19 @@ x$( "#{id:btnNewProveedor}" ).popover();
 							<xe:formRow id="rowPrv_id" label="Proveedor"
 								labelPosition="right" styleClass="col-sm-10 form-inline">
 								<xe:djextListTextBox id="gts_prv_cuit"
-									value="#{requestScope.category}" multipleTrim="true"
-									multipleSeparator=",">
+									value="#{proveedorBean.proveedorSelected}">
 								</xe:djextListTextBox>
-								<xe:valuePicker id="valuePicker1"
-									for="djextListTextBox1" dialogTitle="Category"
-									dojoType="extlib.dijit.PickerCheckbox">
+								<xe:valuePicker id="pickerGts_prv_cuit"
+									for="gts_prv_cuit" dialogTitle="Seleccione el proveedor"
+									dojoType="extlib.dijit.PickerListSearch">
+
 									<xe:this.dataProvider>
-										<xe:simpleValuePicker valueList="red,green,blue"
-											valueListSeparator=",">
-										</xe:simpleValuePicker>
+										<xe:beanValuePicker
+											dataBean="ar.com.ada3d.pickers.SimplePicker">
+										</xe:beanValuePicker>
 									</xe:this.dataProvider>
 								</xe:valuePicker>
+
 							</xe:formRow>
 						</xe:formColumn>
 						<xe:formColumn
@@ -135,11 +136,11 @@ x$( "#{id:btnNewProveedor}" ).popover();
 								</xp:eventHandler>
 							</xp:button>
 							<xp:button value="Prueba" id="btnClose">
-								<xp:eventHandler event="onclick"
-									submit="false">
-									<xp:this.script><![CDATA[alert('btnClose');]]></xp:this.script>
-								</xp:eventHandler>
-							</xp:button>
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action><![CDATA[#{javascript:print("select:" + proveedorBean.getProveedorSelected())}]]></xp:this.action>
+							</xp:eventHandler></xp:button>
 						</xp:div>
 					</xe:this.facets>
 				</xe:formTable>

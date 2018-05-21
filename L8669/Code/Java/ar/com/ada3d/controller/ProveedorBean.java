@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.List;
 import javax.faces.model.SelectItem;
 import org.openntf.domino.Document;
+
+
 import lotus.domino.NotesException;
 import ar.com.ada3d.connect.QueryAS400;
 import ar.com.ada3d.model.Proveedor;
@@ -140,7 +142,7 @@ public class ProveedorBean implements Serializable{
 		return result;
 	}
 	
-
+	
 	//Getters & Setters
 	public List<Proveedor> getListaProveedores() {
 		return listaProveedores;
