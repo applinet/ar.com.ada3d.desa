@@ -25,7 +25,7 @@
 		<xp:this.value><![CDATA[jQuery(function($){
     $(".classPrt_importe").mask('0.000.000,00', {reverse: true}); //Por clase porque es un repeat
     $(".classPorc_importeHonorarios").mask('0.000.000,00', {reverse: true}); //Por clase porque es un repeat
-	x$("#{id:edf_interesPunitorioDeudores}").mask('000,0', {reverse: true});    x$("#{id:edf_interesRecargoSegundoVencimiento}").mask('0.000,0', {reverse: true});    x$("#{id:edf_importeFranqueo}").mask('0,0', {reverse: true});    x$("#{id:edf_importeMultaDeudores}").mask('00.000,0', {reverse: true});
+	x$("#{id:edf_interesPunitorioDeudores}").mask('000,0', {reverse: true});    x$("#{id:edf_interesRecargoSegundoVencimiento}").mask('0.000,0', {reverse: true});    x$("#{id:edf_importeFranqueo}").mask('000.000,00', {reverse: true});    x$("#{id:edf_importeMultaDeudores}").mask('000.000,00', {reverse: true});
     x$("#{id:edf_cuit}").mask('00-00000000-0', {placeholder: "__-________-_"});
 });
  
@@ -553,10 +553,10 @@ if (!msgValidacion.equals("")){
 						<xp:inputText id="edf_importeFranqueo"
 							value="#{edfObj.edf_importeFranqueo}"
 							disabled="#{edfObj.edf_isReadMode}"
-							style="text-align:right; width:60.0px; display: inline;">
+							style="text-align:right; width:100.0px; display: inline;">
 							<xp:this.converter>
 								<xp:convertNumber
-									pattern="#,##0.0;(#,##0.0)">
+									pattern="#,##0.00;(#,##0.00)">
 								</xp:convertNumber>
 							</xp:this.converter>
 						</xp:inputText>
@@ -566,10 +566,10 @@ if (!msgValidacion.equals("")){
 						<xp:inputText id="edf_importeMultaDeudores"
 							value="#{edfObj.edf_importeMultaDeudores}"
 							disabled="#{edfObj.edf_isReadMode}"
-							style="text-align:right; width:60.0px; display: inline;">
+							style="text-align:right; width:100.0px; display: inline;">
 							<xp:this.converter>
 								<xp:convertNumber
-									pattern="#,##0.0;(#,##0.0)">
+									pattern="#,##0.00;(#,##0.00)">
 								</xp:convertNumber>
 							</xp:this.converter>
 						</xp:inputText>

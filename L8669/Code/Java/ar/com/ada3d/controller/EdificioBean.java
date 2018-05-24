@@ -148,24 +148,25 @@ public class EdificioBean implements Serializable {
 	 */
 	private void AddEdificiosAs400() {
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
-		ArrayList<String> tempEdificiosSinAcceso = docUsuario.getEdificiosNoAccessLista();		
+		//ArrayList<String> tempEdificiosSinAcceso = new ArrayList<String>();
+		ArrayList<String> tempEdificiosSinAcceso = docUsuario.getEdificiosNoAccessLista();	
+		
 		if (!(listaEdificios == null)){
 			listaEdificios.clear();
 			listaEdificiosTrabajo.clear();
 			hmEdificios.clear();
 			
 		}	
+		
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		ArrayList<String> nl = null;
 		Edificio myEdificio = null;
-		
 		try {
 			nl = query.getSelectAS("controllerEdificios", null, false);
 		} catch (NotesException e) {
 			e.printStackTrace();
 		}
 		for (String strLinea : nl) {
-			
 			if (listaEdificios == null) {
 				listaEdificios = new ArrayList<Edificio>();
 			}
@@ -173,7 +174,6 @@ public class EdificioBean implements Serializable {
 				listaEdificiosTrabajo = new ArrayList<Edificio>();
 			}
 			myEdificio = actualizoUnEdificioAs400( myEdificio, strLinea);
-			
 			listaEdificios.add(myEdificio);
 			if (tempEdificiosSinAcceso.isEmpty()){
 				listaEdificiosTrabajo.add(myEdificio);				
@@ -575,7 +575,8 @@ public class EdificioBean implements Serializable {
 				break; 
 			}
 		}
-		
+		docDummy.appendItemValue("FRANQ", ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(prm_edificio.getEdf_importeFranqueo(), 2));
+		docDummy.appendItemValue("MULTA", ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(prm_edificio.getEdf_importeMultaDeudores(), 2));
 		
 		QueryAS400 query = new QueryAS400();
 		
@@ -596,6 +597,10 @@ public class EdificioBean implements Serializable {
 			if (!query.updateAS("updateEdificiosCUIT", docDummy)) {
 				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 				System.out.println("ERROR: " + errCode + " METH:saveEdificio" + "_EDIF:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo actualizar la tabla PH_CUIT.");
+			}
+			if (!query.updateAS("updateEdificiosMLFRQ", docDummy)) {
+				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+				System.out.println("ERROR: " + errCode + " METH:saveEdificio" + "_EDIF:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo actualizar la tabla PH_MLFRQ.");
 			}
 		}else{
 			listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
