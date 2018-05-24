@@ -162,7 +162,7 @@ public class EdificioBean implements Serializable {
 		ArrayList<String> nl = null;
 		Edificio myEdificio = null;
 		try {
-			nl = query.getSelectAS("controllerEdificios", null, false);
+			nl = query.getSelectAS("controllerEdificios", null);
 		} catch (NotesException e) {
 			e.printStackTrace();
 		}
@@ -399,7 +399,7 @@ public class EdificioBean implements Serializable {
 			ArrayList<String> nl = null;
 			try {
 				
-				nl = query.getSelectAS("controllerUnEdificio", docDummy, false);
+				nl = query.getSelectAS("controllerUnEdificio", docDummy);
 			} catch (NotesException e) {
 				e.printStackTrace();
 			}
@@ -641,7 +641,7 @@ public class EdificioBean implements Serializable {
 		try {
 			Document docDummy = JSFUtil.getDocDummy();
 			docDummy.appendItemValue("CodigoVisual", prm_edificio.getEdf_codigoVisual());
-			ArrayList<String> nl = query.getSelectAS("edificiosValidacionCodigoReemplazo", docDummy, false);
+			ArrayList<String> nl = query.getSelectAS("edificiosValidacionCodigoReemplazo", docDummy);
 			for (String strLinea : nl) {
 				if(!strLinea.split("\\|")[0].trim().equals(prm_edificio.getEdf_codigo())){
 					listAcumulaErrores.add("edf_codigoVisual~Código de reemplazo duplicado." + " El código " + prm_edificio.getEdf_codigoVisual() + " está siendo utilizado en otro edificio.");

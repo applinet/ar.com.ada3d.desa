@@ -52,7 +52,7 @@ return elnombrequequiera.devolvemeunnumeroentexto();}]]></xp:this.value>
 					<xp:selectItems id="selectItems6">
 						<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
 var javaClassQuery:QueryAS400 = new QueryAS400();
-javaClassQuery.getSelectAS("_*_curso_PH_E01", null, false);}]]></xp:this.value>
+javaClassQuery.getSelectAS("_*_curso_PH_E01", null);}]]></xp:this.value>
 					</xp:selectItems>
 
 					<xp:eventHandler event="onchange" submit="true"
@@ -76,7 +76,7 @@ javaClassQuery.getSelectAS("_*_curso_PH_E01", null, false);}]]></xp:this.value>
 				<xp:inputTextarea id="inputTextarea1">
 					<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
 var javaClassQuery:QueryAS400 = new QueryAS400();
-javaClassQuery.getSelectAS("_*_cursoDevuelvoTextoOrdenado_PH_E01", null, false);}]]></xp:this.value>
+javaClassQuery.getSelectAS("_*_cursoDevuelvoTextoOrdenado_PH_E01", null);}]]></xp:this.value>
 					<xp:this.multipleSeparator><![CDATA[#{javascript:"\n"}]]></xp:this.multipleSeparator>
 				</xp:inputTextarea>
 			</xp:div>
@@ -93,7 +93,7 @@ javaClassQuery.getSelectAS("_*_cursoDevuelvoTextoOrdenado_PH_E01", null, false);
 			<xp:repeat id="repeat1" rows="30" var="rowData" style="width:400px">
 				<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
 var javaClassQuery:QueryAS400 = new QueryAS400();
-return javaClassQuery.getSelectAS("_*_cursoDevuelvoTexto_PH_E01", null, false);}]]></xp:this.value>
+return javaClassQuery.getSelectAS("_*_cursoDevuelvoTexto_PH_E01", null);}]]></xp:this.value>
 
 				<xp:this.facets>
 					<xp:text xp:key="header" escape="false">

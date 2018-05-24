@@ -83,7 +83,7 @@ public class ProveedorBean implements Serializable{
 		ArrayList<String> nl = null;
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		try {
-			nl = query.getSelectAS("controllerProveedores", null, false);
+			nl = query.getSelectAS("controllerProveedores", null);
 		} catch (NotesException e) {
 			e.printStackTrace();
 		}
