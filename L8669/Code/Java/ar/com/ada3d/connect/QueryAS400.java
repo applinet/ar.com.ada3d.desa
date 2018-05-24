@@ -129,7 +129,7 @@ public class QueryAS400 implements Serializable {
 						temp = temp + s.substring(6);
 					} else {
 						if(rs.getString(s) == null){
-							temp = temp + "";
+							temp = temp + " ";
 						}else{
 							temp = temp + rs.getString(s).trim();
 						}
