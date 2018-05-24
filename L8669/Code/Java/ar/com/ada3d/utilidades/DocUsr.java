@@ -66,6 +66,7 @@ public class DocUsr implements Serializable{
 
 					this._map.put("userDB", currentDB.getFileName().substring(
 							currentDB.getFileName().length() - 8, 5));
+					this.edificiosNoAccessLista = new ArrayList<String>();
 				}
 
 			}
