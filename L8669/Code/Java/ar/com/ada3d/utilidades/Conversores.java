@@ -125,8 +125,8 @@ public class Conversores {
 		final char decimalSeparatorChar;
 		symbols = new DecimalFormatSymbols(locale);
 		decimalSeparatorChar = symbols.getDecimalSeparator();
-		
 		formattedString = formattedString.length() < 3 ? "000" + formattedString : formattedString; 
+		
 		StringBuilder str = new StringBuilder(formattedString);
 		
 		str.insert(formattedString.length()-decimales, decimalSeparatorChar);

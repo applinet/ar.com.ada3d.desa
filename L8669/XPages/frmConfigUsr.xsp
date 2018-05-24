@@ -15,6 +15,7 @@
 		<xe:objectData var="objDataEdificiosPorUsuario"
 			ignoreRequestParams="true" readonly="false" scope="view">
 			<xe:this.createObject><![CDATA[#{javascript:var results = []; // Crear un array vacio a devolver al final
+
 var listaEdificios = edificioBean.getArraySrtringListaEdificios(false); //Lista total de edificios
 if(listaEdificios == null){
 	return results;

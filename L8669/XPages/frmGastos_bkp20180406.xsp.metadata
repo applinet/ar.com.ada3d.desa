@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="1fda" sequence="3" unid="F7D918D67F7683CD83258267003FE959">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258294005DFE4F" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="4d6" sequence="7" unid="F7D918D67F7683CD83258267003FE959">
 <created><datetime dst="true">20180406T093805,05-02</datetime></created>
-<modified><datetime dst="true">20180406T093814,78-02</datetime></modified>
-<revised><datetime dst="true">20180406T093814,77-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180406T093814,78-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20180406T093805,06-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst="true">20180521T150644,44-02</datetime></modified>
+<revised><datetime dst="true">20180406T103042,16-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180521T150644,44-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180521T150644,44-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$Comment" sign="true"><text>* Comienzo de Gastos</text></item>
@@ -13,4 +13,10 @@
 
 <item name="$FileNames" sign="true"><text>frmGastos_1.xsp</text></item>
 <item name="$TITLE" sign="true"><text>frmGastos_bkp20180406.xsp</text></item>
-<item name="$DesignerVersion" sign="true"><text>8.5.3</text></item></note>
+<item name="$DesignerVersion"><text>9.0.1</text></item>
+
+
+
+
+
+</note>
