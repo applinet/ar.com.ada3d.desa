@@ -55,7 +55,7 @@ public class QueryAS400 implements Serializable {
 	 * @return: Arreglo con Strings
 	 */
 	public ArrayList<String> getSelectAS(String param_clave,
-			Document param_doc, boolean param_booDescColumnas)
+			Document param_doc)
 			throws NotesException {
 		if (!initConexion())
 			return null;
@@ -106,7 +106,7 @@ public class QueryAS400 implements Serializable {
 			ResultSet rs = stmt.executeQuery(configTabla.getStrsSQL());
 
 			
-			if (param_booDescColumnas) {
+			if (configTabla.getMsgConsola().equals("1")) {
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int columnCount = rsmd.getColumnCount();
 				System.out
