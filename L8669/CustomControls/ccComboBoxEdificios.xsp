@@ -11,7 +11,7 @@ sessionScope.edificioWork;}]]></xe:this.defaultValue>
 if(prop == "auto")
 	return "";
 style='width:' + prop + 'px';}]]></xe:this.style>
-		<xp:selectItems>
+		<xe:this.disabled><![CDATA[#{javascript:compositeData.get("property_ReadOnly")}]]></xe:this.disabled><xp:selectItems>
 			<xp:this.value><![CDATA[#{javascript:edificioBean.getComboBoxEdificiosQueTengoAutorizados(compositeData.get("property_SoloEdificiosEnProceso"), compositeData.get("property_VisualizarCodigo"), compositeData.get("property_VisualizarFechaUltimaLiquidacion"));}]]></xp:this.value>
 		</xp:selectItems>
 		<xe:this.dojoAttributes>

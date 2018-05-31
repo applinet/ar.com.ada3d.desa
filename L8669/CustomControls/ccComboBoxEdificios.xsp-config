@@ -44,5 +44,14 @@
         <required>true</required>
       </property-extension>
     </property>
+    <property>
+      <property-name>property_ReadOnly</property-name>
+      <property-class>boolean</property-class>
+      <property-extension>
+        <designer-extension>
+          <default-value>false</default-value>
+        </designer-extension>
+      </property-extension>
+    </property>
   </composite-component>
 </faces-config>
