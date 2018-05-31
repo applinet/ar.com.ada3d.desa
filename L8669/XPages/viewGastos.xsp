@@ -1,18 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xc="http://www.ibm.com/xsp/custom">
+	
+	<!-- When the page loads, will need to force the bean to populate the current list -->
+	<xp:this.beforeRenderResponse><![CDATA[#{javascript:gastoBean.viewGastos();}]]></xp:this.beforeRenderResponse>
+	
 	<xc:ccLayoutBootstrap property_hasTitleBar="true"
 		property_ShowComboEdificio="true"
 		property_TitleBarActions="ar.com.ada3d.frontend.LayoutTitleBarActions">
 		<xp:this.facets>
-			<xp:panel xp:key="facetMiddle">
-				<xp:messages id="messages1"></xp:messages>
-				<xp:inputTextarea id="inputTextarea1">
-					<xp:this.value><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
-var javaClassQuery:QueryAS400 = new QueryAS400();
-javaClassQuery.getSelectAS("controllerGastos", null);}]]></xp:this.value>
-					<xp:this.multipleSeparator><![CDATA[#{javascript:"\n"}]]></xp:this.multipleSeparator>
-				</xp:inputTextarea>
+			<xp:panel id="PNL_container" xp:key="facetMiddle">
+				
+				<xp:dataTable id="gastosTable" var="gasto"
+					value="#{gastoBean.listaGastos}" rows="15">
+					<xp:this.facets>
+						<xp:panel xp:key="header">
+							<xp:pager layout="Previous Group Next"
+								id="pagerHeader">
+							</xp:pager>
+							
+						</xp:panel>
+
+						<xp:pager layout="Previous Group Next"
+							xp:key="footer" id="pagerFooter">
+						</xp:pager>
+					</xp:this.facets>
+
+					<xp:column id="codigoEdificioColumn">
+						<xp:this.facets>
+							<xp:label value="Edificio" id="codigoEdificioLabel"
+								xp:key="header" style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:text escape="true"
+							value="#{gasto.codigoEdificio}" id="codigoEdificio">
+						</xp:text>
+					</xp:column>
+
+					<xp:column id="numeroComprobanteColumn">
+						<xp:this.facets>
+							<xp:label value="Comprobante" id="numeroComprobanteLabel"
+								xp:key="header" style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:link escape="true"
+							text="#{gasto.numeroComprobante}"
+							id="numeroComprobante">
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler1">
+								<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</xp:column>
+
+					<xp:column id="cuitProveedorColumn">
+						<xp:this.facets>
+							<xp:label value="CUIT" id="cuitProveedorLabel"
+								xp:key="header" style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:text escape="true"
+							value="#{gasto.cuitProveedor}" id="cuitProveedor">
+						</xp:text>
+					</xp:column>
+					
+					<xp:column id="importeColumn">
+						<xp:this.facets>
+							<xp:label value="Importe" id="importeLabel"
+								xp:key="header" style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:text escape="true"
+							value="#{gasto.importe}" id="importe">
+						</xp:text>
+					</xp:column>
+					
+				</xp:dataTable>
 			</xp:panel>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>

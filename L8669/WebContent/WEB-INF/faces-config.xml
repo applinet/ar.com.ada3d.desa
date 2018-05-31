@@ -46,6 +46,12 @@
     <managed-bean-class>ar.com.ada3d.controller.ProveedorBean</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <managed-bean id="gastoBean">
+    <description>Gastos</description>
+    <managed-bean-name>gastoBean</managed-bean-name>
+    <managed-bean-class>ar.com.ada3d.controller.GastoBean</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
   <managed-bean id="validadorBean">
     <description>Validadores</description>
     <managed-bean-name>validadorBean</managed-bean-name>
