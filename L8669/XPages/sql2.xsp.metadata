@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="1a1e" sequence="9" unid="9EFDB61A60EF11BC832582490067CFAC">
-<created><datetime dst="true">20180307T165353,72-02</datetime></created>
-<modified><datetime dst="true">20180307T165841,78-02</datetime></modified>
-<revised><datetime dst="true">20180307T165841,77-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180307T165841,78-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20180307T165353,74-02</datetime></addedtofile></noteinfo>
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258294005DFE4F" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="542" sequence="9" unid="2AC259B87B0A299C832582A00063D6AE">
+<created><datetime dst="true">20180602T161030,22-02</datetime></created>
+<modified><datetime dst="true">20180602T161421,27-02</datetime></modified>
+<revised><datetime dst="true">20180602T161421,26-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180602T161421,27-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180602T161030,23-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$Comment" sign="true"><text>*** PRUEBA - Consultas SQL ***</text></item>

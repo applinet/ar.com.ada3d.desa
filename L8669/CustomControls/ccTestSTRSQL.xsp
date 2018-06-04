@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+<xp:label value="Update: " id="label1"></xp:label>
+	<xp:inputText id="update" style="height:auto; width:80.0%; display: inline;"></xp:inputText>
+	
+	<xp:button value="Ejecutar" id="ejecutarSTRSQL">
+		<xp:eventHandler event="onclick" submit="true"
+			refreshMode="complete">
+
+			<xp:this.action><![CDATA[#{javascript:var dummyDoc:NotesDocument = database.createDocument();
+
+dummyDoc.replaceItemValue("TestField",getComponent("update").getValue());
+dummyDoc.replaceItemValue("count","");
+var agent:NotesAgent = database.getAgent("a.update");
+if(agent!=null){
+		agent.runWithDocumentContext(dummyDoc);
+}
+context.reloadPage();}]]></xp:this.action>
+		</xp:eventHandler>
+	</xp:button>
+	<xp:br></xp:br>
+	<xp:br></xp:br>
+</xp:view>
