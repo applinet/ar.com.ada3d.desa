@@ -358,8 +358,8 @@ function getFieldValueFromConfig(clave:String, fieldName:String){
 	return doc.getItemValueString(fieldName);
 }
 
-function getFieldValueAsItemFromConfig(clave:String, fieldName:String):String{
-	var dc:DocumentCollection = getCollectionByKey(getDbCfg(), "v.Sys.ODBC", clave);
+function getFieldValueAsItemFromConfig(clave:String, vista:String, fieldName:String):String{
+	var dc:DocumentCollection = getCollectionByKey(getDbCfg(), vista, clave);
 	if(dc.getCount() < 1){return ""};
 	var doc:NotesDocument = dc.getFirstDocument();	
 	return doc.getItemValue(fieldName);
