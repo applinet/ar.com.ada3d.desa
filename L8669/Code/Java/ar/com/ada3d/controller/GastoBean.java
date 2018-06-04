@@ -60,7 +60,6 @@ public class GastoBean {
 			Gasto myGasto = new Gasto();
 			myGasto.setCodigoEdificio(strLinea.split("\\|")[0].trim());
 			myGasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[1].trim(), Locale.UK, 0)));
-			myGasto.setImporte(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[2].trim(), Locale.UK, 2)));
 			myGasto.setCuitProveedor(strLinea.split("\\|")[3].trim());
 			myGasto.setIdGasto(strLinea.split("\\|")[4].trim());
 			myGasto.setIsReadMode(true);

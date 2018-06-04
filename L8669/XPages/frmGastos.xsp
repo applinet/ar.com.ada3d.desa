@@ -209,7 +209,7 @@ x$( "#{id:btnNewProveedor}" ).popover();
 						<xe:formRow id="rowImporte"
 							labelWidth="100px" labelPosition="right" label="Agrupamiento">
 							<xp:inputText id="importe" style="text-align:right"
-							value="#{gastoBean.gasto.importe}">
+							value="">
 								<xp:this.converter>
 									<xp:convertNumber
 										pattern="#,##0.00;(#,##0.00)">

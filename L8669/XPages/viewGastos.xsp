@@ -64,17 +64,6 @@
 						</xp:text>
 					</xp:column>
 					
-					<xp:column id="importeColumn">
-						<xp:this.facets>
-							<xp:label value="Importe" id="importeLabel"
-								xp:key="header" style="font-weight:bold">
-							</xp:label>
-						</xp:this.facets>
-						<xp:text escape="true"
-							value="#{gasto.importe}" id="importe">
-						</xp:text>
-					</xp:column>
-					
 				</xp:dataTable>
 			</xp:panel>
 		</xp:this.facets>

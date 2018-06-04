@@ -11,11 +11,11 @@ public class Gasto {
 	private BigDecimal numeroComprobante; 
 	private BigDecimal numeroFactura;
 	private Vector<String> textoDetalleFactura;
-	private BigDecimal importe;
+	//columnas en AS: IMPOR1, IMPOR2, IMPOR3, IMPOR4 
+	List<Porcentual> listaPorcentualesEdificio = new ArrayList<Porcentual>();
 	private Integer numeroRenglon;
 	private Integer cantidadRenglones;
 	
-	private String posicionPorcentual; //limitado a los porcentuales del edificio Porcentual 1,2,3,4 %
 	private String agrupamiento; //o rubro --> tabla
 	private String codigoEspecial; // --> tabla (es el estado)
 	private String cuitProveedor;
@@ -96,14 +96,16 @@ public class Gasto {
 		this.textoDetalleFactura = textoDetalleFactura;
 	}
 
-
-	public BigDecimal getImporte() {
-		return importe;
+	
+	
+	public List<Porcentual> getListaPorcentualesEdificio() {
+		return listaPorcentualesEdificio;
 	}
 
 
-	public void setImporte(BigDecimal importe) {
-		this.importe = importe;
+	public void setListaPorcentualesEdificio(
+			List<Porcentual> listaPorcentualesEdificio) {
+		this.listaPorcentualesEdificio = listaPorcentualesEdificio;
 	}
 
 
@@ -126,17 +128,7 @@ public class Gasto {
 		this.cantidadRenglones = cantidadRenglones;
 	}
 
-
-	public String getPosicionPorcentual() {
-		return posicionPorcentual;
-	}
-
-
-	public void setPosicionPorcentual(String posicionPorcentual) {
-		this.posicionPorcentual = posicionPorcentual;
-	}
-
-
+	
 	public String getAgrupamiento() {
 		return agrupamiento;
 	}
