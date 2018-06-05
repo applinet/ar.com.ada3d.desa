@@ -53,15 +53,21 @@
 						</xp:link>
 					</xp:column>
 
-					<xp:column id="cuitProveedorColumn">
+					<xp:column id="textoDetalleFacturaColumn">
 						<xp:this.facets>
-							<xp:label value="CUIT" id="cuitProveedorLabel"
-								xp:key="header" style="font-weight:bold">
+							<xp:label value="Detalle" id="textoDetalleFacturaLabel"
+								xp:key="header" style="font-weight:bold" for="textoDetalleFactura">
 							</xp:label>
 						</xp:this.facets>
-						<xp:text escape="true"
-							value="#{gasto.cuitProveedor}" id="cuitProveedor">
-						</xp:text>
+						<xp:inputText id="textoDetalleFactura"
+							value="#{gasto.textoDetalleFactura}" multipleTrim="true"
+							readonly="true">
+							<xp:this.multipleSeparator><![CDATA[#{javascript:"\n"}]]></xp:this.multipleSeparator>
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:inputText>
 					</xp:column>
 					
 				</xp:dataTable>
