@@ -53,7 +53,7 @@
 					property_SoloEdificiosEnProceso="false"
 					property_VisualizarCodigo="true"
 					property_VisualizarFechaUltimaLiquidacion="true"
-					property_AnchoPxCombo="400">
+					property_AnchoPxCombo="400" refreshIdOnChange="facetMiddle">
 				</xc:ccComboBoxEdificios>
 			</xp:div>
 			<xp:callback facetName="facetLeft" id="facetLeft"

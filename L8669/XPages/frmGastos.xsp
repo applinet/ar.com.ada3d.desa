@@ -56,7 +56,9 @@ x$( "#{id:btnNewProveedor}" ).popover();
 									property_SoloEdificiosEnProceso="true"
 									property_VisualizarCodigo="true"
 									property_VisualizarFechaUltimaLiquidacion="false"
-									property_AnchoPxCombo="auto" property_ReadOnly="#{gastoBean.gasto.isReadMode}">
+									property_AnchoPxCombo="auto"
+									property_ReadOnly="#{gastoBean.gasto.isReadMode}"
+									refreshIdOnChange="PNL_Principal">
 								</xc:ccComboBoxEdificios>
 
 							</xe:formRow>

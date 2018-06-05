@@ -53,5 +53,15 @@
         </designer-extension>
       </property-extension>
     </property>
+    <property>
+      <property-name>refreshIdOnChange</property-name>
+      <property-class>string</property-class>
+      <property-extension>
+        <designer-extension>
+          <default-value>djComboEdificios</default-value>
+        </designer-extension>
+        <required>true</required>
+      </property-extension>
+    </property>
   </composite-component>
 </faces-config>

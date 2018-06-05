@@ -47,7 +47,8 @@
 									property_SoloEdificiosEnProceso="true"
 									property_VisualizarCodigo="false"
 									property_VisualizarFechaUltimaLiquidacion="false"
-									property_AnchoPxCombo="auto">
+									property_AnchoPxCombo="auto"
+									refreshIdOnChange="PNL_Principal">
 								</xc:ccComboBoxEdificios>
 							</xe:formRow>
 						</xe:formColumn>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex">
-	<xe:djFilteringSelect id="djComboEdificios"
-		queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false">
-
-		<xe:this.defaultValue><![CDATA[#{javascript:if(sessionScope.edfObj == null){
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if(sessionScope.edfObj == null){
 	var strCodigoPrimerEdificioDeLista = edificioBean.getComboBoxEdificiosQueTengoAutorizados(compositeData.get("property_SoloEdificiosEnProceso"), compositeData.get("property_VisualizarCodigo"), compositeData.get("property_VisualizarFechaUltimaLiquidacion")).get(0).getValue();
 	sessionScope.put("edfObj", edificioBean.getEdificioMap(strCodigoPrimerEdificioDeLista));
-}
-sessionScope.edificioWork;
-}]]></xe:this.defaultValue>
+}}]]></xp:this.beforePageLoad>
+	<xe:djFilteringSelect id="djComboEdificios"
+		queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
+		defaultValue="#{javascript:sessionScope.edificioWork;}">
+
+
 		<xe:this.style><![CDATA[#{javascript:var prop = compositeData.get("property_AnchoPxCombo");
 if(prop == "auto")
 	return "";
@@ -23,14 +23,13 @@ style='width:' + prop + 'px';}]]></xe:this.style>
 
 		</xe:this.dojoAttributes>
 		<xp:eventHandler event="onChange" submit="true"
-			refreshMode="partial" refreshId="djComboEdificios"
-			disableValidators="true">
+			refreshMode="partial" disableValidators="true">
+			<xp:this.refreshId><![CDATA[#{javascript:compositeData.refreshIdOnChange}]]></xp:this.refreshId>
 			<xe:this.action><![CDATA[#{javascript:var edificio = edificioBean.getEdificioMap(this.getParent().getValue());
 if(edificio != null){
 	sessionScope.put("edfObj", edificio);
 }
 sessionScope.edificioWork = this.getParent().getValue();}]]></xe:this.action>
-
 		</xp:eventHandler>
 	</xe:djFilteringSelect>
 </xp:view>
