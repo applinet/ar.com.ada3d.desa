@@ -31,11 +31,8 @@ for (var i = 0; i < arrSQL.length; i++) {
 	while (iterator2.hasNext()) {
 		var itemvalue2 = iterator2.next();
 		if(contadorIdx > 0){strData = strData + ", "};
-		if(arrSQL[i].split("|")[contadorIdx].trim() == "'"){
-			strData = strData + "'" +itemvalue2 + "': '\\''";
-		}else{
-			strData = strData + "'" +itemvalue2 + "': '" + arrSQL[i].split("|")[contadorIdx].trim() + "'";
-		}
+		var strTemp = arrSQL[i].split("|")[contadorIdx].trim().replaceAll("'", "\\\\'")
+		strData = strData + "'" +itemvalue2 + "': '" + strTemp + "'";
 		contadorIdx = contadorIdx + 1; 
 	}
 	strData = strData + "}";
