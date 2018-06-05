@@ -12,7 +12,7 @@ public class Gasto {
 	private BigDecimal numeroFactura;
 	private Vector<String> textoDetalleFactura;
 	//columnas en AS: IMPOR1, IMPOR2, IMPOR3, IMPOR4 
-	List<Porcentual> listaPorcentualesEdificio = new ArrayList<Porcentual>();
+	List<Prorrateo> listaProrrateos = new ArrayList<Prorrateo>();
 	private Integer numeroRenglon;
 	private Integer cantidadRenglones;
 	
@@ -98,14 +98,14 @@ public class Gasto {
 
 	
 	
-	public List<Porcentual> getListaPorcentualesEdificio() {
-		return listaPorcentualesEdificio;
+	public List<Prorrateo> getListaProrrateos() {
+		return listaProrrateos;
 	}
 
 
-	public void setListaPorcentualesEdificio(
-			List<Porcentual> listaPorcentualesEdificio) {
-		this.listaPorcentualesEdificio = listaPorcentualesEdificio;
+	public void setListaProrrateos(
+			List<Prorrateo> listaProrrateos) {
+		this.listaProrrateos = listaProrrateos;
 	}
 
 
