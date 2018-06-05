@@ -7,6 +7,7 @@ import org.openntf.domino.Document;
 
 import lotus.domino.NotesException;
 import ar.com.ada3d.connect.QueryAS400;
+import ar.com.ada3d.model.Edificio;
 import ar.com.ada3d.model.Gasto;
 import ar.com.ada3d.model.Prorrateo;
 import ar.com.ada3d.utilidades.JSFUtil;
@@ -20,7 +21,9 @@ public class GastoBean {
 		// Empty constructor
 	}
 	
-		
+	
+	//***** INI BOTONES ****
+	
 	/**Cuando presiona btnNewGasto
 	 * Creo un objeto vacio
 	 */
@@ -28,7 +31,13 @@ public class GastoBean {
 		setGasto(new Gasto());
 	}
 	
+	/**
+	 * Funcion en el boton editar
+	 * Actualizo el gasto y lockeo
+	 * @usedIn: frmGasto
+	 */
 	public void editFormulario(){
+		//TODO: Actualizar el gasto y loquearlo al editar
 		this.gasto.setIsReadMode(false);
 	}
 	
@@ -39,21 +48,29 @@ public class GastoBean {
 		
 	}
 	
+	//***** FIN BOTONES ****
+	
+	//***** INI VISTAS ****
+	
 	/**Cuando ingresa a la vista de Gastos
 	 */
-	public void viewGastos(){
-		fillListaGastos();
+	public void viewGastos(Edificio edificio){
+		fillListaGastos(edificio);
 	}
 	
 	/**
-	 * Lleno listaGastos consultando As400, cada linea separa el dato por un pipe
-	 * Cada gasto puede tener mas de una linea, pero existe un unico importe por factura
+	 * Completo la variable listaGastos consultando As400, cada linea separa el dato por un pipe
+	 * Cada gasto puede tener mas de una linea, pero existe un unico importe por factura.
+	 * @param objeto edificio 
+	 * @return la lista de facturas de un edificio
 	 */
-	private void fillListaGastos(){
+	private void fillListaGastos(Edificio edificio){
 		ArrayList<String> nl = null;
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		try {
-			nl = query.getSelectAS("controllerGastos", null);
+			Document docDummy = JSFUtil.getDocDummy();
+			docDummy.appendItemValue("edf_codigo", edificio.getEdf_codigo());
+			nl = query.getSelectAS("controllerGastos", docDummy);
 		} catch (NotesException e) {
 			e.printStackTrace();
 		}
@@ -89,7 +106,11 @@ public class GastoBean {
 			}
 		}
 	}
+	
+	//***** FIN VISTAS ****
 
+	
+	
 	/**
 	 * Al cargar una factura en la misma consulta al AS400 tambien cargo los importes de prorrateo
 	 * @param strLinea de AS400 que estoy procesando
@@ -134,6 +155,7 @@ public class GastoBean {
 	}
 
 
+	
 	//Getters & Setters
 	
 	public List<Gasto> getListaGastos() {

@@ -3,8 +3,8 @@
 	xmlns:xc="http://www.ibm.com/xsp/custom">
 	
 	<!-- When the page loads, will need to force the bean to populate the current list -->
-	<xp:this.beforeRenderResponse><![CDATA[#{javascript:gastoBean.viewGastos();}]]></xp:this.beforeRenderResponse>
-	
+	<xp:this.beforeRenderResponse><![CDATA[#{javascript:gastoBean.viewGastos(sessionScope.edfObj);}]]></xp:this.beforeRenderResponse>
+
 	<xc:ccLayoutBootstrap property_hasTitleBar="true"
 		property_ShowComboEdificio="true"
 		property_TitleBarActions="ar.com.ada3d.frontend.LayoutTitleBarActions">
