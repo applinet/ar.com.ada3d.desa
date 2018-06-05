@@ -105,6 +105,7 @@ public class EdificioBean implements Serializable {
 		return options;
 	}
 
+	
 	/**
 	 * Devuelve un string con la lista de edificios
 	 *  @param verdadero devuelve solo los que trabaja el usuario, sino todos

@@ -54,9 +54,9 @@ x$( "#{id:btnNewProveedor}" ).popover();
 								style="padding-right:2.0%">
 								<xc:ccComboBoxEdificios
 									property_SoloEdificiosEnProceso="true"
-									property_VisualizarCodigo="false"
+									property_VisualizarCodigo="true"
 									property_VisualizarFechaUltimaLiquidacion="false"
-									property_AnchoPxCombo="auto" property_ReadOnly="true">
+									property_AnchoPxCombo="auto" property_ReadOnly="#{gastoBean.gasto.isReadMode}">
 								</xc:ccComboBoxEdificios>
 
 							</xe:formRow>
@@ -103,14 +103,26 @@ x$( "#{id:btnNewProveedor}" ).popover();
 					
 					<xp:div styleClass="form-inline">
 						
-						<xe:formColumn styleClass="form-group col-sm-12">
+						<xe:formColumn styleClass="form-group col-sm-6">
 							<xe:formRow id="rowTextoDetalleFactura" label="Detalle"
 								style="padding-right:2.0%" for="textoDetalleFactura">
-								<xp:inputTextarea id="textoDetalleFactura" rows="4" 
-									cols="72" value="#{gastoBean.gasto.textoDetalleFactura}"
-									readonly="#{gastoBean.gasto.isReadMode}">
-									<xp:this.multipleSeparator><![CDATA[#{javascript:"\n"}]]></xp:this.multipleSeparator>
-								</xp:inputTextarea>
+								<xp:repeat value="#{gastoBean.gasto.textoDetalleFactura}" var="rptTextoFactura">
+									<xp:inputText
+										id="textoDetalleFactura" value="#{rptTextoFactura}"
+										readonly="#{gastoBean.gasto.isReadMode}">
+										<xp:eventHandler event="onkeyup"
+								submit="false">
+								<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+if (element.value.length > 72) {
+    element.value = element.value.substring(0, 72);
+}]]></xp:this.script>
+							</xp:eventHandler>
+									</xp:inputText>
+									<xp:text escape="false"	id="computedField1" rendered="#{gastoBean.gasto.isReadMode}">
+										<xp:this.value><![CDATA[#{javascript:"<br>"}]]></xp:this.value>
+									</xp:text>
+								</xp:repeat>
+								
 							</xe:formRow>
 						</xe:formColumn>
 					</xp:div>
