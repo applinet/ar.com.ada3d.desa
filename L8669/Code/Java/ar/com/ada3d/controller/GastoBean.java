@@ -2,6 +2,7 @@ package ar.com.ada3d.controller;
 
 import java.math.BigDecimal;
 import java.util.*;
+
 import javax.faces.model.SelectItem;
 import org.openntf.domino.Document;
 import lotus.domino.NotesException;
@@ -91,6 +92,8 @@ public class GastoBean {
 				myGasto.setIdGasto(idGasto);
 				myGasto.setCodigoEdificio(strLinea.split("\\|")[0].trim());
 				myGasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[1].trim(), Locale.UK, 0)));
+				myGasto.setNumeroRenglon(Integer.parseInt(strLinea.split("\\|")[7].trim()));
+				myGasto.setCantidadRenglones(Integer.parseInt(strLinea.split("\\|")[8].trim()));
 				
 				//Detalle factura
 				tempTextoFactura.add(strLinea.split("\\|")[2].trim());
@@ -123,6 +126,36 @@ public class GastoBean {
 	
 	//***** FIN VISTAS ****
 
+	/** UPDATE DEL GASTO
+	 * Al ingresar en un registro de la lista de gastos hago un nuevo update del gasto con los datos que faltan
+	 * Recordar que cada gasto puede tener mas de una linea, pero existe un unico importe por factura
+	 */
+	private void updateGasto(Gasto myGasto){
+		ArrayList<String> nl = null;
+		Document docDummy = JSFUtil.getDocDummy();
+		docDummy.appendItemValue("Codigo", myGasto.getCodigoEdificio());
+		docDummy.appendItemValue("Cuit", myGasto.getCuitProveedor());
+		docDummy.appendItemValue("Idgasto", myGasto.getIdGasto());
+		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
+		try {
+			nl = query.getSelectAS("controllerUnGasto", docDummy);
+		} catch (NotesException e) {
+			e.printStackTrace();
+		}
+		String temp = "";
+		
+		for (String strLinea : nl) {
+			if(strLinea.split("\\|")[3].trim().equals("1")){ 
+				// Solo leo el primer renglon
+				temp = strLinea.split("\\|")[2].trim();
+				myGasto.setFechaLiquidacion(temp.length() == 6 ? temp : "0" + temp );
+				myGasto.setCuitProveedor("24036435");
+			}
+		}
+		
+	}
+
+	
 	
 	
 	/**
@@ -179,7 +212,10 @@ public class GastoBean {
 		prm_gasto.setListaProrrateos(listaProrrateos);
 	}
 	
-	
+	/**
+	 * En frmGastos el combo de Agrupamiento sale de PH_$T
+	 * @return codigos de agrupamiento
+	 */
 	public List<SelectItem> getComboboxAgrupamiento() {
 		ArrayList<String> nl = null;
 		List<SelectItem> options = new ArrayList<SelectItem>();
@@ -195,32 +231,35 @@ public class GastoBean {
 			option.setLabel((strLinea.split("\\|")[0].trim() + " " + strLinea.split("\\|")[1].trim()).trim());
 			option.setValue(strLinea.split("\\|")[0].trim());
 			options.add(option);
-				
 		}
 		return options;
 	}
 	
+	
 	/**
-	 * Al ingresar en un registro de la lista de gastos hago un nuevo update del gasto con los datos que faltan
-	 * Recordar que cada gasto puede tener mas de una linea, pero existe un unico importe por factura
+	 * En frmGastos el combo de Liquidacion son 12 meses y default proxima liquidación
+	 * @param edificio actual
+	 * @return MMyyyy de liquidacion
 	 */
-	private void updateGasto(Gasto myGasto){
-		ArrayList<String> nl = null;
-		Document docDummy = JSFUtil.getDocDummy();
-		docDummy.appendItemValue("Codigo", myGasto.getCodigoEdificio());
-		docDummy.appendItemValue("Cuit", myGasto.getCuitProveedor());
-		docDummy.appendItemValue("Idgasto", myGasto.getIdGasto());
-		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
-		try {
-			nl = query.getSelectAS("controllerUnGasto", docDummy);
-		} catch (NotesException e) {
-			e.printStackTrace();
+	public List<SelectItem> getComboboxFechaLiquidacion(Edificio prm_edificio) {
+		List<SelectItem> options = new ArrayList<SelectItem>();
+		String opcion = "";
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(prm_edificio.getEdf_fechaUltimaLiquidacion());
+		for (int i=0; i < 13; i++) {
+			cal.add(Calendar.MONTH, prm_edificio.getEdf_frecuenciaLiquidacion());
+			opcion = ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "MMyyyy");		
+			SelectItem option = new SelectItem();
+			option.setLabel(opcion);
+			option.setValue(opcion);
+			options.add(option);
 		}
-		
-		myGasto.setCuitProveedor("24036435");
-		
+		return options;
 	}
-
+	
+	
+	
+	
 
 	
 	//Getters & Setters

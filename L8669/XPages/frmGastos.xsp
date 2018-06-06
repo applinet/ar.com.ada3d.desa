@@ -189,7 +189,8 @@ if (element.value.length > 72) {
 								<xe:djFilteringSelect
 									id="djComboAgrupamiento"
 									queryExpr="#{javascript:return '*\$\{0\}*';}"
-									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}">
+									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
+									value="#{gastoBean.gasto.agrupamiento}">
 									<xp:selectItems
 										value="#{javascript:gastoBean.comboboxAgrupamiento;}">
 									</xp:selectItems>
@@ -234,17 +235,27 @@ if (element.value.length > 72) {
 					
 					<xe:formColumn
 						styleClass="form-group col-sm-6">
-						<xe:formRow id="rowImporte"
-							labelWidth="100px" labelPosition="right" label="Agrupamiento">
-							<xp:inputText id="importe" style="text-align:right"
-							value="">
-								<xp:this.converter>
-									<xp:convertNumber
-										pattern="#,##0.00;(#,##0.00)">
-									</xp:convertNumber>
-								</xp:this.converter>
-							</xp:inputText>
-						</xe:formRow>
+						<xe:formRow id="rowfechaLiquidacion" label="Liquidación"
+								style="padding-right:2.0%"
+								for="djComboFechaLiquidacion">
+								<xe:djFilteringSelect id="djComboFechaLiquidacion"
+									queryExpr="#{javascript:return '*\$\{0\}*';}"
+									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
+									value="#{gastoBean.gasto.fechaLiquidacion}">
+									<xp:selectItems>
+										<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxFechaLiquidacion(sessionScope.edfObj)}]]></xp:this.value>
+									</xp:selectItems>
+									<xe:this.dojoAttributes>
+										<xp:dojoAttribute
+											name="required" value="false">
+										</xp:dojoAttribute>
+									</xe:this.dojoAttributes>
+									<xp:eventHandler event="onChange"
+										submit="true" refreshMode="partial"
+										refreshId="djComboFechaLiquidacion" disableValidators="true">
+									</xp:eventHandler>
+								</xe:djFilteringSelect>
+							</xe:formRow>
 					</xe:formColumn>
 					<xe:this.facets>
 						<xp:div xp:key="footer">
@@ -294,17 +305,17 @@ if(!msgValidacion.isEmpty()){
 								</xp:eventHandler>
 							</xp:button>
 						
-							<xp:button value="Guardar Test" id="btnSaveTest">
+							<xp:button value="Guardar Test" id="btnSaveTest" rendered="false">
 								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
 								</xp:eventHandler>
 							</xp:button>
-							<xp:button value="Pagar" id="btnPagar">
+							<xp:button value="Pagar" id="btnPagar" rendered="false">
 								<xp:eventHandler event="onclick"
 									submit="false">
 									<xp:this.script><![CDATA[alert('btnPagar');]]></xp:this.script>
 								</xp:eventHandler>
 							</xp:button>
-							<xp:button value="Prueba" id="btnPrueba">
+							<xp:button value="Prueba" id="btnPrueba" rendered="false">
 								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
 									<xp:this.action><![CDATA[#{javascript:print("select:" + proveedorBean.getProveedorSelected())}]]></xp:this.action>
 								</xp:eventHandler>
