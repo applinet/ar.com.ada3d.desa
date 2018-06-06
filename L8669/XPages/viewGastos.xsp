@@ -70,6 +70,24 @@
 						</xp:inputText>
 					</xp:column>
 					
+					
+					<xp:column id="importeColumn">
+						<xp:this.facets>
+							<xp:label value="Importe Total"
+								id="importeLabel" xp:key="header" style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:text escape="true" 
+							value="#{gasto.listaProrrateos[0].prt_importe + gasto.listaProrrateos[1].prt_importe + gasto.listaProrrateos[2].prt_importe + gasto.listaProrrateos[3].prt_importe}"
+							id="importe">
+							<xp:this.converter>
+								<xp:convertNumber
+									pattern="#,##0.00;(#,##0.00)">
+								</xp:convertNumber>
+							</xp:this.converter>
+						</xp:text>
+
+					</xp:column>
 				</xp:dataTable>
 			</xp:panel>
 		</xp:this.facets>

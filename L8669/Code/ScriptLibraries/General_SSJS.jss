@@ -754,6 +754,7 @@ function btnAplicarMasivo(strKey:String){
 }
 
 function facesMsgValidation(msgValidacion:java.util.ArrayList){
+	
 	var msg=new javax.faces.application.FacesMessage();
 	for (i=0;i<msgValidacion.size();i++) {
 		facesContext.addMessage(getComponent(msgValidacion.get(i).split("\~")[0]).getClientId(facesContext),msg(msgValidacion.get(i).split("\~")[1]));
