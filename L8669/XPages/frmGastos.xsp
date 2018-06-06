@@ -26,8 +26,11 @@ x$( "#{id:btnNewProveedor}" ).popover();
 		property_hasTitleBar="false">
 		<xp:this.facets>
 			<xp:panel id="PNL_Principal" xp:key="facetMiddle">
-				<xe:formTable id="formTableGastos" formTitle="Gastos"
-					disableErrorSummary="false" disableRowError="false"
+				<xp:div styleClass="col-sm-10" style="padding-left:10.0%">
+					<xc:ccFxServerSideJsMessages></xc:ccFxServerSideJsMessages>
+				</xp:div>
+			<xe:formTable id="formTableGastos" formTitle="Gastos"
+					disableErrorSummary="true" disableRowError="false"
 					style="padding-left:10.0%;padding-right:10.0%">
 					<xe:this.labelPosition><![CDATA[#{javascript:gastoBean.gasto.isReadMode ? "left" : "above";}]]></xe:this.labelPosition>
 					<xp:div styleClass="form-inline">
@@ -52,13 +55,14 @@ x$( "#{id:btnNewProveedor}" ).popover();
 						<xe:formColumn styleClass="form-group col-sm-6">
 							<xe:formRow id="rowEdf_codigo" label="Edificio"
 								style="padding-right:2.0%">
+
 								<xc:ccComboBoxEdificios
 									property_SoloEdificiosEnProceso="true"
 									property_VisualizarCodigo="true"
 									property_VisualizarFechaUltimaLiquidacion="false"
 									property_AnchoPxCombo="auto"
 									property_ReadOnly="#{gastoBean.gasto.isReadMode}"
-									refreshIdOnChange="PNL_Principal">
+									refreshIdOnChange="PNL_Principal" id="comboEdificio">
 								</xc:ccComboBoxEdificios>
 
 							</xe:formRow>
@@ -80,11 +84,6 @@ x$( "#{id:btnNewProveedor}" ).popover();
 											type="date">
 										</xp:convertDateTime>
 									</xp:this.converter>
-									<xp:this.validators>
-										<xp:validateRequired
-											message="La fecha es obligatoria">
-										</xp:validateRequired>
-									</xp:this.validators>
 									<xp:dateTimeHelper></xp:dateTimeHelper>
 								</xp:inputText>
 							</xe:formRow>
@@ -120,7 +119,7 @@ if (element.value.length > 72) {
 }]]></xp:this.script>
 							</xp:eventHandler>
 									</xp:inputText>
-									<xp:text escape="false"	id="computedField1" rendered="#{gastoBean.gasto.isReadMode}">
+									<xp:text escape="false"	id="enter" rendered="#{gastoBean.gasto.isReadMode}">
 										<xp:this.value><![CDATA[#{javascript:"<br>"}]]></xp:this.value>
 									</xp:text>
 								</xp:repeat>
@@ -133,7 +132,7 @@ if (element.value.length > 72) {
 										
 					<xp:div id="divPorcentuales" styleClass="form-inline">  <!-- INI - Importes Porcentuales -->
 						<xe:formRow id="rowPorcentuales"
-							label="Importes" labelPosition="left"
+							label="Importe Porcentuales" labelPosition="left"
 							labelWidth="80%">
 						</xe:formRow>
 
@@ -145,9 +144,8 @@ if (element.value.length > 72) {
 									value="#{edfObj.listaProrrateos}" var="rptProrrateoTitulo"
 									indexVar="idxRptProrrateoTitulo">
 									<xp:inputText id="prt_titulo"
-										disabled="#{edfObj.edf_isReadMode}"
 										styleClass="row form-inline"
-										value="#{rptProrrateoTitulo.prt_titulo}">
+										value="#{rptProrrateoTitulo.prt_titulo}" disabled="true">
 										<xp:this.validators>
 											<xp:validateLength
 												maximum="15"
@@ -163,14 +161,15 @@ if (element.value.length > 72) {
 							styleClass="form-group col-sm-4">
 							<xe:formRow id="rowProrrateoImporte"
 								labelWidth="50%" styleClass="col-lg-10">
+
 								<xp:repeat id="repeatProrrateoImporte"
-									value="#{edfObj.listaProrrateos}" var="rptProrrateoImporte"
-									indexVar="idxRptProrrateoImporte">
+									value="#{gastoBean.gasto.listaProrrateos}"
+									var="rptProrrateoImporte" indexVar="idxRptProrrateoImporte">
 									<xp:inputText id="prt_importe"
 										styleClass="row form-inline classPrt_importe"
 										value="#{rptProrrateoImporte.prt_importe}"
 										style="text-align:right"
-										disabled="#{rptProrrateoImporte.prt_importe eq null or edfObj.edf_isReadMode}">
+										disabled="#{gastoBean.gasto.isReadMode}">
 										<xp:this.converter>
 											<xp:convertNumber
 												pattern="#,##0.00;(#,##0.00)">
@@ -186,32 +185,47 @@ if (element.value.length > 72) {
 						<xe:formColumn styleClass="form-group col-sm-6">
 							<xe:formRow id="rowAgrupamiento" label="Agrupamiento"
 								style="padding-right:2.0%"
-								for="agrupamiento">
-								<xp:comboBox id="agrupamiento">
-									<xp:selectItem
-										itemLabel="grupo 1">
-									</xp:selectItem>
-									<xp:selectItem
-										itemLabel="grupo 2">
-									</xp:selectItem>
-									<xp:selectItem
-										itemLabel="grupo 3">
-									</xp:selectItem>
-									<xp:selectItem
-										itemLabel="grupo 4">
-									</xp:selectItem>
-								</xp:comboBox>
+								for="djComboAgrupamiento">
+								<xe:djFilteringSelect
+									id="djComboAgrupamiento"
+									queryExpr="#{javascript:return '*\$\{0\}*';}"
+									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}">
+									<xp:selectItems
+										value="#{javascript:gastoBean.comboboxAgrupamiento;}">
+									</xp:selectItems>
+									<xe:this.dojoAttributes>
+										<xp:dojoAttribute
+											name="required" value="false">
+										</xp:dojoAttribute>
+									</xe:this.dojoAttributes>
+									<xp:eventHandler event="onChange"
+										submit="true" refreshMode="partial"
+										refreshId="djComboAgrupamiento" disableValidators="true">
+									</xp:eventHandler>
+								</xe:djFilteringSelect>
 							</xe:formRow>
 						</xe:formColumn>
 						<!-- width:55.0px -->
 						<xe:formColumn styleClass="form-group col-sm-6">
 							<xe:formRow id="rowCodigoEspecial" label="Cód. Especial"
 								style="padding-right:2.0%">
-								<xp:comboBox id="codigoEspecial" style="width:60.0px">
-									<xp:selectItems>
-										<xp:this.value><![CDATA[#{javascript:getOpcionesClave("codigoEspecial", "alias")}]]></xp:this.value>
+								<xe:djFilteringSelect
+									id="djComboCodigoEspecial"
+									queryExpr="#{javascript:return '*\$\{0\}*';}"
+									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}">
+									<xp:selectItems
+										value="#{javascript:getOpcionesClave('codigoEspecial', 'alias')}">
 									</xp:selectItems>
-								</xp:comboBox>
+									<xe:this.dojoAttributes>
+										<xp:dojoAttribute
+											name="required" value="false">
+										</xp:dojoAttribute>
+									</xe:this.dojoAttributes>
+									<xp:eventHandler event="onChange"
+										submit="true" refreshMode="partial"
+										refreshId="djComboCodigoEspecial" disableValidators="true">
+									</xp:eventHandler>
+								</xe:djFilteringSelect>
 							</xe:formRow>
 	
 						</xe:formColumn>
@@ -231,14 +245,7 @@ if (element.value.length > 72) {
 								</xp:this.converter>
 							</xp:inputText>
 						</xe:formRow>
-						
-						
-						
-						
 					</xe:formColumn>
-					
-					
-					
 					<xe:this.facets>
 						<xp:div xp:key="footer">
 							<xp:button value="Modificar" id="btnEdit" rendered="#{gastoBean.gasto.isReadMode}">
