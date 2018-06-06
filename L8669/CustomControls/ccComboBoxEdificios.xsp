@@ -29,6 +29,18 @@ style='width:' + prop + 'px';}]]></xe:this.style>
 if(edificio != null){
 	sessionScope.put("edfObj", edificio);
 }
+//Cuando modifica el edificio igualo porcentuales al nuevo edificio
+if(context.getUrl().getSiteRelativeAddress(context).equals("/frmGastos.xsp")){
+	gastoBean.blanqueoProrrateosAlCambiarEdificio(gastoBean.getGasto(), edificio);
+	var msg:java.util.ArrayList = new java.util.ArrayList();
+	msg.add("prt_titulo~Porcentuales.");
+	msg.add("prt_importe~Verificar importes.");
+	facesMsgValidation(msg);
+	viewScope.MessageType="W";
+	viewScope.MessageText = [];
+	viewScope.MessageText.push(["Ud. ha cambiado de edificio, por favor verificar los porcentuales."]);
+	
+}
 sessionScope.edificioWork = this.getParent().getValue();}]]></xe:this.action>
 		</xp:eventHandler>
 	</xe:djFilteringSelect>
