@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
-	xmlns:xc="http://www.ibm.com/xsp/custom"
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.resources>
 		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js"
-			clientSide="true">
-		</xp:script>
-		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
+			clientSide="true" />
+
+		<xp:script src="/General_SSJS.jss" clientSide="false" />
 	</xp:this.resources>
 	<xp:scriptBlock id="scriptBlockbtnNewProveedor">
 		<xp:this.value><![CDATA[
@@ -22,32 +21,107 @@ x$( "#{id:btnNewProveedor}" ).popover();
 	x$("#{id:importe}").mask('00.000,00', {reverse: true});
 });]]></xp:this.value>
 	</xp:scriptBlock>
+
+
+	<xc:ccFxPleaseWaitStandBy />
+
+	<xp:div id="buttonBarAffix" styleClass="navbar navbar-inverse"
+		style="width:70%;background-color:rgb(248,247,251);border-color:rgb(247,243,253);text-align:center;margin-top:%;padding-top:5.0px;margin-left:15.0%;margin-right:15.0%">
+		<xp:this.attrs>
+			<xp:attr name="data-spy" value="affix" />
+			<xp:attr name="data-offset-top" value="80" />
+		</xp:this.attrs>
+		<xp:div id="buttonBar">
+		
+			<xp:button value="Modificar" id="btnEdit">
+				<xp:this.rendered><![CDATA[#{javascript:if(DocLock.isLocked("edf_" + edfObj.edf_codigo)){
+		if(!DocLock.getLock("edf_" + edfObj.edf_codigo).equals(session.getEffectiveUserName()))
+			return false;		
+	}
+	gastoBean.gasto.isReadMode; }]]></xp:this.rendered>
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" refreshId="formTableGastos">
+					<xp:this.action><![CDATA[#{javascript:gastoBean.editFormulario();}]]></xp:this.action>
+					<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:buttonBar}")]]></xp:this.onComplete>
+				</xp:eventHandler>
+			</xp:button>
+
+			<xp:button value="Cerrar" id="btnClose" styleClass="btn-info">
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="complete" immediate="true">
+					<xp:this.script><![CDATA[if (XSP._isDirty()){
+	  if (confirm ("Está seguro de salir?" + "\n" + "\n" +
+	    "Sus cambios no serán guardados." + "\n" + 
+	    "Presione Aceptar para salir sin guardar, o Cancelar para permanecer en la página.")) {
+	    return true;
+	  } else {
+	    return false;
+	  }
+	} else {
+	  return true;
+	}]]></xp:this.script>
+					<xp:this.action>
+						<xp:actionGroup>
+							<xp:this.condition><![CDATA[#{javascript:if(!gastoBean.gasto.isReadMode){
+	if (DocLock == null) print("es nulo");
+		
+	DocLock.removeLock("edf_" + sessionScope.get("edfObj").edf_codigo)
+}	
+return true;	}]]></xp:this.condition>
+							<xp:openPage name="/ViewGastos.xsp" />
+						</xp:actionGroup>
+					</xp:this.action>
+				</xp:eventHandler>
+			</xp:button>
+			
+			<xp:button value="Confirmar" id="btnSave" styleClass="btn-success"
+				rendered="#{javascript:!gastoBean.gasto.isReadMode}">
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" refreshId="formTableGastos">
+					<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = gastoBean.strValidacionGasto(sessionScope.get("edfObj"));
+if(!msgValidacion.isEmpty()){
+	facesMsgValidation(msgValidacion);
+	view.postScript("window.scrollTo(0,0)");
+	return;
+}	
+msgValidacion = gastoBean.saveGasto(sessionScope.get("edfObj"));
+if(!msgValidacion.isEmpty()){
+	facesMsgValidation(msgValidacion);
+	view.postScript("window.scrollTo(0,0)");
+}else{
+	context.redirectToPage("viewGastos")
+}}]]></xp:this.action>
+					<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
+				</xp:eventHandler>
+			</xp:button>
+			
+		</xp:div>
+	</xp:div>
+
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="false"
 		property_hasTitleBar="false">
 		<xp:this.facets>
 			<xp:panel id="PNL_Principal" xp:key="facetMiddle">
 				<xp:div styleClass="col-sm-10" style="padding-left:10.0%">
-					<xc:ccFxServerSideJsMessages></xc:ccFxServerSideJsMessages>
+					<xc:ccFxServerSideJsMessages />
 				</xp:div>
-			<xe:formTable id="formTableGastos" formTitle="Gastos"
+				<xe:formTable id="formTableGastos" formTitle="Gastos"
 					disableErrorSummary="true" disableRowError="false"
 					style="padding-left:10.0%;padding-right:10.0%">
 					<xe:this.labelPosition><![CDATA[#{javascript:gastoBean.gasto.isReadMode ? "left" : "above";}]]></xe:this.labelPosition>
 					<xp:div styleClass="form-inline">
 						<xe:formColumn styleClass="form-group col-sm-6">
-							<xe:formRow id="rowPrv_id" label="Proveedor"
-								style="padding-right:2.0%"
+							<xe:formRow id="rowPrv_id" label="Proveedor" style="padding-right:2.0%"
 								for="cuitProveedor">
 								<xe:djextListTextBox id="cuitProveedor"
-										value="#{proveedorBean.proveedorSelected}">
-									</xe:djextListTextBox>
-								<xe:valuePicker id="pickerCuitProveedor"
-									for="cuitProveedor" dialogTitle="Seleccione el proveedor"
-									dojoType="extlib.dijit.PickerListSearch" rendered="#{!gastoBean.gasto.isReadMode}">
+									value="#{proveedorBean.proveedorSelected}" />
+
+								<xe:valuePicker id="pickerCuitProveedor" for="cuitProveedor"
+									dialogTitle="Seleccione el proveedor" dojoType="extlib.dijit.PickerListSearch"
+									rendered="#{!gastoBean.gasto.isReadMode}">
 									<xe:this.dataProvider>
-										<xe:beanValuePicker
-											dataBean="ar.com.ada3d.pickers.SimplePicker">
-										</xe:beanValuePicker>
+										<xe:beanValuePicker dataBean="ar.com.ada3d.pickers.SimplePicker" />
+
 									</xe:this.dataProvider>
 								</xe:valuePicker>
 							</xe:formRow>
@@ -60,31 +134,26 @@ x$( "#{id:btnNewProveedor}" ).popover();
 									property_SoloEdificiosEnProceso="true"
 									property_VisualizarCodigo="true"
 									property_VisualizarFechaUltimaLiquidacion="false"
-									property_AnchoPxCombo="auto"
-									property_ReadOnly="#{gastoBean.gasto.isReadMode}"
-									refreshIdOnChange="PNL_Principal" id="comboEdificio">
-								</xc:ccComboBoxEdificios>
+									property_AnchoPxCombo="auto" property_ReadOnly="#{gastoBean.gasto.isReadMode}"
+									refreshIdOnChange="PNL_Principal" id="comboEdificio" />
+
 
 							</xe:formRow>
-	
+
 						</xe:formColumn>
 					</xp:div>
-					
+
 					<xp:div styleClass="form-inline">
 						<xe:formColumn styleClass="form-group col-sm-6">
 							<xe:formRow id="rowFechaFactura" label="Fecha"
-								style="padding-right:2.0%"
-								for="fechaFactura">
-								<xp:inputText id="fechaFactura" 
-									value="#{gastoBean.gasto.fechaFactura}"
-									defaultValue="#{javascript:@Today()}"
-									readonly="#{gastoBean.gasto.isReadMode}">
+								style="padding-right:2.0%" for="fechaFactura">
+								<xp:inputText id="fechaFactura" value="#{gastoBean.gasto.fechaFactura}"
+									defaultValue="#{javascript:@Today()}" readonly="#{gastoBean.gasto.isReadMode}">
 									<xp:this.converter>
-										<xp:convertDateTime
-											type="date">
-										</xp:convertDateTime>
+										<xp:convertDateTime type="date" />
+
 									</xp:this.converter>
-									<xp:dateTimeHelper></xp:dateTimeHelper>
+									<xp:dateTimeHelper />
 								</xp:inputText>
 							</xe:formRow>
 						</xe:formColumn>
@@ -92,88 +161,78 @@ x$( "#{id:btnNewProveedor}" ).popover();
 							<xe:formRow id="rowNumeroComprobante" label="Comprobante"
 								style="padding-right:2.0%" for="numeroComprobante">
 								<xp:inputText id="numeroComprobante" style=" width:200.0px"
-									value="#{gastoBean.gasto.numeroComprobante}"
-									readonly="#{gastoBean.gasto.isReadMode}">
-								</xp:inputText>
+									value="#{gastoBean.gasto.numeroComprobante}" readonly="#{gastoBean.gasto.isReadMode}" />
+
 							</xe:formRow>
-	
+
 						</xe:formColumn>
 					</xp:div>
-					
+
 					<!-- Detalle factura -->
-					
+
 					<xp:div styleClass="form-inline">
-						
+
 						<xe:formColumn styleClass="form-group col-sm-6">
 							<xe:formRow id="rowTextoDetalleFactura" label="Detalle"
 								style="padding-right:2.0%" for="textoDetalleFactura">
-								<xp:repeat value="#{gastoBean.gasto.textoDetalleFactura}" var="rptTextoFactura">
-									<xp:inputText
-										id="textoDetalleFactura" value="#{rptTextoFactura}"
+								<xp:repeat value="#{gastoBean.gasto.textoDetalleFactura}"
+									var="rptTextoFactura">
+									<xp:inputText id="textoDetalleFactura" value="#{rptTextoFactura}"
 										readonly="#{gastoBean.gasto.isReadMode}">
-										<xp:eventHandler event="onkeyup"
-								submit="false">
-								<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+										<xp:eventHandler event="onkeyup" submit="false">
+											<xp:this.script><![CDATA[var element = thisEvent.srcElement;
 if (element.value.length > 72) {
     element.value = element.value.substring(0, 72);
 }]]></xp:this.script>
-							</xp:eventHandler>
+										</xp:eventHandler>
 									</xp:inputText>
-									<xp:text escape="false"	id="enter" rendered="#{gastoBean.gasto.isReadMode}">
+									<xp:text escape="false" id="enter"
+										rendered="#{gastoBean.gasto.isReadMode}">
 										<xp:this.value><![CDATA[#{javascript:"<br>"}]]></xp:this.value>
 									</xp:text>
 								</xp:repeat>
-								
+
 							</xe:formRow>
 						</xe:formColumn>
 					</xp:div>
-					
-					
-										
+
+
+
 					<xp:div id="divPorcentuales" styleClass="form-inline">  <!-- INI - Importes Porcentuales -->
-						<xe:formRow id="rowPorcentuales"
-							label="Importe Porcentuales" labelPosition="left"
-							labelWidth="80%">
-						</xe:formRow>
+						<xe:formRow id="rowPorcentuales" label="Importe Porcentuales"
+							labelPosition="left" labelWidth="80%" />
+
 
 						<xe:formColumn styleClass="form-group col-sm-3"
 							style="margin-left:5.0%">
-							<xe:formRow id="rowProrrateoDescripcion"
-								label="" labelPosition="left" labelWidth="50%">
-								<xp:repeat id="repeatProrrateoTitulo"
-									value="#{edfObj.listaProrrateos}" var="rptProrrateoTitulo"
-									indexVar="idxRptProrrateoTitulo">
-									<xp:inputText id="prt_titulo"
-										styleClass="row form-inline"
+							<xe:formRow id="rowProrrateoDescripcion" label=""
+								labelPosition="left" labelWidth="50%">
+								<xp:repeat id="repeatProrrateoTitulo" value="#{edfObj.listaProrrateos}"
+									var="rptProrrateoTitulo" indexVar="idxRptProrrateoTitulo">
+									<xp:inputText id="prt_titulo" styleClass="row form-inline"
 										value="#{rptProrrateoTitulo.prt_titulo}" disabled="true">
 										<xp:this.validators>
-											<xp:validateLength
-												maximum="15"
-												message="El largo no puede exceder 15 caracteres">
-											</xp:validateLength>
+											<xp:validateLength maximum="15"
+												message="El largo no puede exceder 15 caracteres" />
+
 										</xp:this.validators>
 									</xp:inputText>
 								</xp:repeat>
 							</xe:formRow>
 						</xe:formColumn>
-					
-						<xe:formColumn
-							styleClass="form-group col-sm-4">
-							<xe:formRow id="rowProrrateoImporte"
-								labelWidth="50%" styleClass="col-lg-10">
 
-								<xp:repeat id="repeatProrrateoImporte"
-									value="#{gastoBean.gasto.listaProrrateos}"
+						<xe:formColumn styleClass="form-group col-sm-4">
+							<xe:formRow id="rowProrrateoImporte" labelWidth="50%"
+								styleClass="col-lg-10">
+
+								<xp:repeat id="repeatProrrateoImporte" value="#{gastoBean.gasto.listaProrrateos}"
 									var="rptProrrateoImporte" indexVar="idxRptProrrateoImporte">
 									<xp:inputText id="prt_importe"
-										styleClass="row form-inline classPrt_importe"
-										value="#{rptProrrateoImporte.prt_importe}"
-										style="text-align:right"
-										disabled="#{gastoBean.gasto.isReadMode}">
+										styleClass="row form-inline classPrt_importe" value="#{rptProrrateoImporte.prt_importe}"
+										style="text-align:right" disabled="#{gastoBean.gasto.isReadMode}">
 										<xp:this.converter>
-											<xp:convertNumber
-												pattern="#,##0.00;(#,##0.00)">
-											</xp:convertNumber>
+											<xp:convertNumber pattern="#,##0.00;(#,##0.00)" />
+
 										</xp:this.converter>
 									</xp:inputText>
 								</xp:repeat>
@@ -184,25 +243,20 @@ if (element.value.length > 72) {
 					<xp:div styleClass="form-inline">  <!-- INI - Agrupamiento y Codigo Especial -->
 						<xe:formColumn styleClass="form-group col-sm-6">
 							<xe:formRow id="rowAgrupamiento" label="Agrupamiento"
-								style="padding-right:2.0%"
-								for="djComboAgrupamiento">
-								<xe:djFilteringSelect
-									id="djComboAgrupamiento"
-									queryExpr="#{javascript:return '*\$\{0\}*';}"
-									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
-									value="#{gastoBean.gasto.agrupamiento}">
-									<xp:selectItems
-										value="#{javascript:gastoBean.comboboxAgrupamiento;}">
-									</xp:selectItems>
+								style="padding-right:2.0%" for="djComboAgrupamiento">
+								<xe:djFilteringSelect id="djComboAgrupamiento"
+									queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
+									disabled="#{gastoBean.gasto.isReadMode}" value="#{gastoBean.gasto.agrupamiento}">
+									<xp:selectItems value="#{javascript:gastoBean.comboboxAgrupamiento;}" />
+
 									<xe:this.dojoAttributes>
-										<xp:dojoAttribute
-											name="required" value="false">
-										</xp:dojoAttribute>
+										<xp:dojoAttribute name="required" value="false" />
+
 									</xe:this.dojoAttributes>
-									<xp:eventHandler event="onChange"
-										submit="true" refreshMode="partial"
-										refreshId="djComboAgrupamiento" disableValidators="true">
-									</xp:eventHandler>
+									<xp:eventHandler event="onChange" submit="true"
+										refreshMode="partial" refreshId="djComboAgrupamiento"
+										disableValidators="true" />
+
 								</xe:djFilteringSelect>
 							</xe:formRow>
 						</xe:formColumn>
@@ -210,120 +264,71 @@ if (element.value.length > 72) {
 						<xe:formColumn styleClass="form-group col-sm-6">
 							<xe:formRow id="rowCodigoEspecial" label="Cód. Especial"
 								style="padding-right:2.0%">
-								<xe:djFilteringSelect
-									id="djComboCodigoEspecial"
-									queryExpr="#{javascript:return '*\$\{0\}*';}"
-									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}">
+								<xe:djFilteringSelect id="djComboCodigoEspecial"
+									queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
+									disabled="#{gastoBean.gasto.isReadMode}">
 									<xp:selectItems
-										value="#{javascript:getOpcionesClave('codigoEspecial', 'alias')}">
-									</xp:selectItems>
+										value="#{javascript:getOpcionesClave('codigoEspecial', 'alias')}" />
+
 									<xe:this.dojoAttributes>
-										<xp:dojoAttribute
-											name="required" value="false">
-										</xp:dojoAttribute>
+										<xp:dojoAttribute name="required" value="false" />
+
 									</xe:this.dojoAttributes>
-									<xp:eventHandler event="onChange"
-										submit="true" refreshMode="partial"
-										refreshId="djComboCodigoEspecial" disableValidators="true">
-									</xp:eventHandler>
+									<xp:eventHandler event="onChange" submit="true"
+										refreshMode="partial" refreshId="djComboCodigoEspecial"
+										disableValidators="true" />
+
 								</xe:djFilteringSelect>
 							</xe:formRow>
-	
+
 						</xe:formColumn>
 					</xp:div>  <!-- FIN - Agrupamiento y Codigo Especial -->
-					
-					
-					<xe:formColumn
-						styleClass="form-group col-sm-6">
+
+
+					<xe:formColumn styleClass="form-group col-sm-6">
 						<xe:formRow id="rowfechaLiquidacion" label="Liquidación"
-								style="padding-right:2.0%"
-								for="djComboFechaLiquidacion">
-								<xe:djFilteringSelect id="djComboFechaLiquidacion"
-									queryExpr="#{javascript:return '*\$\{0\}*';}"
-									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
-									value="#{gastoBean.gasto.fechaLiquidacion}">
-									<xp:selectItems>
-										<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxFechaLiquidacion(sessionScope.edfObj)}]]></xp:this.value>
-									</xp:selectItems>
-									<xe:this.dojoAttributes>
-										<xp:dojoAttribute
-											name="required" value="false">
-										</xp:dojoAttribute>
-									</xe:this.dojoAttributes>
-									<xp:eventHandler event="onChange"
-										submit="true" refreshMode="partial"
-										refreshId="djComboFechaLiquidacion" disableValidators="true">
-									</xp:eventHandler>
-								</xe:djFilteringSelect>
-							</xe:formRow>
+							style="padding-right:2.0%" for="djComboFechaLiquidacion">
+							<xe:djFilteringSelect id="djComboFechaLiquidacion"
+								queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
+								disabled="#{gastoBean.gasto.isReadMode}" value="#{gastoBean.gasto.fechaLiquidacion}">
+								<xp:selectItems>
+									<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxFechaLiquidacion(sessionScope.edfObj)}]]></xp:this.value>
+								</xp:selectItems>
+								<xe:this.dojoAttributes>
+									<xp:dojoAttribute name="required" value="false" />
+
+								</xe:this.dojoAttributes>
+								<xp:eventHandler event="onChange" submit="true"
+									refreshMode="partial" refreshId="djComboFechaLiquidacion"
+									disableValidators="true" />
+
+							</xe:djFilteringSelect>
+						</xe:formRow>
 					</xe:formColumn>
 					<xe:this.facets>
 						<xp:div xp:key="footer">
-							<xp:button value="Modificar" id="btnEdit" rendered="#{gastoBean.gasto.isReadMode}">
-								<xp:eventHandler event="onclick" submit="true" refreshMode="partial" refreshId="PNL_Principal">
-									<xp:this.action><![CDATA[#{javascript:gastoBean.editFormulario();}]]></xp:this.action>
-								</xp:eventHandler>
-							</xp:button>
-							
-							<xp:button value="Confirmar" id="btnSave" rendered="#{!gastoBean.gasto.isReadMode}" styleClass="btn-success">
-								<xp:eventHandler event="onclick"
-									submit="true" refreshMode="partial"
-									refreshId="PNL_Principal">
-									<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = gastoBean.saveGasto();
-if(!msgValidacion.isEmpty()){
-	facesMsgValidation(msgValidacion);
-	view.postScript("window.scrollTo(0,0)");
-}else{
-	proveedorBean.proveedorSelected = gastoBean.gasto.cuitProveedor.replaceAll("-", "");
-	if(context.getHistoryUrl(1).equals("/frmGastos.xsp")){
-		context.redirectToPage("/frmGastos.xsp");
-	}else{
-		context.redirectToPrevious();
-	}
-}}]]></xp:this.action>
-									<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
-								</xp:eventHandler>
-							</xp:button>
-						
-							<xp:button value="Cerrar" id="btnClose" styleClass="btn-info">
-								<xp:eventHandler event="onclick" submit="true" refreshMode="complete" immediate="true">
-									<xp:this.script><![CDATA[if (XSP._isDirty()){
-						  if (confirm ("Está seguro de salir?" + "\n" + "\n" +
-						    "Sus cambios no serán guardados." + "\n" + 
-						    "Presione Aceptar para salir sin guardar, o Cancelar para permanecer en la página.")) {
-						    return true;
-						  } else {
-						    return false;
-						  }
-						} else {
-						  return true;
-						}]]></xp:this.script>
-									<xp:this.action>
-										<xp:openPage name="/ViewGastos.xsp">
-										</xp:openPage>
-									</xp:this.action>
-								</xp:eventHandler>
-							</xp:button>
-						
-							<xp:button value="Guardar Test" id="btnSaveTest" rendered="false">
-								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
-								</xp:eventHandler>
+
+							<xp:button value="Guardar Test" id="btnSaveTest"
+								rendered="false">
+								<xp:eventHandler event="onclick" submit="true"
+									refreshMode="complete" />
+
 							</xp:button>
 							<xp:button value="Pagar" id="btnPagar" rendered="false">
-								<xp:eventHandler event="onclick"
-									submit="false">
+								<xp:eventHandler event="onclick" submit="false">
 									<xp:this.script><![CDATA[alert('btnPagar');]]></xp:this.script>
 								</xp:eventHandler>
 							</xp:button>
 							<xp:button value="Prueba" id="btnPrueba" rendered="false">
-								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+								<xp:eventHandler event="onclick" submit="true"
+									refreshMode="complete">
 									<xp:this.action><![CDATA[#{javascript:print("select:" + proveedorBean.getProveedorSelected())}]]></xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
 						</xp:div>
 					</xe:this.facets>
 				</xe:formTable>
-				
+
 			</xp:panel>
 
 		</xp:this.facets>
