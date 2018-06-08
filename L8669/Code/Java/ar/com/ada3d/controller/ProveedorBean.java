@@ -111,11 +111,20 @@ public class ProveedorBean implements Serializable{
 			fillListaProveedores();
 		List<SelectItem> options = new ArrayList<SelectItem>();
 		for (Proveedor myProveedor : listaProveedores) {
+			/*
 			if (options.isEmpty() && proveedorSelected.equals("") ) //Primer pasada
 				proveedorSelected = myProveedor.getPrv_cuit();
+			*/
+			
+			if (options.isEmpty()){ //Primer pasada opcion sin proveedor
+				SelectItem option = new SelectItem();
+				option.setLabel("");
+				option.setValue("0");
+				options.add(option);
+			}
 			SelectItem option = new SelectItem();
 			
-			option.setLabel(myProveedor.getPrv_razonSocial());
+			option.setLabel(myProveedor.getPrv_razonSocial() + " - " + myProveedor.getPrv_domicilio() +" - " + myProveedor.getPrv_cuit() );
 			option.setValue(myProveedor.getPrv_cuit());
 			options.add(option);
 		}

@@ -23,12 +23,7 @@ x$( "#{id:btnNewProveedor}" ).popover();
 							styleClass="form-group col-sm-6 form-inline">
 							<xe:formRow id="rowPrv_id" label="Proveedor"
 								labelPosition="right" styleClass="col-sm-10 form-inline">
-								<xc:ccComboBoxProveedores
-									property_SoloEdificiosEnProceso="false"
-									property_VisualizarCodigo="false"
-									property_VisualizarFechaUltimaLiquidacion="false"
-									property_AnchoPxCombo="auto">
-								</xc:ccComboBoxProveedores>
+								
 								&#160;
 								  <xp:button id="btnNewProveedor"
 									styleClass="btn btn-success" type="button">
