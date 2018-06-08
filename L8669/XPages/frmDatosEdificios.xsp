@@ -576,7 +576,7 @@ if (!msgValidacion.equals("")){
 					</xe:formRow>
 					<xe:this.facets>
 						<xp:div xp:key="footer">
-							<xc:ccFXdocLock></xc:ccFXdocLock>
+							<xc:ccFXdocLock propertyCodigoLockeo="#{javascript:'edf_' + edfObj.edf_codigo}" propertyMensaje="El edificio está siendo modificado por: "/>
 							<xp:messages id="messages1"
 								styleClass="alert alert-error">
 							</xp:messages>
