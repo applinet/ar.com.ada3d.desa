@@ -2,14 +2,17 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core">
 	<xp:panel
 		style="width:100%;padding-left:4.0px;padding-right:4.0px;padding-top:4.0px;padding-bottom:4.0px;border-style:dashed;border-width:thin;border-color:rgb(192,192,192)">
-		<xp:this.rendered><![CDATA[#{javascript:DocLock.isLocked("edf_" + edfObj.edf_codigo);}]]></xp:this.rendered>
-		<xp:label id="labelDocumentLocked"
-			style="color:rgb(255,0,0);background-color:rgb(255,255,128)">
-			<xp:this.value><![CDATA[#{javascript:if(DocLock.getLock("edf_" + edfObj.edf_codigo) == null) return;
-var strLock:string = DocLock.getLock("edf_" + edfObj.edf_codigo);
+		<xp:this.rendered><![CDATA[#{javascript:DocLock.isLocked(compositeData.propertyCodigoLockeo);}]]></xp:this.rendered>
+		
+		<xp:text id="labelDocumentLocked"
+			style="color:rgb(255,0,0);background-color:rgb(255,255,128)"
+			escape="false" contentType="html">
+			<xp:this.value><![CDATA[#{javascript:if(DocLock.getLock(compositeData.propertyCodigoLockeo) == null) return;
+var strLock:string = DocLock.getLock(compositeData.propertyCodigoLockeo);
 strLock = strLock.substring(4); 
-return strLock == null ? "" : "Este registro está siendo modificado por: " + strLock; }]]></xp:this.value>
-		</xp:label>
+return strLock == null ? "" : compositeData.propertyMensaje + strLock; }]]></xp:this.value>
+		</xp:text>
+
 	</xp:panel>
 	<br/>
 </xp:view>
