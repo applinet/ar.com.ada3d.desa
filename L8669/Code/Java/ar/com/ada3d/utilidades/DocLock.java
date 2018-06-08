@@ -17,7 +17,6 @@ package ar.com.ada3d.utilidades;
  */
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.*;
 
 import org.openntf.domino.Session;
@@ -85,4 +84,9 @@ public class DocLock implements Serializable {
 		return _map;
 	}
 
+	public String setLog(String log){
+		Calendar cal = Calendar.getInstance();
+		return ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy HH:mm:ss") + " - " + log;
+		
+	}
 }
