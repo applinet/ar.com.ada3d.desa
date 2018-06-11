@@ -5,11 +5,15 @@ import java.util.*;
 
 import javax.faces.model.SelectItem;
 import org.openntf.domino.Document;
+import org.openntf.domino.Session;
+
 import lotus.domino.NotesException;
 import ar.com.ada3d.connect.QueryAS400;
 import ar.com.ada3d.model.Edificio;
 import ar.com.ada3d.model.Gasto;
 import ar.com.ada3d.model.Prorrateo;
+import ar.com.ada3d.utilidades.DocLock;
+import ar.com.ada3d.utilidades.DocUsr;
 import ar.com.ada3d.utilidades.JSFUtil;
 
 public class GastoBean {
@@ -38,16 +42,81 @@ public class GastoBean {
 	 * Actualizo el gasto y lockeo
 	 * @usedIn: frmGasto
 	 */
-	public void editFormulario(){
-		//TODO: Actualizar el gasto y loquearlo al editar
+	public void editFormulario(Edificio prm_edificio){
+		//TODO: Actualizar el gasto al presionar el btnEdit
+		Session session = JSFUtil.getSession();
+		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
+		/*
+		if (lock.isLocked("edf_" + prm_edificio.getEdf_codigo())){
+			if (!lock.getLock("edf_" + prm_edificio.getEdf_codigo()).equals(session.getEffectiveUserName()))
+				return;
+		}*/
+		if (lock.isLocked("gts_" + this.gasto.getIdGasto())){
+			if (!lock.getLock("gts_" + this.gasto.getIdGasto()).equals(session.getEffectiveUserName()))
+				return;
+		}
+		//lock.addLock("edf_" + prm_edificio.getEdf_codigo(), session.getEffectiveUserName());
+		lock.addLock("gts_" + this.gasto.getIdGasto(), session.getEffectiveUserName());
+		//log de las actividades en la session
+		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
+		docUsuario.setUltimaActividad(lock.setLog("Ha editado el gasto " + this.gasto.getTextoDetalleFactura().get(0) + "... del edificio: " + prm_edificio.getEdf_codigo()));
+		prm_edificio.setEdf_lockedBy(session.getEffectiveUserName());
+		this.gasto.setLockedBy(session.getEffectiveUserName());
 		this.gasto.setIsReadMode(false);
 	}
 	
-	/**Cuando presiona btnSave Gasto
+	
+	
+	
+	/**Cuando presiona btnSave Gasto hago el Update
+	 * Esto ya tiene que venir validado
+	 * @usedIn: Boton save 
+	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
+
 	 */
-	public ArrayList<String> saveGasto() {
-		return null;
+	public ArrayList<String> saveGasto(Edificio prm_edificio) {
+		ArrayList<String> listAcumulaErroresAS400 = new ArrayList<String>();
+		Document docDummy = JSFUtil.getDocDummy();
+		docDummy.appendItemValue("NCTROL", this.gasto.getIdGasto());
+		docDummy.appendItemValue("EDIF", this.gasto.getCodigoEdificio());
+		docDummy.appendItemValue("FECLIQ", this.gasto.getFechaLiquidacion());
+		docDummy.appendItemValue("CUITPR", this.gasto.getCuitProveedor());
+		//TODO: ACA --> el cuit y la fecha no se estan guardando - Hacer mascara de nro de factura es un big decimal -   
 		
+		QueryAS400 query = new QueryAS400();
+		
+		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
+		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
+		
+		if (!query.updateAS("updateGastosGTS01", docDummy)){				
+			listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+			System.out.println("ERROR: " + errCode + " METH:saveGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo actualizar la tabla PH_GTS01.");
+		}
+		
+		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
+		if (listAcumulaErroresAS400.isEmpty()){
+			//lock.removeLock("edf_" + prm_edificio.getEdf_codigo());
+			lock.removeLock("gts_" + this.gasto.getIdGasto());
+			//TODO: Que mensaje ponemos ?
+			docUsuario.setUltimaActividad(lock.setLog("Ha guardado los cambios del la factura ???? " ));			
+		}else{
+			docUsuario.setUltimaActividad(lock.setLog("No se han guardado los cambios (ERROR: " + errCode + ")"));
+		}
+		return listAcumulaErroresAS400;
+		
+	}
+	
+	
+	/**
+	 * Chequea los datos del gasto antes de guardarlos
+	 * @usedIn: Boton save 
+	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
+	 */
+	public ArrayList<String> strValidacionGasto(Edificio prm_edificio){
+		//TODO: que vamos a validar de la factura
+		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
+		String strTemp = "";
+		return listAcumulaErrores;
 	}
 	
 	//***** FIN BOTONES ****
@@ -134,7 +203,6 @@ public class GastoBean {
 		ArrayList<String> nl = null;
 		Document docDummy = JSFUtil.getDocDummy();
 		docDummy.appendItemValue("Codigo", myGasto.getCodigoEdificio());
-		docDummy.appendItemValue("Cuit", myGasto.getCuitProveedor());
 		docDummy.appendItemValue("Idgasto", myGasto.getIdGasto());
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		try {
@@ -142,14 +210,17 @@ public class GastoBean {
 		} catch (NotesException e) {
 			e.printStackTrace();
 		}
-		String temp = "";
+		Date temp;
 		
 		for (String strLinea : nl) {
 			if(strLinea.split("\\|")[3].trim().equals("1")){ 
 				// Solo leo el primer renglon
-				temp = strLinea.split("\\|")[2].trim();
-				myGasto.setFechaLiquidacion(temp.length() == 6 ? temp : "0" + temp );
-				myGasto.setCuitProveedor("24036435");
+				temp = ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[2].trim());
+				myGasto.setFechaLiquidacion(ar.com.ada3d.utilidades.Conversores.DateToString(temp, "MMyyyy"));
+				myGasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[5].trim(), Locale.UK, 0)));
+				myGasto.setCuitProveedor(strLinea.split("\\|")[6].trim());
+				myGasto.setFechaFactura(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[7].trim()));
+				myGasto.setNumeroFactura(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[8].trim(), Locale.UK, 0)));
 			}
 		}
 		
@@ -239,19 +310,17 @@ public class GastoBean {
 	/**
 	 * En frmGastos el combo de Liquidacion son 12 meses y default proxima liquidación
 	 * @param edificio actual
-	 * @return MMyyyy de liquidacion
+	 * @return Myyyy de liquidacion
 	 */
 	public List<SelectItem> getComboboxFechaLiquidacion(Edificio prm_edificio) {
 		List<SelectItem> options = new ArrayList<SelectItem>();
-		String opcion = "";
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(prm_edificio.getEdf_fechaUltimaLiquidacion());
 		for (int i=0; i < 13; i++) {
 			cal.add(Calendar.MONTH, prm_edificio.getEdf_frecuenciaLiquidacion());
-			opcion = ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "MMyyyy");		
 			SelectItem option = new SelectItem();
-			option.setLabel(opcion);
-			option.setValue(opcion);
+			option.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "MMMM yyyy"));
+			option.setValue(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "MMyyyy"));
 			options.add(option);
 		}
 		return options;

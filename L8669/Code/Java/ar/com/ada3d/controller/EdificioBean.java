@@ -513,7 +513,7 @@ public class EdificioBean implements Serializable {
 		lock.addLock("edf_" + prm_edificio.getEdf_codigo(), session.getEffectiveUserName());
 		//log de las actividades en la session
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
-		docUsuario.setUltimaActividad(setLog("Ha editado el edificio " + prm_edificio.getEdf_codigo()));
+		docUsuario.setUltimaActividad(lock.setLog("Ha editado el edificio " + prm_edificio.getEdf_codigo()));
 		prm_edificio.setEdf_isReadMode(false);
 		prm_edificio.setEdf_lockedBy(session.getEffectiveUserName());
 		
@@ -607,13 +607,13 @@ public class EdificioBean implements Serializable {
 			listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 			System.out.println("ERROR: " + errCode + " METH:saveEdificio" + "_EDIF:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo actualizar la tabla PH_E01.");
 		}
+		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
 		if (listAcumulaErroresAS400.isEmpty()){
-			DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
 			lock.removeLock("edf_" + prm_edificio.getEdf_codigo());
 			//log de las actividades en la session
-			docUsuario.setUltimaActividad(setLog("Ha guardado los cambios del edificio " + prm_edificio.getEdf_codigo()));			
+			docUsuario.setUltimaActividad(lock.setLog("Ha guardado los cambios del edificio " + prm_edificio.getEdf_codigo()));			
 		}else{
-			docUsuario.setUltimaActividad(setLog("No se han guardado todos los cambios del edificio " + prm_edificio.getEdf_codigo() + "(ERROR: " + errCode + ")"));
+			docUsuario.setUltimaActividad(lock.setLog("No se han guardado todos los cambios del edificio " + prm_edificio.getEdf_codigo() + "(ERROR: " + errCode + ")"));
 		}
 		return listAcumulaErroresAS400;
 	}
@@ -1281,11 +1281,7 @@ public class EdificioBean implements Serializable {
 	}
 	
 	
-	private String setLog(String log){
-		Calendar cal = Calendar.getInstance();
-		return ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "dd/MM/yyyy HH:mm:ss") + " - " + log;
-		
-	}
+	
 	
 	//*** Getters & Setters *****
 	
