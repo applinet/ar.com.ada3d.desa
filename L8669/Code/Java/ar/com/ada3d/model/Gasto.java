@@ -20,7 +20,7 @@ public class Gasto {
 	private String codigoEspecial; // --> tabla (es el estado)
 	private String cuitProveedor;
 	
-	private String fechaLiquidacion; //MMAAAA
+	private String fechaLiquidacion; //MMMMAAAA
 	private String estadoDadoDeBaja; // es una 'B'
 	private String menuOrigenDatos;
 	private Date fechaCreacion;
@@ -158,7 +158,7 @@ public class Gasto {
 		this.cuitProveedor = cuitProveedor;
 	}
 
-
+	
 	public String getFechaLiquidacion() {
 		return fechaLiquidacion;
 	}

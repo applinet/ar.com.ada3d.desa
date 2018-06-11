@@ -7,6 +7,7 @@
 
 		<xp:script src="/General_SSJS.jss" clientSide="false" />
 	</xp:this.resources>
+	
 	<xp:scriptBlock id="scriptBlockbtnNewProveedor">
 		<xp:this.value><![CDATA[
 $(document).ready(
@@ -18,7 +19,7 @@ x$( "#{id:btnNewProveedor}" ).popover();
 	</xp:scriptBlock>
 	<xp:scriptBlock id="scriptBlockMaskedJquery">
 		<xp:this.value><![CDATA[jQuery(function($){
-	x$("#{id:importe}").mask('00.000,00', {reverse: true});
+	$(".classPrt_importe").mask('0.000.000,00', {reverse: true}); //Por clase porque es un repeat
 });]]></xp:this.value>
 	</xp:scriptBlock>
 
@@ -34,15 +35,23 @@ x$( "#{id:btnNewProveedor}" ).popover();
 		<xp:div id="buttonBar">
 		
 			<xp:button value="Modificar" id="btnEdit">
-				<xp:this.rendered><![CDATA[#{javascript:if(DocLock.isLocked("edf_" + edfObj.edf_codigo)){
-		if(!DocLock.getLock("edf_" + edfObj.edf_codigo).equals(session.getEffectiveUserName()))
-			return false;		
-	}
-	gastoBean.gasto.isReadMode; }]]></xp:this.rendered>
+				<xp:this.rendered><![CDATA[#{javascript:/*
+if(DocLock.isLocked("edf_" + edfObj.edf_codigo)){
+	if(!DocLock.getLock("edf_" + edfObj.edf_codigo).equals(session.getEffectiveUserName()))
+		return false;		
+}*/
+if(DocLock.isLocked("gts_" + gastoBean.gasto.idGasto)){
+	if(!DocLock.getLock("gts_" + gastoBean.gasto.idGasto).equals(session.getEffectiveUserName()))
+		return false;		
+}
+gastoBean.gasto.isReadMode; }]]></xp:this.rendered>
 				<xp:eventHandler event="onclick" submit="true"
 					refreshMode="partial" refreshId="formTableGastos">
-					<xp:this.action><![CDATA[#{javascript:gastoBean.editFormulario();}]]></xp:this.action>
-					<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:buttonBar}")]]></xp:this.onComplete>
+					<xp:this.action><![CDATA[#{javascript:gastoBean.editFormulario(sessionScope.get("edfObj"));}]]></xp:this.action>
+					<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:buttonBar}");
+document.getElementById("#{id:textoDetalleFactura}").focus();]]></xp:this.onComplete>
+
+
 				</xp:eventHandler>
 			</xp:button>
 
@@ -60,18 +69,19 @@ x$( "#{id:btnNewProveedor}" ).popover();
 	} else {
 	  return true;
 	}]]></xp:this.script>
+					
 					<xp:this.action>
 						<xp:actionGroup>
 							<xp:this.condition><![CDATA[#{javascript:if(!gastoBean.gasto.isReadMode){
 	if (DocLock == null) print("es nulo");
 		
-	DocLock.removeLock("edf_" + sessionScope.get("edfObj").edf_codigo)
+	//DocLock.removeLock("edf_" + sessionScope.get("edfObj").edf_codigo);
+	DocLock.removeLock("gts_" + gastoBean.gasto.idGasto);
 }	
 return true;	}]]></xp:this.condition>
 							<xp:openPage name="/ViewGastos.xsp" />
 						</xp:actionGroup>
-					</xp:this.action>
-				</xp:eventHandler>
+					</xp:this.action></xp:eventHandler>
 			</xp:button>
 			
 			<xp:button value="Confirmar" id="btnSave" styleClass="btn-success"
@@ -97,7 +107,7 @@ if(!msgValidacion.isEmpty()){
 			
 		</xp:div>
 	</xp:div>
-
+	
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="false"
 		property_hasTitleBar="false">
 		<xp:this.facets>
@@ -107,79 +117,80 @@ if(!msgValidacion.isEmpty()){
 				</xp:div>
 				<xe:formTable id="formTableGastos" formTitle="Gastos"
 					disableErrorSummary="true" disableRowError="false"
-					style="padding-left:10.0%;padding-right:10.0%">
+					style="padding-left:10.0%;padding-right:10.0%;border-color:rgb(249,249,255);border-style:solid;border-width:medium">
 					<xe:this.labelPosition><![CDATA[#{javascript:gastoBean.gasto.isReadMode ? "left" : "above";}]]></xe:this.labelPosition>
 					<xp:div styleClass="form-inline">
-						<xe:formColumn styleClass="form-group col-sm-6">
-							<xe:formRow id="rowPrv_id" label="Proveedor" style="padding-right:2.0%"
-								for="cuitProveedor">
-								<xe:djextListTextBox id="cuitProveedor"
-									value="#{proveedorBean.proveedorSelected}" />
-
-								<xe:valuePicker id="pickerCuitProveedor" for="cuitProveedor"
-									dialogTitle="Seleccione el proveedor" dojoType="extlib.dijit.PickerListSearch"
-									rendered="#{!gastoBean.gasto.isReadMode}">
-									<xe:this.dataProvider>
-										<xe:beanValuePicker dataBean="ar.com.ada3d.pickers.SimplePicker" />
-
-									</xe:this.dataProvider>
-								</xe:valuePicker>
-							</xe:formRow>
-						</xe:formColumn>
-						<xe:formColumn styleClass="form-group col-sm-6">
-							<xe:formRow id="rowEdf_codigo" label="Edificio"
-								style="padding-right:2.0%">
+						<xe:formColumn
+							styleClass="form-group col-sm-6">
+							<xe:formRow id="rowEdf_codigo"
+								label="Edificio" style="padding-right:2.0%">
 
 								<xc:ccComboBoxEdificios
 									property_SoloEdificiosEnProceso="true"
 									property_VisualizarCodigo="true"
 									property_VisualizarFechaUltimaLiquidacion="false"
-									property_AnchoPxCombo="auto" property_ReadOnly="#{gastoBean.gasto.isReadMode}"
+									property_AnchoPxCombo="250"
+									property_ReadOnly="#{gastoBean.gasto.isReadMode}"
 									refreshIdOnChange="PNL_Principal" id="comboEdificio" />
 
 
 							</xe:formRow>
+						</xe:formColumn>
+						<xe:formColumn
+							styleClass="form-group col-sm-6">
+							<xe:formRow id="rowfechaLiquidacion"
+							label="Liquidación" style="padding-right:2.0%"
+							for="djComboFechaLiquidacion">
+								<xe:djFilteringSelect
+									id="djComboFechaLiquidacion"
+									queryExpr="#{javascript:return '*\$\{0\}*';}"
+									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
+									value="#{gastoBean.gasto.fechaLiquidacion}">
+									<xp:selectItems>
+										<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxFechaLiquidacion(sessionScope.edfObj)}]]></xp:this.value>
+									</xp:selectItems>
+									<xe:this.dojoAttributes>
+										<xp:dojoAttribute name="required"
+											value="false" />
+	
+									</xe:this.dojoAttributes>
+									<xp:eventHandler event="onChange"
+										submit="true" refreshMode="partial"
+										refreshId="djComboFechaLiquidacion" disableValidators="true" />
+	
+								</xe:djFilteringSelect>
+							</xe:formRow>
+							
 
 						</xe:formColumn>
 					</xp:div>
 
-					<xp:div styleClass="form-inline">
-						<xe:formColumn styleClass="form-group col-sm-6">
-							<xe:formRow id="rowFechaFactura" label="Fecha"
-								style="padding-right:2.0%" for="fechaFactura">
-								<xp:inputText id="fechaFactura" value="#{gastoBean.gasto.fechaFactura}"
-									defaultValue="#{javascript:@Today()}" readonly="#{gastoBean.gasto.isReadMode}">
-									<xp:this.converter>
-										<xp:convertDateTime type="date" />
-
-									</xp:this.converter>
-									<xp:dateTimeHelper />
-								</xp:inputText>
-							</xe:formRow>
-						</xe:formColumn>
-						<xe:formColumn styleClass="form-group col-sm-6">
-							<xe:formRow id="rowNumeroComprobante" label="Comprobante"
-								style="padding-right:2.0%" for="numeroComprobante">
-								<xp:inputText id="numeroComprobante" style=" width:200.0px"
-									value="#{gastoBean.gasto.numeroComprobante}" readonly="#{gastoBean.gasto.isReadMode}" />
-
-							</xe:formRow>
-
-						</xe:formColumn>
-					</xp:div>
+					
 
 					<!-- Detalle factura -->
 
 					<xp:div styleClass="form-inline">
 
-						<xe:formColumn styleClass="form-group col-sm-6">
-							<xe:formRow id="rowTextoDetalleFactura" label="Detalle"
-								style="padding-right:2.0%" for="textoDetalleFactura">
-								<xp:repeat value="#{gastoBean.gasto.textoDetalleFactura}"
+						<xe:formColumn
+							styleClass="form-group col-sm-6">
+							<xe:formRow id="rowTextoDetalleFactura"
+								label="Detalle" style="padding-right:2.0%"
+								for="textoDetalleFactura">
+								<xp:inputTextarea
+									id="textoDetalleFactura" rows="4" cols="72"
+									value="#{gastoBean.gasto.textoDetalleFactura}"
+									readonly="#{gastoBean.gasto.isReadMode}">
+									<xp:this.multipleSeparator><![CDATA[#{javascript:"\n"}]]></xp:this.multipleSeparator>
+								</xp:inputTextarea>
+								<!-- 
+								<xp:repeat
+									value="#{gastoBean.gasto.textoDetalleFactura}"
 									var="rptTextoFactura">
-									<xp:inputText id="textoDetalleFactura" value="#{rptTextoFactura}"
-										readonly="#{gastoBean.gasto.isReadMode}">
-										<xp:eventHandler event="onkeyup" submit="false">
+									<xp:inputText
+										id="textoDetalleFacturaRead" value="#{rptTextoFactura}"
+										readonly="#{gastoBean.gasto.isReadMode}" rendered="#{gastoBean.gasto.isReadMode}">
+										<xp:eventHandler event="onkeyup"
+											submit="false">
 											<xp:this.script><![CDATA[var element = thisEvent.srcElement;
 if (element.value.length > 72) {
     element.value = element.value.substring(0, 72);
@@ -191,28 +202,34 @@ if (element.value.length > 72) {
 										<xp:this.value><![CDATA[#{javascript:"<br>"}]]></xp:this.value>
 									</xp:text>
 								</xp:repeat>
-
+ -->								
 							</xe:formRow>
 						</xe:formColumn>
 					</xp:div>
 
 
 
-					<xp:div id="divPorcentuales" styleClass="form-inline">  <!-- INI - Importes Porcentuales -->
-						<xe:formRow id="rowPorcentuales" label="Importe Porcentuales"
-							labelPosition="left" labelWidth="80%" />
+					<xp:div id="divPorcentuales"
+						styleClass="form-inline">
+						<!-- INI - Importes Porcentuales -->
+						<xe:formRow id="rowPorcentuales"
+							label="Importe Porcentuales" labelPosition="left"
+							labelWidth="80%" />
 
 
 						<xe:formColumn styleClass="form-group col-sm-3"
 							style="margin-left:5.0%">
-							<xe:formRow id="rowProrrateoDescripcion" label=""
-								labelPosition="left" labelWidth="50%">
-								<xp:repeat id="repeatProrrateoTitulo" value="#{edfObj.listaProrrateos}"
-									var="rptProrrateoTitulo" indexVar="idxRptProrrateoTitulo">
-									<xp:inputText id="prt_titulo" styleClass="row form-inline"
-										value="#{rptProrrateoTitulo.prt_titulo}" disabled="true">
+							<xe:formRow id="rowProrrateoDescripcion"
+								label="" labelPosition="left" labelWidth="50%">
+								<xp:repeat id="repeatProrrateoTitulo"
+									value="#{edfObj.listaProrrateos}" var="rptProrrateoTitulo"
+									indexVar="idxRptProrrateoTitulo">
+									<xp:inputText id="prt_titulo"
+										styleClass="row form-inline"
+										value="#{rptProrrateoTitulo.prt_titulo}" disabled="true" tabindex="2">
 										<xp:this.validators>
-											<xp:validateLength maximum="15"
+											<xp:validateLength
+												maximum="15"
 												message="El largo no puede exceder 15 caracteres" />
 
 										</xp:this.validators>
@@ -221,107 +238,174 @@ if (element.value.length > 72) {
 							</xe:formRow>
 						</xe:formColumn>
 
-						<xe:formColumn styleClass="form-group col-sm-4">
-							<xe:formRow id="rowProrrateoImporte" labelWidth="50%"
-								styleClass="col-lg-10">
+						<xe:formColumn
+							styleClass="form-group col-sm-4">
+							<xe:formRow id="rowProrrateoImporte"
+								labelWidth="50%" styleClass="col-lg-10">
 
-								<xp:repeat id="repeatProrrateoImporte" value="#{gastoBean.gasto.listaProrrateos}"
+								<xp:repeat id="repeatProrrateoImporte"
+									value="#{gastoBean.gasto.listaProrrateos}"
 									var="rptProrrateoImporte" indexVar="idxRptProrrateoImporte">
 									<xp:inputText id="prt_importe"
-										styleClass="row form-inline classPrt_importe" value="#{rptProrrateoImporte.prt_importe}"
-										style="text-align:right" disabled="#{gastoBean.gasto.isReadMode}">
+										styleClass="row form-inline classPrt_importe"
+										value="#{rptProrrateoImporte.prt_importe}"
+										style="text-align:right"
+										disabled="#{gastoBean.gasto.isReadMode}">
 										<xp:this.converter>
-											<xp:convertNumber pattern="#,##0.00;(#,##0.00)" />
+											<xp:convertNumber
+												pattern="#,##0.00;(#,##0.00)" />
 
 										</xp:this.converter>
 									</xp:inputText>
 								</xp:repeat>
 							</xe:formRow>
 						</xe:formColumn>
-					</xp:div>    <!-- FIN - Importes Porcentuales -->
+					</xp:div>
+					<!-- FIN - Importes Porcentuales -->
 
-					<xp:div styleClass="form-inline">  <!-- INI - Agrupamiento y Codigo Especial -->
-						<xe:formColumn styleClass="form-group col-sm-6">
-							<xe:formRow id="rowAgrupamiento" label="Agrupamiento"
-								style="padding-right:2.0%" for="djComboAgrupamiento">
-								<xe:djFilteringSelect id="djComboAgrupamiento"
-									queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
-									disabled="#{gastoBean.gasto.isReadMode}" value="#{gastoBean.gasto.agrupamiento}">
-									<xp:selectItems value="#{javascript:gastoBean.comboboxAgrupamiento;}" />
+					<xp:div styleClass="form-inline"><!-- INI - Agrupamiento y Codigo Especial -->
+						<xe:formColumn
+							styleClass="form-group col-sm-6">
+							<xe:formRow id="rowAgrupamiento"
+								label="Agrupamiento" style="padding-right:2.0%"
+								for="djComboAgrupamiento">
+								<xe:djFilteringSelect
+									id="djComboAgrupamiento"
+									queryExpr="#{javascript:return '*\$\{0\}*';}"
+									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
+									value="#{gastoBean.gasto.agrupamiento}">
+									<xp:selectItems
+										value="#{javascript:gastoBean.comboboxAgrupamiento;}" />
 
 									<xe:this.dojoAttributes>
-										<xp:dojoAttribute name="required" value="false" />
+										<xp:dojoAttribute
+											name="required" value="false" />
 
 									</xe:this.dojoAttributes>
-									<xp:eventHandler event="onChange" submit="true"
-										refreshMode="partial" refreshId="djComboAgrupamiento"
-										disableValidators="true" />
+									<xp:eventHandler event="onChange"
+										submit="true" refreshMode="partial"
+										refreshId="djComboAgrupamiento" disableValidators="true" />
 
 								</xe:djFilteringSelect>
 							</xe:formRow>
 						</xe:formColumn>
 						<!-- width:55.0px -->
-						<xe:formColumn styleClass="form-group col-sm-6">
-							<xe:formRow id="rowCodigoEspecial" label="Cód. Especial"
-								style="padding-right:2.0%">
-								<xe:djFilteringSelect id="djComboCodigoEspecial"
-									queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
+						<xe:formColumn
+							styleClass="form-group col-sm-6">
+							<xe:formRow id="rowCodigoEspecial"
+								label="Cód. Especial" style="padding-right:2.0%">
+								<xe:djFilteringSelect
+									id="djComboCodigoEspecial"
+									queryExpr="#{javascript:return '*\$\{0\}*';}"
+									autoComplete="false"
 									disabled="#{gastoBean.gasto.isReadMode}">
 									<xp:selectItems
 										value="#{javascript:getOpcionesClave('codigoEspecial', 'alias')}" />
 
 									<xe:this.dojoAttributes>
-										<xp:dojoAttribute name="required" value="false" />
+										<xp:dojoAttribute
+											name="required" value="false" />
 
 									</xe:this.dojoAttributes>
-									<xp:eventHandler event="onChange" submit="true"
-										refreshMode="partial" refreshId="djComboCodigoEspecial"
-										disableValidators="true" />
+									<xp:eventHandler event="onChange"
+										submit="true" refreshMode="partial"
+										refreshId="djComboCodigoEspecial" disableValidators="true" />
 
 								</xe:djFilteringSelect>
 							</xe:formRow>
 
 						</xe:formColumn>
-					</xp:div>  <!-- FIN - Agrupamiento y Codigo Especial -->
+					</xp:div>
+					<!-- FIN - Agrupamiento y Codigo Especial -->
 
+				
+					<xp:div styleClass="form-inline">
+						<xe:formColumn styleClass="form-group col-sm-6">
+							<xe:formRow id="rowFechaFactura" 
+								label="Fecha" style="padding-right:2.0%" for="fechaFactura">
+								<xp:inputText id="fechaFactura"
+									value="#{gastoBean.gasto.fechaFactura}"
+									defaultValue="#{javascript:@Today()}"
+									readonly="#{gastoBean.gasto.isReadMode}">
+									<xp:this.converter>
+										<xp:convertDateTime type="date" />
 
-					<xe:formColumn styleClass="form-group col-sm-6">
-						<xe:formRow id="rowfechaLiquidacion" label="Liquidación"
-							style="padding-right:2.0%" for="djComboFechaLiquidacion">
-							<xe:djFilteringSelect id="djComboFechaLiquidacion"
-								queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
-								disabled="#{gastoBean.gasto.isReadMode}" value="#{gastoBean.gasto.fechaLiquidacion}">
-								<xp:selectItems>
-									<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxFechaLiquidacion(sessionScope.edfObj)}]]></xp:this.value>
-								</xp:selectItems>
-								<xe:this.dojoAttributes>
-									<xp:dojoAttribute name="required" value="false" />
-
-								</xe:this.dojoAttributes>
-								<xp:eventHandler event="onChange" submit="true"
-									refreshMode="partial" refreshId="djComboFechaLiquidacion"
-									disableValidators="true" />
-
-							</xe:djFilteringSelect>
-						</xe:formRow>
-					</xe:formColumn>
+									</xp:this.converter>
+									<xp:dateTimeHelper />
+								</xp:inputText>
+							</xe:formRow>
+						</xe:formColumn>
+						<xe:formColumn
+							styleClass="form-group col-sm-6">
+							<xe:formRow id="rowNumeroComprobante"
+								label="Comprobante" style="padding-right:2.0%"
+								for="numeroComprobante">
+								<xp:inputText id="numeroComprobante"
+									style=" width:200.0px"
+									value="#{gastoBean.gasto.numeroComprobante}"
+									readonly="#{gastoBean.gasto.isReadMode}" />
+							</xe:formRow>
+						</xe:formColumn>
+					</xp:div>	
+					<xp:div styleClass="form-inline">	
+						<xe:formColumn
+							styleClass="form-group col-sm-6">
+							<xe:formRow id="rowPrv_id" label="Proveedor"
+								style="padding-right:2.0%" for="djComboMyProveedores">
+								<xe:djFilteringSelect
+									id="djComboMyProveedores"
+									queryExpr="#{javascript:return '*\$\{0\}*';}"
+									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
+									value="#{gastoBean.gasto.cuitProveedor}">
+									<xp:selectItems
+										value="#{javascript:proveedorBean.getComboboxMyProveedores();}" />
+									<xe:this.dojoAttributes>
+										<xp:dojoAttribute
+											name="required" value="false" />
+									</xe:this.dojoAttributes>
+									<xp:eventHandler event="onChange"
+										submit="true" refreshMode="partial"
+										refreshId="djComboMyProveedores" disableValidators="true" />
+								</xe:djFilteringSelect>
+							</xe:formRow>
+						</xe:formColumn>
+						<xe:formColumn
+							styleClass="form-group col-sm-6">
+							<xe:formRow id="formRow1"
+								label="Número Factura" style="padding-right:2.0%"
+								for="numeroFactura">
+								<xp:inputText id="numeroFactura"
+									style=" width:200.0px"
+									value="#{gastoBean.gasto.numeroFactura}"
+									readonly="#{gastoBean.gasto.isReadMode}" />
+							</xe:formRow>
+						</xe:formColumn>
+					</xp:div>
 					<xe:this.facets>
 						<xp:div xp:key="footer">
-
-							<xp:button value="Guardar Test" id="btnSaveTest"
-								rendered="false">
-								<xp:eventHandler event="onclick" submit="true"
-									refreshMode="complete" />
+							<xc:ccFXdocLock
+								propertyCodigoLockeo="#{javascript:'gts_' + gastoBean.gasto.idGasto}"
+								propertyMensaje="El gasto está siendo modificados por: " />
+							<xp:messages id="messages1"
+								styleClass="alert alert-error">
+							</xp:messages>
+							<xp:button value="Guardar Test"
+								id="btnSaveTest" rendered="false">
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete" />
 
 							</xp:button>
-							<xp:button value="Pagar" id="btnPagar" rendered="false">
-								<xp:eventHandler event="onclick" submit="false">
+							<xp:button value="Pagar" id="btnPagar"
+								rendered="false">
+								<xp:eventHandler event="onclick"
+									submit="false">
 									<xp:this.script><![CDATA[alert('btnPagar');]]></xp:this.script>
 								</xp:eventHandler>
 							</xp:button>
-							<xp:button value="Prueba" id="btnPrueba" rendered="false">
-								<xp:eventHandler event="onclick" submit="true"
-									refreshMode="complete">
+							<xp:button value="Prueba" id="btnPrueba"
+								rendered="false">
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete">
 									<xp:this.action><![CDATA[#{javascript:print("select:" + proveedorBean.getProveedorSelected())}]]></xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
@@ -333,4 +417,6 @@ if (element.value.length > 72) {
 
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>
-</xp:view>
+	<xp:eventHandler event="onClientLoad" submit="false">
+		<xp:this.script><![CDATA[document.getElementById("#{id:textoDetalleFactura}").focus();]]></xp:this.script>
+	</xp:eventHandler></xp:view>
