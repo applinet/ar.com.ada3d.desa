@@ -20,6 +20,7 @@ x$( "#{id:btnNewProveedor}" ).popover();
 	<xp:scriptBlock id="scriptBlockMaskedJquery">
 		<xp:this.value><![CDATA[jQuery(function($){
 	$(".classPrt_importe").mask('0.000.000,00', {reverse: true}); //Por clase porque es un repeat
+	x$("#{id:numeroFactura}").mask('0000-00000000', {placeholder: "0000-00000000"});
 });]]></xp:this.value>
 	</xp:scriptBlock>
 
@@ -180,7 +181,12 @@ if(!msgValidacion.isEmpty()){
 									id="textoDetalleFactura" rows="4" cols="72"
 									value="#{gastoBean.gasto.textoDetalleFactura}"
 									readonly="#{gastoBean.gasto.isReadMode}">
-									<xp:this.multipleSeparator><![CDATA[#{javascript:"\n"}]]></xp:this.multipleSeparator>
+									<xp:this.converter>
+										<xp:customConverter>
+											<xp:this.getAsObject><![CDATA[#{javascript:@Explode(value,"\n");}]]></xp:this.getAsObject>
+											<xp:this.getAsString><![CDATA[#{javascript:@Implode(value,"\n");}]]></xp:this.getAsString>
+										</xp:customConverter>
+									</xp:this.converter>
 								</xp:inputTextarea>
 								<!-- 
 								<xp:repeat
@@ -298,6 +304,7 @@ if (element.value.length > 72) {
 									id="djComboCodigoEspecial"
 									queryExpr="#{javascript:return '*\$\{0\}*';}"
 									autoComplete="false"
+									value="#{gastoBean.gasto.codigoEspecial}"
 									disabled="#{gastoBean.gasto.isReadMode}">
 									<xp:selectItems
 										value="#{javascript:getOpcionesClave('codigoEspecial', 'alias')}" />
@@ -322,10 +329,9 @@ if (element.value.length > 72) {
 					<xp:div styleClass="form-inline">
 						<xe:formColumn styleClass="form-group col-sm-6">
 							<xe:formRow id="rowFechaFactura" 
-								label="Fecha" style="padding-right:2.0%" for="fechaFactura">
+								label="Fecha Factura" style="padding-right:2.0%" for="fechaFactura">
 								<xp:inputText id="fechaFactura"
 									value="#{gastoBean.gasto.fechaFactura}"
-									defaultValue="#{javascript:@Today()}"
 									readonly="#{gastoBean.gasto.isReadMode}">
 									<xp:this.converter>
 										<xp:convertDateTime type="date" />
@@ -343,7 +349,15 @@ if (element.value.length > 72) {
 								<xp:inputText id="numeroComprobante"
 									style=" width:200.0px"
 									value="#{gastoBean.gasto.numeroComprobante}"
-									readonly="#{gastoBean.gasto.isReadMode}" />
+									readonly="#{gastoBean.gasto.isReadMode}" defaultValue="0"
+									required="true">
+									<xp:this.validators>
+
+										<xp:validateRequired
+											message="Si no ingresa comprobante debe ingresar el número cero">
+										</xp:validateRequired>
+									</xp:this.validators>
+								</xp:inputText>
 							</xe:formRow>
 						</xe:formColumn>
 					</xp:div>	
@@ -367,6 +381,33 @@ if (element.value.length > 72) {
 										submit="true" refreshMode="partial"
 										refreshId="djComboMyProveedores" disableValidators="true" />
 								</xe:djFilteringSelect>
+								&#160;
+								  <xp:button id="btnNewProveedor"
+									styleClass="btn btn-success" type="button" rendered="#{!gastoBean.gasto.isReadMode}">
+									<xp:this.attrs>
+										<xp:attr name="data-toggle"
+											value="popover">
+										</xp:attr>
+										<xp:attr name="data-trigger"
+											value="hover">
+										</xp:attr>
+										<xp:attr name="title"
+											value="Alta">
+										</xp:attr>
+										<xp:attr name="data-content"
+											value="Presione para agregar un proveedor que no se encuentra en la lista">
+										</xp:attr>
+										<xp:attr name="data-placement"
+											value="bottom">
+										</xp:attr>
+									</xp:this.attrs>
+									<xp:text id="iconWarning"
+										tagName="i" styleClass="glyphicon glyphicon-plus-sign">
+									</xp:text>
+									<xp:eventHandler event="onclick"
+										submit="true" refreshMode="complete" immediate="true">
+										<xp:this.action><![CDATA[#{javascript:proveedorBean.createNewProveedor();context.redirectToPage("frmProveedor.xsp")}]]></xp:this.action>
+									</xp:eventHandler></xp:button>
 							</xe:formRow>
 						</xe:formColumn>
 						<xe:formColumn
@@ -377,7 +418,16 @@ if (element.value.length > 72) {
 								<xp:inputText id="numeroFactura"
 									style=" width:200.0px"
 									value="#{gastoBean.gasto.numeroFactura}"
-									readonly="#{gastoBean.gasto.isReadMode}" />
+									validator="#{validadorBean.validateNumeroFactura}"
+									readonly="#{gastoBean.gasto.isReadMode}">
+								<xp:eventHandler event="onkeyup"
+									submit="false">
+									<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+if (element.value.length > 13) {
+    element.value = element.value.substring(0, 13);
+}]]></xp:this.script>
+								</xp:eventHandler>
+								</xp:inputText>
 							</xe:formRow>
 						</xe:formColumn>
 					</xp:div>

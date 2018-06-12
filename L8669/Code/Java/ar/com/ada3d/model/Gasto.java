@@ -9,12 +9,14 @@ public class Gasto {
 	
 	private Date fechaFactura;
 	private BigDecimal numeroComprobante; 
-	private BigDecimal numeroFactura;
-	private Vector<String> textoDetalleFactura;
+	private String numeroFactura;
+	private List<String> textoDetalleFactura;
 	//columnas en AS: IMPOR1, IMPOR2, IMPOR3, IMPOR4 
 	List<Prorrateo> listaProrrateos = new ArrayList<Prorrateo>();
-	private Integer numeroRenglon;
+	private Integer cantidadRenglonesInicio;
 	private Integer cantidadRenglones;
+	private Integer numeroRenglon;
+	
 	
 	private String agrupamiento; //o rubro --> tabla
 	private String codigoEspecial; // --> tabla (es el estado)
@@ -77,27 +79,28 @@ public class Gasto {
 	}
 
 
-	public BigDecimal getNumeroFactura() {
+	public String getNumeroFactura() {
 		return numeroFactura;
 	}
 
 
-	public void setNumeroFactura(BigDecimal numeroFactura) {
+	public void setNumeroFactura(String numeroFactura) {
 		this.numeroFactura = numeroFactura;
 	}
-
-
-	public Vector<String> getTextoDetalleFactura() {
+	
+	
+	public List<String> getTextoDetalleFactura() {
 		return textoDetalleFactura;
 	}
 
 
-	public void setTextoDetalleFactura(Vector<String> textoDetalleFactura) {
+	public void setTextoDetalleFactura(List<String> textoDetalleFactura) {
 		this.textoDetalleFactura = textoDetalleFactura;
 	}
 
-	
-	
+
+
+
 	public List<Prorrateo> getListaProrrateos() {
 		return listaProrrateos;
 	}
@@ -109,13 +112,13 @@ public class Gasto {
 	}
 
 
-	public Integer getNumeroRenglon() {
-		return numeroRenglon;
+	public Integer getCantidadRenglonesInicio() {
+		return cantidadRenglonesInicio;
 	}
 
 
-	public void setNumeroRenglon(Integer numeroRenglon) {
-		this.numeroRenglon = numeroRenglon;
+	public void setCantidadRenglonesInicio(Integer cantidadRenglonesInicio) {
+		this.cantidadRenglonesInicio = cantidadRenglonesInicio;
 	}
 
 
@@ -129,6 +132,16 @@ public class Gasto {
 	}
 
 	
+	public Integer getNumeroRenglon() {
+		return numeroRenglon;
+	}
+
+
+	public void setNumeroRenglon(Integer numeroRenglon) {
+		this.numeroRenglon = numeroRenglon;
+	}
+
+
 	public String getAgrupamiento() {
 		return agrupamiento;
 	}
