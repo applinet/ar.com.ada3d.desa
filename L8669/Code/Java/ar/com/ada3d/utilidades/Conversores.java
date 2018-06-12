@@ -10,6 +10,10 @@ import java.util.List;
 import java.math.BigDecimal;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Conversores {
 
@@ -160,4 +164,26 @@ public class Conversores {
 		List<String> ret = new ArrayList<String>(retorno);
 		return (ArrayList<String>) ret;
 	}
+	
+	
+	/**
+	 * 
+	 * @param msg: el mensaje a dividir
+	 * @param lineSize: el largo que debe tener la linea
+	 * @return Lista con string limitado al parámetro lineSize
+	 * http://www.davismol.net/2015/02/03/java-how-to-split-a-string-into-fixed-length-rows-without-breaking-the-words/
+	 */
+	public static List<String> splitString(String msg, int lineSize) {
+        List<String> res = new ArrayList<String>();
+
+        Pattern p = Pattern.compile("\\b.{1," + (lineSize-1) + "}\\b\\W?");
+        Matcher m = p.matcher(msg);
+        
+        while(m.find()) {
+                //System.out.println("FPR SPLIT: " + m.group().trim());   // Debug
+                res.add(m.group());
+        }
+        return res;
+    }
+
 }
