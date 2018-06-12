@@ -198,7 +198,6 @@ public class QueryAS400 implements Serializable {
 			connection = DriverManager.getConnection(configDs.getUrlConexion(),
 					configDs.getUserWrite(), configDs.getPassWrite());
 			Statement stmt = connection.createStatement();
-			
 			if (configTabla.getMsgConsola().equals("1"))
 				System.out.println(configTabla.getStrsSQL());
 			

@@ -711,7 +711,6 @@ public class EdificioBean implements Serializable {
 		calProxLiquidacionMasUno.add(Calendar.DATE, 1);
 		Calendar calPrimerVto = Calendar.getInstance();
 		
-		//ACA
 		//La fecha 1er vto no debe nunca estar null y la comparo con prox liquidacion
 		if(prm_edificio.getEdf_fechaPrimerVencimientoRecibos() != null){
 			calPrimerVto.setTime(prm_edificio.getEdf_fechaPrimerVencimientoRecibos());

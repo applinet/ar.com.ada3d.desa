@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="19b6" sequence="2" unid="C8B42407A8B4BB148325824000646DCC">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258294005DFE4F" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="442" sequence="5" unid="C8B42407A8B4BB148325824000646DCC">
 <created><datetime dst="true">20180226T161657,08-02</datetime></created>
-<modified><datetime dst="true">20180226T161702,69-02</datetime></modified>
-<revised><datetime dst="true">20180226T161702,68-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180226T161702,69-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20180226T161700,27-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst="true">20180611T113128,53-02</datetime></modified>
+<revised><datetime dst="true">20180611T113128,52-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180611T113128,53-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180521T150643,70-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$TITLE"><text>ar/com/ada3d/utilidades/Validadores.java</text></item>
 
 
 
-<item name="$Flags"><text>34567Cg~[P</text></item>
+<item name="$Flags"><text>34567Cg~[</text></item>
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
 

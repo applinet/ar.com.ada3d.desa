@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="193a" sequence="9" unid="D22DFF263F9B0941832582400061BA69">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258294005DFE4F" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="3d6" sequence="10" unid="D22DFF263F9B0941832582400061BA69">
 <created><datetime dst="true">20180226T154727,13-02</datetime></created>
-<modified><datetime dst="true">20180227T120538,94-02</datetime></modified>
-<revised><datetime dst="true">20180227T120538,93-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180227T120538,94-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20180226T154727,16-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst="true">20180611T155337,95-02</datetime></modified>
+<revised><datetime dst="true">20180611T155337,94-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180611T155337,95-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180521T150643,16-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$TITLE"><text>viewConfigUsr.xsp</text></item>
-<item name="$Flags"><text>gC~4KP</text></item>
 
 
 <item name="$FileNames" sign="true"><text>viewConfigUsr.xsp</text></item>
 
-
-
 <item name="$Comment" sign="true"><text>Vista de Usuarios</text></item>
 <item name="$DesignerVersion"><text>9.0.1</text></item>
+
+
+<item name="$Flags"><text>gC~4K</text></item>
 
 </note>

@@ -1,14 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="18f6" sequence="9" unid="DBB66DD2B7662A9C832582400061B706">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258294005DFE4F" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="3a2" sequence="10" unid="DBB66DD2B7662A9C832582400061B706">
 <created><datetime dst="true">20180226T154718,46-02</datetime></created>
-<modified><datetime dst="true">20180227T120540,49-02</datetime></modified>
-<revised><datetime dst="true">20180227T120540,48-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180227T120540,49-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20180226T154718,48-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst="true">20180611T155339,04-02</datetime></modified>
+<revised><datetime dst="true">20180611T155339,03-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180611T155339,04-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180521T150642,90-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$TITLE"><text>debugToolbarConsole.xsp</text></item>
-<item name="$Flags"><text>gC~4KP</text></item>
 
 
 <item name="$FileNames" sign="true"><text>debugToolbarConsole.xsp</text></item>
@@ -16,6 +15,7 @@
 
 
 <item name="$Comment" sign="true"><text>DebugToolbar</text></item>
+<item name="$Flags"><text>gC~4K</text></item>
 <item name="$DesignerVersion"><text>9.0.1</text></item>
 
 
