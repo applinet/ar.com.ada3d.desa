@@ -88,17 +88,50 @@
 						</xp:text>
 
 					</xp:column>
+					
+					
+					<xp:column id="agrupamientoColumn">
+						<xp:this.facets>
+							<xp:label value="Agrupamiento" id="agrupamientoLabel"
+								xp:key="header" style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:link escape="true"
+							text="#{gasto.agrupamiento}"
+							id="agrupamiento">
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler2">
+								<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</xp:column>
+					<xp:column id="codigoEspecialColumn">
+						<xp:this.facets>
+							<xp:label value="Código Especial" id="codigoEspecialLabel"
+								xp:key="header" style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:link escape="true"
+							text="#{gasto.codigoEspecial}"
+							id="codigoEspecial">
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler3">
+								<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</xp:column>
 				</xp:dataTable>
 			</xp:panel>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>
 	<div id="divHiddenAplicar" style="display: none;">
-		<xp:button value="Prueba" id="btnNuevoGasto">
+		<xp:button value="Nuevo Gasto" id="btnNuevoGasto">
 			
-		<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
-			<xp:this.action>
-				<xp:openPage name="/frmGastos.xsp"></xp:openPage>
-			</xp:this.action></xp:eventHandler></xp:button>
+		<xp:eventHandler event="onclick" submit="true"
+			refreshMode="complete">
+			<xp:this.action><![CDATA[#{javascript:gastoBean.createNewGasto();
+context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+		</xp:eventHandler></xp:button>
 	</div>
 
 </xp:view>
