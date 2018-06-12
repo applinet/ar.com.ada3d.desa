@@ -68,7 +68,7 @@ public class GastoBean {
 	
 	
 	
-	/**Cuando presiona btnSave Gasto hago el Update
+	/**Cuando presiona btnSave Gasto actualizo el AS400
 	 * Esto ya tiene que venir validado
 	 * @usedIn: Boton save 
 	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
@@ -81,17 +81,54 @@ public class GastoBean {
 		docDummy.appendItemValue("EDIF", this.gasto.getCodigoEdificio());
 		docDummy.appendItemValue("FECLIQ", this.gasto.getFechaLiquidacion());
 		docDummy.appendItemValue("CUITPR", this.gasto.getCuitProveedor());
-		//TODO: ACA --> el cuit y la fecha no se estan guardando - Hacer mascara de nro de factura es un big decimal -   
+		docDummy.appendItemValue("NFACT", this.gasto.getNumeroFactura());
+		if(this.gasto.getFechaFactura()== null){
+			docDummy.appendItemValue("FFACT", "0");
+		}else{
+			docDummy.appendItemValue("FFACT", ar.com.ada3d.utilidades.Conversores.DateToString(this.gasto.getFechaFactura(), "ddMMyy"));
+		}
+		docDummy.appendItemValue("COMPRO", this.gasto.getNumeroComprobante().toString());
+		docDummy.appendItemValue("AGRUP", this.gasto.getAgrupamiento());
+		docDummy.appendItemValue("SPECIAL", this.gasto.getCodigoEspecial());
+		//Importes del prorrateo
+		docDummy.appendItemValue("IMPOR1", "0");
+		docDummy.appendItemValue("IMPOR2", "0");
+		docDummy.appendItemValue("IMPOR3", "0");
+		docDummy.appendItemValue("IMPOR4", "0");
+		for (Prorrateo myProrrateo : this.gasto.getListaProrrateos()){
+			docDummy.replaceItemValue("IMPOR" + myProrrateo.getPrt_posicion(), ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myProrrateo.getPrt_importe(), 2));
+		}
+		//Textos puedo tener hasta 99 lineas de 72 caracteres
+		List<String> acumulaDetalle = new ArrayList<String>();
+		//Las lineas de mas de 72 caracteres las divido en un nuevo array (acumulaDetalle)
+		for (String detalle : this.gasto.getTextoDetalleFactura()){
+			acumulaDetalle.addAll(ar.com.ada3d.utilidades.Conversores.splitString(detalle, 72));
+		}
+		if(acumulaDetalle.size() > 99)
+			listAcumulaErroresAS400.add("btnSave~El detalle de la factura es demasiado largo excede las 99 lineas y no puede ser grabado.");
+		
+		
 		
 		QueryAS400 query = new QueryAS400();
-		
+		ArrayList<String> listSQL = new ArrayList<String>(); //Store de multiples STRSQL
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
+		
+		//Primero actualizo la cantidad de lineas que va a tener el gasto
+		for (String detalle : acumulaDetalle){
+			listSQL.add("PH_GTS01~SET TEXTO = '" + detalle + " WHERE NCTROL = ");
+			
+			System.out.println("** Detalle:" + detalle);
+			
+		}
+		
 		
 		if (!query.updateAS("updateGastosGTS01", docDummy)){				
 			listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 			System.out.println("ERROR: " + errCode + " METH:saveGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo actualizar la tabla PH_GTS01.");
 		}
+		
+		
 		
 		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
 		if (listAcumulaErroresAS400.isEmpty()){
@@ -160,9 +197,11 @@ public class GastoBean {
 				myGasto = new Gasto();
 				myGasto.setIdGasto(idGasto);
 				myGasto.setCodigoEdificio(strLinea.split("\\|")[0].trim());
-				myGasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[1].trim(), Locale.UK, 0)));
+				myGasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[9].trim(), Locale.UK, 0)));
 				myGasto.setNumeroRenglon(Integer.parseInt(strLinea.split("\\|")[7].trim()));
 				myGasto.setCantidadRenglones(Integer.parseInt(strLinea.split("\\|")[8].trim()));
+				myGasto.setAgrupamiento(strLinea.split("\\|")[10].trim());
+				myGasto.setCodigoEspecial(strLinea.split("\\|")[11].trim());
 				
 				//Detalle factura
 				tempTextoFactura.add(strLinea.split("\\|")[2].trim());
@@ -211,7 +250,7 @@ public class GastoBean {
 			e.printStackTrace();
 		}
 		Date temp;
-		
+		List<String> detalleFactura = new ArrayList<String>();
 		for (String strLinea : nl) {
 			if(strLinea.split("\\|")[3].trim().equals("1")){ 
 				// Solo leo el primer renglon
@@ -219,10 +258,16 @@ public class GastoBean {
 				myGasto.setFechaLiquidacion(ar.com.ada3d.utilidades.Conversores.DateToString(temp, "MMyyyy"));
 				myGasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[5].trim(), Locale.UK, 0)));
 				myGasto.setCuitProveedor(strLinea.split("\\|")[6].trim());
-				myGasto.setFechaFactura(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[7].trim()));
-				myGasto.setNumeroFactura(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[8].trim(), Locale.UK, 0)));
+				if(!strLinea.split("\\|")[8].trim().equals("0")) //la fecha si es nula viene un cero
+					myGasto.setFechaFactura(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[8].trim()));
+				myGasto.setNumeroFactura(strLinea.split("\\|")[7].trim());
+				myGasto.setAgrupamiento(strLinea.split("\\|")[9].trim());
+				myGasto.setCodigoEspecial(strLinea.split("\\|")[10].trim());
+				
 			}
+			detalleFactura.add(strLinea.split("\\|")[1].trim());
 		}
+		myGasto.setTextoDetalleFactura(detalleFactura);
 		
 	}
 
@@ -348,7 +393,6 @@ public class GastoBean {
 	}
 
 	public void setGasto(Gasto gasto, boolean updateAS400) {
-		System.out.println("Setter del gasto con update");
 		updateGasto(gasto);
 		this.gasto = gasto;
 	}
