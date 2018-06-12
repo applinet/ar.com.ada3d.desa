@@ -82,4 +82,24 @@ public class Validadores {
 		return res;
 	}
   
+	 /** 
+	  * Validación del número de Factura. 
+	  * @param number Número a validar. 
+	  * @throws DocumentException cuando el número de factura no es 
+	  * válido. Salvo que sea 0 (cero) que no lo valido 
+	  */ 
+	 
+	public void validateNumeroFactura(FacesContext facesContext, UIComponent component,
+			Object value) {
+		//TODO: Vamos a validar si carga 2 veces la misma factura?
+		String number = value.toString();
+		if (number.equals("0"))
+			return;
+		
+		
+		if (!(number.length() == 13)) {
+			FacesMessage message = new FacesMessage("El número de factura debe ser con formato '0000-00000000'.");
+			throw new ValidatorException(message);
+		}
+	}
 }
