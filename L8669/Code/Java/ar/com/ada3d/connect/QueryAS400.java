@@ -2,12 +2,6 @@ package ar.com.ada3d.connect;
 
 import java.io.Serializable;
 import java.sql.*;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -226,7 +220,7 @@ public class QueryAS400 implements Serializable {
 
 	
 	/**
-	 * Realiza un Update al AS400 de Honorariosutilizando un documento de configuración que
+	 * Realiza un Update al AS400 de Honorarios utilizando un documento de configuración que
 	 * envio el nombre por parámetros. Si le envío un doc en parametros utiliza
 	 * ese, sino el de parametros. Tener en cuenta que si envio un doc, de
 	 * cargar la biblioteca tal como la genera docDummy
@@ -366,6 +360,98 @@ public class QueryAS400 implements Serializable {
 			}
 		}
 	}
+	
+	/**
+	 * Realiza un Update al AS400 en batch con una lista utilizando un documento de configuración que
+	 * envio el nombre por parámetros. Si le envío un doc en parametros utiliza
+	 * ese, sino el de parametros. Tener en cuenta que si envio un doc, de
+	 * cargar la biblioteca tal como la genera docDummy
+	 * @param clave que busca en la base de configuracion
+	 * @param documento dummy que evalua con el doc de configuracion
+	 * @param lista 
+	 * @param true= utiliza un contador de lineas para los gastos 
+	 * @return: Verdadero si realizó el update, sino falso
+	 */
+	
+	
+	public boolean updateBatchGastos(String param_clave, Document param_doc,  List<String> prm_lista, boolean usarContadorDeLineas) {
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		if (!initConexion()) return false;
+		Document docTabla = JSFUtil.getDocConexiones_y_Tablas(param_clave);
+		if (docTabla == null)
+			return false;
+		CfgTablas configTabla = new CfgTablas(docTabla);
+		
+		// INI - Siempre hay que hacer esto para que complete la biblioteca en
+		// el sql
+		if (param_doc == null) {
+			// Invento un doc y le paso la biblioteca de la base que estoy
+			Document docDummy = JSFUtil.getDocDummy();
+			docDummy.appendItemValue("biblioteca", JSFUtil.getBiblioteca("B"));
+			configTabla.setStrsSQL(docDummy);
+		} else {
+			// Al doc que tengo le agrego la biblioteca
+			param_doc.appendItemValue("biblioteca", JSFUtil.getBiblioteca("B"));
+			configTabla.setStrsSQL(param_doc);
+		}
+		// FIN - Siempre hay que hacer esto para que complete la biblioteca en
+		// el sql
+		
+		if (configTabla.getMsgConsola().equals("1"))
+			System.out.println(configTabla.getStrsSQL());
+		
+		try {
+			DriverManager
+			.registerDriver(new com.ibm.as400.access.AS400JDBCDriver());
+			connection = DriverManager.getConnection(configDs.getUrlConexion(),
+					configDs.getUserWrite(), configDs.getPassWrite());
+			
+			pstmt = connection.prepareStatement(configTabla.getStrsSQL());
+			Integer countTemp = 0;
+			for (String tempLista : prm_lista){
+				countTemp = countTemp + 1;
+				pstmt.setString(1, tempLista);
+				if(usarContadorDeLineas)
+					pstmt.setString(2, countTemp.toString());							
+				pstmt.addBatch();
+				
+			}
+			
+			
+			int[] numUpdates = null;
+			numUpdates = pstmt.executeBatch();
+			for (int i=0; i < numUpdates.length; i++) {
+				if (numUpdates[i] == Statement.SUCCESS_NO_INFO)
+					System.out.println("Execution_1 " + i +": unknown number of rows updated");
+			}
+			
+			connection.commit();
+			
+			return true;
+			
+			
+		} catch (SQLException e) {
+			System.out.println("**ERROR UPDATE ** (param_clave:" + param_clave
+					+ ") - " + e.getMessage());
+			return false;
+		}
+		
+		finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+			}
+		}
+	}
+	
+	
+	
+	
+
 	
 	public static void close(Connection connection) {
 		try {
