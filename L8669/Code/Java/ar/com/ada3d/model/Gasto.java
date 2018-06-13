@@ -13,10 +13,8 @@ public class Gasto {
 	private List<String> textoDetalleFactura;
 	//columnas en AS: IMPOR1, IMPOR2, IMPOR3, IMPOR4 
 	List<Prorrateo> listaProrrateos = new ArrayList<Prorrateo>();
-	private Integer cantidadRenglonesInicio;
 	private Integer cantidadRenglones;
 	private Integer numeroRenglon;
-	
 	
 	private String agrupamiento; //o rubro --> tabla
 	private String codigoEspecial; // --> tabla (es el estado)
@@ -109,16 +107,6 @@ public class Gasto {
 	public void setListaProrrateos(
 			List<Prorrateo> listaProrrateos) {
 		this.listaProrrateos = listaProrrateos;
-	}
-
-
-	public Integer getCantidadRenglonesInicio() {
-		return cantidadRenglonesInicio;
-	}
-
-
-	public void setCantidadRenglonesInicio(Integer cantidadRenglonesInicio) {
-		this.cantidadRenglonesInicio = cantidadRenglonesInicio;
 	}
 
 

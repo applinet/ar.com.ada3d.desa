@@ -15,6 +15,7 @@ import ar.com.ada3d.model.Prorrateo;
 import ar.com.ada3d.utilidades.DocLock;
 import ar.com.ada3d.utilidades.DocUsr;
 import ar.com.ada3d.utilidades.JSFUtil;
+import org.openntf.domino.Session;
 
 public class GastoBean {
 	private static final long serialVersionUID = 1L;
@@ -35,6 +36,18 @@ public class GastoBean {
 	 */
 	public void createNewGasto() {
 		setGasto(new Gasto());
+		Edificio prm_edificio = (Edificio) JSFUtil.resolveVariable("edfObj");
+		this.gasto.setListaProrrateos(cargaProrrateo("", prm_edificio));	
+		//TODO: faltan los siguientes datos para crear un gasto:
+		/*
+		ORIGEN DE LOS DATOS
+		FECHA DE CREACION
+		HORA DE CREACION
+		NUMERO DE USUARIO CREACION
+		FECHA DE MODIFICACION
+		HORA DE MODIFICACION
+		NUMERO DE USUARIO MODIFICACION
+		*/
 	}
 	
 	/**
@@ -66,6 +79,20 @@ public class GastoBean {
 	}
 	
 	
+
+	/**
+	 * Chequea los datos del gasto antes de guardarlos
+	 * @usedIn: Boton save 
+	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
+	 */
+	public ArrayList<String> strValidacionGasto(Edificio prm_edificio){
+		//TODO: que vamos a validar de la factura, si es nueva es distinto?
+		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
+		return listAcumulaErrores;
+	}
+	
+
+	
 	
 	
 	/**Cuando presiona btnSave Gasto actualizo el AS400
@@ -76,7 +103,18 @@ public class GastoBean {
 	 */
 	public ArrayList<String> saveGasto(Edificio prm_edificio) {
 		ArrayList<String> listAcumulaErroresAS400 = new ArrayList<String>();
+		boolean isNew = false;
 		Document docDummy = JSFUtil.getDocDummy();
+		docDummy.appendItemValue("Form", "docDummy");
+		Session session = JSFUtil.getSession();
+		session.getCurrentDatabase().getAgent("a.ObtCorr").runWithDocumentContext(docDummy);
+		
+		if(this.gasto.getIdGasto() == null){//Es un gasto nuevo
+			this.gasto.setIdGasto(ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), "yyMMddHHmm" + docDummy.getItemValueString("nroSecuencial")));
+			this.gasto.setCodigoEdificio(prm_edificio.getEdf_codigo());
+			isNew = true;
+		}
+		
 		docDummy.appendItemValue("NCTROL", this.gasto.getIdGasto());
 		docDummy.appendItemValue("EDIF", this.gasto.getCodigoEdificio());
 		docDummy.appendItemValue("FECLIQ", this.gasto.getFechaLiquidacion());
@@ -98,62 +136,73 @@ public class GastoBean {
 		for (Prorrateo myProrrateo : this.gasto.getListaProrrateos()){
 			docDummy.replaceItemValue("IMPOR" + myProrrateo.getPrt_posicion(), ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myProrrateo.getPrt_importe(), 2));
 		}
-		//Textos puedo tener hasta 99 lineas de 72 caracteres
+		
 		List<String> acumulaDetalle = new ArrayList<String>();
+		//Textos puedo tener hasta 99 lineas de 72 caracteres
 		//Las lineas de mas de 72 caracteres las divido en un nuevo array (acumulaDetalle)
 		for (String detalle : this.gasto.getTextoDetalleFactura()){
 			acumulaDetalle.addAll(ar.com.ada3d.utilidades.Conversores.splitString(detalle, 72));
 		}
-		if(acumulaDetalle.size() > 99)
+		if(acumulaDetalle.size() > 99){
 			listAcumulaErroresAS400.add("btnSave~El detalle de la factura es demasiado largo excede las 99 lineas y no puede ser grabado.");
+			return listAcumulaErroresAS400;
+		}
+		docDummy.appendItemValue("TRENGL", acumulaDetalle.size()); //Total de renglones
 		
-		
+		/** ****************DETALLE DE FACTURA *************************************
+		 * Primero actualizo la cantidad de lineas que va a tener el gasto.
+		 * Cantidad de lineas que necesito: acumulaDetalle.size()
+		 * Cantidad de lineas que tenia al ingresar: this.gasto.getCantidadRenglones()
+		 * INSERT INTO L8669B.PH_GTS01 (CODREG, NCTROL) VALUES ('G', '18060110000001') 
+		*/
+		// *** AS400 ***
 		
 		QueryAS400 query = new QueryAS400();
-		ArrayList<String> listSQL = new ArrayList<String>(); //Store de multiples STRSQL
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
 		
-		//Primero actualizo la cantidad de lineas que va a tener el gasto
-		for (String detalle : acumulaDetalle){
-			listSQL.add("PH_GTS01~SET TEXTO = '" + detalle + " WHERE NCTROL = ");
+		if(isNew){ //es un nuevo gasto
+			if (!query.updateBatchGastos("gastosInsertBatchGTS01", docDummy, acumulaDetalle, true)) {
+				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+				System.out.println("ERROR: " + errCode + " METH:saveNewGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo insertar en la tabla PH_GTS01.");
+			}
 			
-			System.out.println("** Detalle:" + detalle);
-			
+		}else{  // es un gasto existente
+			if (acumulaDetalle.size() == this.gasto.getCantidadRenglones()){
+				//Misma cantidad de lineas, solo actualizo 
+				if (!query.updateBatchGastos("gastosUpdateBatchGTS01", docDummy, acumulaDetalle, true)) {
+					listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+					System.out.println("ERROR: " + errCode + " METH:saveGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo actualizar la tabla PH_GTS01.");
+				}
+						
+			}else{	
+				//La cantidad de lineas cambio elimino lineas y vuelvo a generar
+				if(query.updateAS("gastosDelete", docDummy)){
+					if (!query.updateBatchGastos("gastosInsertBatchGTS01", docDummy, acumulaDetalle, true)) {
+						listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+						System.out.println("ERROR: " + errCode + " METH:saveNewGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo insertar en la tabla PH_GTS01.");
+					}
+				}else{
+					listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+					System.out.println("ERROR: " + errCode + " METH:saveNewGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo eliminar en la tabla PH_GTS01.");
+				}
+			}
+
 		}
-		
-		
-		if (!query.updateAS("updateGastosGTS01", docDummy)){				
-			listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
-			System.out.println("ERROR: " + errCode + " METH:saveGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo actualizar la tabla PH_GTS01.");
-		}
-		
-		
 		
 		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
 		if (listAcumulaErroresAS400.isEmpty()){
 			//lock.removeLock("edf_" + prm_edificio.getEdf_codigo());
-			lock.removeLock("gts_" + this.gasto.getIdGasto());
+			if(!isNew)
+				lock.removeLock("gts_" + this.gasto.getIdGasto());
 			//TODO: Que mensaje ponemos ?
 			docUsuario.setUltimaActividad(lock.setLog("Ha guardado los cambios del la factura ???? " ));			
 		}else{
 			docUsuario.setUltimaActividad(lock.setLog("No se han guardado los cambios (ERROR: " + errCode + ")"));
 		}
+		
 		return listAcumulaErroresAS400;
 		
-	}
-	
-	
-	/**
-	 * Chequea los datos del gasto antes de guardarlos
-	 * @usedIn: Boton save 
-	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
-	 */
-	public ArrayList<String> strValidacionGasto(Edificio prm_edificio){
-		//TODO: que vamos a validar de la factura
-		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
-		String strTemp = "";
-		return listAcumulaErrores;
 	}
 	
 	//***** FIN BOTONES ****
@@ -290,8 +339,12 @@ public class GastoBean {
 			gastoProrrateo.setPrt_posicion(edificioProrrateo.getPrt_posicion());
 			gastoProrrateo.setPrt_posicionEnGrilla(edificioProrrateo.getPrt_posicionEnGrilla());
 			gastoProrrateo.setPrt_titulo(edificioProrrateo.getPrt_titulo());
-			gastoProrrateo.setPrt_porcentaje(edificioProrrateo.getPrt_porcentaje());	
-			gastoProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[(edificioProrrateo.getPrt_posicion()+ 2)].trim(), Locale.UK, 2)));
+			gastoProrrateo.setPrt_porcentaje(edificioProrrateo.getPrt_porcentaje());
+			if(strLinea.equals("")){
+				gastoProrrateo.setPrt_importe(new BigDecimal(0));
+			}else{
+				gastoProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[(edificioProrrateo.getPrt_posicion()+ 2)].trim(), Locale.UK, 2)));
+			}
 			listaProrrateos.add(gastoProrrateo);	
 		}
 		return listaProrrateos;
