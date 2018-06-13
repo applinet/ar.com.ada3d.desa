@@ -95,6 +95,7 @@ if(!msgValidacion.isEmpty()){
 	view.postScript("window.scrollTo(0,0)");
 	return;
 }	
+
 msgValidacion = gastoBean.saveGasto(sessionScope.get("edfObj"));
 if(!msgValidacion.isEmpty()){
 	facesMsgValidation(msgValidacion);
@@ -180,14 +181,18 @@ if(!msgValidacion.isEmpty()){
 								<xp:inputTextarea
 									id="textoDetalleFactura" rows="4" cols="72"
 									value="#{gastoBean.gasto.textoDetalleFactura}"
-									readonly="#{gastoBean.gasto.isReadMode}">
+									readonly="#{gastoBean.gasto.isReadMode}" required="true">
 									<xp:this.converter>
 										<xp:customConverter>
 											<xp:this.getAsObject><![CDATA[#{javascript:@Explode(value,"\n");}]]></xp:this.getAsObject>
 											<xp:this.getAsString><![CDATA[#{javascript:@Implode(value,"\n");}]]></xp:this.getAsString>
 										</xp:customConverter>
 									</xp:this.converter>
-								</xp:inputTextarea>
+									<xp:this.validators>
+										<xp:validateRequired
+											message="El detalle es obligatorio">
+										</xp:validateRequired>
+									</xp:this.validators></xp:inputTextarea>
 								<!-- 
 								<xp:repeat
 									value="#{gastoBean.gasto.textoDetalleFactura}"
