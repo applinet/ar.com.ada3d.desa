@@ -166,7 +166,7 @@ public class PorcentualMasivoBean implements Serializable {
 			Document docDummy = JSFUtil.getDocDummy();
 			docDummy.appendItemValue("LISTA_EDIF", "SET");
 			
-			if (query.updateBatchAS("updateMasivoHonorariosEdificiosBatch", docDummy, listaHonorariosEdificiosTrabajo)) {
+			if (query.updateBatchAS("honorariosEdificiosBatchUpdate", docDummy, listaHonorariosEdificiosTrabajo)) {
 				System.out.println("saveMasivoHonorarios --> updateBatch ok");
 			}else{
 				listAcumulaErrores.add("No se pudo actualizar la tabla PH_E01.");

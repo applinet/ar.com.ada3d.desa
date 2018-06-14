@@ -585,7 +585,7 @@ public class EdificioBean implements Serializable {
 		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
 		if (query.updateAS("edificiosPH_E01Update", docDummy)) {
 			if (!query.updateAS("edificiosValoresCTFJUpdate", docDummy)) {
-				if (!query.updateAS("edificiosValoresCTFJUpdate_insert", docDummy)){				
+				if (!query.updateAS("edificiosValoresCTFJInsert", docDummy)){				
 					listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 					System.out.println("ERROR: " + errCode + " METH:saveEdificio" + "_EDIF:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo actualizar la tabla PH_CTFJ.");
 				}
@@ -1250,7 +1250,7 @@ public class EdificioBean implements Serializable {
 				String tempLista = temp.split("\\~")[1];
 				docDummy.appendItemValue("tabla", temp.split("\\~")[0]);
 				docDummy.appendItemValue("LISTA_EDIF", tempLista.replace(", ","', '").replace("(","('").replace(")","')"));
-				if (query.updateAS("updateMasivoEdificios", docDummy)) {
+				if (query.updateAS("edificiosBatchUpdate", docDummy)) {
 					
 				}else{
 					throw new java.lang.Error("No se pudo actualizar masivamente la tabla " + temp.split("\\~")[0]);

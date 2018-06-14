@@ -55,8 +55,8 @@ public class ProveedorBean implements Serializable{
 			String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
 			docDummy.appendItemValue("codadm", docUsuario.getUserDB());
 			
-			if (!query.updateAS("updateProveedorPROVE", docDummy)) {
-				if (!query.updateAS("updateProveedorPROVE_insert", docDummy)){				
+			if (!query.updateAS("proveedorProveUpdate", docDummy)) {
+				if (!query.updateAS("proveedorProveInsert", docDummy)){				
 					listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 					System.out.println("ERROR: " + errCode + " METH:saveProveedor" + "_CUIT:" + proveedor.getPrv_cuit() + "_DESC: No se pudo actualizar la tabla PH_PROVE.");
 				}
@@ -83,7 +83,7 @@ public class ProveedorBean implements Serializable{
 		ArrayList<String> nl = null;
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		try {
-			nl = query.getSelectAS("controllerProveedores", null);
+			nl = query.getSelectAS("proveedor_CONTROLLER", null);
 		} catch (NotesException e) {
 			e.printStackTrace();
 		}
