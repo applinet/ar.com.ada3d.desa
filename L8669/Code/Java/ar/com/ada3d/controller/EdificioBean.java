@@ -163,7 +163,7 @@ public class EdificioBean implements Serializable {
 		ArrayList<String> nl = null;
 		Edificio myEdificio = null;
 		try {
-			nl = query.getSelectAS("controllerEdificios", null);
+			nl = query.getSelectAS("edificio_CONTROLLER", null);
 		} catch (NotesException e) {
 			e.printStackTrace();
 		}
@@ -388,19 +388,19 @@ public class EdificioBean implements Serializable {
 		String controlador;
 		DocLock lockeos = (DocLock) JSFUtil.resolveVariable("DocLock");
 		if(!strLinea.equals("")){
-			controlador = "controllerEdificios";
+			controlador = "edificio_CONTROLLER";
 			myEdificio = new Edificio();
 			myEdificio.setEdf_codigo(strLinea.split("\\|")[0].trim());
 		}else{
 			//Es una actualizacion
-			controlador = "controllerUnEdificio";
+			controlador = "edificio_Individual_CONTROLLER";
 			Document docDummy = JSFUtil.getDocDummy();
 			docDummy.appendItemValue("Codigo", myEdificio.getEdf_codigo());
 			QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 			ArrayList<String> nl = null;
 			try {
 				
-				nl = query.getSelectAS("controllerUnEdificio", docDummy);
+				nl = query.getSelectAS("edificio_Individual_CONTROLLER", docDummy);
 			} catch (NotesException e) {
 				e.printStackTrace();
 			}
@@ -583,23 +583,23 @@ public class EdificioBean implements Serializable {
 		
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
-		if (query.updateAS("updateEdificiosPH_E01", docDummy)) {
-			if (!query.updateAS("updateEdificiosValoresCTFJ", docDummy)) {
-				if (!query.updateAS("updateEdificiosValoresCTFJ_insert", docDummy)){				
+		if (query.updateAS("edificiosPH_E01Update", docDummy)) {
+			if (!query.updateAS("edificiosValoresCTFJUpdate", docDummy)) {
+				if (!query.updateAS("edificiosValoresCTFJUpdate_insert", docDummy)){				
 					listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 					System.out.println("ERROR: " + errCode + " METH:saveEdificio" + "_EDIF:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo actualizar la tabla PH_CTFJ.");
 				}
 			}
 			
-			if (!query.updateAS("updateEdificiosDIFED", docDummy)) {
+			if (!query.updateAS("edificiosDifedUpdate", docDummy)) {
 				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 				System.out.println("ERROR: " + errCode + " METH:saveEdificio" + "_EDIF:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo actualizar la tabla PH_DIFED.");
 			}
-			if (!query.updateAS("updateEdificiosCUIT", docDummy)) {
+			if (!query.updateAS("edificiosCuitUpdate", docDummy)) {
 				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 				System.out.println("ERROR: " + errCode + " METH:saveEdificio" + "_EDIF:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo actualizar la tabla PH_CUIT.");
 			}
-			if (!query.updateAS("updateEdificiosMLFRQ", docDummy)) {
+			if (!query.updateAS("edificiosMlfrqUpdate", docDummy)) {
 				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 				System.out.println("ERROR: " + errCode + " METH:saveEdificio" + "_EDIF:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo actualizar la tabla PH_MLFRQ.");
 			}

@@ -2,11 +2,9 @@ package ar.com.ada3d.controller;
 
 import java.math.BigDecimal;
 import java.util.*;
-
 import javax.faces.model.SelectItem;
 import org.openntf.domino.Document;
 import org.openntf.domino.Session;
-
 import lotus.domino.NotesException;
 import ar.com.ada3d.connect.QueryAS400;
 import ar.com.ada3d.model.Edificio;
@@ -15,7 +13,6 @@ import ar.com.ada3d.model.Prorrateo;
 import ar.com.ada3d.utilidades.DocLock;
 import ar.com.ada3d.utilidades.DocUsr;
 import ar.com.ada3d.utilidades.JSFUtil;
-import org.openntf.domino.Session;
 
 public class GastoBean {
 	private static final long serialVersionUID = 1L;
@@ -108,7 +105,7 @@ public class GastoBean {
 		docDummy.appendItemValue("Form", "docDummy");
 		Session session = JSFUtil.getSession();
 		session.getCurrentDatabase().getAgent("a.ObtCorr").runWithDocumentContext(docDummy);
-		
+
 		if(this.gasto.getIdGasto() == null){//Es un gasto nuevo
 			this.gasto.setIdGasto(ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), "yyMMddHHmm" + docDummy.getItemValueString("nroSecuencial")));
 			this.gasto.setCodigoEdificio(prm_edificio.getEdf_codigo());
@@ -148,6 +145,7 @@ public class GastoBean {
 			return listAcumulaErroresAS400;
 		}
 		docDummy.appendItemValue("TRENGL", acumulaDetalle.size()); //Total de renglones
+		
 		
 		/** ****************DETALLE DE FACTURA *************************************
 		 * Primero actualizo la cantidad de lineas que va a tener el gasto.
@@ -190,6 +188,27 @@ public class GastoBean {
 
 		}
 		
+		/*Actualizo los campos de logueo si no hubo errores
+		if (listAcumulaErroresAS400.isEmpty()){
+			Calendar ahora = Calendar.getInstance();
+			if(isNew){ //es un nuevo gasto
+				docDummy.appendItemValue("FECHAC", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "ddMMyyyy"));
+				docDummy.appendItemValue("HORAC", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "HHmm"));
+				
+			}else{
+				docDummy.appendItemValue("FECHAC", ar.com.ada3d.utilidades.Conversores.DateToString(this.gasto.getFechaCreacion(), "ddMMyyyy"));
+				docDummy.appendItemValue("HORAC", ar.com.ada3d.utilidades.Conversores.DateToString(this.gasto.getFechaCreacion(), "HHmm"));
+				docDummy.appendItemValue("FECHAM", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "ddMMyyyy"));
+				docDummy.appendItemValue("HORAM", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "HHmm"));
+			}
+			
+			if(!query.updateAS("gastosUpdateLog", docDummy)){
+				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+				System.out.println("ERROR: " + errCode + " METH:saveGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo loguear en la tabla PH_GTS01.");
+			}
+		}
+		*/
+		
 		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
 		if (listAcumulaErroresAS400.isEmpty()){
 			//lock.removeLock("edf_" + prm_edificio.getEdf_codigo());
@@ -228,7 +247,7 @@ public class GastoBean {
 		try {
 			Document docDummy = JSFUtil.getDocDummy();
 			docDummy.appendItemValue("edf_codigo", prm_edificio.getEdf_codigo());
-			nl = query.getSelectAS("controllerGastos", docDummy);
+			nl = query.getSelectAS("gasto_CONTROLLER", docDummy);
 		} catch (NotesException e) {
 			e.printStackTrace();
 		}
@@ -294,7 +313,7 @@ public class GastoBean {
 		docDummy.appendItemValue("Idgasto", myGasto.getIdGasto());
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		try {
-			nl = query.getSelectAS("controllerUnGasto", docDummy);
+			nl = query.getSelectAS("gasto_Individual_CONTROLLER", docDummy);
 		} catch (NotesException e) {
 			e.printStackTrace();
 		}
@@ -313,6 +332,17 @@ public class GastoBean {
 				myGasto.setAgrupamiento(strLinea.split("\\|")[9].trim());
 				myGasto.setCodigoEspecial(strLinea.split("\\|")[10].trim());
 				
+				System.out.println("**** 2:" + strLinea.split("\\|")[11].trim());
+				//TODO: seguir aca
+				if (!strLinea.split("\\|")[11].trim().equals("00")){
+					Calendar tempDate = ar.com.ada3d.utilidades.Conversores.dateToCalendar(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyyyy", strLinea.split("\\|")[11].trim()));
+					tempDate.set(Calendar.HOUR, Integer.parseInt(strLinea.split("\\|")[12].trim()));
+					tempDate.set(Calendar.MINUTE, Integer.parseInt(strLinea.split("\\|")[12].trim()));
+					myGasto.setFechaCreacion(tempDate.getTime());
+					System.out.println("Creacion:" + myGasto.getFechaCreacion());
+					
+				}
+					
 			}
 			detalleFactura.add(strLinea.split("\\|")[1].trim());
 		}

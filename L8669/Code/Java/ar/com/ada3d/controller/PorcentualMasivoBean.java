@@ -45,7 +45,7 @@ public class PorcentualMasivoBean implements Serializable {
 		Porcentual myPorcentual = null;
 		
 		try {
-			nl = query.getSelectAS("controllerPorcentualMasivo", null);
+			nl = query.getSelectAS("porcentualMasivo_CONTROLLER", null);
 		} catch (NotesException e) {
 			e.printStackTrace();
 		}
