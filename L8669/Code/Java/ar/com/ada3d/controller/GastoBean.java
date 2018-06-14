@@ -34,17 +34,8 @@ public class GastoBean {
 	public void createNewGasto() {
 		setGasto(new Gasto());
 		Edificio prm_edificio = (Edificio) JSFUtil.resolveVariable("edfObj");
-		this.gasto.setListaProrrateos(cargaProrrateo("", prm_edificio));	
-		//TODO: faltan los siguientes datos para crear un gasto:
-		/*
-		ORIGEN DE LOS DATOS
-		FECHA DE CREACION
-		HORA DE CREACION
-		NUMERO DE USUARIO CREACION
-		FECHA DE MODIFICACION
-		HORA DE MODIFICACION
-		NUMERO DE USUARIO MODIFICACION
-		*/
+		this.gasto.setListaProrrateos(cargaProrrateo("", prm_edificio));
+		
 	}
 	
 	/**
@@ -109,6 +100,7 @@ public class GastoBean {
 		if(this.gasto.getIdGasto() == null){//Es un gasto nuevo
 			this.gasto.setIdGasto(ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), "yyMMddHHmm" + docDummy.getItemValueString("nroSecuencial")));
 			this.gasto.setCodigoEdificio(prm_edificio.getEdf_codigo());
+			this.gasto.setOrigenDatos("QUE PONEMOS?");
 			isNew = true;
 		}
 		
@@ -145,14 +137,9 @@ public class GastoBean {
 			return listAcumulaErroresAS400;
 		}
 		docDummy.appendItemValue("TRENGL", acumulaDetalle.size()); //Total de renglones
+		docDummy.appendItemValue("ORIGEN", this.gasto.getOrigenDatos());
 		
-		
-		/** ****************DETALLE DE FACTURA *************************************
-		 * Primero actualizo la cantidad de lineas que va a tener el gasto.
-		 * Cantidad de lineas que necesito: acumulaDetalle.size()
-		 * Cantidad de lineas que tenia al ingresar: this.gasto.getCantidadRenglones()
-		 * INSERT INTO L8669B.PH_GTS01 (CODREG, NCTROL) VALUES ('G', '18060110000001') 
-		*/
+	
 		// *** AS400 ***
 		
 		QueryAS400 query = new QueryAS400();
@@ -166,6 +153,12 @@ public class GastoBean {
 			}
 			
 		}else{  // es un gasto existente
+			/******************DETALLE DE FACTURA *************************************
+			 * Cantidad de lineas que tengo ahora: acumulaDetalle.size()
+			 * Cantidad de lineas que tenia al ingresar: this.gasto.getCantidadRenglones()
+			 * Si la cantidad de lineas es = actualizo los datos en batch, sino elimino
+			 * todo y vuelvo a insertar  
+			*/
 			if (acumulaDetalle.size() == this.gasto.getCantidadRenglones()){
 				//Misma cantidad de lineas, solo actualizo 
 				if (!query.updateBatchGastos("gastosUpdateBatchGTS01", docDummy, acumulaDetalle, true)) {
@@ -185,21 +178,25 @@ public class GastoBean {
 					System.out.println("ERROR: " + errCode + " METH:saveNewGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo eliminar en la tabla PH_GTS01.");
 				}
 			}
-
 		}
 		
-		/*Actualizo los campos de logueo si no hubo errores
+		//Actualizo los campos de logueo si no hubo errores
 		if (listAcumulaErroresAS400.isEmpty()){
 			Calendar ahora = Calendar.getInstance();
 			if(isNew){ //es un nuevo gasto
 				docDummy.appendItemValue("FECHAC", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "ddMMyyyy"));
 				docDummy.appendItemValue("HORAC", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "HHmm"));
-				
+				docDummy.appendItemValue("FECHAM", "0");
+				docDummy.appendItemValue("HORAM", "0");
+				docDummy.appendItemValue("USERC", docUsuario.getUserSec());
+				docDummy.appendItemValue("USERM", "0");
 			}else{
 				docDummy.appendItemValue("FECHAC", ar.com.ada3d.utilidades.Conversores.DateToString(this.gasto.getFechaCreacion(), "ddMMyyyy"));
 				docDummy.appendItemValue("HORAC", ar.com.ada3d.utilidades.Conversores.DateToString(this.gasto.getFechaCreacion(), "HHmm"));
+				docDummy.appendItemValue("USERC", this.gasto.getUsuarioCreacion());
 				docDummy.appendItemValue("FECHAM", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "ddMMyyyy"));
 				docDummy.appendItemValue("HORAM", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "HHmm"));
+				docDummy.appendItemValue("USERM", docUsuario.getUserSec());
 			}
 			
 			if(!query.updateAS("gastosUpdateLog", docDummy)){
@@ -207,7 +204,7 @@ public class GastoBean {
 				System.out.println("ERROR: " + errCode + " METH:saveGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo loguear en la tabla PH_GTS01.");
 			}
 		}
-		*/
+		
 		
 		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
 		if (listAcumulaErroresAS400.isEmpty()){
@@ -331,18 +328,15 @@ public class GastoBean {
 				myGasto.setNumeroFactura(strLinea.split("\\|")[7].trim());
 				myGasto.setAgrupamiento(strLinea.split("\\|")[9].trim());
 				myGasto.setCodigoEspecial(strLinea.split("\\|")[10].trim());
-				
-				System.out.println("**** 2:" + strLinea.split("\\|")[11].trim());
-				//TODO: seguir aca
-				if (!strLinea.split("\\|")[11].trim().equals("00")){
-					Calendar tempDate = ar.com.ada3d.utilidades.Conversores.dateToCalendar(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyyyy", strLinea.split("\\|")[11].trim()));
-					tempDate.set(Calendar.HOUR, Integer.parseInt(strLinea.split("\\|")[12].trim()));
-					tempDate.set(Calendar.MINUTE, Integer.parseInt(strLinea.split("\\|")[12].trim()));
-					myGasto.setFechaCreacion(tempDate.getTime());
-					System.out.println("Creacion:" + myGasto.getFechaCreacion());
+
+				//Fecha de creacion del registro
+				Calendar tempDate = ar.com.ada3d.utilidades.Conversores.dateToCalendar(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyyyy", strLinea.split("\\|")[11].trim()));
+				tempDate.set(Calendar.HOUR_OF_DAY, Integer.parseInt(strLinea.split("\\|")[12].trim().substring(0, 2)));
+				tempDate.set(Calendar.MINUTE, Integer.parseInt(strLinea.split("\\|")[12].trim().substring(2)));
+				myGasto.setFechaCreacion(tempDate.getTime());
 					
-				}
-					
+				myGasto.setUsuarioCreacion(strLinea.split("\\|")[13].trim());//Usuario creacion	
+				myGasto.setOrigenDatos(strLinea.split("\\|")[14].trim());//Origen de los datos	
 			}
 			detalleFactura.add(strLinea.split("\\|")[1].trim());
 		}

@@ -21,12 +21,9 @@ public class Gasto {
 	private String cuitProveedor;
 	
 	private String fechaLiquidacion; //MMMMAAAA
-	private String estadoDadoDeBaja; // es una 'B'
-	private String menuOrigenDatos;
 	private Date fechaCreacion;
-	private String userSequentialCreacion;
-	private Date fechaUltimaModificacion;
-	private String userSequentialUltimaModificacion;
+	private String usuarioCreacion;
+	private String origenDatos;
 	
 	private Date fechaOdp;
 	private Integer numeroOdp;
@@ -170,26 +167,6 @@ public class Gasto {
 	}
 
 
-	public String getEstadoDadoDeBaja() {
-		return estadoDadoDeBaja;
-	}
-
-
-	public void setEstadoDadoDeBaja(String estadoDadoDeBaja) {
-		this.estadoDadoDeBaja = estadoDadoDeBaja;
-	}
-
-
-	public String getMenuOrigenDatos() {
-		return menuOrigenDatos;
-	}
-
-
-	public void setMenuOrigenDatos(String menuOrigenDatos) {
-		this.menuOrigenDatos = menuOrigenDatos;
-	}
-
-
 	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
@@ -199,35 +176,24 @@ public class Gasto {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-
-	public String getUserSequentialCreacion() {
-		return userSequentialCreacion;
+	
+	public String getUsuarioCreacion() {
+		return usuarioCreacion;
 	}
 
 
-	public void setUserSequentialCreacion(String userSequentialCreacion) {
-		this.userSequentialCreacion = userSequentialCreacion;
+	public void setUsuarioCreacion(String usuarioCreacion) {
+		this.usuarioCreacion = usuarioCreacion;
 	}
 
 
-	public Date getFechaUltimaModificacion() {
-		return fechaUltimaModificacion;
+	public String getOrigenDatos() {
+		return origenDatos;
 	}
 
 
-	public void setFechaUltimaModificacion(Date fechaUltimaModificacion) {
-		this.fechaUltimaModificacion = fechaUltimaModificacion;
-	}
-
-
-	public String getUserSequentialUltimaModificacion() {
-		return userSequentialUltimaModificacion;
-	}
-
-
-	public void setUserSequentialUltimaModificacion(
-			String userSequentialUltimaModificacion) {
-		this.userSequentialUltimaModificacion = userSequentialUltimaModificacion;
+	public void setOrigenDatos(String origenDatos) {
+		this.origenDatos = origenDatos;
 	}
 
 
