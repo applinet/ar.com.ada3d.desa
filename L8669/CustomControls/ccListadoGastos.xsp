@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex">
-
+	<xp:scriptBlock id="scriptBlockPopoverClass">
+		<xp:this.value><![CDATA[$(document).ready(
+	function() {$(".popOverTooltip").popover();}
+);	]]></xp:this.value>
+	</xp:scriptBlock>
 	<xe:widgetContainer id="widgetProximaLIquidacion" collapsible="true"
 		initClosed="#{javascript:compositeData.ppty_booInitClosed}">
 
@@ -21,32 +25,6 @@
 			</xp:this.facets>
 
 			<xp:this.rendered><![CDATA[#{javascript:return compositeData.ppty_bean.size() > 0}]]></xp:this.rendered>
-			<xp:column id="codigoEdificioColumn">
-				<xp:this.facets>
-					<xp:label value="Edificio" id="codigoEdificioLabel"
-						xp:key="header" style="font-weight:bold">
-					</xp:label>
-				</xp:this.facets>
-				<xp:text escape="true" value="#{gasto.codigoEdificio}"
-					id="codigoEdificio">
-				</xp:text>
-			</xp:column>
-
-			<xp:column id="numeroComprobanteColumn">
-				<xp:this.facets>
-					<xp:label value="Comprobante"
-						id="numeroComprobanteLabel" xp:key="header"
-						style="font-weight:bold">
-					</xp:label>
-				</xp:this.facets>
-				<xp:link escape="true" text="#{gasto.numeroComprobante}"
-					id="numeroComprobante">
-					<xp:eventHandler event="onclick" submit="true"
-						refreshMode="complete" id="eventHandler1">
-						<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
-					</xp:eventHandler>
-				</xp:link>
-			</xp:column>
 
 			<xp:column id="textoDetalleFacturaColumn">
 				<xp:this.facets>
@@ -55,17 +33,16 @@
 						style="font-weight:bold" for="textoDetalleFactura">
 					</xp:label>
 				</xp:this.facets>
-				<xp:inputText id="textoDetalleFactura"
-					value="#{gasto.textoDetalleFactura}" multipleTrim="true"
-					readonly="true">
-					<xp:this.multipleSeparator><![CDATA[#{javascript:"\n"}]]></xp:this.multipleSeparator>
-					<xp:eventHandler event="onclick" submit="true"
-						refreshMode="complete">
-						<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
-					</xp:eventHandler>
-				</xp:inputText>
+				<xp:repeat id="repeat1" rows="30" var="row" value="#{gasto.textoDetalleFactura}">
+					<xp:link escape="true" text="#{javascript:row.toString()}"	id="textoDetalleFactura">
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete" id="eventHandler1">
+							<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+						</xp:eventHandler>
+					</xp:link>
+    				<br />
+    			</xp:repeat>
 			</xp:column>
-
 
 			<xp:column id="importeColumn">
 				<xp:this.facets>
@@ -86,29 +63,50 @@
 			</xp:column>
 
 
-			<xp:column id="agrupamientoColumn">
+			<xp:column id="agrupamientoColumn"
+				style="text-align:center">
 				<xp:this.facets>
-					<xp:label value="Agrupamiento"
-						id="agrupamientoLabel" xp:key="header" style="font-weight:bold">
+					<xp:label value="Agr" id="agrupamientoLabel"
+						xp:key="header" style="font-weight:bold">
 					</xp:label>
 				</xp:this.facets>
-				<xp:link escape="true" text="#{gasto.agrupamiento}"
-					id="agrupamiento">
+				<xp:link escape="true" text="#{gasto.agrupamiento}" 
+					styleClass="popOverTooltip"	id="agrupamiento">
+					<xp:this.attrs>
+						<xp:attr name="data-toggle"	value="popover"></xp:attr>
+						<xp:attr name="data-trigger" value="hover"></xp:attr>
+						<xp:attr name="title" value="Agrupamiento"></xp:attr>
+						<xp:attr name="data-content">
+							<xp:this.value><![CDATA[#{javascript:var result = sessionScope.scopeAgrupamientosMap.get(gasto.agrupamiento.toString());
+return result == null ? "" : result;}]]></xp:this.value>
+						</xp:attr>
+						<xp:attr name="data-placement" value="bottom"></xp:attr>
+					</xp:this.attrs>
 					<xp:eventHandler event="onclick" submit="true"
 						refreshMode="complete" id="eventHandler2">
 						<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
 					</xp:eventHandler>
 				</xp:link>
 			</xp:column>
-			<xp:column id="codigoEspecialColumn">
+			<xp:column id="codigoEspecialColumn"
+				style="text-align:center">
 				<xp:this.facets>
-					<xp:label value="Código Especial"
-						id="codigoEspecialLabel" xp:key="header"
-						style="font-weight:bold">
+					<xp:label value="Cod Esp" id="codigoEspecialLabel"
+						xp:key="header" style="font-weight:bold">
 					</xp:label>
 				</xp:this.facets>
-				<xp:link escape="true" text="#{gasto.codigoEspecial}"
-					id="codigoEspecial">
+				<xp:link escape="true" text="#{gasto.codigoEspecial}" id="codigoEspecial"
+					styleClass="popOverTooltip">
+					<xp:this.attrs>
+						<xp:attr name="data-toggle"	value="popover"></xp:attr>
+						<xp:attr name="data-trigger" value="hover"></xp:attr>
+						<xp:attr name="title" value="Agrupamiento"></xp:attr>
+						<xp:attr name="data-content">
+							<xp:this.value><![CDATA[#{javascript:var result = sessionScope.scopeAgrupamientosMap.get(gasto.agrupamiento.toString());
+return result == null ? "" : result;}]]></xp:this.value>
+						</xp:attr>
+						<xp:attr name="data-placement" value="bottom"></xp:attr>
+					</xp:this.attrs>
 					<xp:eventHandler event="onclick" submit="true"
 						refreshMode="complete" id="eventHandler3">
 						<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
