@@ -2,6 +2,7 @@ package ar.com.ada3d.controller;
 
 import java.math.BigDecimal;
 import java.util.*;
+
 import javax.faces.model.SelectItem;
 import org.openntf.domino.Document;
 import org.openntf.domino.Session;
@@ -17,6 +18,11 @@ import ar.com.ada3d.utilidades.JSFUtil;
 public class GastoBean {
 	private static final long serialVersionUID = 1L;
 	public List<Gasto> listaGastos;
+	public List<Gasto> listaGastosLiquidacionSiguiente;
+	public List<Gasto> listaGastosLiquidacionesFuturas;
+	public List<Gasto> listaGastosLiquidacionesPasadas;
+	public LinkedHashMap<String, String> agrupamientosMap;
+	
 	@SuppressWarnings("unused")
 	private BigDecimal importeTotalListaGastos;
 	private Gasto gasto;
@@ -249,10 +255,15 @@ public class GastoBean {
 			e.printStackTrace();
 		}
 		listaGastos = new ArrayList<Gasto>();
+		listaGastosLiquidacionSiguiente = new ArrayList<Gasto>();
+		listaGastosLiquidacionesFuturas = new ArrayList<Gasto>();
+		listaGastosLiquidacionesPasadas = new ArrayList<Gasto>();
 		String idGasto = "";
 		Vector<String> tempTextoFactura = null;
 		Gasto myGasto = null;
 		Integer count = 0;
+		Calendar calGastoProxLiq = Calendar.getInstance();
+		Calendar calEdificioProxLiq = Calendar.getInstance();
 		for (String strLinea : nl) {
 			//Voy a generar una linea por comprobante pero recordar que una factura puede tener muchas lineas de texto
 			Gasto miGasto = null;
@@ -267,6 +278,8 @@ public class GastoBean {
 				myGasto.setCantidadRenglones(Integer.parseInt(strLinea.split("\\|")[8].trim()));
 				myGasto.setAgrupamiento(strLinea.split("\\|")[10].trim());
 				myGasto.setCodigoEspecial(strLinea.split("\\|")[11].trim());
+				myGasto.setFechaLiquidacion(ar.com.ada3d.utilidades.Conversores.DateToString(ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[12].trim()), "MMyyyy"));
+				
 				
 				//Detalle factura
 				tempTextoFactura.add(strLinea.split("\\|")[2].trim());
@@ -280,6 +293,21 @@ public class GastoBean {
 				
 				myGasto.setIsReadMode(true);
 				listaGastos.add(myGasto);
+				
+				//Defino calendar para comparar las fechas de liquidacion
+				calGastoProxLiq.setTime(ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[12].trim()));
+				calGastoProxLiq.set(Calendar.DATE, calGastoProxLiq.getActualMaximum(Calendar.DAY_OF_MONTH));
+				calEdificioProxLiq.setTime(prm_edificio.getEdf_fechaProximaLiquidacion());
+				
+				if(calEdificioProxLiq.before(calGastoProxLiq)){
+					listaGastosLiquidacionesFuturas.add(myGasto);
+				}else if(calEdificioProxLiq.after(calGastoProxLiq)){
+					listaGastosLiquidacionesPasadas.add(myGasto);
+				}else{
+					listaGastosLiquidacionSiguiente.add(myGasto);
+				}
+				
+				
 				count = count + 1;
 			}else{//Es igual al anterior solo agregar el texto
 				tempTextoFactura.add(strLinea.split("\\|")[2].trim());
@@ -295,6 +323,7 @@ public class GastoBean {
 				miGasto.setTextoDetalleFactura(tempTextoFactura);					
 			}
 		}
+		
 	}
 	
 	//***** FIN VISTAS ****
@@ -406,12 +435,13 @@ public class GastoBean {
 	}
 	
 	/**
-	 * En frmGastos el combo de Agrupamiento sale de PH_$T
-	 * @return codigos de agrupamiento
+	 * En viewGastos cargo en un mapa el Agrupamiento sale de PH_$T
+	 * @return hashMap con codigos de agrupamiento
 	 */
-	public List<SelectItem> getComboboxAgrupamiento() {
+	public void fillAgrupamientosMap(){
+		System.out.println("fillAgrupamientosMap");
+		agrupamientosMap = new LinkedHashMap<String, String>();
 		ArrayList<String> nl = null;
-		List<SelectItem> options = new ArrayList<SelectItem>();
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		try {
 			nl = query.getSelectAS("gastosCodigoAgrupamiento", null);
@@ -419,14 +449,27 @@ public class GastoBean {
 			e.printStackTrace();
 		}
 		for (String strLinea : nl) {
-			System.out.println();
-			SelectItem option = new SelectItem();
-			option.setLabel((strLinea.split("\\|")[0].trim() + " " + strLinea.split("\\|")[1].trim()).trim());
-			option.setValue(strLinea.split("\\|")[0].trim());
+			agrupamientosMap.put(strLinea.split("\\|")[0].trim(), strLinea.split("\\|")[1].trim());
+		}		
+	}
+	
+	
+	/**
+	 * En frmGastos el combo de Agrupamiento sale de PH_$T
+	 * @return codigos de agrupamiento
+	 */
+	public List<SelectItem> getComboboxAgrupamiento() {
+		List<SelectItem> options = new ArrayList<SelectItem>();
+		
+		for (Map.Entry<String,String> entry : agrupamientosMap.entrySet()) {
+	    	SelectItem option = new SelectItem();
+			option.setLabel(entry.getKey() + " " + entry.getValue());
+			option.setValue(entry.getKey());
 			options.add(option);
 		}
 		return options;
 	}
+	
 	
 	
 	/**
@@ -459,6 +502,22 @@ public class GastoBean {
 		return listaGastos;
 	}
 	
+	
+	public List<Gasto> getListaGastosLiquidacionSiguiente() {
+		return listaGastosLiquidacionSiguiente;
+	}
+
+
+	public List<Gasto> getListaGastosLiquidacionesFuturas() {
+		return listaGastosLiquidacionesFuturas;
+	}
+
+
+	public List<Gasto> getListaGastosLiquidacionesPasadas() {
+		return listaGastosLiquidacionesPasadas;
+	}
+
+	
 	public Gasto getGasto() {
 		return gasto;
 	}
@@ -483,6 +542,10 @@ public class GastoBean {
 		}
 		return bdResult;
 	}
-	
+
+
+	public HashMap<String, String> getAgrupamientosMap() {
+		return agrupamientosMap;
+	}
 	
 }
