@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex">
+
+	<xe:widgetContainer id="widgetProximaLIquidacion" collapsible="true"
+		initClosed="#{javascript:compositeData.ppty_booInitClosed}">
+
+		<xe:this.titleBarText><![CDATA[#{javascript:compositeData.ppty_tituloWidget + " ( " + compositeData.ppty_bean.size() + " )"}]]></xe:this.titleBarText>
+		<xp:dataTable id="gastosTable" var="gasto"
+			value="#{compositeData.ppty_bean}" rows="15">
+			<xp:this.facets>
+				<xp:panel xp:key="header">
+					<xp:pager layout="Previous Group Next"
+						id="pagerHeader">
+					</xp:pager>
+
+				</xp:panel>
+
+				<xp:pager layout="Previous Group Next" xp:key="footer"
+					id="pagerFooter">
+				</xp:pager>
+			</xp:this.facets>
+
+			<xp:this.rendered><![CDATA[#{javascript:return compositeData.ppty_bean.size() > 0}]]></xp:this.rendered>
+			<xp:column id="codigoEdificioColumn">
+				<xp:this.facets>
+					<xp:label value="Edificio" id="codigoEdificioLabel"
+						xp:key="header" style="font-weight:bold">
+					</xp:label>
+				</xp:this.facets>
+				<xp:text escape="true" value="#{gasto.codigoEdificio}"
+					id="codigoEdificio">
+				</xp:text>
+			</xp:column>
+
+			<xp:column id="numeroComprobanteColumn">
+				<xp:this.facets>
+					<xp:label value="Comprobante"
+						id="numeroComprobanteLabel" xp:key="header"
+						style="font-weight:bold">
+					</xp:label>
+				</xp:this.facets>
+				<xp:link escape="true" text="#{gasto.numeroComprobante}"
+					id="numeroComprobante">
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete" id="eventHandler1">
+						<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+					</xp:eventHandler>
+				</xp:link>
+			</xp:column>
+
+			<xp:column id="textoDetalleFacturaColumn">
+				<xp:this.facets>
+					<xp:label value="Detalle"
+						id="textoDetalleFacturaLabel" xp:key="header"
+						style="font-weight:bold" for="textoDetalleFactura">
+					</xp:label>
+				</xp:this.facets>
+				<xp:inputText id="textoDetalleFactura"
+					value="#{gasto.textoDetalleFactura}" multipleTrim="true"
+					readonly="true">
+					<xp:this.multipleSeparator><![CDATA[#{javascript:"\n"}]]></xp:this.multipleSeparator>
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+					</xp:eventHandler>
+				</xp:inputText>
+			</xp:column>
+
+
+			<xp:column id="importeColumn">
+				<xp:this.facets>
+					<xp:label value="Importe Total" id="importeLabel"
+						xp:key="header" style="font-weight:bold">
+					</xp:label>
+				</xp:this.facets>
+				<xp:text escape="true"
+					value="#{gasto.listaProrrateos[0].prt_importe + gasto.listaProrrateos[1].prt_importe + gasto.listaProrrateos[2].prt_importe + gasto.listaProrrateos[3].prt_importe}"
+					id="importe">
+					<xp:this.converter>
+						<xp:convertNumber
+							pattern="#,##0.00;(#,##0.00)">
+						</xp:convertNumber>
+					</xp:this.converter>
+				</xp:text>
+
+			</xp:column>
+
+
+			<xp:column id="agrupamientoColumn">
+				<xp:this.facets>
+					<xp:label value="Agrupamiento"
+						id="agrupamientoLabel" xp:key="header" style="font-weight:bold">
+					</xp:label>
+				</xp:this.facets>
+				<xp:link escape="true" text="#{gasto.agrupamiento}"
+					id="agrupamiento">
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete" id="eventHandler2">
+						<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+					</xp:eventHandler>
+				</xp:link>
+			</xp:column>
+			<xp:column id="codigoEspecialColumn">
+				<xp:this.facets>
+					<xp:label value="Código Especial"
+						id="codigoEspecialLabel" xp:key="header"
+						style="font-weight:bold">
+					</xp:label>
+				</xp:this.facets>
+				<xp:link escape="true" text="#{gasto.codigoEspecial}"
+					id="codigoEspecial">
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete" id="eventHandler3">
+						<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+					</xp:eventHandler>
+				</xp:link>
+			</xp:column>
+		</xp:dataTable>
+	</xe:widgetContainer>
+</xp:view>

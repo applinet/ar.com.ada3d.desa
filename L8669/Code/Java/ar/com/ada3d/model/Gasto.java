@@ -156,7 +156,7 @@ public class Gasto {
 		this.cuitProveedor = cuitProveedor;
 	}
 
-	
+
 	public String getFechaLiquidacion() {
 		return fechaLiquidacion;
 	}
