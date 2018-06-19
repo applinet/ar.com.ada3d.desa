@@ -22,6 +22,7 @@ public class GastoBean {
 	public List<Gasto> listaGastosLiquidacionesFuturas;
 	public List<Gasto> listaGastosLiquidacionesPasadas;
 	public LinkedHashMap<String, String> agrupamientosMap;
+	public LinkedHashMap<String, String> codigoEspecialMap;
 	
 	@SuppressWarnings("unused")
 	private BigDecimal importeTotalListaGastos;
@@ -43,6 +44,7 @@ public class GastoBean {
 		this.gasto.setListaProrrateos(cargaProrrateo("", prm_edificio));
 		
 	}
+	
 	
 	/**
 	 * Funcion en el boton editar
@@ -72,6 +74,20 @@ public class GastoBean {
 		this.gasto.setIsReadMode(false);
 	}
 	
+	
+	/**
+	 * Desde la vista de gastos elimino
+	 * @usedIn: viewGasto
+	 */
+	public void deleteGasto(Gasto gasto){
+		//TODO: Validar que no esté tomado y que se pueda eliminar
+		Document docDummy = JSFUtil.getDocDummy();
+		docDummy.appendItemValue("NCTROL", gasto.getIdGasto());
+		docDummy.appendItemValue("ESTADO", "B");
+		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
+		query.updateAS("gastosCambiarEstado", docDummy);
+		
+	}
 	
 
 	/**
@@ -265,62 +281,64 @@ public class GastoBean {
 		Calendar calGastoProxLiq = Calendar.getInstance();
 		Calendar calEdificioProxLiq = Calendar.getInstance();
 		for (String strLinea : nl) {
-			//Voy a generar una linea por comprobante pero recordar que una factura puede tener muchas lineas de texto
-			Gasto miGasto = null;
-			if(!idGasto.equals(strLinea.split("\\|")[1].trim())){
-				idGasto = strLinea.split("\\|")[1].trim();
-				tempTextoFactura = new Vector<String>();
-				myGasto = new Gasto();
-				myGasto.setIdGasto(idGasto);
-				myGasto.setCodigoEdificio(strLinea.split("\\|")[0].trim());
-				myGasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[9].trim(), Locale.UK, 0)));
-				myGasto.setNumeroRenglon(Integer.parseInt(strLinea.split("\\|")[7].trim()));
-				myGasto.setCantidadRenglones(Integer.parseInt(strLinea.split("\\|")[8].trim()));
-				myGasto.setAgrupamiento(strLinea.split("\\|")[10].trim());
-				myGasto.setCodigoEspecial(strLinea.split("\\|")[11].trim());
-				myGasto.setFechaLiquidacion(ar.com.ada3d.utilidades.Conversores.DateToString(ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[12].trim()), "MMyyyy"));
-				
-				
-				//Detalle factura
-				tempTextoFactura.add(strLinea.split("\\|")[2].trim());
-				myGasto.setTextoDetalleFactura(tempTextoFactura);
-				
-				//Si es la linea de importes (NRENGL = TRENGL)
-				if(strLinea.split("\\|")[7].trim().equals(strLinea.split("\\|")[8].trim())){
-					//Prorrateo para gastos
-					myGasto.setListaProrrateos(cargaProrrateo(strLinea, prm_edificio));					
+			if(!strLinea.split("\\|")[13].equals("B")){ //Si no es una baja
+				//Voy a generar una linea por comprobante pero recordar que una factura puede tener muchas lineas de texto
+				Gasto miGasto = null;
+				if(!idGasto.equals(strLinea.split("\\|")[1].trim())){
+					idGasto = strLinea.split("\\|")[1].trim();
+					tempTextoFactura = new Vector<String>();
+					myGasto = new Gasto();
+					myGasto.setIdGasto(idGasto);
+					myGasto.setCodigoEdificio(strLinea.split("\\|")[0].trim());
+					myGasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[9].trim(), Locale.UK, 0)));
+					myGasto.setNumeroRenglon(Integer.parseInt(strLinea.split("\\|")[7].trim()));
+					myGasto.setCantidadRenglones(Integer.parseInt(strLinea.split("\\|")[8].trim()));
+					myGasto.setAgrupamiento(strLinea.split("\\|")[10].trim());
+					myGasto.setCodigoEspecial(strLinea.split("\\|")[11].trim());
+					myGasto.setFechaLiquidacion(ar.com.ada3d.utilidades.Conversores.DateToString(ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[12].trim()), "MMyyyy"));
+					
+					
+					//Detalle factura
+					tempTextoFactura.add(strLinea.split("\\|")[2].trim());
+					myGasto.setTextoDetalleFactura(tempTextoFactura);
+					
+					//Si es la linea de importes (NRENGL = TRENGL)
+					if(strLinea.split("\\|")[7].trim().equals(strLinea.split("\\|")[8].trim())){
+						//Prorrateo para gastos
+						myGasto.setListaProrrateos(cargaProrrateo(strLinea, prm_edificio));					
+					}
+					
+					myGasto.setIsReadMode(true);
+					listaGastos.add(myGasto);
+					
+					//Defino calendar para comparar las fechas de liquidacion
+					calGastoProxLiq.setTime(ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[12].trim()));
+					calGastoProxLiq.set(Calendar.DATE, calGastoProxLiq.getActualMaximum(Calendar.DAY_OF_MONTH));
+					calEdificioProxLiq.setTime(prm_edificio.getEdf_fechaProximaLiquidacion());
+					
+					if(calEdificioProxLiq.before(calGastoProxLiq)){
+						listaGastosLiquidacionesFuturas.add(myGasto);
+					}else if(calEdificioProxLiq.after(calGastoProxLiq)){
+						listaGastosLiquidacionesPasadas.add(myGasto);
+					}else{
+						listaGastosLiquidacionSiguiente.add(myGasto);
+					}
+					
+					
+					count = count + 1;
+				}else{//Es igual al anterior solo agregar el texto
+					tempTextoFactura.add(strLinea.split("\\|")[2].trim());
+					if(miGasto == null){
+						miGasto = listaGastos.get(count - 1);
+					}
+					//Si es la linea de importes (NRENGL = TRENGL)
+					if(strLinea.split("\\|")[7].trim().equals(strLinea.split("\\|")[8].trim())){
+						//Prorrateo para gastos
+						miGasto.setListaProrrateos(cargaProrrateo(strLinea, prm_edificio));					
+					}
+	
+					miGasto.setTextoDetalleFactura(tempTextoFactura);					
 				}
-				
-				myGasto.setIsReadMode(true);
-				listaGastos.add(myGasto);
-				
-				//Defino calendar para comparar las fechas de liquidacion
-				calGastoProxLiq.setTime(ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[12].trim()));
-				calGastoProxLiq.set(Calendar.DATE, calGastoProxLiq.getActualMaximum(Calendar.DAY_OF_MONTH));
-				calEdificioProxLiq.setTime(prm_edificio.getEdf_fechaProximaLiquidacion());
-				
-				if(calEdificioProxLiq.before(calGastoProxLiq)){
-					listaGastosLiquidacionesFuturas.add(myGasto);
-				}else if(calEdificioProxLiq.after(calGastoProxLiq)){
-					listaGastosLiquidacionesPasadas.add(myGasto);
-				}else{
-					listaGastosLiquidacionSiguiente.add(myGasto);
-				}
-				
-				
-				count = count + 1;
-			}else{//Es igual al anterior solo agregar el texto
-				tempTextoFactura.add(strLinea.split("\\|")[2].trim());
-				if(miGasto == null){
-					miGasto = listaGastos.get(count - 1);
-				}
-				//Si es la linea de importes (NRENGL = TRENGL)
-				if(strLinea.split("\\|")[7].trim().equals(strLinea.split("\\|")[8].trim())){
-					//Prorrateo para gastos
-					miGasto.setListaProrrateos(cargaProrrateo(strLinea, prm_edificio));					
-				}
-
-				miGasto.setTextoDetalleFactura(tempTextoFactura);					
 			}
 		}
 		
@@ -434,12 +452,22 @@ public class GastoBean {
 		prm_gasto.setListaProrrateos(listaProrrateos);
 	}
 	
+	
+	/**
+	 * En viewGastos cargo en un mapa de codigos especiales sale de una lista notes
+	 * @return hashMap con codigos especiales
+	 */
+	public void fillCodigoEspecialMap(){
+		codigoEspecialMap = new LinkedHashMap<String, String>();
+		codigoEspecialMap = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("codigoEspecial");	
+	}
+	
+	
 	/**
 	 * En viewGastos cargo en un mapa el Agrupamiento sale de PH_$T
 	 * @return hashMap con codigos de agrupamiento
 	 */
 	public void fillAgrupamientosMap(){
-		System.out.println("fillAgrupamientosMap");
 		agrupamientosMap = new LinkedHashMap<String, String>();
 		ArrayList<String> nl = null;
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
@@ -470,6 +498,22 @@ public class GastoBean {
 		return options;
 	}
 	
+	/**
+	 * En frmGastos el combo de Codigo Especial sale de configuracion de Notes
+	 * @return codigos especiales
+	 */
+	public List<SelectItem> getComboboxCodigoEspecial() {
+		List<SelectItem> options = new ArrayList<SelectItem>();
+		
+		for (Map.Entry<String,String> entry : codigoEspecialMap.entrySet()) {
+			SelectItem option = new SelectItem();
+			option.setLabel(entry.getValue());
+			option.setValue(entry.getKey());
+			options.add(option);
+		}
+		return options;
+	}
+	
 	
 	
 	/**
@@ -492,9 +536,37 @@ public class GastoBean {
 	}
 	
 	
+	/**
+	 * Junta el detalle de los gastos y los devuelve en un array
+	 * @return array con el texto (detalle) de cada gasto 
+	 * @usedIn: TypeAhead de busqueda de gastos
+	 */
+	public ArrayList<String> getArrayDetallesGastos() {
+		ArrayList<String> result = new ArrayList<String>();
+		String concatenarDetalle;
+		for (Gasto myGasto : listaGastos) {
+			concatenarDetalle = "";
+			for(String detalle : myGasto.getTextoDetalleFactura()){
+				concatenarDetalle = concatenarDetalle + "<br />" + detalle;
+			}			
+			result.add(concatenarDetalle + "|" + myGasto.getIdGasto());
+		}
+		return result;
+	}
 	
 	
-
+	/**
+	 * Devuelve un gasto que busco por id
+	 * @param prm_id el id a devolver sino null
+	 * @return objeto Gasto
+	 */
+	public Gasto getGastoPorId(String prm_id){
+		for (Gasto myGasto : listaGastos) {
+			if(myGasto.getIdGasto().equals(prm_id))
+				return myGasto;
+		}
+		return null;
+	}
 	
 	//Getters & Setters
 	
