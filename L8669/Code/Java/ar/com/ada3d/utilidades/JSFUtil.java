@@ -1,5 +1,6 @@
 package ar.com.ada3d.utilidades;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import org.openntf.domino.*;
 
@@ -114,6 +115,7 @@ public class JSFUtil {
 		return dbTablas;
 	}
 
+	
 	public static String getOpcionesClave(String clave) {
 		String result;
 		View vOpciones = getDbCfg().getView("v.Sys.Opciones.Clave");
@@ -128,6 +130,20 @@ public class JSFUtil {
 		return "";
 
 	}
+	
+	public static LinkedHashMap<String, String> getOpcionesClaveMap(String clave) {
+		LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+		View vOpciones = getDbCfg().getView("v.Sys.Opciones.Clave");
+		
+		ViewEntryCollection entryCol = vOpciones.getAllEntriesByKey(clave);
+		for(ViewEntry entryResult : entryCol){
+			result.put(entryResult.getDocument().getItemValueString("opt_Codigo_des"), entryResult.getDocument().getItemValueString("opt_Nombre_des"));
+			
+		}
+		return result;
+		
+	}
+
 	
 	public static Document getDocConexiones_y_Tablas(String clave){
 		View vOpciones = getDbCfg().getView("v.Sys.DataSource");
