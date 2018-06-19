@@ -14,7 +14,7 @@
 					pty_MinChars="2"
 					pty_Lista="#{javascript:proveedorBean.getArraySrtringListaProveedores(true)}"
 					pty_Linea1="Razón Social: " pty_Linea2="Domicilio: "
-					pty_LineaAlias="CUIt: ">
+					pty_LineaAlias="CUIT: ">
 				</xc:ccFxTypeAheadProveedores>
 				<xp:dataTable id="proveedoresTable" var="proveedor"
 					value="#{proveedorBean.listaProveedores}" rows="15">
