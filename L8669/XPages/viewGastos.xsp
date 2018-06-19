@@ -10,29 +10,41 @@
 if(sessionScope.scopeAgrupamientosMap == null){
 	gastoBean.fillAgrupamientosMap();
 	sessionScope.put("scopeAgrupamientosMap", gastoBean.agrupamientosMap)
-}}]]></xp:this.beforeRenderResponse>
+}
+if(sessionScope.scopeCodigoEspecialMap == null){
+	gastoBean.fillCodigoEspecialMap();
+	sessionScope.put("scopeCodigoEspecialMap", gastoBean.codigoEspecialMap)
+}
+}]]></xp:this.beforeRenderResponse>
 
 	<xc:ccLayoutBootstrap property_hasTitleBar="true"
 		property_ShowComboEdificio="true"
 		property_TitleBarActions="ar.com.ada3d.frontend.LayoutTitleBarActions">
 		<xp:this.facets>
 			<xp:panel id="PNL_container" xp:key="facetMiddle">
-					<xc:ccListadoGastos
-						ppty_tituloWidget="Próxima Liquidación"
-						ppty_bean="#{gastoBean.listaGastosLiquidacionSiguiente}"
-						ppty_booInitClosed="false">
-					</xc:ccListadoGastos>
+				<xc:ccFxTypeAheadListado
+					pty_PlaceHolder="Búsqueda de gastos" pty_MinChars="2" pty_Linea1=""
+					pty_Linea2="" pty_LineaAlias="">
+					<xc:this.pty_Lista><![CDATA[#{javascript:if(gastoBean.listaGastos == null) return;
+return gastoBean.getArrayDetallesGastos();}]]></xc:this.pty_Lista>
+				</xc:ccFxTypeAheadListado>
 
-					<xc:ccListadoGastos
-						ppty_tituloWidget="Liquidaciones Futuras"
-						ppty_bean="#{gastoBean.listaGastosLiquidacionesFuturas}"
-						ppty_booInitClosed="true">
-					</xc:ccListadoGastos>
-					<xc:ccListadoGastos
-						ppty_tituloWidget="Liquidaciones Pasadas"
-						ppty_bean="#{gastoBean.listaGastosLiquidacionesPasadas}"
-						ppty_booInitClosed="true">
-					</xc:ccListadoGastos>
+				<xc:ccListadoGastos
+					ppty_tituloWidget="Próxima Liquidación"
+					ppty_bean="#{gastoBean.listaGastosLiquidacionSiguiente}"
+					ppty_booInitClosed="false">
+				</xc:ccListadoGastos>
+
+				<xc:ccListadoGastos
+					ppty_tituloWidget="Liquidaciones Futuras"
+					ppty_bean="#{gastoBean.listaGastosLiquidacionesFuturas}"
+					ppty_booInitClosed="true">
+				</xc:ccListadoGastos>
+				<xc:ccListadoGastos
+					ppty_tituloWidget="Liquidaciones Pasadas"
+					ppty_bean="#{gastoBean.listaGastosLiquidacionesPasadas}"
+					ppty_booInitClosed="true">
+				</xc:ccListadoGastos>
 			</xp:panel>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>
