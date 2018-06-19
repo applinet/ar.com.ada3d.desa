@@ -44,7 +44,7 @@
     			</xp:repeat>
 			</xp:column>
 
-			<xp:column id="importeColumn">
+			<xp:column id="importeColumn" style="width:10.0%">
 				<xp:this.facets>
 					<xp:label value="Importe Total" id="importeLabel"
 						xp:key="header" style="font-weight:bold">
@@ -64,23 +64,22 @@
 
 
 			<xp:column id="agrupamientoColumn"
-				style="text-align:center">
+				style="text-align:center;width:5%">
 				<xp:this.facets>
 					<xp:label value="Agr" id="agrupamientoLabel"
 						xp:key="header" style="font-weight:bold">
 					</xp:label>
 				</xp:this.facets>
-				<xp:link escape="true" text="#{gasto.agrupamiento}" 
-					styleClass="popOverTooltip"	id="agrupamiento">
+				<xp:link escape="true" text="#{gasto.agrupamiento}"
+					styleClass="popOverTooltip" id="agrupamiento">
 					<xp:this.attrs>
-						<xp:attr name="data-toggle"	value="popover"></xp:attr>
+						<xp:attr name="data-toggle" value="popover"></xp:attr>
 						<xp:attr name="data-trigger" value="hover"></xp:attr>
-						<xp:attr name="title" value="Agrupamiento"></xp:attr>
 						<xp:attr name="data-content">
 							<xp:this.value><![CDATA[#{javascript:var result = sessionScope.scopeAgrupamientosMap.get(gasto.agrupamiento.toString());
 return result == null ? "" : result;}]]></xp:this.value>
 						</xp:attr>
-						<xp:attr name="data-placement" value="bottom"></xp:attr>
+						<xp:attr name="data-placement" value="left"></xp:attr>
 					</xp:this.attrs>
 					<xp:eventHandler event="onclick" submit="true"
 						refreshMode="complete" id="eventHandler2">
@@ -89,29 +88,54 @@ return result == null ? "" : result;}]]></xp:this.value>
 				</xp:link>
 			</xp:column>
 			<xp:column id="codigoEspecialColumn"
-				style="text-align:center">
+				style="text-align:center;width:7%">
 				<xp:this.facets>
 					<xp:label value="Cod Esp" id="codigoEspecialLabel"
 						xp:key="header" style="font-weight:bold">
 					</xp:label>
 				</xp:this.facets>
-				<xp:link escape="true" text="#{gasto.codigoEspecial}" id="codigoEspecial"
-					styleClass="popOverTooltip">
+				<xp:link escape="true" text="#{gasto.codigoEspecial}"
+					id="codigoEspecial" styleClass="popOverTooltip">
 					<xp:this.attrs>
-						<xp:attr name="data-toggle"	value="popover"></xp:attr>
+						<xp:attr name="data-toggle" value="popover"></xp:attr>
 						<xp:attr name="data-trigger" value="hover"></xp:attr>
-						<xp:attr name="title" value="Agrupamiento"></xp:attr>
 						<xp:attr name="data-content">
-							<xp:this.value><![CDATA[#{javascript:var result = sessionScope.scopeAgrupamientosMap.get(gasto.agrupamiento.toString());
+							<xp:this.value><![CDATA[#{javascript:var result = sessionScope.scopeCodigoEspecialMap.get(gasto.codigoEspecial.toString());
 return result == null ? "" : result;}]]></xp:this.value>
 						</xp:attr>
-						<xp:attr name="data-placement" value="bottom"></xp:attr>
+						<xp:attr name="data-placement" value="left"></xp:attr>
 					</xp:this.attrs>
 					<xp:eventHandler event="onclick" submit="true"
 						refreshMode="complete" id="eventHandler3">
 						<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
 					</xp:eventHandler>
 				</xp:link>
+			</xp:column>
+			<xp:column id="accionesColumn"
+				style="text-align:center;width:1%">
+				<xp:this.facets>
+					<xp:label value="" id="accionesLabel"
+						xp:key="header" style="font-weight:bold">
+					</xp:label>
+				</xp:this.facets>
+				<xp:link escape="true" text="" id="eliminarGastoLink"
+					title="Eliminar">
+					<i id="myIconLink"
+						class="glyphicon glyphicon-trash">
+					</i>
+					
+				<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+					<xp:this.action>
+
+						<xp:actionGroup>
+							<xp:confirm
+								message="Con esta acción se eliminará el gasto. Está seguro que desea eliminar este gasto?">
+							</xp:confirm>
+							<xp:executeScript
+								script="#{javascript:gastoBean.deleteGasto(gasto);}">
+							</xp:executeScript>
+						</xp:actionGroup>
+					</xp:this.action></xp:eventHandler></xp:link>
 			</xp:column>
 		</xp:dataTable>
 	</xe:widgetContainer>
