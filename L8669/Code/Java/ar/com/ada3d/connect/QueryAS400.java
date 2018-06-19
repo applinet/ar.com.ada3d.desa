@@ -125,7 +125,7 @@ public class QueryAS400 implements Serializable {
 						if(rs.getString(s) == null){
 							temp = temp + " ";
 						}else{
-							temp = temp + rs.getString(s).trim();
+							temp = temp + rs.getString(s);
 						}
 					}
 				}
