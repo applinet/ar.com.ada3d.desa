@@ -31,7 +31,7 @@ x$( "#{id:btnNewProveedor}" ).popover();
 		style="width:70%;background-color:rgb(248,247,251);border-color:rgb(247,243,253);text-align:center;margin-top:%;padding-top:5.0px;margin-left:15.0%;margin-right:15.0%">
 		<xp:this.attrs>
 			<xp:attr name="data-spy" value="affix" />
-			<xp:attr name="data-offset-top" value="80" />
+			<xp:attr name="data-offset-top" value="30" />
 		</xp:this.attrs>
 		<xp:div id="buttonBar">
 		
@@ -56,8 +56,8 @@ document.getElementById("#{id:textoDetalleFactura}").focus();]]></xp:this.onComp
 				</xp:eventHandler>
 			</xp:button>
 
-			<xp:button value="Cerrar" id="btnClose" styleClass="btn-info">
-				<xp:eventHandler event="onclick" submit="true"
+			<xp:button id="btnClose" styleClass="btn-info">
+				<xp:this.value><![CDATA[#{javascript:return gastoBean.gasto.isReadMode ? "Cerrar" : "Cancelar";}]]></xp:this.value><xp:eventHandler event="onclick" submit="true"
 					refreshMode="complete" immediate="true">
 					<xp:this.script><![CDATA[if (XSP._isDirty()){
 	  if (confirm ("Está seguro de salir?" + "\n" + "\n" +
@@ -73,7 +73,7 @@ document.getElementById("#{id:textoDetalleFactura}").focus();]]></xp:this.onComp
 					
 					<xp:this.action>
 						<xp:actionGroup>
-							<xp:this.condition><![CDATA[#{javascript:if(!gastoBean.gasto.isReadMode){
+							<xp:this.condition><![CDATA[#{javascript:if(!gastoBean.gasto.isReadMode && gastoBean.gasto.idGasto != null){//Es un gasto nuevo
 	if (DocLock == null) print("es nulo");
 		
 	//DocLock.removeLock("edf_" + sessionScope.get("edfObj").edf_codigo);
@@ -312,7 +312,8 @@ if (element.value.length > 72) {
 									value="#{gastoBean.gasto.codigoEspecial}"
 									disabled="#{gastoBean.gasto.isReadMode}">
 									<xp:selectItems
-										value="#{javascript:getOpcionesClave('codigoEspecial', 'alias')}" />
+										value="#{javascript:gastoBean.comboboxCodigoEspecial;}" />
+
 
 									<xe:this.dojoAttributes>
 										<xp:dojoAttribute
