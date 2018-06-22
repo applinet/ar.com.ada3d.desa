@@ -547,8 +547,19 @@ public class GastoBean {
 		for (Gasto myGasto : listaGastos) {
 			concatenarDetalle = "";
 			for(String detalle : myGasto.getTextoDetalleFactura()){
-				concatenarDetalle = concatenarDetalle + "<br />" + detalle;
-			}			
+				if(concatenarDetalle.equals("")){
+					concatenarDetalle = detalle;
+				}else{
+					concatenarDetalle = concatenarDetalle + "<br />" + detalle;
+				}
+			}
+			for(Prorrateo gastoProrrateo : myGasto.getListaProrrateos()){
+				if(concatenarDetalle.equals("")){
+					concatenarDetalle = gastoProrrateo.getPrt_titulo() + ": " + gastoProrrateo.getPrt_importe().toString();
+				}else{
+					concatenarDetalle = concatenarDetalle + "<br />" + gastoProrrateo.getPrt_titulo() + ": " + gastoProrrateo.getPrt_importe().toString(); 
+				}
+			}
 			result.add(concatenarDetalle + "|" + myGasto.getIdGasto());
 		}
 		return result;
