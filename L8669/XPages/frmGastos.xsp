@@ -2,12 +2,10 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.resources>
-		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js"
-			clientSide="true" />
-
+		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js" clientSide="true" />
 		<xp:script src="/General_SSJS.jss" clientSide="false" />
 	</xp:this.resources>
-	
+
 	<xp:scriptBlock id="scriptBlockbtnNewProveedor">
 		<xp:this.value><![CDATA[
 $(document).ready(
@@ -72,7 +70,6 @@ document.getElementById("#{id:textoDetalleFactura}").focus();]]></xp:this.onComp
 	} else {
 	  return true;
 	}]]></xp:this.script>
-					
 					<xp:this.action>
 						<xp:actionGroup>
 							<xp:this.condition><![CDATA[#{javascript:if(!gastoBean.gasto.isReadMode && gastoBean.gasto.idGasto != null){//Es un gasto nuevo
@@ -82,14 +79,6 @@ document.getElementById("#{id:textoDetalleFactura}").focus();]]></xp:this.onComp
 	DocLock.removeLock("gts_" + gastoBean.gasto.idGasto);
 }	
 return true;	}]]></xp:this.condition>
-
-
-
-
-
-
-
-
 							<xp:executeScript>
 								<xp:this.script><![CDATA[#{javascript:if(gastoBean.gasto.idGasto != null && !gastoBean.gasto.isReadMode){
 	gastoBean.gasto.isReadMode = true;
@@ -100,6 +89,8 @@ return true;	}]]></xp:this.condition>
 						</xp:actionGroup>
 					</xp:this.action></xp:eventHandler>
 			</xp:button>
+			<xe:tooltip id="tooltipBtnClose" for="btnClose" label="Salir sin guardar" position="below"></xe:tooltip>
+			&#160;
 			
 			<xp:button value="Grabar" id="btnSave" styleClass="btn-primary"
 				rendered="#{javascript:!gastoBean.gasto.isReadMode}">
@@ -123,7 +114,34 @@ if(!msgValidacion.isEmpty()){
 					<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
 				</xp:eventHandler>
 			</xp:button>
+			<xe:tooltip id="tooltipBtnSave" for="btnSave" label="Guardar y salir" position="below"></xe:tooltip>
+			&#160;
 			
+			<xp:button value="Grabar y Nuevo gasto"
+				id="btnSaveNew" styleClass="btn-primary">
+				<xp:this.rendered><![CDATA[#{javascript:gastoBean.gasto.idGasto == null && !gastoBean.gasto.isReadMode}]]></xp:this.rendered>
+				<i class="glyphicon glyphicon-download-alt"></i>
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" refreshId="formTableGastos">
+					<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = gastoBean.strValidacionGasto(sessionScope.get("edfObj"));
+if(!msgValidacion.isEmpty()){
+	facesMsgValidation(msgValidacion);
+	view.postScript("window.scrollTo(0,0)");
+	return;
+}	
+
+msgValidacion = gastoBean.saveGasto(sessionScope.get("edfObj"));
+if(!msgValidacion.isEmpty()){
+	facesMsgValidation(msgValidacion);
+	view.postScript("window.scrollTo(0,0)");
+}else{
+	gastoBean.createNewGasto();
+	context.redirectToPage("frmGastos.xsp")
+}}]]></xp:this.action>
+					<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
+				</xp:eventHandler>
+			</xp:button>
+			<xe:tooltip id="tooltipBtnSaveNew" for="btnSaveNew" label="Guardar y continuar cargando un nuevo gasto" position="below"></xe:tooltip>
 		</xp:div>
 	</xp:div>
 	
@@ -220,7 +238,8 @@ $('textarea').each(function () {
   this.style.height = (this.scrollHeight) + 'px';
 });
 });]]></xp:this.script>
-									</xp:eventHandler></xp:inputTextarea>
+									</xp:eventHandler>
+								</xp:inputTextarea>
 								<!-- 
 									<xp:repeat
 									value="#{gastoBean.gasto.textoDetalleFactura}"
@@ -242,6 +261,24 @@ $('textarea').each(function () {
 									</xp:text>
 									</xp:repeat>
 								-->
+								</xe:formRow>
+						</xe:formColumn>
+						<xe:formColumn styleClass="form-group col-sm-4"
+							rendered="#{gastoBean.gasto.isReadMode}">
+							<xe:formRow id="formRow2" label=""
+								style="padding-right:2.0%" for="btnDialogDetalle">
+								<xp:button id="btnDialogDetalle"
+									styleClass="btn btn-sm btn-info"
+									style="color:rgb(255,255,255)">
+									<xp:eventHandler event="onclick"
+										submit="true" refreshMode="partial" refreshId="divDialogDetalle"
+										disableValidators="true">
+										<xp:this.action><![CDATA[#{javascript:getComponent("dialogDetalle").show()}]]></xp:this.action>
+									</xp:eventHandler>
+									<span
+										class="glyphicon glyphicon-question-sign">
+									</span>
+								</xp:button>
 							</xe:formRow>
 						</xe:formColumn>
 					</xp:div>
@@ -491,4 +528,11 @@ if (element.value.length > 13) {
 		<xp:this.script><![CDATA[document.getElementById("#{id:textoDetalleFactura}").focus();]]></xp:this.script>
 	</xp:eventHandler>
 	<xc:ccModalAltaProveedor></xc:ccModalAltaProveedor>
+	<xp:div id="divDialogDetalle">
+		<xe:dialog id="dialogDetalle" title="El detalle del gasto se verá asi:">
+			<xp:label value="#{gastoBean.gasto.textoDetalleFactura}"
+				id="labelDialogDetalle">
+			</xp:label>
+		</xe:dialog>
+	</xp:div>
 </xp:view>
