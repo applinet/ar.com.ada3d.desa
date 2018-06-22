@@ -177,7 +177,8 @@
 					</xe:formRow>
 					<xp:this.facets>
 						<xp:panel id="PNL_Button" xp:key="footer">
-							<xp:button id="btnSave" value="Guardar">
+							<xp:button id="btnSave" value="Grabar" styleClass="btn-primary">
+								<i class="glyphicon glyphicon-download-alt"></i>
 								<xp:this.rendered><![CDATA[#{javascript:return (userBean.accessLevel >= lotus.domino.ACL.LEVEL_EDITOR) && docAdministradores.isEditable()	 }]]></xp:this.rendered>
 								<xp:eventHandler event="onclick"
 									submit="true" refreshMode="complete" immediate="false"
@@ -194,7 +195,8 @@
 									</xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
-							<xp:button value="Editar" id="btnEdit">
+							<xp:button value="Modificar" id="btnEdit">
+								<i class="glyphicon glyphicon-pencil" />
 								<xp:this.rendered>
 									<![CDATA[#{javascript:return (userBean.accessLevel >= lotus.domino.ACL.LEVEL_EDITOR) && !docAdministradores.isEditable()}]]>
 								</xp:this.rendered>
@@ -207,7 +209,8 @@
 									</xp:this.action>
 								</xp:eventHandler>
 							</xp:button>
-							<xp:button id="btnClose" value="Cancelar">
+							<xp:button id="btnClose" value="Cancelar" styleClass="btn">
+								<i class="glyphicon glyphicon-remove" />
 								<xp:eventHandler event="onclick"
 									submit="true" refreshMode="complete" immediate="true">
 									<xp:this.action>

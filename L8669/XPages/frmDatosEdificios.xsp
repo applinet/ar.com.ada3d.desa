@@ -45,7 +45,7 @@
 		<xp:div id="buttonBar">
 		
 		<xp:button value="Modificar" id="btnEdit">
-
+			<i class="glyphicon glyphicon-pencil" />
 			<xp:this.rendered><![CDATA[#{javascript:if(DocLock.isLocked("edf_" + edfObj.edf_codigo)){
 		if(!DocLock.getLock("edf_" + edfObj.edf_codigo).equals(session.getEffectiveUserName()))
 			return false;		
@@ -58,7 +58,9 @@
 			</xp:eventHandler>
 		</xp:button>
 
-		<xp:button value="Cerrar" id="btnClose" styleClass="btn-info">
+		<xp:button id="btnClose" styleClass="btn">
+			<i class="glyphicon glyphicon-remove" />
+			<xp:this.value><![CDATA[#{javascript:return edfObj.edf_isReadMode ? "Cerrar" : "Cancelar";}]]></xp:this.value>
 			<xp:eventHandler event="onclick" submit="true"
 				refreshMode="complete" immediate="true">
 
@@ -92,9 +94,9 @@ return true;	}]]></xp:this.condition>
 					</xp:actionGroup>
 				</xp:this.action></xp:eventHandler>
 		</xp:button>
-		<xp:button value="Confirmar" id="btnSave"
-			styleClass="btn-success"
+		<xp:button value="Grabar" id="btnSave" styleClass="btn-primary"
 			rendered="#{javascript:!edfObj.edf_isReadMode}">
+			<i class="glyphicon glyphicon-download-alt"></i>
 			<xp:eventHandler event="onclick" submit="true"
 				refreshMode="partial" refreshId="tblEdificio">
 				<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = edificioBean.strValidacionEdificio(sessionScope.get("edfObj"));

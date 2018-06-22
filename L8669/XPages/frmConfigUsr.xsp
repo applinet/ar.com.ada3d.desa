@@ -427,7 +427,7 @@ var dbConf = new Array(@DbName()[0], confDb.getFilePath());
 
 				<!-- PANEL DE BOTONES  -->
 				<xp:panel id="buttonPanelRow" styleClass="buttonPanel">
-					<xp:button value="Grabar" id="btnSave" styleClass="btn-success">
+					<xp:button value="Grabar" id="btnSave" styleClass="btn-primary">
 						<xp:this.rendered><![CDATA[#{javascript:if(userBean.accessRoles.toString().contains('[usrInitial]'))
 	return docUsuario.isEditable() 
 
@@ -492,7 +492,8 @@ return docUsuario.isEditable() }]]>
 }]]></xp:this.action>
 						</xp:eventHandler>
 					</xp:button>
-					<xp:button value="Editar" id="btnEdit">
+					<xp:button value="Modificar" id="btnEdit">
+						<i class="glyphicon glyphicon-pencil" />
 						<xp:this.rendered>
 							<![CDATA[#{javascript:return (userBean.accessLevel >= lotus.domino.ACL.LEVEL_EDITOR) && !docUsuario.isEditable() &&
 !docUsuario.getItemValueString("usr_Status_des").equals('0');}]]>
@@ -506,6 +507,7 @@ return docUsuario.isEditable() }]]>
 						</xp:eventHandler>
 					</xp:button>
 					<xp:button value="Cerrar" id="btnClose" styleClass="btn">
+						<i class="glyphicon glyphicon-remove" />
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="complete" immediate="true">
 							<xp:this.action>

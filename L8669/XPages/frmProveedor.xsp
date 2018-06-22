@@ -143,16 +143,16 @@ if (element.value.length > 34) {
 
 						<xp:button value="Modificar" id="btnEdit"
 							rendered="#{proveedorBean.proveedor.prv_isReadMode}">
-
-
+							<i class="glyphicon glyphicon-pencil" />
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="partial" refreshId="PNL_Principal">
 								<xp:this.action><![CDATA[#{javascript:proveedorBean.editFormulario();}]]></xp:this.action>
 							</xp:eventHandler>
 						</xp:button>
-						<xp:button value="Confirmar" id="btnSave"
+						<xp:button value="Grabar" id="btnSave"
 							rendered="#{!proveedorBean.proveedor.prv_isReadMode}"
-							styleClass="btn-success">
+							styleClass="btn-primary">
+							<i class="glyphicon glyphicon-download-alt"></i>
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="partial" refreshId="PNL_Principal">
 								<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = proveedorBean.saveProveedor();
@@ -171,8 +171,10 @@ if(!msgValidacion.isEmpty()){
 								<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
 							</xp:eventHandler>
 						</xp:button>
-						<xp:button value="Cerrar" id="btnClose"
-							styleClass="btn-info">
+						<xp:button id="btnClose"
+							styleClass="btn">
+							<i class="glyphicon glyphicon-remove" />
+							<xp:this.value><![CDATA[#{javascript:return proveedorBean.proveedor.prv_isReadMode ? "Cerrar" : "Cancelar";}]]></xp:this.value>
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="complete" immediate="true">
 
