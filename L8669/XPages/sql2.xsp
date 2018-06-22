@@ -54,17 +54,17 @@ return results;}]]></xe:this.createObject>
 		<xc:ccTestSTRSQL></xc:ccTestSTRSQL>		
 
 		<xp:table styleClass="table-hover">
-			<xp:repeat id="repeatEdificiosPorUsuario" 
-				var="rptSQL" style="width:400px"
-				value="#{objDataSQL}" indexVar="idxSQL">
+			<xp:repeat id="repeatEdificiosPorUsuario" var="rptSQL"
+				style="width:400px" value="#{objDataSQL}" indexVar="idxSQL"
+				rows="500">
 
 				<xp:this.facets>
 					<xp:panel xp:key="header">
 						<xp:text escape="false">
 							<xp:this.value><![CDATA[#{javascript:"<thead><tr>"}]]></xp:this.value>
 						</xp:text>
-						
-						<xp:repeat id="repeat1" rows="50"
+
+						<xp:repeat id="repeat1" rows="500"
 							var="rptTitulos">
 							<xp:this.value><![CDATA[#{javascript:requestScope.get("columnas")}]]></xp:this.value>
 							<xp:text escape="false">
@@ -82,15 +82,17 @@ return results;}]]></xe:this.createObject>
 					</xp:panel>
 				</xp:this.facets>
 				<xp:tr>
-				<xp:repeat id="repeat2" rows="50" var="rptTitulos2">
-				<xp:this.value><![CDATA[#{javascript:requestScope.get("columnas")}]]></xp:this.value>
-					<xp:td>
-						<xp:text escape="true" id="computedField1">
+					<xp:repeat id="repeat2" rows="500"
+						var="rptTitulos2">
+						<xp:this.value><![CDATA[#{javascript:requestScope.get("columnas")}]]></xp:this.value>
+						<xp:td>
+							<xp:text escape="true"
+								id="computedField1">
 
-							<xp:this.value><![CDATA[#{javascript:return rptSQL[rptTitulos2]}]]></xp:this.value>
-						</xp:text>
-					</xp:td>
-				</xp:repeat>
+								<xp:this.value><![CDATA[#{javascript:return rptSQL[rptTitulos2]}]]></xp:this.value>
+							</xp:text>
+						</xp:td>
+					</xp:repeat>
 				</xp:tr>
 			</xp:repeat>
 		</xp:table>
