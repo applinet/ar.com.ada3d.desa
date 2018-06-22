@@ -12,6 +12,8 @@ public class Proveedor {
 	private String prv_codadm;
 	private String prv_contacto;
 	private boolean prv_isReadMode;
+	private boolean prv_isNew;
+	
 	
 	public Proveedor() {
 		// Empty constructor
@@ -97,5 +99,13 @@ public class Proveedor {
 
 	public void setPrv_isReadMode(boolean prv_isReadMode) {
 		this.prv_isReadMode = prv_isReadMode;
+	}
+
+	public boolean isPrv_isNew() {
+		return prv_isNew;
+	}
+
+	public void setPrv_isNew(boolean prv_isNew) {
+		this.prv_isNew = prv_isNew;
 	}	
 }

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.resources>
+		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js"
+			clientSide="true" />
+	</xp:this.resources>
+
+<xp:scriptBlock id="scriptBlockMaskedJquery">
+		<xp:this.value><![CDATA[jQuery(function($){
+	$(".classCuit").mask('00-00000000-0', {placeholder: "__-________-_"}); //Por clase porque no funciona el x$ en dialogos
+});]]></xp:this.value>
+	</xp:scriptBlock>
+	
+	
+	<xp:this.beforePageLoad><![CDATA[#{javascript:proveedorBean.createNewProveedor();
+proveedorBean.proveedor.prv_isNew = true;}]]></xp:this.beforePageLoad>
+	<xe:dialog id="dialogAltaProveedor" title="Alta de proveedor"
+		styleClass="modal" style="margin-left: inherit;">
+		<xe:this.onHide><![CDATA[XSP._setDirty(false,"");
+XSP.partialRefreshGet("#{id:djComboMyProveedores}");]]></xe:this.onHide>
+		<xe:dialogContent id="dialogContent1" styleClass="modal-body">
+			<xe:formTable id="formTableGastos"
+				disableErrorSummary="true" disableRowError="false">
+				<xe:this.labelPosition><![CDATA[#{javascript:proveedorBean.proveedor.prv_isReadMode ? "left" : "above";}]]></xe:this.labelPosition>
+				<xe:formRow id="rowPrv_razonSocial" label="Razón Social"
+					style="padding-right:2.0%" for="prv_razonSocial">
+					<xp:inputText id="prv_razonSocial" required="true"
+						onblur="this.value=this.value.toUpperCase();"
+						value="#{proveedorBean.proveedor.prv_razonSocial}"
+						readonly="#{proveedorBean.proveedor.prv_isReadMode}">
+						<xp:this.validators>
+
+							<xp:validateLength minimum="1" maximum="34"
+								message="La razón social puede tener hasta 34 caracteres">
+							</xp:validateLength>
+
+							<xp:validateRequired
+								message="La razón social es un campo requerido">
+							</xp:validateRequired>
+						</xp:this.validators>
+						<xp:eventHandler event="onkeyup"
+							submit="false">
+							<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+if (element.value.length > 34) {
+    element.value = element.value.substring(0, 34);
+}]]></xp:this.script>
+						</xp:eventHandler>
+					</xp:inputText>
+				</xe:formRow>
+				<xe:formRow id="rowPrv_cuit" label="C.U.I.T."
+					style="padding-right:2.0%" for="prv_cuit">
+					<xp:inputText id="prv_cuit" required="true"
+						styleClass="classCuit" validator="#{validadorBean.validateCUIT}"
+						value="#{proveedorBean.proveedor.prv_cuit}"
+						readonly="#{proveedorBean.proveedor.prv_isReadMode}">
+						<xp:this.validators>
+							<xp:validateRequired
+								message="El CUIT es un campo requerido.">
+							</xp:validateRequired>
+						</xp:this.validators>
+						<xp:eventHandler event="onkeyup"
+							submit="false">
+							<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+		if (element.value.length > 13) {
+		    element.value = element.value.substring(0, 13);
+		}]]></xp:this.script>
+						</xp:eventHandler>
+					</xp:inputText>
+
+				</xe:formRow>
+				<xe:formRow id="rowPrv_domicilio" label="Domicilio"
+					style="padding-right:2.0%" for="prv_domicilio">
+					<xp:inputText id="prv_domicilio" required="true"
+						onblur="this.value=this.value.toUpperCase();"
+						value="#{proveedorBean.proveedor.prv_domicilio}"
+						readonly="#{proveedorBean.proveedor.prv_isReadMode}">
+						<xp:this.validators>
+
+							<xp:validateLength minimum="1" maximum="34"
+								message="El domicilio puede tener hasta 34 caracteres">
+							</xp:validateLength>
+							<xp:validateRequired
+								message="El domicilio es un campo requerido">
+							</xp:validateRequired>
+						</xp:this.validators>
+						<xp:eventHandler event="onkeyup"
+							submit="false">
+							<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+		if (element.value.length > 34) {
+		    element.value = element.value.substring(0, 34);
+		}]]></xp:this.script>
+						</xp:eventHandler>
+					</xp:inputText>
+
+				</xe:formRow>
+				<xe:formRow id="rowPrv_localidad" label="Localidad"
+					style="padding-right:2.0%" for="prv_localidad">
+					<xp:inputText id="prv_localidad" required="true"
+						onblur="this.value=this.value.toUpperCase();"
+						value="#{proveedorBean.proveedor.prv_localidad}"
+						readonly="#{proveedorBean.proveedor.prv_isReadMode}">
+						<xp:this.validators>
+
+							<xp:validateLength minimum="1" maximum="34"
+								message="La localidad puede tener hasta 34 caracteres">
+							</xp:validateLength>
+							<xp:validateRequired
+								message="La localidad es un campo requerido">
+							</xp:validateRequired>
+						</xp:this.validators>
+						<xp:eventHandler event="onkeyup"
+							submit="false">
+							<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+		if (element.value.length > 34) {
+		    element.value = element.value.substring(0, 34);
+		}]]></xp:this.script>
+						</xp:eventHandler>
+					</xp:inputText>
+				</xe:formRow>
+			</xe:formTable>
+
+		</xe:dialogContent>
+
+		<xe:dialogButtonBar id="dialogButtonBar1">
+			<xp:button value="Cancelar" id="btnClose"
+				styleClass="btn">
+				<i class="glyphicon glyphicon-remove" />
+				<xp:eventHandler event="onclick" submit="false">
+					<xp:this.script><![CDATA[XSP.closeDialog('#{id:dialogAltaProveedor}');]]></xp:this.script>
+				</xp:eventHandler>
+			</xp:button>
+
+
+			<xp:button value="Grabar" id="btnSave"
+				styleClass="btn-primary">
+				<i class="glyphicon glyphicon-download-alt"></i>
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" refreshId="formTableGastos">
+					<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = proveedorBean.saveProveedor();
+if(!msgValidacion.isEmpty()){
+	facesMsgValidation(msgValidacion);
+	view.postScript("window.scrollTo(0,0)");
+}else{
+	//proveedorBean.proveedorSelected = proveedorBean.proveedor.prv_cuit.replaceAll("-", "");
+	//gastoBean.gasto.cuitProveedor = proveedorBean.proveedor.prv_cuit.replaceAll("-", "");
+	getComponent("djComboMyProveedores").setValue(proveedorBean.proveedor.prv_cuit.replaceAll("-", ""));
+	getComponent("dialogAltaProveedor").hide();
+	
+}}]]></xp:this.action>
+				</xp:eventHandler>
+			</xp:button>
+
+
+		</xe:dialogButtonBar>
+	</xe:dialog>
+</xp:view>

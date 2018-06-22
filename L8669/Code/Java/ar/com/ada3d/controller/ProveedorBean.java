@@ -54,14 +54,17 @@ public class ProveedorBean implements Serializable{
 			DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 			String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
 			docDummy.appendItemValue("codadm", docUsuario.getUserDB());
-			
-			if (!query.updateAS("proveedorProveUpdate", docDummy)) {
+			if (proveedor.isPrv_isNew()){
 				if (!query.updateAS("proveedorProveInsert", docDummy)){				
+					listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+					System.out.println("ERROR: " + errCode + " METH:saveProveedor" + "_CUIT:" + proveedor.getPrv_cuit() + "_DESC: No se pudo insertar en la tabla PH_PROVE.");
+				}
+			}else{
+				if (!query.updateAS("proveedorProveUpdate", docDummy)) {
 					listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 					System.out.println("ERROR: " + errCode + " METH:saveProveedor" + "_CUIT:" + proveedor.getPrv_cuit() + "_DESC: No se pudo actualizar la tabla PH_PROVE.");
 				}
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -107,7 +110,7 @@ public class ProveedorBean implements Serializable{
 	 * sessionScope(edificioWork)
 	 */
 	public List<SelectItem> getComboboxMyProveedores() {
-		if(listaProveedores == null)
+		//if(listaProveedores == null)
 			fillListaProveedores();
 		List<SelectItem> options = new ArrayList<SelectItem>();
 		for (Proveedor myProveedor : listaProveedores) {
