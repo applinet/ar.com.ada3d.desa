@@ -42,7 +42,7 @@ public class ProveedorBean implements Serializable{
 	public ArrayList<String> saveProveedor() {
 		ArrayList<String> listAcumulaErroresAS400 = new ArrayList<String>();
 		try {
-			//TODO: Validar datos del proveedor. Duplicidad
+			//TODO: Validar datos del proveedor. Duplicidad?
 			Document docDummy = JSFUtil.getDocDummy();
 			docDummy.appendItemValue("razon", proveedor.getPrv_razonSocial());
 			docDummy.appendItemValue("domici", proveedor.getPrv_domicilio());

@@ -485,7 +485,7 @@ public class EdificioBean implements Serializable {
 		//Voy a cargar todos los porcentuales, los utilizados y los no utilizados
 		myEdificio.setListaPorcentuales(cargaPorcentualEdificio(strLinea));
 		
-		//TODO: falta saber que campo tomar del AS400
+		//TODO: falta saber que campo tomar del AS400 para el titulo del procentual
 		myEdificio.setEdf_importeFranqueo( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[26].trim(), Locale.US, 2)));
 		myEdificio.setEdf_importeMultaDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[27].trim(), Locale.US, 2)));
 		myEdificio.setEdf_isReadMode(true);
