@@ -96,7 +96,7 @@ public class GastoBean {
 	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
 	 */
 	public ArrayList<String> strValidacionGasto(Edificio prm_edificio){
-		//TODO: que vamos a validar de la factura, si es nueva es distinto?
+		//TODO: que vamos a validar de la factura, si es nueva es otra validación?
 		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
 		return listAcumulaErrores;
 	}
@@ -233,7 +233,7 @@ public class GastoBean {
 			//lock.removeLock("edf_" + prm_edificio.getEdf_codigo());
 			if(!isNew)
 				lock.removeLock("gts_" + this.gasto.getIdGasto());
-			//TODO: Que mensaje ponemos ?
+			//TODO: Que mensaje ponemos al salvar el gasto ok?
 			docUsuario.setUltimaActividad(lock.setLog("Ha guardado los cambios del la factura ???? " ));			
 		}else{
 			docUsuario.setUltimaActividad(lock.setLog("No se han guardado los cambios (ERROR: " + errCode + ")"));
@@ -477,7 +477,9 @@ public class GastoBean {
 			e.printStackTrace();
 		}
 		for (String strLinea : nl) {
-			agrupamientosMap.put(strLinea.split("\\|")[0].trim(), strLinea.split("\\|")[1].trim());
+			if(!strLinea.split("\\|")[1].trim().equals("")){
+				agrupamientosMap.put(strLinea.split("\\|")[0].trim(), strLinea.split("\\|")[1].trim());
+			}
 		}		
 	}
 	
