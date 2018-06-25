@@ -96,23 +96,17 @@ if (dbConf != null){
 				</xe:this.bannerApplicationLinks>
 				<xe:this.bannerUtilityLinks>
 
+
 					<xe:basicContainerNode
-						label="#{sessionScope.edificioSelected}" rendered="false">
-						<xe:this.children>
-							<xe:repeatTreeNode var="rptEdificios"
-								value="#{sessionScope.edificios}" indexVar="idxEdificios">
-								<xe:this.children>
-									<xe:basicLeafNode
-										label="#{javascript:rptEdificios}"
-										submitValue="#{javascript:idxEdificios}"
-										title="#{javascript:rptEdificios}"
-										onClick="alert('aho:' + XSP.getSubmitValue());">
-										<xe:this.href><![CDATA[#{javascript://return "/home.xsp/" + idxEdificios;}]]></xe:this.href>
-									</xe:basicLeafNode>
-								</xe:this.children>
-							</xe:repeatTreeNode>
-						</xe:this.children>
-					</xe:basicContainerNode>
+						styleClass="glyphicon glyphicon-cog">
+					<xe:this.children>
+						<xe:basicContainerNode
+							label="Opciones de gastos"
+							style="font-size:10pt;font-family:Verdana">
+						</xe:basicContainerNode>
+					</xe:this.children></xe:basicContainerNode>
+					
+
 					<xe:basicContainerNode
 						label="#{javascript:return DocUsr.getUserMask();}">
 						<xe:this.children>
@@ -134,7 +128,10 @@ return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 							</xe:basicLeafNode>
 						</xe:this.children>
 						<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
+
 					</xe:basicContainerNode>
+
+
 
 				</xe:this.bannerUtilityLinks>
 
