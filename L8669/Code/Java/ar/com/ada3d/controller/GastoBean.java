@@ -1,5 +1,6 @@
 package ar.com.ada3d.controller;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -15,7 +16,7 @@ import ar.com.ada3d.utilidades.DocLock;
 import ar.com.ada3d.utilidades.DocUsr;
 import ar.com.ada3d.utilidades.JSFUtil;
 
-public class GastoBean {
+public class GastoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public List<Gasto> listaGastos;
 	public List<Gasto> listaGastosLiquidacionSiguiente;

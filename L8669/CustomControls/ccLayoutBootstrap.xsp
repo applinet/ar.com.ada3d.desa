@@ -102,7 +102,8 @@ if (dbConf != null){
 					<xe:this.children>
 						<xe:basicContainerNode
 							label="Opciones de gastos"
-							style="font-size:10pt;font-family:Verdana">
+							style="font-size:10pt;font-family:Verdana"
+							href="/viewOpcionesGastos.xsp">
 						</xe:basicContainerNode>
 					</xe:this.children></xe:basicContainerNode>
 					
