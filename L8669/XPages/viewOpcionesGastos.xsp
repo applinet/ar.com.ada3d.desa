@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+
+	<!--
+		When the page loads, will need to force the bean to populate the
+		current list
+	-->
+	<xp:this.beforeRenderResponse><![CDATA[#{javascript:gastoOpcionesBean.viewOpcionesGastos(sessionScope.edfObj);
+}]]></xp:this.beforeRenderResponse>
+
+	<xc:ccLayoutBootstrap property_hasTitleBar="false"
+		property_ShowComboEdificio="true"
+		property_TitleBarActions="">
+		<xp:this.facets>
+			<xp:panel id="PNL_container" xp:key="facetMiddle">
+				
+
+			</xp:panel>
+		</xp:this.facets>
+	</xc:ccLayoutBootstrap>
+	<div id="divHiddenAplicar" style="display: none;">
+	
+	
+		<xp:button value="Nuevo Gasto" id="btnNuevoGasto">
+
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="complete">
+				<xp:this.action><![CDATA[#{javascript:gastoOpcionesBean.createNewGasto();
+context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
+			</xp:eventHandler>
+		</xp:button>
+	</div>
+
+</xp:view>
