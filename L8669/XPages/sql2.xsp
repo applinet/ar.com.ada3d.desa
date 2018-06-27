@@ -2,6 +2,10 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" pageTitle="SQL"
 	xmlns:xc="http://www.ibm.com/xsp/custom" xmlns:xe="http://www.ibm.com/xsp/coreex"
 	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar">
+	<h4>
+		<xp:text escape="true" id="computedField2"><xp:this.value><![CDATA[#{javascript:session.evaluate(getFieldValueAsItemFromConfig("_*_sql1", "v.Sys.DataSource", "ds_select_des")[0])[0] + " " +
+session.evaluate(getFieldValueAsItemFromConfig("_*_sql1", "v.Sys.DataSource", "ds_Tabla1_des")[0])[0]}]]></xp:this.value></xp:text>
+	</h4>
 	<xp:this.data>
 		<xe:objectData var="objDataSQL" ignoreRequestParams="true"
 			readonly="false" scope="view">
