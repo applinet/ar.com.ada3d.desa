@@ -135,6 +135,7 @@ if(!msgValidacion.isEmpty()){
 	facesMsgValidation(msgValidacion);
 	view.postScript("window.scrollTo(0,0)");
 }else{
+	gastoBean = null;
 	gastoBean.createNewGasto();
 	context.redirectToPage("frmGastos.xsp")
 }}]]></xp:this.action>
