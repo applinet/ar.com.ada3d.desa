@@ -1,13 +1,18 @@
 package ar.com.ada3d.utilidades;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.openntf.domino.*;
 
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import javax.servlet.http.HttpServletRequest;
 
+import javax.faces.application.Application; 
+import javax.faces.context.FacesContext; 
+import javax.faces.el.ValueBinding; 
 
 import com.ibm.xsp.designer.context.XSPContext;
 import com.ibm.xsp.page.compiled.ExpressionEvaluatorImpl;
@@ -186,4 +191,94 @@ public class JSFUtil {
 		return getCurrentDatabase().createDocument();
 	}
 
+	
+	/** 
+     * The method creates a {@link javax.faces.el.ValueBinding} from the 
+     * specified value binding expression and returns its current value.<br> 
+     * <br> 
+     * If the expression references a managed bean or its properties and the bean has not 
+     * been created yet, it gets created by the JSF runtime. 
+     * 
+     * @param ref value binding expression, e.g. #{Bean1.property} 
+     * @return value of ValueBinding 
+     * throws javax.faces.el.ReferenceSyntaxException if the specified <code>ref</code> has invalid syntax 
+     */ 
+    public static Object getBindingValue(String ref) { 
+            FacesContext context=FacesContext.getCurrentInstance(); 
+            Application application=context.getApplication(); 
+            return application.createValueBinding(ref).getValue(context); 
+    } 
+
+   /** 
+     * The method creates a {@link javax.faces.el.ValueBinding} from the 
+     * specified value binding expression and sets a new value for it.<br> 
+     * <br> 
+     * If the expression references a managed bean and the bean has not 
+     * been created yet, it gets created by the JSF runtime. 
+     * 
+     * @param ref value binding expression, e.g. #{Bean1.property} 
+     * @param newObject new value for the ValueBinding 
+     * throws javax.faces.el.ReferenceSyntaxException if the specified <code>ref</code> has invalid syntax 
+     */ 
+    public static void setBindingValue(String ref, Object newObject) { 
+            FacesContext context=FacesContext.getCurrentInstance(); 
+            Application application=context.getApplication(); 
+            ValueBinding binding=application.createValueBinding(ref); 
+            binding.setValue(context, newObject); 
+    } 
+
+   /** 
+     * The method returns the value of a global JavaScript variable. 
+     * 
+     * @param varName variable name 
+     * @return value 
+     * @throws javax.faces.el.EvaluationException if an exception is thrown while resolving the variable name 
+     */ 
+    public static Object getVariableValue(String varName) { 
+            FacesContext context = FacesContext.getCurrentInstance(); 
+            return context.getApplication().getVariableResolver().resolveVariable(context, varName); 
+    } 
+
+   /** 
+     * Finds an UIComponent by its component identifier in the current 
+     * component tree. 
+     * 
+     * @param compId the component identifier to search for 
+     * @return found UIComponent or null 
+     * 
+     * @throws NullPointerException if <code>compId</code> is null 
+     */ 
+    public static UIComponent findComponent(String compId) { 
+            return findComponent(FacesContext.getCurrentInstance().getViewRoot(), compId); 
+    } 
+
+   /** 
+     * Finds an UIComponent by its component identifier in the component tree 
+     * below the specified <code>topComponent</code> top component. 
+     * 
+     * @param topComponent first component to be checked 
+     * @param compId the component identifier to search for 
+     * @return found UIComponent or null 
+     * 
+     * @throws NullPointerException if <code>compId</code> is null 
+     */ 
+    public static UIComponent findComponent(UIComponent topComponent, String compId) { 
+            if (compId==null) 
+                    throw new NullPointerException("Component identifier cannot be null"); 
+
+            if (compId.equals(topComponent.getId())) 
+                    return topComponent; 
+
+            if (topComponent.getChildCount()>0) { 
+                    List<UIComponent> childComponents = topComponent.getChildren(); 
+
+                    for (UIComponent currChildComponent : childComponents) { 
+                            UIComponent foundComponent=findComponent(currChildComponent, compId); 
+                            if (foundComponent!=null) 
+                                    return foundComponent; 
+                    } 
+            } 
+            return null; 
+    } 
+	
 }
