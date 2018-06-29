@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
+
+ol {
+  list-style: none;
+  counter-reset: my-awesome-counter;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+}
+ol li {
+  counter-increment: my-awesome-counter;
+  display: flex;
+  width: 80%;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  list-style-type: none;
+  list-style-position: inside;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ccc !important;
+  color: #bbb !important;
+  border: 1px dashed #ddd !important;
+  background-color: #e6ffcc !important;
+  color: #aaa !important;
+  padding: 0.1em 0 1em 0 !important;
+}
+ol li::before {
+  content: counter(my-awesome-counter);
+  font-weight: bold;
+  font-size: 2rem;
+  margin-right: 0.5rem;
+  line-height: 1;
+}
+
+
+
+body {
+  padding: 1rem;
+}
+
+/* https://css-tricks.com/custom-list-number-styling/
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
+
+ol {
+  list-style: none;
+  counter-reset: my-awesome-counter;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+}
+ol li {
+  counter-increment: my-awesome-counter;
+  display: flex;
+  width: 50%;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+ol li::before {
+  content: "0" counter(my-awesome-counter);
+  font-weight: bold;
+  font-size: 3rem;
+  margin-right: 0.5rem;
+  font-family: 'Abril Fatface', serif;
+  line-height: 1;
+}
+
+
+
+body {
+  padding: 1rem;
+  font-family: sans-serif;
+}
+
+*/

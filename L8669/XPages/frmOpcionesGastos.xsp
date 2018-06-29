@@ -3,9 +3,12 @@
 	xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.resources>
-		<xp:styleSheet href="/drag.css"></xp:styleSheet>
+		<xp:styleSheet href="/dragAndDrop.css"></xp:styleSheet>
 	</xp:this.resources>
 	
+	<xp:this.afterPageLoad><![CDATA[#{javascript:viewScope.opcionesGastosPrimeraVez = gastoOpcionesBean.viewOpcionesGastos();}]]></xp:this.afterPageLoad>
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if (gastoOpcionesBean.gastoOpciones == null)
+	gastoOpcionesBean.createNewOpcionGasto();}]]></xp:this.beforePageLoad>
 	<script type="text/javascript"
 		src="dragAndDrop/jquery.sortable.min.js">
 	</script>
@@ -16,25 +19,11 @@
     });
   });
   
-  function updateValues() {
-    var items = [];
-    $("ul.target").children().each(function() {
-      var item = {manufacturer: $(this).text()};
-      items.push(item);
-    });
-    var jsonData = JSON.stringify(items);						
-    $.ajax ({
-      url: "dnd.xsp/setfavourites",
-      type: "PUT",
-      data: jsonData,
-      dataType: "json",
-      contentType: "application/json; charset=utf-8",
-      success: function(){},
-      error: function(){}
-    });
-  };
+ 
 	</script>
 
+	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
+	
 	<xp:div id="buttonBarAffix" styleClass="navbar navbar-inverse"
 		style="width:70%;background-color:rgb(248,247,251);border-color:rgb(247,243,253);text-align:center;margin-top:%;padding-top:5.0px;margin-left:15.0%;margin-right:15.0%">
 		<xp:this.attrs>
@@ -43,121 +32,77 @@
 		</xp:this.attrs>
 		<xp:div id="buttonBar">
 		
-			<xp:button value="Modificar" id="btnEdit">
-				<i class="glyphicon glyphicon-pencil" />
-				<xp:this.rendered><![CDATA[#{javascript:/*
-if(DocLock.isLocked("edf_" + edfObj.edf_codigo)){
-	if(!DocLock.getLock("edf_" + edfObj.edf_codigo).equals(session.getEffectiveUserName()))
-		return false;		
-}*/
-if(DocLock.isLocked("gts_" + gastoBean.gasto.idGasto)){
-	if(!DocLock.getLock("gts_" + gastoBean.gasto.idGasto).equals(session.getEffectiveUserName()))
-		return false;		
+			<xp:button value="Grabar" id="btnSave" styleClass="btn-primary">
+				<i class="glyphicon glyphicon-download-alt"></i>
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" refreshId="formTableOpcionesGastos">
+					<xp:this.action><![CDATA[#{javascript:msgValidacion = gastoOpcionesBean.saveOpcionGasto(viewScope.hidden_helperGastoOpciones, sessionScope.get("edfObj"));
+if(!msgValidacion.isEmpty()){
+	facesMsgValidation(msgValidacion);
+	view.postScript("window.scrollTo(0,0)");
+}else{
+	context.redirectToPage("viewOpcionesGastos")
+}}]]></xp:this.action>
+					<xp:this.script><![CDATA[XSP._setDirty(false,"");
+var x = document.getElementsByClassName("helperOpciones");
+var arr = [];
+var i;
+for (i = 0; i < x.length; i++) {
+    arr[i] = x[i].getAttribute("data-stock-symbol");
 }
-gastoBean.gasto.isReadMode; }]]></xp:this.rendered>
-				<xp:eventHandler event="onclick" submit="true"
-					refreshMode="partial" refreshId="formTableGastos">
-					<xp:this.action><![CDATA[#{javascript:gastoBean.editFormulario(sessionScope.get("edfObj"));}]]></xp:this.action>
-					<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:buttonBar}");
-document.getElementById("#{id:textoDetalleFactura}").focus();]]></xp:this.onComplete>
 
-
-
+XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 				</xp:eventHandler>
 			</xp:button>
-
-			<xp:button id="btnClose" styleClass="btn">
-				<i class="glyphicon glyphicon-remove" />
-				<xp:this.value><![CDATA[#{javascript:return gastoBean.gasto.isReadMode ? "Cerrar" : "Cancelar";}]]></xp:this.value><xp:eventHandler event="onclick" submit="true"
-					refreshMode="complete" immediate="true">
-					<xp:this.script><![CDATA[if (XSP._isDirty()){
-	  if (confirm ("Está seguro de salir?" + "\n" + "\n" +
-	    "Sus cambios no serán guardados." + "\n" + 
-	    "Presione Aceptar para salir sin guardar, o Cancelar para permanecer en la página.")) {
-	    return true;
-	  } else {
-	    return false;
-	  }
-	} else {
-	  return true;
-	}]]></xp:this.script>
-					<xp:this.action>
-						<xp:actionGroup>
-							<xp:this.condition><![CDATA[#{javascript:if(!gastoBean.gasto.isReadMode && gastoBean.gasto.idGasto != null){//Es un gasto nuevo
-	if (DocLock == null) print("es nulo");
-		
-	//DocLock.removeLock("edf_" + sessionScope.get("edfObj").edf_codigo);
-	DocLock.removeLock("gts_" + gastoBean.gasto.idGasto);
-}	
-return true;	}]]></xp:this.condition>
-							<xp:executeScript>
-								<xp:this.script><![CDATA[#{javascript:if(gastoBean.gasto.idGasto != null && !gastoBean.gasto.isReadMode){
-	gastoBean.gasto.isReadMode = true;
-}else{
-	context.redirectToPage("viewGastos");
-}	}]]></xp:this.script>
-							</xp:executeScript>
-						</xp:actionGroup>
-					</xp:this.action></xp:eventHandler>
-			</xp:button>
-			<xe:tooltip id="tooltipBtnClose" for="btnClose" label="Salir sin guardar" position="below"></xe:tooltip>
+			<xe:tooltip id="tooltipBtnSave" for="btnSave" label="Guardará solo el edificio indicado" position="below"></xe:tooltip>
 			&#160;
 			
-			<xp:button value="Grabar" id="btnSave" styleClass="btn-primary"
-				rendered="#{javascript:!gastoBean.gasto.isReadMode}">
+			<xp:button value="Grabar en todos" id="btnSaveRepeat" styleClass="btn-primary">
 				<i class="glyphicon glyphicon-download-alt"></i>
 				<xp:eventHandler event="onclick" submit="true"
-					refreshMode="partial" refreshId="formTableGastos">
-					<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = gastoBean.strValidacionGasto(sessionScope.get("edfObj"));
-if(!msgValidacion.isEmpty()){
-	facesMsgValidation(msgValidacion);
-	view.postScript("window.scrollTo(0,0)");
-	return;
-}	
-
-msgValidacion = gastoBean.saveGasto(sessionScope.get("edfObj"));
+					refreshMode="partial" refreshId="formTableOpcionesGastos">
+					<xp:this.action><![CDATA[#{javascript:msgValidacion = gastoOpcionesBean.saveOpcionGasto();
 if(!msgValidacion.isEmpty()){
 	facesMsgValidation(msgValidacion);
 	view.postScript("window.scrollTo(0,0)");
 }else{
-	context.redirectToPage("viewGastos")
+	context.redirectToPage("viewOpcionesGastos")
 }}]]></xp:this.action>
 					<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
 				</xp:eventHandler>
 			</xp:button>
-			<xe:tooltip id="tooltipBtnSave" for="btnSave" label="Guardar y salir" position="below"></xe:tooltip>
+			<xe:tooltip id="tooltipBtnSaveRepeat" for="btnSaveRepeat" label="Guardará esta configuración y la aplicará a todos sus edificios" position="below"></xe:tooltip>
 			&#160;
 			
-			<xp:button value="Grabar y Nuevo gasto"
-				id="btnSaveNew" styleClass="btn-primary">
-				<xp:this.rendered><![CDATA[#{javascript:gastoBean.gasto.idGasto == null && !gastoBean.gasto.isReadMode}]]></xp:this.rendered>
-				<i class="glyphicon glyphicon-download-alt"></i>
-				<xp:eventHandler event="onclick" submit="true"
-					refreshMode="partial" refreshId="formTableGastos">
-					<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = gastoBean.strValidacionGasto(sessionScope.get("edfObj"));
-if(!msgValidacion.isEmpty()){
-	facesMsgValidation(msgValidacion);
-	view.postScript("window.scrollTo(0,0)");
-	return;
-}	
-
-msgValidacion = gastoBean.saveGasto(sessionScope.get("edfObj"));
-if(!msgValidacion.isEmpty()){
-	facesMsgValidation(msgValidacion);
-	view.postScript("window.scrollTo(0,0)");
-}else{
-	gastoBean.createNewGasto();
-	context.redirectToPage("frmGastos.xsp")
-}}]]></xp:this.action>
-					<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
-				</xp:eventHandler>
-			</xp:button>
-			<xe:tooltip id="tooltipBtnSaveNew" for="btnSaveNew" label="Guardar y continuar cargando un nuevo gasto" position="below"></xe:tooltip>
 		</xp:div>
 	</xp:div>
-
-
-	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
+	<xp:div styleClass="container"
+		rendered="#{javascript:return viewScope.opcionesGastosPrimeraVez == null ?  false : true;}">
+		<xp:div styleClass="well-sm"
+			style="background-color:rgb(255,240,255)">
+			<h1>Configuración de gastos</h1>
+			<br />
+			<p>
+				<span>
+					Está configurando por primera vez las opciones
+					de gastos.
+				</span>
+				<br />
+				<span>
+					Puede hacerlo en forma individual para cada edificio
+					o presionar el botón 'Aplicar a todos mis
+					edificios'.
+				</span>
+				<br />
+				<span>
+					Si tilda la opción 'Configuración única para todos mis edificios', 
+					todos sus edificios comparten esta configuración y
+					incluso cuando se incorpore un edificio nuevo.
+				</span>
+			</p>
+		</xp:div>
+	</xp:div>
+	
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="false"
 		property_hasTitleBar="false">
 		<xp:this.facets>
@@ -174,13 +119,14 @@ if(!msgValidacion.isEmpty()){
 								property_VisualizarCodigo="true"
 								property_VisualizarFechaUltimaLiquidacion="false"
 								property_AnchoPxCombo="250"
-								property_ReadOnly="#{gastoBean.gasto.isReadMode}"
-								refreshIdOnChange="PNL_Principal" id="comboEdificio" />
+								property_ReadOnly="#{viewScope.OpcionGastoTodosEdificios eq 1}"
+								refreshIdOnChange="PNL_Principal" id="comboEdificio">
+							</xc:ccComboBoxEdificios>
 						</xe:formRow>
 						<xe:formRow id="rowNumerarGastos"
 							label="Numerar gastos" style="padding-right:2.0%">
 							<xp:radioGroup id="radioGroupNumerarGastos"
-								value="#{viewScope.radio}" layout="pageDirection"
+								value="#{gastoOpcionesBean.gastoOpciones.numerarGastos}" layout="pageDirection"
 								defaultValue="1">
 								<xp:selectItem itemLabel="Manualmente"
 									itemValue="0" />
@@ -193,14 +139,19 @@ if(!msgValidacion.isEmpty()){
 									submit="true" refreshMode="partial"
 									refreshId="radioGroupNumerarGastos" execMode="partial"
 									execId="radioGroupNumerarGastos">
+									<xp:this.action><![CDATA[#{javascript:if(this.getParent().getValue() == "0"){
+	gastoOpcionesBean.gastoOpciones.numerarSueldos = "0";
+}	}]]></xp:this.action>
+								<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:radioGroupNumerarSueldos}");]]></xp:this.onComplete>
 								</xp:eventHandler>
 							</xp:radioGroup>
 						</xe:formRow>
 						<xe:formRow id="rowNumerarSueldos"
 							label="Numerar Sueldos" style="padding-right:2.0%">
 							<xp:radioGroup id="radioGroupNumerarSueldos"
-								value="#{viewScope.radio}" layout="lineDirection"
-								defaultValue="1">
+								value="#{gastoOpcionesBean.gastoOpciones.numerarSueldos}"
+								layout="lineDirection" defaultValue="1"
+								disabled="#{gastoOpcionesBean.gastoOpciones.numerarGastos eq 0}">
 								<xp:selectItem itemLabel="Si"
 									itemValue="1" />
 								<xp:selectItem itemLabel="No"
@@ -216,7 +167,7 @@ if(!msgValidacion.isEmpty()){
 						<xe:formRow id="rowAgregarDatosProveedor"
 							label="Agregar datos del proveedor" style="padding-right:2.0%">
 							<xp:radioGroup
-								id="radioGroupAgregarDatosProveedor" value="#{viewScope.radio}"
+								id="radioGroupAgregarDatosProveedor" value="#{gastoOpcionesBean.gastoOpciones.agregarDatosProveedorEnDetalleDelGasto}"
 								layout="lineDirection" defaultValue="1">
 								<xp:selectItem itemLabel="Si"
 									itemValue="1" />
@@ -224,43 +175,43 @@ if(!msgValidacion.isEmpty()){
 									itemValue="0" />
 								<xp:eventHandler event="onclick"
 									submit="true" refreshMode="partial"
-									refreshId="radioGroupAgregarDatosProveedor" execMode="partial"
+									refreshId="formTableOpcionesGastos" execMode="partial"
 									execId="radioGroupAgregarDatosProveedor">
 								</xp:eventHandler>
 							</xp:radioGroup>
-
 						</xe:formRow>
-						
-						<xe:formRow id="rowOrdenDatos" 
-							label="Orden de los datos" style="padding-right:2.0%">
-								<ol class="source connected col-sm-6">
-									<xp:repeat id="repeat2" rows="30"
-										var="manufacturer" removeRepeat="true" >
-										<xp:this.value>
-											<![CDATA[${javascript:return [["Proveedor y cuit", "1"], ["Fecha de la factura", "2"], ["Número de la factura", "3"], ["Dirección proveedor", "4"]];}]]>
-										</xp:this.value>
-										<xp:text escape="true"
-											id="sourceLI" value="#{manufacturer[0]}" tagName="li">
-											<xp:this.attrs>
-												<xp:attr
-													name="data-stock-symbol" value="#{manufacturer[1]}">
-												</xp:attr>
-											</xp:this.attrs>
-										</xp:text>
-									</xp:repeat>
-								</ol>
+
+						<xe:formRow id="rowOrdenDatos"
+							label="Orden de los datos" style="padding-right:2.0%"
+							rendered="#{gastoOpcionesBean.gastoOpciones.agregarDatosProveedorEnDetalleDelGasto eq 1}">
+
+							<ol class="source connected col-sm-6">
+								<xp:repeat id="repeat2" rows="30"
+									var="manufacturer" removeRepeat="true"
+									value="#{javascript:gastoOpcionesBean.get_mapOrdenDatosProveedor().entrySet()}">
+
+									<xp:text escape="true"
+										styleClass="helperOpciones" id="sourceLI"
+										value="#{javascript:manufacturer.getValue()}" tagName="li">
+										<xp:this.attrs>
+											<xp:attr
+												name="data-stock-symbol"
+												value="#{javascript:manufacturer.getKey()}">
+											</xp:attr>
+										</xp:this.attrs>
+									</xp:text>
+								</xp:repeat>
+							</ol>
+
 						</xe:formRow>
 					</xp:div>
-
-
-					<xe:this.facets>
-						<xp:div xp:key="footer">
-
-
-						</xp:div>
-					</xe:this.facets>
 				</xe:formTable>
-
+				<xp:panel id="PNL_HiddenFields">
+					<!-- Panel con campos temporales, no se visualizan -->
+					<xp:inputText id="helperGastoOpciones"
+						value="#{viewScope.hidden_helperGastoOpciones}" style="display:none">
+					</xp:inputText>
+				</xp:panel>
 			</xp:panel>
 
 		</xp:this.facets>

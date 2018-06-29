@@ -2,49 +2,97 @@ package ar.com.ada3d.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
-
-import lotus.domino.NotesException;
-
 import org.openntf.domino.Document;
 
+import lotus.domino.NotesException;
 import ar.com.ada3d.connect.QueryAS400;
 import ar.com.ada3d.model.Edificio;
 import ar.com.ada3d.model.GastoOpciones;
+import ar.com.ada3d.utilidades.DocUsr;
 import ar.com.ada3d.utilidades.JSFUtil;
+
 
 public class GastoOpcionesBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public List<GastoOpciones> listaOpcionesGastos;
+	private GastoOpciones gastoOpciones;
+	private HashMap<String, String> _mapOrdenDatosProveedor;
+
 	
 	public GastoOpcionesBean() {
 		// Empty constructor
 	}
 	
 	
+//***** INI BOTONES ****
+	
+	/**Cuando presiona btnNewGasto
+	 * Creo un objeto vacio y completo el orden por default
+	 */
+	public void createNewOpcionGasto() {
+		setGastoOpciones(new GastoOpciones());
+		crearMapaDefault();
+	}
+	
+	
+
+	/**Cuando presiona btnSave en opciones de gastos
+	 * Esto ya tiene que venir validado
+	 * @usedIn: Boton save 
+	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
+	 * @param prm_ordenDatos como debe ser el orden de los datos
+	 * @param prm_edificio el edificio seleccionado 	
+	 */
+	public ArrayList<String> saveOpcionGasto(String prm_ordenDatos, Edificio prm_edificio) {
+		ArrayList<String> listAcumulaErroresAS400 = new ArrayList<String>();
+		List<String> listaEdificios = new ArrayList<String>();
+		listaEdificios.add(prm_edificio.getEdf_codigo());
+		
+		//boolean isNew = false;
+		Document docDummy = JSFUtil.getDocDummy();
+		docDummy.appendItemValue("NUMCMP", this.gastoOpciones.getNumerarGastos());
+		docDummy.appendItemValue("NUMSLD", this.gastoOpciones.getNumerarSueldos());
+		docDummy.appendItemValue("OPCPRV", this.gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto());
+		//TODO: cuando tenga 4 pocisiones en el AS sacar el substring
+		docDummy.appendItemValue("OPCTXT", prm_ordenDatos.replace("," , "").substring(0,1));
+		QueryAS400 query = new QueryAS400();
+		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
+		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
+		if (!query.updateBatchGastos("opcionesgastoInsertBatchOPGTS", docDummy, listaEdificios, false)) {
+			listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+			System.out.println("ERROR: " + errCode + " METH:saveNewOpcionGasto" + "_EDID:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo insertar en la tabla PH_OPGTS.");
+		}
+		return listAcumulaErroresAS400;
+		
+		
+	}	
+	
+	
+
+	
+//***** FIN BOTONES ****
 	
 //***** INI VISTAS ****
 	
 	/**Cuando ingresa a la vista de opciones de Gastos
-	 * @param prm_edificio:objeto edificio 
 	 */
-	public void viewOpcionesGastos(Edificio prm_edificio){
-		fillListaOpcionesGastos(prm_edificio);
+	public boolean viewOpcionesGastos(){
+		return fillListaOpcionesGastos();
 	}
 	
 	/**
-	 * Completo la variable listaGastos consultando As400, cada linea separa el dato por un pipe
-	 * Cada gasto puede tener mas de una linea, pero existe un unico importe por factura.
-	 * @param prm_edificio:objeto edificio 
-	 * @return la lista de facturas de un edificio
+	 * Completo la variable listaOpcionesGastos consultando As400, cada linea separa el dato por un pipe
+	 * @return true si tiene al menos un edificio configurado, sino falso para crearlas
 	 */
-	private void fillListaOpcionesGastos(Edificio prm_edificio){
+	private boolean fillListaOpcionesGastos(){
 		ArrayList<String> nl = null;
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		try {
-			Document docDummy = JSFUtil.getDocDummy();
-			docDummy.appendItemValue("edf_codigo", prm_edificio.getEdf_codigo());
-			nl = query.getSelectAS("opcionesGasto_CONTROLLER", docDummy);
+			nl = query.getSelectAS("opcionesGasto_CONTROLLER", null);
 		} catch (NotesException e) {
 			e.printStackTrace();
 		}
@@ -57,18 +105,67 @@ public class GastoOpcionesBean implements Serializable {
 			myGastoOpciones.setNumerarGastos(strLinea.split("\\|")[1].trim());
 			myGastoOpciones.setNumerarSueldos(strLinea.split("\\|")[2].trim());
 			myGastoOpciones.setAgregarDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[3].trim());
-			myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[4].trim());
+			//myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[4].trim());
+			myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto("4231");
 			
 			myGastoOpciones.setIsReadMode(true);
 			listaOpcionesGastos.add(myGastoOpciones);
 					
 		}
-		
+		if (listaOpcionesGastos.isEmpty()) return false;
+		return true;
 		
 	}
 
 	//***** FIN VISTAS ****
 
+	
+	//***** INI FUNCIONES ****
+	
+	/** UPDATE DE LA OPCION AL INGRESAR DE LA VISTA
+	 * Al ingresar en un registro de la lista de opciones hago un nuevo update del gasto con los datos que faltan
+	 */
+	private void updateOpcionesGastos(GastoOpciones gastoOpciones){
+		if(gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto().equals("1")){
+			String newString = Arrays.toString(gastoOpciones.getOrdenDatosProveedorEnDetalleDelGasto().split(""));
+            newString = newString.substring(1, newString.length()-1).replace(" ", ""); 
+			this._mapOrdenDatosProveedor = devolverMapaOrdenado(newString.trim()); 
+		}else{
+			crearMapaDefault();
+		}
+	}
+	
+	/**Orden de los datos de proveedores impresos en la descripcion del gasto
+	 * @usedIn: 
+	 * @return: un nuevo mapa para asignar a mapOrdenDatosProveedor 
+	 * @param prm_ordenDatos: el orden como quiero que devuelva ordenado mapOrdenDatosProveedor	
+	 */
+
+	public HashMap<String, String> devolverMapaOrdenado(String prm_ordenDatos){
+		if(this._mapOrdenDatosProveedor == null){
+			crearMapaDefault();
+		}
+		List<String> myList = new ArrayList<String>(Arrays.asList(prm_ordenDatos.split(",")));
+		HashMap<String, String> tempMap = new HashMap<String, String>();
+		int count = 1;
+		for(String val : myList){
+			tempMap.put(String.valueOf(count), this._mapOrdenDatosProveedor.get(val));
+			count+=1;
+		}
+		return tempMap;
+	}
+	
+	
+	/** Opciones por defecto del orden que imprime los datos del proveedor */
+	private void crearMapaDefault(){
+		this._mapOrdenDatosProveedor = new HashMap<String, String>();
+		this._mapOrdenDatosProveedor.put("1", "Proveedor y cuit");
+		this._mapOrdenDatosProveedor.put("2", "Fecha de la factura");
+		this._mapOrdenDatosProveedor.put("3", "Número de la factura");
+		this._mapOrdenDatosProveedor.put("4", "Dirección proveedor");
+	}
+	
+	//***** FIN FUNCIONES ****
 	
 	//Getters & Setters
 	
@@ -77,13 +174,30 @@ public class GastoOpcionesBean implements Serializable {
 	}
 
 
-
 	public void setListaOpcionesGastos(List<GastoOpciones> listaOpcionesGastos) {
 		this.listaOpcionesGastos = listaOpcionesGastos;
 	}
-	
-	
-	
-	
+
+
+	public GastoOpciones getGastoOpciones() {
+		return gastoOpciones;
+	}
+
+
+	public void setGastoOpciones(GastoOpciones gastoOpciones) {
+		updateOpcionesGastos(gastoOpciones);
+		this.gastoOpciones = gastoOpciones;
+	}
+
+
+	public HashMap<String, String> get_mapOrdenDatosProveedor() {
+		return _mapOrdenDatosProveedor;
+	}
+
+
+	public void set_mapOrdenDatosProveedor(
+			HashMap<String, String> ordenDatosProveedor) {
+		_mapOrdenDatosProveedor = ordenDatosProveedor;
+	}
 
 }

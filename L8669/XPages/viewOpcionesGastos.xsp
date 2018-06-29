@@ -6,15 +6,104 @@
 		When the page loads, will need to force the bean to populate the
 		current list
 	-->
-	<xp:this.beforeRenderResponse><![CDATA[#{javascript:gastoOpcionesBean.viewOpcionesGastos(sessionScope.edfObj);
-}]]></xp:this.beforeRenderResponse>
+	
 
-	<xc:ccLayoutBootstrap property_hasTitleBar="false"
+	
+	<xp:this.afterPageLoad><![CDATA[#{javascript:if(!gastoOpcionesBean.viewOpcionesGastos())
+	context.redirectToPage("frmOpcionesGastos");}]]></xp:this.afterPageLoad>
+	<xc:ccLayoutBootstrap property_hasTitleBar="true"
 		property_ShowComboEdificio="true"
-		property_TitleBarActions="">
+		property_TitleBarActions="ar.com.ada3d.frontend.LayoutTitleBarActionsOpcionesGastos">
 		<xp:this.facets>
 			<xp:panel id="PNL_container" xp:key="facetMiddle">
-				
+				<xp:dataTable id="opcionesGastosTable"
+					var="opcionesGastos"
+					value="#{gastoOpcionesBean.listaOpcionesGastos}" rows="15">
+					<xp:this.facets>
+						<xp:panel xp:key="header">
+							<xp:pager layout="Previous Group Next"
+								id="pagerHeader">
+							</xp:pager>
+
+						</xp:panel>
+
+						<xp:pager layout="Previous Group Next"
+							xp:key="footer" id="pagerFooter">
+						</xp:pager>
+					</xp:this.facets>
+
+					<xp:column id="edf_codigoColumn">
+						<xp:this.facets>
+							<xp:label value="Codigo SASA"
+								id="labelCodigoEdificio" xp:key="header"
+								style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:link escape="true"
+							text="#{opcionesGastos.codigoEdificio}" id="edf_codigo">
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler2">
+								<xp:this.action><![CDATA[#{javascript:gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</xp:column>
+
+					<xp:column id="numerarGastosColumn">
+						<xp:this.facets>
+							<xp:label value="Numerar gastos"
+								id="labelNumerarGastos" xp:key="header"
+								style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:link escape="true" id="numerarGastos">
+							<xp:this.text><![CDATA[#{javascript:switch(opcionesGastos.numerarGastos){
+	case "0": return "Manualmente";
+	case "1": return "Automáticamente simple";
+	case "2": return "Automáticamente por rubros";
+}}]]></xp:this.text>
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler1">
+								<xp:this.action><![CDATA[#{javascript:gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</xp:column>
+
+					<xp:column id="numerarSueldosColumn">
+						<xp:this.facets>
+							<xp:label value="Numerar sueldos"
+								id="labelNumerarSueldos" xp:key="header"
+								style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:link escape="true" id="numerarSueldos">
+							<xp:this.text><![CDATA[#{javascript:return opcionesGastos.numerarSueldos == "1" ? "Si" : "No";}]]></xp:this.text>
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler3">
+								<xp:this.action><![CDATA[#{javascript:gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</xp:column>
+
+					<xp:column id="agregarDatosColumn">
+						<xp:this.facets>
+							<xp:label value="Agregar datos de proveedor"
+								id="labelAgregarDatos" xp:key="header"
+								style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:link escape="true" id="agregarDatos">
+							<xp:this.text><![CDATA[#{javascript:if(opcionesGastos.agregarDatosProveedorEnDetalleDelGasto == "0"){
+	return "No";
+}else{
+	return opcionesGastos.ordenDatosProveedorEnDetalleDelGasto;
+}}]]></xp:this.text>
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" id="eventHandler4">
+								<xp:this.action><![CDATA[#{javascript:gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</xp:column>
+				</xp:dataTable>
 
 			</xp:panel>
 		</xp:this.facets>
@@ -22,14 +111,14 @@
 	<div id="divHiddenAplicar" style="display: none;">
 	
 	
-		<xp:button value="Nuevo Gasto" id="btnNuevoGasto">
+		<xp:button value="Nueva Opcion" id="btnNuevaOpcionGasto">
 
 			<xp:eventHandler event="onclick" submit="true"
 				refreshMode="complete">
-				<xp:this.action><![CDATA[#{javascript:gastoOpcionesBean.createNewGasto();
+				<xp:this.action><![CDATA[#{javascript:gastoOpcionesBean.createNewOpcionGasto();
 context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
 			</xp:eventHandler>
 		</xp:button>
 	</div>
 
-</xp:view>
+	</xp:view>
