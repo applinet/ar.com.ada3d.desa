@@ -56,7 +56,7 @@
     <description>Configuracion de Gastos</description>
     <managed-bean-name>gastoOpcionesBean</managed-bean-name>
     <managed-bean-class>ar.com.ada3d.controller.GastoOpcionesBean</managed-bean-class>
-    <managed-bean-scope>view</managed-bean-scope>
+    <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
   <managed-bean id="validadorBean">
     <description>Validadores</description>

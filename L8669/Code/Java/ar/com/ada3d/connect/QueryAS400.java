@@ -413,7 +413,7 @@ public class QueryAS400 implements Serializable {
 				countTemp = countTemp + 1;
 				pstmt.setString(1, tempLista);
 				if(usarContadorDeLineas)
-					pstmt.setString(2, countTemp.toString());							
+					pstmt.setString(2, countTemp.toString());	
 				pstmt.addBatch();
 				
 			}
