@@ -207,7 +207,6 @@ public class GastoBean implements Serializable {
 		if (listAcumulaErroresAS400.isEmpty()){
 			Calendar ahora = Calendar.getInstance();
 			if(isNew){ //es un nuevo gasto
-				System.out.println("FPR Borrar_Trace is new");
 				docDummy.appendItemValue("FECHAC", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "ddMMyyyy"));
 				docDummy.appendItemValue("HORAC", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "HHmm"));
 				docDummy.appendItemValue("FECHAM", "0");
