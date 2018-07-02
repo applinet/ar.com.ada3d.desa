@@ -70,7 +70,7 @@ public class PorcentualMasivoBean implements Serializable {
 	
 	/**
 	 * Actualizo solo el porcentual recibido
-	 * @usedIn: Es una clase privada solo se usa aca
+	 * @usedIn: Es una clase privada
 	 * @Param objeto Porcentual por actualizar
 	 * @Param strLinea leida del AS, solo con datos si es un nuevo el objeto. (blanco si es una actualización)
 	 * @return lista de objetos Porcentuales

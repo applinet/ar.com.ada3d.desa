@@ -378,7 +378,7 @@ public class EdificioBean implements Serializable {
 
 	/**
 	 * Actualizo solo el edificio recibido
-	 * @usedIn: Es una clase privada solo se usa aca
+	 * @usedIn: Es una clase privada
 	 * @Param objeto Edificio por actualizar
 	 * @Param strLinea leida del AS, solo con datos si es un nuevo el objeto. (blanco si es una actualización)
 	 * @return objeto Edificio
