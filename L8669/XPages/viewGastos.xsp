@@ -53,8 +53,14 @@ return gastoBean.getArrayDetallesGastos();}]]></xc:this.pty_Lista>
 
 			<xp:eventHandler event="onclick" submit="true"
 				refreshMode="complete">
-				<xp:this.action><![CDATA[#{javascript:gastoBean.createNewGasto();
-context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+				<xp:this.action><![CDATA[#{javascript:edificioBean.actualizoUnEdificioAs400(sessionScope.edfObj, "");
+if(sessionScope.edfObj.edf_OrdenDetalleGasto != "0"){ //al crear un nuevo gasto validar que tenga la configuracion cargada
+	gastoBean.createNew();
+	context.redirectToPage("frmGastos.xsp");
+}else{
+	gastoOpcionesBean.createNewOpcionGasto();
+	context.redirectToPage("frmOpcionesGastos.xsp");
+}}]]></xp:this.action>
 			</xp:eventHandler>
 		</xp:button>
 	</div>

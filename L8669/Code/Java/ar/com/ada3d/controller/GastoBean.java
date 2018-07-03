@@ -39,7 +39,8 @@ public class GastoBean implements Serializable {
 	/**Cuando presiona btnNewGasto
 	 * Creo un objeto vacio
 	 */
-	public void createNewGasto() {
+	public void createNew() {
+		
 		setGasto(new Gasto());
 		Edificio prm_edificio = (Edificio) JSFUtil.resolveVariable("edfObj");
 		this.gasto.setListaProrrateos(cargaProrrateo("", prm_edificio));

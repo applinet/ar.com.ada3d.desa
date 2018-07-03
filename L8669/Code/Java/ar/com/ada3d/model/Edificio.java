@@ -44,6 +44,7 @@ public class Edificio {
 	private BigDecimal edf_importeMasivoE08A;
 	private Date edf_fechaMasivoVTOEX1;
 	private Date edf_fechaMasivoVTOEX2;
+	private String edf_OrdenDetalleGasto;
 	
 	//Getters and Setters
 	
@@ -242,5 +243,12 @@ public class Edificio {
 	public void setEdf_fechaMasivoVTOEX2(Date edf_fechaMasivoVTOEX2) {
 		this.edf_fechaMasivoVTOEX2 = edf_fechaMasivoVTOEX2;
 	}
+	public String getEdf_OrdenDetalleGasto() {
+		return edf_OrdenDetalleGasto;
+	}
+	public void setEdf_OrdenDetalleGasto(String edf_OrdenDetalleGasto) {
+		this.edf_OrdenDetalleGasto = edf_OrdenDetalleGasto;
+	}
+	
 	
 }
