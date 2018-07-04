@@ -7,6 +7,8 @@ public class GastoOpciones {
 	private String agregarDatosProveedorEnDetalleDelGasto;
 	private String ordenDatosProveedorEnDetalleDelGasto;
 	private boolean isReadMode;
+	private boolean configuracionUnica;
+	
 	
 	public GastoOpciones() {
 		// Empty constructor
@@ -62,4 +64,14 @@ public class GastoOpciones {
 	public void setIsReadMode(boolean isReadMode) {
 		this.isReadMode = isReadMode;
 	}
+
+	public boolean isConfiguracionUnica() {
+		return configuracionUnica;
+	}
+
+	public void setConfiguracionUnica(boolean configuracionUnica) {
+		this.configuracionUnica = configuracionUnica;
+	}
+
+	
 }
