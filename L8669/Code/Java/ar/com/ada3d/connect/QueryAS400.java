@@ -398,7 +398,7 @@ public class QueryAS400 implements Serializable {
 		// el sql
 		
 		if (configTabla.getMsgConsola().equals("1"))
-			System.out.println(configTabla.getStrsSQL());
+			System.out.println(configTabla.getStrsSQL() + prm_lista);
 		
 		try {
 			DriverManager
