@@ -21,6 +21,7 @@ public class GastoOpcionesBean implements Serializable {
 	public List<GastoOpciones> listaOpcionesGastos;
 	private GastoOpciones gastoOpciones;
 	private HashMap<String, String> _mapOrdenDatosProveedor;
+	private HashMap<String, String> _mapOrdenDatosProveedorOriginal;
 
 	
 	public GastoOpcionesBean() {
@@ -35,9 +36,18 @@ public class GastoOpcionesBean implements Serializable {
 	 */
 	public void createNewOpcionGasto() {
 		setGastoOpciones(new GastoOpciones());
+		System.out.println("new");
 		crearMapaDefault();
 	}
 	
+	/**
+	 * Funcion en el boton editar
+	 * Actualizo y lockeo
+	 * @usedIn: frmOpcionesGastos
+	 */
+	public void editFormulario(Edificio prm_edificio){
+		this.gastoOpciones.setIsReadMode(false);
+	}
 	
 
 	/**Cuando presiona btnSave en opciones de gastos
@@ -50,25 +60,34 @@ public class GastoOpcionesBean implements Serializable {
 	public ArrayList<String> saveOpcionGasto(String prm_ordenDatos, Edificio prm_edificio) {
 		ArrayList<String> listAcumulaErroresAS400 = new ArrayList<String>();
 		List<String> listaEdificios = new ArrayList<String>();
-		listaEdificios.add(prm_edificio.getEdf_codigo());
+		if(this.gastoOpciones.isConfiguracionUnica()){
+			listaEdificios.add("***");
+		}else{
+			listaEdificios.add(prm_edificio.getEdf_codigo());
+		}
 		
-		//boolean isNew = false;
+		
 		Document docDummy = JSFUtil.getDocDummy();
 		docDummy.appendItemValue("NUMCMP", this.gastoOpciones.getNumerarGastos());
 		docDummy.appendItemValue("NUMSLD", this.gastoOpciones.getNumerarSueldos());
 		docDummy.appendItemValue("OPCPRV", this.gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto());
-		//TODO: cuando tenga 4 pocisiones en el AS sacar el substring
-		docDummy.appendItemValue("OPCTXT", prm_ordenDatos.replace("," , "").substring(0,1));
+		docDummy.appendItemValue("OPCTXT", this.gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto().equals("0") ? "0" : prm_ordenDatos.replace("," , ""));
 		QueryAS400 query = new QueryAS400();
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
-		if (!query.updateBatchGastos("opcionesgastoInsertBatchOPGTS", docDummy, listaEdificios, false)) {
-			listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
-			System.out.println("ERROR: " + errCode + " METH:saveNewOpcionGasto" + "_EDID:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo insertar en la tabla PH_OPGTS.");
+
+		if(gastoOpciones.getCodigoEdificio() != null){ //es un update
+			if (!query.updateBatchGastos("opcionesgastoUpdateBatch", docDummy, listaEdificios, false)) {
+				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+				System.out.println("ERROR: " + errCode + " METH:saveNewOpcionGasto" + "_EDID:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo actualizar la tabla PH_OPGTS.");
+			}
+		}else{
+			if (!query.updateBatchGastos("opcionesgastoInsertBatchOPGTS", docDummy, listaEdificios, false)) {
+				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+				System.out.println("ERROR: " + errCode + " METH:saveNewOpcionGasto" + "_EDID:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo insertar en la tabla PH_OPGTS.");
+			}
 		}
 		return listAcumulaErroresAS400;
-		
-		
 	}	
 	
 	
@@ -105,9 +124,9 @@ public class GastoOpcionesBean implements Serializable {
 			myGastoOpciones.setNumerarGastos(strLinea.split("\\|")[1].trim());
 			myGastoOpciones.setNumerarSueldos(strLinea.split("\\|")[2].trim());
 			myGastoOpciones.setAgregarDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[3].trim());
-			//myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[4].trim());
-			myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto("4231");
-			
+			myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[4].trim());
+			if(myGastoOpciones.getCodigoEdificio().equals("***"))
+				myGastoOpciones.setConfiguracionUnica(true);
 			myGastoOpciones.setIsReadMode(true);
 			listaOpcionesGastos.add(myGastoOpciones);
 					
@@ -149,7 +168,7 @@ public class GastoOpcionesBean implements Serializable {
 		HashMap<String, String> tempMap = new HashMap<String, String>();
 		int count = 1;
 		for(String val : myList){
-			tempMap.put(String.valueOf(count), this._mapOrdenDatosProveedor.get(val));
+			tempMap.put(String.valueOf(count), this._mapOrdenDatosProveedorOriginal.get(val));
 			count+=1;
 		}
 		return tempMap;
@@ -159,10 +178,7 @@ public class GastoOpcionesBean implements Serializable {
 	/** Opciones por defecto del orden que imprime los datos del proveedor */
 	private void crearMapaDefault(){
 		this._mapOrdenDatosProveedor = new HashMap<String, String>();
-		this._mapOrdenDatosProveedor.put("1", "Proveedor y cuit");
-		this._mapOrdenDatosProveedor.put("2", "Fecha de la factura");
-		this._mapOrdenDatosProveedor.put("3", "Número de la factura");
-		this._mapOrdenDatosProveedor.put("4", "Dirección proveedor");
+		this._mapOrdenDatosProveedor.putAll(get_mapOrdenDatosProveedorOriginal());
 	}
 	
 	//***** FIN FUNCIONES ****
@@ -185,7 +201,8 @@ public class GastoOpcionesBean implements Serializable {
 
 
 	public void setGastoOpciones(GastoOpciones gastoOpciones) {
-		updateOpcionesGastos(gastoOpciones);
+		if(gastoOpciones.getCodigoEdificio() != null) //no es una opcion nueva
+			updateOpcionesGastos(gastoOpciones);
 		this.gastoOpciones = gastoOpciones;
 	}
 
@@ -200,4 +217,13 @@ public class GastoOpcionesBean implements Serializable {
 		_mapOrdenDatosProveedor = ordenDatosProveedor;
 	}
 
+	public HashMap<String, String> get_mapOrdenDatosProveedorOriginal() {
+		this._mapOrdenDatosProveedorOriginal = new HashMap<String, String>();
+		this._mapOrdenDatosProveedorOriginal.put("1", "Proveedor y cuit");
+		this._mapOrdenDatosProveedorOriginal.put("2", "Fecha de la factura");
+		this._mapOrdenDatosProveedorOriginal.put("3", "Número de la factura");
+		this._mapOrdenDatosProveedorOriginal.put("4", "Dirección proveedor");
+		return _mapOrdenDatosProveedorOriginal;
+	}
+	
 }
