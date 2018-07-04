@@ -43,7 +43,16 @@
 							text="#{opcionesGastos.codigoEdificio}" id="edf_codigo">
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="complete" id="eventHandler2">
-								<xp:this.action><![CDATA[#{javascript:gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
+								<xp:this.action><![CDATA[#{javascript:if(opcionesGastos.getCodigoEdificio().equals("***")){
+	var codigoEdificio:String = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, false, false).get(0).getValue();
+	sessionScope.edificioWork = codigoEdificio;
+	sessionScope.put("edfObj", edificioBean.getEdificioMap(codigoEdificio));
+	opcionesGastos.setCodigoEdificio(codigoEdificio);
+}else{
+	sessionScope.edificioWork = opcionesGastos.getCodigoEdificio();
+	sessionScope.put("edfObj", edificioBean.getEdificioMap(opcionesGastos.getCodigoEdificio()));
+}		
+gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
 							</xp:eventHandler>
 						</xp:link>
 					</xp:column>
@@ -63,7 +72,16 @@
 }}]]></xp:this.text>
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="complete" id="eventHandler1">
-								<xp:this.action><![CDATA[#{javascript:gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
+								<xp:this.action><![CDATA[#{javascript:if(opcionesGastos.getCodigoEdificio().equals("***")){
+	var codigoEdificio:String = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, false, false).get(0).getValue();
+	sessionScope.edificioWork = codigoEdificio;
+	sessionScope.put("edfObj", edificioBean.getEdificioMap(codigoEdificio));
+	opcionesGastos.setCodigoEdificio(codigoEdificio);
+}else{
+	sessionScope.edificioWork = opcionesGastos.getCodigoEdificio();
+	sessionScope.put("edfObj", edificioBean.getEdificioMap(opcionesGastos.getCodigoEdificio()));
+}	
+gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
 							</xp:eventHandler>
 						</xp:link>
 					</xp:column>
@@ -79,7 +97,16 @@
 							<xp:this.text><![CDATA[#{javascript:return opcionesGastos.numerarSueldos == "1" ? "Si" : "No";}]]></xp:this.text>
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="complete" id="eventHandler3">
-								<xp:this.action><![CDATA[#{javascript:gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
+								<xp:this.action><![CDATA[#{javascript:if(opcionesGastos.getCodigoEdificio().equals("***")){
+	var codigoEdificio:String = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, false, false).get(0).getValue();
+	sessionScope.edificioWork = codigoEdificio;
+	sessionScope.put("edfObj", edificioBean.getEdificioMap(codigoEdificio));
+	opcionesGastos.setCodigoEdificio(codigoEdificio);
+}else{
+	sessionScope.edificioWork = opcionesGastos.getCodigoEdificio();
+	sessionScope.put("edfObj", edificioBean.getEdificioMap(opcionesGastos.getCodigoEdificio()));
+}	
+gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
 							</xp:eventHandler>
 						</xp:link>
 					</xp:column>
@@ -91,18 +118,33 @@
 								style="font-weight:bold">
 							</xp:label>
 						</xp:this.facets>
-						<xp:link escape="true" id="agregarDatos">
-							<xp:this.text><![CDATA[#{javascript:if(opcionesGastos.agregarDatosProveedorEnDetalleDelGasto == "0"){
-	return "No";
+						
+						<xp:repeat id="repeat1" rows="30" var="row">
+							<xp:this.value><![CDATA[#{javascript:opcionesGastos.ordenDatosProveedorEnDetalleDelGasto.split("");}]]></xp:this.value>
+							<xp:link escape="true"
+								id="textoDetalleFactura">
+
+								<xp:this.text><![CDATA[#{javascript:
+var myArray=["Proveedor y cuit","Fecha de la factura","Número de la factura","Dirección proveedor"];
+return row == "0" ? "No" : gastoOpcionesBean.get_mapOrdenDatosProveedorOriginal().get(row);}]]></xp:this.text>
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete" id="eventHandler4">
+									<xp:this.action><![CDATA[#{javascript:if(opcionesGastos.getCodigoEdificio().equals("***")){
+	var codigoEdificio:String = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, false, false).get(0).getValue();
+	sessionScope.edificioWork = codigoEdificio;
+	sessionScope.put("edfObj", edificioBean.getEdificioMap(codigoEdificio));
+	opcionesGastos.setCodigoEdificio(codigoEdificio);
 }else{
-	return opcionesGastos.ordenDatosProveedorEnDetalleDelGasto;
-}}]]></xp:this.text>
-							<xp:eventHandler event="onclick"
-								submit="true" refreshMode="complete" id="eventHandler4">
-								<xp:this.action><![CDATA[#{javascript:gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
-							</xp:eventHandler>
-						</xp:link>
+	sessionScope.edificioWork = opcionesGastos.getCodigoEdificio();
+	sessionScope.put("edfObj", edificioBean.getEdificioMap(opcionesGastos.getCodigoEdificio()));
+}	
+gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
+								</xp:eventHandler>
+							</xp:link>
+							<br />
+						</xp:repeat>
 					</xp:column>
+					
 				</xp:dataTable>
 
 			</xp:panel>
