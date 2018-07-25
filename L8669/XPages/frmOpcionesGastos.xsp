@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xc="http://www.ibm.com/xsp/custom"
-	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar">
 	<xp:this.resources>
 		<xp:styleSheet href="/dragAndDrop.css"></xp:styleSheet>
 	</xp:this.resources>
-	
+
 	<xp:this.afterPageLoad><![CDATA[#{javascript:viewScope.opcionesGastosPrimeraVez = gastoOpcionesBean.viewOpcionesGastos();}]]></xp:this.afterPageLoad>
 	<xp:this.beforePageLoad><![CDATA[#{javascript:if (gastoOpcionesBean.gastoOpciones == null)
 	gastoOpcionesBean.createNewOpcionGasto();}]]></xp:this.beforePageLoad>
@@ -13,11 +14,8 @@
 		src="dragAndDrop/jquery.sortable.min.js">
 	</script>
 	<script type="text/javascript">
-  $(function () {
-    $(".source, .target").sortable({
-      connectWith: ".connected"
-    });
-  });
+		$(function () { $(".source, .target").sortable({ connectWith:
+		".connected" }); });
 	</script>
 	<xp:scriptBlock id="scriptBlockPopoverClass">
 		<xp:this.value><![CDATA[$(document).ready(
@@ -25,7 +23,8 @@
 );	]]></xp:this.value>
 	</xp:scriptBlock>
 	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
-	
+
+	<debug:toolbar defaultCollapsed="false" collapseTo="left"></debug:toolbar>
 	<xp:div id="buttonBarAffix" styleClass="navbar navbar-inverse"
 		style="width:70%;background-color:rgb(248,247,251);border-color:rgb(247,243,253);text-align:center;margin-top:%;padding-top:5.0px;margin-left:15.0%;margin-right:15.0%">
 		<xp:this.attrs>
@@ -33,7 +32,7 @@
 			<xp:attr name="data-offset-top" value="30" />
 		</xp:this.attrs>
 		<xp:div id="buttonBar">
-			
+
 			<xp:button id="btnClose" styleClass="btn">
 				<i class="glyphicon glyphicon-remove" />
 				<xp:this.value><![CDATA[#{javascript:return gastoOpcionesBean.gastoOpciones.isReadMode ? "Cerrar" : "Cancelar";}]]></xp:this.value>
@@ -51,10 +50,13 @@
 					<xp:this.action><![CDATA[#{javascript:context.redirectToPage("viewOpcionesGastos");}]]></xp:this.action>
 				</xp:eventHandler>
 			</xp:button>
-			<xe:tooltip id="tooltipBtnClose" for="btnClose" label="Salir sin guardar" position="below"></xe:tooltip>
+			<xe:tooltip id="tooltipBtnClose" for="btnClose"
+				label="Salir sin guardar" position="below">
+			</xe:tooltip>
 			&#160;
-			
-			<xp:button value="Grabar" id="btnSave" styleClass="btn-primary">
+
+			<xp:button value="Grabar" id="btnSave"
+				styleClass="btn-primary">
 				<i class="glyphicon glyphicon-download-alt"></i>
 				<xp:eventHandler event="onclick" submit="true"
 					refreshMode="partial" refreshId="formTableOpcionesGastos">
@@ -76,9 +78,11 @@ for (i = 0; i < x.length; i++) {
 XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 				</xp:eventHandler>
 			</xp:button>
-			<xe:tooltip id="tooltipBtnSave" for="btnSave" label="Guardará solo el edificio indicado" position="below"></xe:tooltip>
+			<xe:tooltip id="tooltipBtnSave" for="btnSave"
+				label="Guardará solo el edificio indicado" position="below">
+			</xe:tooltip>
 			&#160;
-			
+
 		</xp:div>
 	</xp:div>
 	<xp:div styleClass="container"
@@ -88,24 +92,30 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 			<h1>Configuración de gastos</h1>
 			<br />
 			<p>
+				<xp:label
+					value="Ud. está viendo esta pantalla debido a que debe configurar por primera vez las opciones
+					de gastos; una vez grabada, podrá cargar los gastos y no se le volverá a solicitar."
+					id="labelMensajeUnicaVez">
+				</xp:label>
+				<br />
 				<span>
-					Ud. está viendo esta pantalla ya que debe configurar por primera vez las opciones
-					de gastos; al guardar configuración podrá cargar los gastos y no se le volverá a solicitar.
+					Puede elegir entre&#160;tener una configuración
+					individual para cada edificio o una única
+					configuración para todos sus edificios.
 				</span>
 				<br />
 				<span>
-					Puede tener una configuración individual para cada edificio
-					o tener una única configuración para todos sus edificios.
-				</span>
-				<br />
-				<span>
-					Si tilda la opción:<span style="font-weight: bold"> 'Configuración única para todos mis edificios'</span>, 
-					todos sus edificios compartirán esta configuración y incluso cuando se incorpore un nuevo edificio.
+					Si tilda la opción:
+					<span style="font-weight: bold">
+						'Configuración única para todos mis edificios'
+					</span>
+					, todos sus edificios compartirán esta configuración
+					y incluso cuando se incorpore un nuevo edificio.
 				</span>
 			</p>
 		</xp:div>
 	</xp:div>
-	
+
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="false"
 		property_hasTitleBar="false">
 		<xp:this.facets>
@@ -115,8 +125,8 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 					style="padding-left:10.0%;padding-right:10.0%"
 					formTitle="Opciones de carga rápida">
 					<xp:div styleClass="form-inline">
-						<xe:formRow id="rowEdificio"
-							label="Edificio" style="padding-right:2.0%" for="comboEdificio">
+						<xe:formRow id="rowEdificio" label="Edificio"
+							style="padding-right:2.0%" for="comboEdificio">
 							<xp:div id="divComboEdificios">
 								<xc:ccComboBoxEdificios
 									property_SoloEdificiosEnProceso="true"
@@ -139,24 +149,35 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 								</xp:eventHandler>
 							</xp:checkBox>
 						</xe:formRow>
-						
-						<xe:formRow id="rowNumerarGastos" styleClass="form-inline"
-							label="Numerar gastos" style="padding-right:2.0%">
-							<xp:link escape="true" id="link1" styleClass="control-label popOverTooltip">
-								<i class="glyphicon glyphicon-question-sign" />
+
+						<xe:formRow id="rowNumerarGastos"
+							styleClass="form-inline" label="Numerar gastos"
+							style="padding-right:2.0%">
+							<xp:link escape="true" id="link1"
+								styleClass="control-label popOverTooltip">
+								<i
+									class="glyphicon glyphicon-question-sign" />
 								<xp:this.attrs>
-									<xp:attr name="data-toggle" value="popover"></xp:attr>
-									<xp:attr name="data-trigger" value="hover"></xp:attr>
-									<xp:attr name="data-html" value="true"></xp:attr>
+									<xp:attr name="data-toggle"
+										value="popover">
+									</xp:attr>
+									<xp:attr name="data-trigger"
+										value="hover">
+									</xp:attr>
+									<xp:attr name="data-html"
+										value="true">
+									</xp:attr>
 									<xp:attr name="data-content">
 										<xp:this.value><![CDATA[#{javascript:"<b>Manualmente:</b> esta opción es tanto para comprobantes como para sueldos.<br/><b>Automáticamente simple:</b> utilizará un numerador.<br/><b>Automáticamente por rubros:</b> por cada rubro utilizará un numerador."}]]></xp:this.value>
 									</xp:attr>
-									<xp:attr name="data-placement" value="left"></xp:attr>
+									<xp:attr name="data-placement"
+										value="left">
+									</xp:attr>
 								</xp:this.attrs>
 							</xp:link>
 							<xp:radioGroup id="radioGroupNumerarGastos"
-								value="#{gastoOpcionesBean.gastoOpciones.numerarGastos}" layout="pageDirection"
-								defaultValue="1">
+								value="#{gastoOpcionesBean.gastoOpciones.numerarGastos}"
+								layout="pageDirection" defaultValue="1">
 								<xp:selectItem itemLabel="Manualmente"
 									itemValue="0" />
 								<xp:selectItem
@@ -171,21 +192,32 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 									<xp:this.action><![CDATA[#{javascript:if(this.getParent().getValue() == "0"){
 	gastoOpcionesBean.gastoOpciones.numerarSueldos = "0";
 }	}]]></xp:this.action>
-								<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:radioGroupNumerarSueldos}");]]></xp:this.onComplete>
+									<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:radioGroupNumerarSueldos}");]]></xp:this.onComplete>
 								</xp:eventHandler>
 							</xp:radioGroup>
-							
+
 						</xe:formRow>
-						
-						<xe:formRow id="rowNumerarSueldos" styleClass="form-inline"
-							label="Numerar Sueldos" style="padding-right:2.0%">
-							<xp:link escape="true" id="link2" styleClass="control-label popOverTooltip">
-								<i class="glyphicon glyphicon-question-sign" />
+
+						<xe:formRow id="rowNumerarSueldos"
+							styleClass="form-inline" label="Numerar Sueldos"
+							style="padding-right:2.0%">
+							<xp:link escape="true" id="link2"
+								styleClass="control-label popOverTooltip">
+								<i
+									class="glyphicon glyphicon-question-sign" />
 								<xp:this.attrs>
-									<xp:attr name="data-toggle" value="popover"></xp:attr>
-									<xp:attr name="data-trigger" value="hover"></xp:attr>
-									<xp:attr name="data-content" value="Para poder numerar sueldos la numeración de gastos no puede ser manual"></xp:attr>
-									<xp:attr name="data-placement" value="left"></xp:attr>
+									<xp:attr name="data-toggle"
+										value="popover">
+									</xp:attr>
+									<xp:attr name="data-trigger"
+										value="hover">
+									</xp:attr>
+									<xp:attr name="data-content"
+										value="Para poder numerar sueldos la numeración de gastos no puede ser manual">
+									</xp:attr>
+									<xp:attr name="data-placement"
+										value="left">
+									</xp:attr>
 								</xp:this.attrs>
 							</xp:link>
 							<xp:radioGroup id="radioGroupNumerarSueldos"
@@ -203,23 +235,35 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 								</xp:eventHandler>
 							</xp:radioGroup>
 						</xe:formRow>
-						
-						<xe:formRow id="rowAgregarDatosProveedor" styleClass="form-inline"
-							label="Agregar datos del proveedor" style="padding-right:2.0%">
-							<xp:link escape="true" id="link3" styleClass="control-label popOverTooltip">
-								<i class="glyphicon glyphicon-question-sign" />
+
+						<xe:formRow id="rowAgregarDatosProveedor"
+							styleClass="form-inline" label="Agregar datos del proveedor"
+							style="padding-right:2.0%">
+							<xp:link escape="true" id="link3"
+								styleClass="control-label popOverTooltip">
+								<i
+									class="glyphicon glyphicon-question-sign" />
 								<xp:this.attrs>
-									<xp:attr name="data-toggle" value="popover"></xp:attr>
-									<xp:attr name="data-trigger" value="hover"></xp:attr>
-									<xp:attr name="data-html" value="true"></xp:attr>
+									<xp:attr name="data-toggle"
+										value="popover">
+									</xp:attr>
+									<xp:attr name="data-trigger"
+										value="hover">
+									</xp:attr>
+									<xp:attr name="data-html"
+										value="true">
+									</xp:attr>
 									<xp:attr name="data-content">
 										<xp:this.value><![CDATA[#{javascript:"Si selecciona <b>No</b>, el orden de los datos no será tomado en cuenta.</br> Para cambiar el orden de las opciones, mueva las opciones hasta tener el orden deseado"}]]></xp:this.value>
 									</xp:attr>
-									<xp:attr name="data-placement" value="left"></xp:attr>
+									<xp:attr name="data-placement"
+										value="left">
+									</xp:attr>
 								</xp:this.attrs>
 							</xp:link>
 							<xp:radioGroup
-								id="radioGroupAgregarDatosProveedor" value="#{gastoOpcionesBean.gastoOpciones.agregarDatosProveedorEnDetalleDelGasto}"
+								id="radioGroupAgregarDatosProveedor"
+								value="#{gastoOpcionesBean.gastoOpciones.agregarDatosProveedorEnDetalleDelGasto}"
 								layout="lineDirection" defaultValue="1">
 								<xp:selectItem itemLabel="Si"
 									itemValue="1" />
@@ -258,7 +302,8 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 				<xp:panel id="PNL_HiddenFields">
 					<!-- Panel con campos temporales, no se visualizan -->
 					<xp:inputText id="helperGastoOpciones"
-						value="#{viewScope.hidden_helperGastoOpciones}" style="display:none">
+						value="#{viewScope.hidden_helperGastoOpciones}"
+						style="display:none">
 					</xp:inputText>
 				</xp:panel>
 			</xp:panel>
@@ -266,7 +311,8 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>
 	<xp:div id="divDialogDetalle">
-		<xe:dialog id="dialogDetalle" title="El detalle del gasto se verá asi:">
+		<xe:dialog id="dialogDetalle"
+			title="El detalle del gasto se verá asi:">
 			<xp:label value="#{gastoBean.gasto.textoDetalleFactura}"
 				id="labelDialogDetalle">
 			</xp:label>
