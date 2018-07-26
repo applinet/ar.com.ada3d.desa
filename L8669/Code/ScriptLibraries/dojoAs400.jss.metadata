@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="196a" sequence="1" unid="4A0C0CB5AE50B80E8325824000624376">
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.9" replicaid="83258294005DFE4F" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="3f6" sequence="1" unid="4A0C0CB5AE50B80E8325824000624376">
 <created><datetime dst="true">20180226T155317,98-02</datetime></created>
-<modified><datetime dst="true">20180226T155320,18-02</datetime></modified>
+<modified><datetime dst="true">20180521T150643,32-02</datetime></modified>
 <revised><datetime dst="true">20180226T155320,17-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180226T155320,18-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20180226T155320,18-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst="true">20180521T150643,32-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180521T150643,32-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$TITLE" sign="true"><text>dojoAs400</text></item>
@@ -12,4 +12,4 @@
 
 <item name="$Comment" sign="true"><text>sql.xsp</text></item>
 <item name="$DesignerVersion" sign="true"><text>8.5.3</text></item>
-<item name="$Flags"><text>.5834QP</text></item></note>
+<item name="$Flags"><text>.5834Q</text></item></note>

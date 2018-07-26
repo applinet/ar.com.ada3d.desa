@@ -1,15 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258203004F19D9" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="1fde" sequence="4" unid="F0B66D3E8BFA8B028325826700483DC5">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258294005DFE4F" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="4da" sequence="146" unid="F0B66D3E8BFA8B028325826700483DC5">
 <created><datetime dst="true">20180406T110904,05-02</datetime></created>
-<modified><datetime dst="true">20180406T111104,20-02</datetime></modified>
-<revised><datetime dst="true">20180406T111104,19-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180406T111104,20-02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20180406T110904,06-02</datetime></addedtofile></noteinfo>
+<modified><datetime dst="true">20180521T150644,46-02</datetime></modified>
+<revised><datetime dst="true">20180406T154931,56-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180521T150644,46-02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180521T150644,46-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$Flags"><text>34567Cg~[</text></item>
 <item name="$TITLE"><text>ar/com/ada3d/pickers/SimplePicker.java</text></item>
+
+
+
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
 
-<item name="$FileNames" sign="true"><text>ar/com/ada3d/pickers/SimplePicker.java</text></item></note>
+<item name="$FileNames" sign="true"><text>ar/com/ada3d/pickers/SimplePicker.java</text></item>
+
+</note>

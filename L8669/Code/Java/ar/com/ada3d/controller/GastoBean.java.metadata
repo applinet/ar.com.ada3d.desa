@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.9" replicaid="83258294005DFE4F" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="522" sequence="5" unid="37B002CF028F429E8325829B004D8E64">
+<noteinfo noteid="522" sequence="882" unid="37B002CF028F429E8325829B004D8E64">
 <created><datetime dst="true">20180528T120707,24-02</datetime></created>
-<modified><datetime dst="true">20180528T125007,91-02</datetime></modified>
-<revised><datetime dst="true">20180528T125007,90-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180528T125007,91-02</datetime></lastaccessed>
+<modified><datetime dst="true">20180702T140953,38-02</datetime></modified>
+<revised><datetime dst="true">20180702T140953,37-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180702T140953,38-02</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20180528T120707,25-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$Flags"><text>34567Cg~[</text></item>
 <item name="$TITLE"><text>ar/com/ada3d/controller/GastoBean.java</text></item>
+
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
 
-<item name="$FileNames" sign="true"><text>ar/com/ada3d/controller/GastoBean.java</text></item></note>
+
+<item name="$FileNames" sign="true"><text>ar/com/ada3d/controller/GastoBean.java</text></item>
+
+</note>

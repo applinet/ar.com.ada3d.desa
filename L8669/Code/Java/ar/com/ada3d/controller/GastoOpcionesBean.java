@@ -36,7 +36,7 @@ public class GastoOpcionesBean implements Serializable {
 	 */
 	public void createNewOpcionGasto() {
 		setGastoOpciones(new GastoOpciones());
-		System.out.println("new");
+		System.out.println("FPR_createNewOpcionGasto");
 		crearMapaDefault();
 	}
 	

@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='83258203004F19D9'>
-<noteinfo noteid='4ca' unid='01E36C7E5ED68EFF83258227005395B4' sequence='19'>
+ replicaid='83258294005DFE4F'>
+<noteinfo noteid='326' unid='01E36C7E5ED68EFF83258227005395B4' sequence='19'>
 <created><datetime dst='true'>20180201T131258,12-02</datetime></created>
-<modified><datetime dst='true'>20180227T111013,03-02</datetime></modified>
+<modified><datetime dst='true'>20180521T150642,30-02</datetime></modified>
 <revised><datetime dst='true'>20180209T104343,23-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20180227T111013,03-02</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20180201T131258,26-02</datetime></addedtofile></noteinfo>
+<lastaccessed><datetime dst='true'>20180521T150642,30-02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20180521T150642,30-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name='$TITLE' sign='true'><text>(SdojoAs400_join_edif)|SdojoAs400_join_edif</text></item>
@@ -34,12 +34,12 @@ gQYAAAAA
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$AssistRunInfo' summary='true'>
 <rawitemdata type='3'>
-BgAAAgAACAD+GQAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAzgAAAAAAAAAAAAAAAAAAABAAAAAA
-AAAA6X1mAFyCJYMAAAAAt1hIAEGCJYPZGU8AA4IlgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
+BgAAAgAACAAiAwAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAzgAAAAAAAAAAAAAAAAAAABAAAAAA
+AAAAa19lALqCJYMAAAAAZv9dAJSCJYNP/l0AlIIlgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
 ZCBydW5uaW5nIGFnZW50ICcoU2Rvam9BczQwMF9qb2luX2VkaWYpfFNkb2pvQXM0MDBfam9pbl9l
-ZGlmJyBvbiAwMy8yNi8yMDE4IDE1OjM5OjI4DQpSYW4gTG90dXNTY3JpcHQgY29kZQ0KRG9uZSBy
+ZGlmJyBvbiAwNi8yOC8yMDE4IDE2OjI3OjE1DQpSYW4gTG90dXNTY3JpcHQgY29kZQ0KRG9uZSBy
 dW5uaW5nIGFnZW50ICcoU2Rvam9BczQwMF9qb2luX2VkaWYpfFNkb2pvQXM0MDBfam9pbl9lZGlm
-JyBvbiAwMy8yNi8yMDE4IDE1OjM5OjI5DQoADQrh+Wtc0HUHuwBRDp2DJYIvAACAAAAA6gIAAAEA
+JyBvbiAwNi8yOC8yMDE4IDE2OjI3OjE1DQoADQrh+Wtc0HUHuwBRDp2DJYIvAACAAAAA6gIAAAEA
 AAAAAAIAErf9YDADAAAAAAIAG9NTAJ+BJQAAAAAA////AFABAABqAQAAAQAAAPemWQC1gSUAyKZZ
 AGIQJgMAAAYATz1TQVNBAAAGAE89U0FTQQAAogAwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGB
 AM3xGd1EUqpDwTqoP0UG78eDv9zMoFxhZX+znshG+Q6TTJxsVoo44wmn1VvbroQTAThnqN/yJnin

@@ -488,7 +488,6 @@ public class EdificioBean implements Serializable {
 		//TODO: falta saber que campo tomar del AS400 para el titulo del procentual
 		myEdificio.setEdf_importeFranqueo( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[26].trim(), Locale.US, 2)));
 		myEdificio.setEdf_importeMultaDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[27].trim(), Locale.US, 2)));
-		//TODO: el campo de ordenDetalle lo estoy tomando de un join ponerlo definitivo en el JOIN_EDIF
 		myEdificio.setEdf_OrdenDetalleGasto(strLinea.split("\\|")[28].trim());
 		myEdificio.setEdf_isReadMode(true);
 		} catch(ArrayIndexOutOfBoundsException excepcion){
