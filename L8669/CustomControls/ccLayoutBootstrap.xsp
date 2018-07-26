@@ -48,12 +48,13 @@
 					<xp:attr name="data-spy" value="affix"></xp:attr>
 					<xp:attr name="data-offset-top" value="80"></xp:attr>
 				</xp:this.attrs>
-				<xp:this.rendered><![CDATA[#{javascript:compositeData.get("property_ShowComboEdificio") && !userBean.accessRoles.toString().contains('[usrInitial]')}]]></xp:this.rendered>
+				<xp:this.rendered><![CDATA[#{javascript:compositeData.get("property_ShowAffixToolBar") && !userBean.accessRoles.toString().contains('[usrInitial]')}]]></xp:this.rendered>
 				<xc:ccComboBoxEdificios
 					property_SoloEdificiosEnProceso="false"
 					property_VisualizarCodigo="true"
 					property_VisualizarFechaUltimaLiquidacion="true"
 					property_AnchoPxCombo="400" refreshIdOnChange="facetMiddle">
+					<xc:this.rendered><![CDATA[#{javascript:compositeData.get("property_ShowComboEdificio")}]]></xc:this.rendered>
 				</xc:ccComboBoxEdificios>
 			</xp:div>
 			<xp:callback facetName="facetLeft" id="facetLeft"

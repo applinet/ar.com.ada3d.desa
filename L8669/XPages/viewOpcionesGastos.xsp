@@ -12,8 +12,9 @@
 	<xp:this.afterPageLoad><![CDATA[#{javascript:if(!gastoOpcionesBean.viewOpcionesGastos())
 	context.redirectToPage("frmOpcionesGastos");}]]></xp:this.afterPageLoad>
 	<xc:ccLayoutBootstrap property_hasTitleBar="true"
-		property_ShowComboEdificio="true"
-		property_TitleBarActions="ar.com.ada3d.frontend.LayoutTitleBarActionsOpcionesGastos">
+		property_ShowComboEdificio="false"
+		property_TitleBarActions="ar.com.ada3d.frontend.LayoutTitleBarActionsOpcionesGastos"
+		property_ShowAffixToolBar="true">
 		<xp:this.facets>
 			<xp:panel id="PNL_container" xp:key="facetMiddle">
 				<xp:dataTable id="opcionesGastosTable"
@@ -118,7 +119,7 @@ gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOp
 								style="font-weight:bold">
 							</xp:label>
 						</xp:this.facets>
-						
+
 						<xp:repeat id="repeat1" rows="30" var="row">
 							<xp:this.value><![CDATA[#{javascript:opcionesGastos.ordenDatosProveedorEnDetalleDelGasto.split("");}]]></xp:this.value>
 							<xp:link escape="true"
@@ -144,7 +145,7 @@ gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOp
 							<br />
 						</xp:repeat>
 					</xp:column>
-					
+
 				</xp:dataTable>
 
 			</xp:panel>
