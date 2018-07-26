@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xc="http://www.ibm.com/xsp/custom"
-	xmlns:xe="http://www.ibm.com/xsp/coreex"
-	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar">
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.resources>
 		<xp:styleSheet href="/dragAndDrop.css"></xp:styleSheet>
 	</xp:this.resources>
@@ -24,7 +23,6 @@
 	</xp:scriptBlock>
 	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
 
-	<debug:toolbar defaultCollapsed="false" collapseTo="left"></debug:toolbar>
 	<xp:div id="buttonBarAffix" styleClass="navbar navbar-inverse"
 		style="width:70%;background-color:rgb(248,247,251);border-color:rgb(247,243,253);text-align:center;margin-top:%;padding-top:5.0px;margin-left:15.0%;margin-right:15.0%">
 		<xp:this.attrs>
@@ -89,20 +87,15 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 		rendered="#{javascript:return viewScope.opcionesGastosPrimeraVez == null ?  false : true;}">
 		<xp:div styleClass="well-sm"
 			style="background-color:rgb(255,240,255)">
-			<h1>Configuración de gastos</h1>
-			<br />
-			<p>
+			<h1>Configuración de gastos</h1><p>
 				<xp:label
-					value="Ud. está viendo esta pantalla debido a que debe configurar por primera vez las opciones
-					de gastos; una vez grabada, podrá cargar los gastos y no se le volverá a solicitar."
+					value="Ud. está viendo esta pantalla, debido a que debe configurar por primera vez sus opciones
+					de gastos; una vez grabada, podrá cargar los gastos y no se le volverá a solicitar. "
 					id="labelMensajeUnicaVez">
+					<xp:this.rendered><![CDATA[#{javascript:sessionScope.edfObj.edf_OrdenDetalleGasto.equals("0")}]]></xp:this.rendered>
 				</xp:label>
-				<br />
-				<span>
-					Puede elegir entre&#160;tener una configuración
-					individual para cada edificio o una única
-					configuración para todos sus edificios.
-				</span>
+				<xp:label value="Puede elegir entre tener una configuración	individual para cada edificio o una única configuración para todos sus edificios.">
+				</xp:label>
 				<br />
 				<span>
 					Si tilda la opción:
@@ -254,7 +247,7 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 										value="true">
 									</xp:attr>
 									<xp:attr name="data-content">
-										<xp:this.value><![CDATA[#{javascript:"Si selecciona <b>No</b>, el orden de los datos no será tomado en cuenta.</br> Para cambiar el orden de las opciones, mueva las opciones hasta tener el orden deseado"}]]></xp:this.value>
+										<xp:this.value><![CDATA[#{javascript:"Si selecciona <b>No</b>, el orden de los datos no será tomado en cuenta.</br> Para cambiar el orden de las opciones, arrastre las opciones hasta tener el orden deseado"}]]></xp:this.value>
 									</xp:attr>
 									<xp:attr name="data-placement"
 										value="left">
