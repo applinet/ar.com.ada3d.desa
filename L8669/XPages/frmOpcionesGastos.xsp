@@ -3,6 +3,7 @@
 	xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.resources>
+		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js" clientSide="true" />
 		<xp:styleSheet href="/dragAndDrop.css"></xp:styleSheet>
 	</xp:this.resources>
 
@@ -20,6 +21,11 @@
 		<xp:this.value><![CDATA[$(document).ready(
 	function() {$(".popOverTooltip").popover();}
 );	]]></xp:this.value>
+	</xp:scriptBlock>
+	<xp:scriptBlock id="scriptBlockMaskedJquery">
+		<xp:this.value><![CDATA[jQuery(function($){
+	x$("#{id:numeroProximoGasto}").mask('0000', {placeholder: "0000"});
+});]]></xp:this.value>
 	</xp:scriptBlock>
 	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
 
@@ -115,9 +121,8 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 									property_VisualizarCodigo="true"
 									property_VisualizarFechaUltimaLiquidacion="false"
 									property_AnchoPxCombo="250"
-									property_ReadOnly="#{gastoOpcionesBean.gastoOpciones.configuracionUnica}"
-									refreshIdOnChange="PNL_Principal" id="comboEdificio"
-									rendered="#{!gastoOpcionesBean.gastoOpciones.configuracionUnica}">
+									property_ReadOnly="#{!gastoOpcionesBean.gastoOpciones.isNew}"
+									refreshIdOnChange="PNL_Principal" id="comboEdificio">
 								</xc:ccComboBoxEdificios>
 							</xp:div>
 							
@@ -160,15 +165,67 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 								</xp:selectItem>
 								<xp:eventHandler event="onclick"
 									submit="true" refreshMode="partial"
-									refreshId="radioGroupNumerarGastos" execMode="partial"
-									execId="radioGroupNumerarGastos">
+									refreshId="numeroProximoGasto" disableValidators="true">
 									<xp:this.action><![CDATA[#{javascript:if(this.getParent().getValue() == "0"){
 	gastoOpcionesBean.gastoOpciones.numerarSueldos = "0";
+	gastoOpcionesBean.gastoOpciones.numeroProximoGasto = new java.lang.Integer(0);
 }	}]]></xp:this.action>
-									<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:radioGroupNumerarSueldos}");]]></xp:this.onComplete>
+
+
+
+									<xp:this.onComplete><![CDATA[XSP.partialRefreshPost("#{id:radioGroupNumerarSueldos}", {
+    onComplete: function() {
+        XSP.partialRefreshPost("#{id:numeroProximoGasto}");
+    }
+});]]></xp:this.onComplete>
 								</xp:eventHandler>
 							</xp:radioGroup>
 
+						</xe:formRow>
+						<xe:formRow id="rowNumeroProximoGasto"
+							styleClass="form-inline" label="Numerador de comprobantes"
+							style="padding-right:2.0%" for="numeroProximoGasto">
+							<xp:link escape="true" id="link4"
+								styleClass="control-label popOverTooltip">
+								<i
+									class="glyphicon glyphicon-question-sign" />
+								<xp:this.attrs>
+									<xp:attr name="data-toggle"
+										value="popover">
+									</xp:attr>
+									<xp:attr name="data-trigger"
+										value="hover">
+									</xp:attr>
+									<xp:attr name="data-content"
+										value="Para la numeración automatica por rubros se verá al generar la liquidación. Para la numeración simple, el numero que indique será el del próximo gasto">
+									</xp:attr>
+									<xp:attr name="data-placement"
+										value="left">
+									</xp:attr>
+								</xp:this.attrs>
+							</xp:link>
+
+							<xp:inputText id="numeroProximoGasto"
+								value="#{gastoOpcionesBean.gastoOpciones.numeroProximoGasto}"
+								disabled="#{gastoOpcionesBean.gastoOpciones.numerarGastos eq 0}">
+								<xp:this.validators>
+									<xp:validateExpression
+										message="El numerador debe ser un numero entre 1 y 9999">
+										<!-- (2) -->
+										<xp:this.expression><![CDATA[#{javascript:if (gastoOpcionesBean.gastoOpciones.numerarGastos.equals(0)){
+	return true;
+}
+if (value == 0) {
+    return false;
+} 
+return true;							      }]]></xp:this.expression>
+									</xp:validateExpression>
+
+									<xp:validateRequired
+										message="El número de comprobante no puede quedar en blanco.">
+									</xp:validateRequired>
+								</xp:this.validators>
+							</xp:inputText>
 						</xe:formRow>
 
 						<xe:formRow id="rowNumerarSueldos"
@@ -193,6 +250,7 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 									</xp:attr>
 								</xp:this.attrs>
 							</xp:link>
+							
 							<xp:radioGroup id="radioGroupNumerarSueldos"
 								value="#{gastoOpcionesBean.gastoOpciones.numerarSueldos}"
 								layout="lineDirection" defaultValue="1"
