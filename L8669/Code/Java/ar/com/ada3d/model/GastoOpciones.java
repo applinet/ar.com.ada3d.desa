@@ -8,6 +8,8 @@ public class GastoOpciones {
 	private String ordenDatosProveedorEnDetalleDelGasto;
 	private boolean isReadMode;
 	private boolean configuracionUnica;
+	private Integer numeroProximoGasto;
+	private boolean isNew;
 	
 	
 	public GastoOpciones() {
@@ -73,5 +75,21 @@ public class GastoOpciones {
 		this.configuracionUnica = configuracionUnica;
 	}
 
+	public Integer getNumeroProximoGasto() {
+		return numeroProximoGasto;
+	}
+
+	public void setNumeroProximoGasto(Integer numeroProximoGasto) {
+		this.numeroProximoGasto = numeroProximoGasto;
+	}
+
+	public boolean getIsNew() {
+		return isNew;
+	}
+
+	public void setIsNew(boolean isNew) {
+		this.isNew = isNew;
+	}
+	
 	
 }
