@@ -36,7 +36,9 @@ public class GastoOpcionesBean implements Serializable {
 	 */
 	public void createNewOpcionGasto() {
 		setGastoOpciones(new GastoOpciones());
-		System.out.println("FPR_createNewOpcionGasto");
+		this.gastoOpciones.setNumerarGastos("1");
+		this.gastoOpciones.setNumeroProximoGasto(Integer.parseInt("1"));
+		this.gastoOpciones.setIsNew(true);
 		crearMapaDefault();
 	}
 	
@@ -65,11 +67,11 @@ public class GastoOpcionesBean implements Serializable {
 		}else{
 			listaEdificios.add(prm_edificio.getEdf_codigo());
 		}
-		
-		
+				
 		Document docDummy = JSFUtil.getDocDummy();
 		docDummy.appendItemValue("NUMCMP", this.gastoOpciones.getNumerarGastos());
-		docDummy.appendItemValue("NUMSLD", this.gastoOpciones.getNumerarSueldos());
+		docDummy.appendItemValue("NROAUT", this.gastoOpciones.getNumeroProximoGasto());
+		docDummy.appendItemValue("NUMSLD", this.gastoOpciones.getNumerarSueldos().toString());
 		docDummy.appendItemValue("OPCPRV", this.gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto());
 		docDummy.appendItemValue("OPCTXT", this.gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto().equals("0") ? "0" : prm_ordenDatos.replace("," , ""));
 		QueryAS400 query = new QueryAS400();
@@ -82,6 +84,14 @@ public class GastoOpcionesBean implements Serializable {
 				System.out.println("ERROR: " + errCode + " METH:saveNewOpcionGasto" + "_EDID:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo actualizar la tabla PH_OPGTS.");
 			}
 		}else{
+			if (this.gastoOpciones.getIsNew()){
+				for(GastoOpciones go : listaOpcionesGastos){
+			        if(go.getCodigoEdificio() != null && go.getCodigoEdificio().contains(prm_edificio.getEdf_codigo())){
+			        	listAcumulaErroresAS400.add("btnSave~El edificio " + go.getCodigoEdificio()  + " ya tiene una configuración cargada. Para modificarla por favor ingrese por opciones de gastos");
+			        	return listAcumulaErroresAS400;
+			        }
+			    }
+			}
 			if (!query.updateBatchGastos("opcionesgastoInsertBatchOPGTS", docDummy, listaEdificios, false)) {
 				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 				System.out.println("ERROR: " + errCode + " METH:saveNewOpcionGasto" + "_EDID:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo insertar en la tabla PH_OPGTS.");
@@ -125,9 +135,12 @@ public class GastoOpcionesBean implements Serializable {
 			myGastoOpciones.setNumerarSueldos(strLinea.split("\\|")[2].trim());
 			myGastoOpciones.setAgregarDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[3].trim());
 			myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[4].trim());
+			
+			myGastoOpciones.setNumeroProximoGasto(Integer.parseInt(strLinea.split("\\|")[5].trim()));
 			if(myGastoOpciones.getCodigoEdificio().equals("***"))
 				myGastoOpciones.setConfiguracionUnica(true);
 			myGastoOpciones.setIsReadMode(true);
+			myGastoOpciones.setIsNew(false);
 			listaOpcionesGastos.add(myGastoOpciones);
 					
 		}
