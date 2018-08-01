@@ -60,7 +60,7 @@
         <designer-extension>
           <default-value>djComboEdificios</default-value>
         </designer-extension>
-        <required>true</required>
+        <required>false</required>
       </property-extension>
     </property>
   </composite-component>

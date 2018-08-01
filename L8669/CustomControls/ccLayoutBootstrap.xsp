@@ -12,6 +12,10 @@
 		<xp:styleSheet href="/bootstrap-extended.css"></xp:styleSheet>
 	</xp:this.resources>
 
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if(sessionScope.edfObj == null){
+	var strCodigoPrimerEdificioDeLista = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, true, true).get(0).getValue();
+	sessionScope.put("edfObj", edificioBean.getEdificioMap(strCodigoPrimerEdificioDeLista));
+}}]]></xp:this.beforePageLoad>
 	<xc:ccRolDesarrollo_Debug>
 		<xc:this.propertyFormName><![CDATA[#{javascript:"docUsuario"}]]></xc:this.propertyFormName>
 	</xc:ccRolDesarrollo_Debug>
@@ -49,13 +53,35 @@
 					<xp:attr name="data-offset-top" value="80"></xp:attr>
 				</xp:this.attrs>
 				<xp:this.rendered><![CDATA[#{javascript:compositeData.get("property_ShowAffixToolBar") && !userBean.accessRoles.toString().contains('[usrInitial]')}]]></xp:this.rendered>
-				<xc:ccComboBoxEdificios
-					property_SoloEdificiosEnProceso="false"
-					property_VisualizarCodigo="true"
-					property_VisualizarFechaUltimaLiquidacion="true"
-					property_AnchoPxCombo="400" refreshIdOnChange="facetMiddle">
-					<xc:this.rendered><![CDATA[#{javascript:compositeData.get("property_ShowComboEdificio")}]]></xc:this.rendered>
-				</xc:ccComboBoxEdificios>
+				<xe:djFilteringSelect id="djComboEdificiosLayout"
+					queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
+					defaultValue="#{javascript:sessionScope.edificioWork;}"
+					style="width:400.0px">
+
+
+
+					<xe:this.disabled><![CDATA[#{javascript:compositeData.get("property_ReadOnly")}]]></xe:this.disabled>
+					<xe:this.rendered><![CDATA[#{javascript:compositeData.get("property_ShowComboEdificio")}]]></xe:this.rendered>
+					<xp:selectItems>
+						<xp:this.value><![CDATA[#{javascript:edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, true, true);}]]></xp:this.value>
+					</xp:selectItems>
+					<xe:this.dojoAttributes>
+						<xp:dojoAttribute name="required"
+							value="false">
+						</xp:dojoAttribute>
+
+					</xe:this.dojoAttributes>
+					<xp:eventHandler event="onChange" submit="true"
+						refreshMode="partial" disableValidators="true"
+						refreshId="facetMiddle">
+						<xe:this.action><![CDATA[#{javascript:var edificio = edificioBean.getEdificioMap(this.getParent().getValue());
+if(edificio != null){
+	sessionScope.put("edfObj", edificio);
+}
+sessionScope.edificioWork = this.getParent().getValue();}]]></xe:this.action>
+					</xp:eventHandler>
+				</xe:djFilteringSelect>
+				
 			</xp:div>
 			<xp:callback facetName="facetLeft" id="facetLeft"
 				xp:key="LeftColumn">
