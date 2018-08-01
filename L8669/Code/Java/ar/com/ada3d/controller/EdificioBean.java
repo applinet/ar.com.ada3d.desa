@@ -474,21 +474,21 @@ public class EdificioBean implements Serializable {
 		myEdificio.setEdf_interesRecargoSegundoVencimiento( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[16].trim(), Locale.UK, 1)));
 
 		if(!strLinea.split("\\|")[17].trim().equals("0")) //la fecha si es nula viene un cero
-			myEdificio.setEdf_fechaPrimerVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[17].trim()));
+			myEdificio.setEdf_fechaPrimerVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[17].trim())); //VTOEX1
 		if(!strLinea.split("\\|")[18].trim().equals("0")) //la fecha si es nula viene un cero
-			myEdificio.setEdf_fechaSegundoVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[18].trim()));
+			myEdificio.setEdf_fechaSegundoVencimientoRecibos(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[18].trim()));//VTOEX2
 		
-		myEdificio.setEdf_modalidadInteresesPunitorios(strLinea.split("\\|")[19].trim());
-		myEdificio.setEdf_cuit(strLinea.split("\\|")[20].trim());
-		myEdificio.setEdf_imprimeTitulosEnLiquidacion(strLinea.split("\\|")[21].trim().equals("1") ? "1":"0");
+		myEdificio.setEdf_modalidadInteresesPunitorios(strLinea.split("\\|")[19].trim()); //E13A
+		myEdificio.setEdf_cuit(strLinea.split("\\|")[20].trim()); //CUIT
+		myEdificio.setEdf_imprimeTitulosEnLiquidacion(strLinea.split("\\|")[21].trim().equals("1") ? "1":"0");//E14B
 		
 		//Voy a cargar todos los porcentuales, los utilizados y los no utilizados
 		myEdificio.setListaPorcentuales(cargaPorcentualEdificio(strLinea));
 		
 		//TODO: falta saber que campo tomar del AS400 para el titulo del procentual
-		myEdificio.setEdf_importeFranqueo( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[26].trim(), Locale.US, 2)));
-		myEdificio.setEdf_importeMultaDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[27].trim(), Locale.US, 2)));
-		myEdificio.setEdf_OrdenDetalleGasto(strLinea.split("\\|")[28].trim());
+		myEdificio.setEdf_importeFranqueo( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[26].trim(), Locale.US, 2))); //FRANQ
+		myEdificio.setEdf_importeMultaDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[27].trim(), Locale.US, 2))); //MULTA
+		myEdificio.setEdf_OrdenDetalleGasto(strLinea.split("\\|")[28].trim()); //OPCTXT
 		myEdificio.setEdf_isReadMode(true);
 		} catch(ArrayIndexOutOfBoundsException excepcion){
 			System.out.println(controlador + excepcion.getMessage());
