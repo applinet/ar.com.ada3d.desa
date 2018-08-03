@@ -396,11 +396,11 @@ public class QueryAS400 implements Serializable {
 		}
 		// FIN - Siempre hay que hacer esto para que complete la biblioteca en
 		// el sql
-		
+
 		if (configTabla.getMsgConsola().equals("1"))
 			System.out.println(configTabla.getStrsSQL() + prm_lista);
-		
 		try {
+			
 			DriverManager
 			.registerDriver(new com.ibm.as400.access.AS400JDBCDriver());
 			connection = DriverManager.getConnection(configDs.getUrlConexion(),
@@ -434,6 +434,7 @@ public class QueryAS400 implements Serializable {
 			System.out.println("**ERROR UPDATE ** (param_clave:" + param_clave
 					+ ") - " + e.getMessage());
 			return false;
+		
 		}
 		
 		finally {
@@ -446,10 +447,6 @@ public class QueryAS400 implements Serializable {
 			}
 		}
 	}
-	
-	
-	
-	
 
 	
 	public static void close(Connection connection) {
