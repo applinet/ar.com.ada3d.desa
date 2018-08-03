@@ -11,9 +11,6 @@ import javax.faces.el.ValueBinding;
 import javax.servlet.http.HttpServletRequest;
 
 import javax.faces.application.Application; 
-import javax.faces.context.FacesContext; 
-import javax.faces.el.ValueBinding; 
-
 import com.ibm.xsp.designer.context.XSPContext;
 import com.ibm.xsp.page.compiled.ExpressionEvaluatorImpl;
 
