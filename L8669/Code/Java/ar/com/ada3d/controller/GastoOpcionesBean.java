@@ -70,7 +70,7 @@ public class GastoOpcionesBean implements Serializable {
 				
 		Document docDummy = JSFUtil.getDocDummy();
 		docDummy.appendItemValue("NUMCMP", this.gastoOpciones.getNumerarGastos());
-		docDummy.appendItemValue("NROAUT", this.gastoOpciones.getNumeroProximoGasto());
+		docDummy.appendItemValue("NROAUT", this.gastoOpciones.getNumerarGastos().equals("0") ? "0" : this.gastoOpciones.getNumeroProximoGasto());
 		docDummy.appendItemValue("NUMSLD", this.gastoOpciones.getNumerarSueldos().toString());
 		docDummy.appendItemValue("OPCPRV", this.gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto());
 		docDummy.appendItemValue("OPCTXT", this.gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto().equals("0") ? "0" : prm_ordenDatos.replace("," , ""));

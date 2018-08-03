@@ -416,19 +416,29 @@ $('textarea').each(function () {
 							styleClass="form-group col-sm-6">
 							<xe:formRow id="rowNumeroComprobante"
 								label="Comprobante" style="padding-right:2.0%"
-								for="numeroComprobante">
+								for="numeroComprobante" rendered="#{edfObj.edf_ConfigNumerarGastos ne 2}">
 								<xp:inputText id="numeroComprobante"
 									style=" width:200.0px"
 									value="#{gastoBean.gasto.numeroComprobante}"
-									readonly="#{gastoBean.gasto.isReadMode}" defaultValue="0"
-									required="true">
+									readonly="#{gastoBean.gasto.isReadMode}" required="true"
+									disabled="#{ edfObj.edf_ConfigNumerarGastos eq 1}">
 									<xp:this.validators>
 
 										<xp:validateRequired
 											message="Si no ingresa comprobante debe ingresar el número cero">
 										</xp:validateRequired>
 									</xp:this.validators>
+									<xp:this.defaultValue><![CDATA[#{javascript://Numerar Gastos = 0: es manual(default:0) / 1:traigo nro de configuracion / 2:se oculta (default:0)
+if(edfObj.edf_ConfigNumerarGastos.equals("0"))
+	return 0;
+return edfObj.edf_ConfigNumerarGastos.equals("1") ? edfObj.edf_ConfigNumeroProximoGasto : 0; }]]></xp:this.defaultValue>
+									<xp:this.converter>
+										<xp:convertNumber
+											pattern="####;(####)">
+										</xp:convertNumber>
+									</xp:this.converter>
 								</xp:inputText>
+
 							</xe:formRow>
 						</xe:formColumn>
 					</xp:div>	

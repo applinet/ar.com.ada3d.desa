@@ -100,6 +100,16 @@ public class GastoBean implements Serializable {
 	public ArrayList<String> strValidacionGasto(Edificio prm_edificio){
 		//TODO: que vamos a validar de la factura, si es nueva es otra validación?
 		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
+		List<String> acumulaDetalle = new ArrayList<String>();
+		//Textos puedo tener hasta 99 lineas de 72 caracteres
+		//Las lineas de mas de 72 caracteres las divido en un nuevo array (acumulaDetalle)
+		for (String detalle : this.gasto.getTextoDetalleFactura()){
+			acumulaDetalle.addAll(ar.com.ada3d.utilidades.Conversores.splitString(detalle, 72));
+		}
+		if(acumulaDetalle.size() > 99){
+			listAcumulaErrores.add("btnSave~El detalle de la factura es demasiado largo excede las 99 lineas y no puede ser grabado.");
+			return listAcumulaErrores;
+		}
 		return listAcumulaErrores;
 	}
 	
@@ -138,7 +148,7 @@ public class GastoBean implements Serializable {
 		}else{
 			docDummy.appendItemValue("FFACT", ar.com.ada3d.utilidades.Conversores.DateToString(this.gasto.getFechaFactura(), "ddMMyy"));
 		}
-		docDummy.appendItemValue("COMPRO", this.gasto.getNumeroComprobante().toString());
+		
 		docDummy.appendItemValue("AGRUP", this.gasto.getAgrupamiento());
 		docDummy.appendItemValue("SPECIAL", this.gasto.getCodigoEspecial());
 		//Importes del prorrateo
@@ -151,19 +161,15 @@ public class GastoBean implements Serializable {
 		}
 		
 		List<String> acumulaDetalle = new ArrayList<String>();
-		//Textos puedo tener hasta 99 lineas de 72 caracteres
-		//Las lineas de mas de 72 caracteres las divido en un nuevo array (acumulaDetalle)
 		for (String detalle : this.gasto.getTextoDetalleFactura()){
 			acumulaDetalle.addAll(ar.com.ada3d.utilidades.Conversores.splitString(detalle, 72));
 		}
-		if(acumulaDetalle.size() > 99){
-			listAcumulaErroresAS400.add("btnSave~El detalle de la factura es demasiado largo excede las 99 lineas y no puede ser grabado.");
-			return listAcumulaErroresAS400;
-		}
+
+		docDummy.appendItemValue("ACUMULADETALLE", acumulaDetalle);
 		docDummy.appendItemValue("TRENGL", acumulaDetalle.size()); //Total de renglones
 		docDummy.appendItemValue("ORIGEN", this.gasto.getOrigenDatos());
 		
-	
+		
 		// *** AS400 ***
 		
 		QueryAS400 query = new QueryAS400();
@@ -171,6 +177,26 @@ public class GastoBean implements Serializable {
 		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
 		
 		if(isNew){ //es un nuevo gasto
+			if(prm_edificio.getEdf_ConfigNumerarGastos().equals("1")){//Numeracion automatica
+				//Actualizo el numero de comprobante si corresponde
+				session.getCurrentDatabase().getAgent("a.saveNewFrmGastosNumAutSimple").runWithDocumentContext(docDummy);
+				if(docDummy.getItemValueString("COMPRO") != null){
+					if(docDummy.getItemValueString("COMPRO").equals("ERROR")){
+						listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+						System.out.println("ERROR: " + errCode + " METH:saveNewGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo obtener el número correlativo para el gasto.");
+						return listAcumulaErroresAS400;
+					}
+				}else{
+					listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+					System.out.println("ERROR: " + errCode + " METH:saveNewGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo obtener el COMPROBANTE para el gasto.");
+					return listAcumulaErroresAS400;
+				}
+			}else if(prm_edificio.getEdf_ConfigNumerarGastos().equals("2")){//Numeracion automatica por rubros
+				docDummy.appendItemValue("COMPRO", "0");
+			}else{//Numeracion Manual
+				docDummy.appendItemValue("COMPRO", this.gasto.getNumeroComprobante().toString());
+			}
+			
 			if (!query.updateBatchGastos("gastosInsertBatchGTS01", docDummy, acumulaDetalle, true)) {
 				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 				System.out.println("ERROR: " + errCode + " METH:saveNewGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo insertar en la tabla PH_GTS01.");
@@ -183,6 +209,8 @@ public class GastoBean implements Serializable {
 			 * Si la cantidad de lineas es = actualizo los datos en batch, sino elimino
 			 * todo y vuelvo a insertar  
 			*/
+			
+			docDummy.appendItemValue("COMPRO", this.gasto.getNumeroComprobante().toString());
 			if (acumulaDetalle.size() == this.gasto.getCantidadRenglones()){
 				//Misma cantidad de lineas, solo actualizo 
 				if (!query.updateBatchGastos("gastosUpdateBatchGTS01", docDummy, acumulaDetalle, true)) {
@@ -203,6 +231,8 @@ public class GastoBean implements Serializable {
 				}
 			}
 		}
+		
+		
 		
 		//Actualizo los campos de logueo si no hubo errores
 		if (listAcumulaErroresAS400.isEmpty()){
