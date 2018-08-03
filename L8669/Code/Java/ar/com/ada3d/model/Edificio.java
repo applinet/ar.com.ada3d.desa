@@ -44,7 +44,9 @@ public class Edificio {
 	private BigDecimal edf_importeMasivoE08A;
 	private Date edf_fechaMasivoVTOEX1;
 	private Date edf_fechaMasivoVTOEX2;
-	private String edf_OrdenDetalleGasto;
+	private String edf_ConfigOrdenDetalleGasto;
+	private String edf_ConfigNumerarGastos;
+	private BigDecimal edf_ConfigNumeroProximoGasto;
 	
 	//Getters and Setters
 	
@@ -243,12 +245,23 @@ public class Edificio {
 	public void setEdf_fechaMasivoVTOEX2(Date edf_fechaMasivoVTOEX2) {
 		this.edf_fechaMasivoVTOEX2 = edf_fechaMasivoVTOEX2;
 	}
-	public String getEdf_OrdenDetalleGasto() {
-		return edf_OrdenDetalleGasto;
+	public String getEdf_ConfigOrdenDetalleGasto() {
+		return edf_ConfigOrdenDetalleGasto;
 	}
-	public void setEdf_OrdenDetalleGasto(String edf_OrdenDetalleGasto) {
-		this.edf_OrdenDetalleGasto = edf_OrdenDetalleGasto;
+	public void setEdf_ConfigOrdenDetalleGasto(String edf_ConfigOrdenDetalleGasto) {
+		this.edf_ConfigOrdenDetalleGasto = edf_ConfigOrdenDetalleGasto;
 	}
-	
-	
+	public String getEdf_ConfigNumerarGastos() {
+		return edf_ConfigNumerarGastos;
+	}
+	public void setEdf_ConfigNumerarGastos(String edf_ConfigNumerarGastos) {
+		this.edf_ConfigNumerarGastos = edf_ConfigNumerarGastos;
+	}
+	public BigDecimal getEdf_ConfigNumeroProximoGasto() {
+		return edf_ConfigNumeroProximoGasto;
+	}
+	public void setEdf_ConfigNumeroProximoGasto(
+			BigDecimal edf_ConfigNumeroProximoGasto) {
+		this.edf_ConfigNumeroProximoGasto = edf_ConfigNumeroProximoGasto;
+	}
 }
