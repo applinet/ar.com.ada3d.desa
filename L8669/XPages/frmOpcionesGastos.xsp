@@ -90,7 +90,7 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 		</xp:div>
 	</xp:div>
 	<xp:div styleClass="container">
-		<xp:this.rendered><![CDATA[#{javascript:return sessionScope.edfObj.edf_OrdenDetalleGasto.equals("0") ?  false : true;}]]></xp:this.rendered>
+		<xp:this.rendered><![CDATA[#{javascript:return sessionScope.edfObj.edf_ConfigOrdenDetalleGasto.equals("0") ?  false : true;}]]></xp:this.rendered>
 		<xp:div styleClass="well-sm"
 			style="background-color:rgb(255,240,255)">
 			<h1>Configuración de gastos</h1>
