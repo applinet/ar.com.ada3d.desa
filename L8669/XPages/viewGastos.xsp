@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
-
-	<!--
-		When the page loads, will need to force the bean to populate the
-		current list
-	-->
-	<xp:this.beforeRenderResponse><![CDATA[#{javascript:gastoBean.viewGastos(sessionScope.edfObj);
-if(sessionScope.scopeAgrupamientosMap == null){
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if(sessionScope.scopeAgrupamientosMap == null){
 	gastoBean.fillAgrupamientosMap();
 	sessionScope.put("scopeAgrupamientosMap", gastoBean.agrupamientosMap)
 }
 if(sessionScope.scopeCodigoEspecialMap == null){
 	gastoBean.fillCodigoEspecialMap();
 	sessionScope.put("scopeCodigoEspecialMap", gastoBean.codigoEspecialMap)
-}
-}]]></xp:this.beforeRenderResponse>
-
+}}]]></xp:this.beforePageLoad>
+	<xp:this.beforeRenderResponse><![CDATA[#{javascript:gastoBean.viewGastos(sessionScope.edfObj);}]]></xp:this.beforeRenderResponse>
 	<xc:ccLayoutBootstrap property_hasTitleBar="true"
 		property_ShowComboEdificio="true"
 		property_TitleBarActions="ar.com.ada3d.frontend.LayoutTitleBarActions"
