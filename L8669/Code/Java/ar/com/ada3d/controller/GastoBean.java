@@ -98,6 +98,7 @@ public class GastoBean implements Serializable {
 	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
 	 */
 	public ArrayList<String> strValidacionGasto(Edificio prm_edificio){
+		
 		//TODO: que vamos a validar de la factura, si es nueva es otra validación?
 		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
 		List<String> acumulaDetalle = new ArrayList<String>();
@@ -108,7 +109,18 @@ public class GastoBean implements Serializable {
 		}
 		if(acumulaDetalle.size() > 99){
 			listAcumulaErrores.add("btnSave~El detalle de la factura es demasiado largo excede las 99 lineas y no puede ser grabado.");
-			return listAcumulaErrores;
+		}
+		boolean importeCero = true;
+		for (Prorrateo myProrrateo : this.gasto.getListaProrrateos()){
+			if(!myProrrateo.getPrt_importe().equals(new BigDecimal(0))){
+				importeCero = false;
+			}
+		}
+		if(importeCero)
+			listAcumulaErrores.add("prt_importe~Debe cargar al menos un importe para el gasto.");
+		
+		if(this.gasto.getAgrupamiento().equals("--")){//El combo agrupamiento tiene un valor 'Seleccione' por defecto
+			listAcumulaErrores.add("djComboAgrupamiento~Por favor seleccione un agrupamiento para el gasto.");
 		}
 		return listAcumulaErrores;
 	}
@@ -434,7 +446,6 @@ public class GastoBean implements Serializable {
 	private List<Prorrateo> cargaProrrateo(String strLinea, Edificio prm_edificio){
 		
 		// ***** Esta funcion solo debe recibir la linea de importes !!! ***
-		
 		List<Prorrateo> listaProrrateos = new ArrayList<Prorrateo>();
 		//Recorro el prorrateo de edificios y lo igualo al prorrateo de gastos
 		for(Prorrateo edificioProrrateo : prm_edificio.getListaProrrateos()){
@@ -522,7 +533,10 @@ public class GastoBean implements Serializable {
 	 */
 	public List<SelectItem> getComboboxAgrupamiento() {
 		List<SelectItem> options = new ArrayList<SelectItem>();
-		
+		SelectItem optionDefault = new SelectItem();
+		optionDefault.setLabel("-- Seleccionar --" );
+		optionDefault.setValue("--");
+		options.add(optionDefault);
 		for (Map.Entry<String,String> entry : agrupamientosMap.entrySet()) {
 	    	SelectItem option = new SelectItem();
 			option.setLabel(entry.getKey() + " " + entry.getValue());
