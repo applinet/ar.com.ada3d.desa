@@ -122,6 +122,9 @@ public class GastoBean implements Serializable {
 		if(this.gasto.getAgrupamiento().equals("--")){//El combo agrupamiento tiene un valor 'Seleccione' por defecto
 			listAcumulaErrores.add("djComboAgrupamiento~Por favor seleccione un agrupamiento para el gasto.");
 		}
+		if(this.gasto.getCuitProveedor().equals("0")){//El combo proveedor tiene un valor 'Seleccione' por defecto
+			listAcumulaErrores.add("djComboMyProveedores~Por favor seleccione un proveedor para el gasto.");
+		}
 		return listAcumulaErrores;
 	}
 	
@@ -613,7 +616,6 @@ public class GastoBean implements Serializable {
 		return result;
 	}
 	
-	
 	/**
 	 * Devuelve un gasto que busco por id
 	 * @param prm_id el id a devolver sino null
@@ -626,6 +628,7 @@ public class GastoBean implements Serializable {
 		}
 		return null;
 	}
+	
 	
 	//Getters & Setters
 	
