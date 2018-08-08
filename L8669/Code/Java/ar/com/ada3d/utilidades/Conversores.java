@@ -127,10 +127,12 @@ public class Conversores {
 		final char decimalSeparatorChar;
 		symbols = new DecimalFormatSymbols(locale);
 		decimalSeparatorChar = symbols.getDecimalSeparator();
-		formattedString = formattedString.length() < 3 ? "000" + formattedString : formattedString; 
-		
+		if(formattedString.contains("-")){
+			formattedString = formattedString.length() < 3 ? "-000" + formattedString.split("-")[1] : formattedString; 
+		}else{
+			formattedString = formattedString.length() < 3 ? "000" + formattedString : formattedString; 
+		}
 		StringBuilder str = new StringBuilder(formattedString);
-		
 		str.insert(formattedString.length()-decimales, decimalSeparatorChar);
 		return str.toString();
 	}

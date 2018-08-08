@@ -17,7 +17,10 @@ x$( "#{id:btnNewProveedor}" ).popover();
 	</xp:scriptBlock>
 	<xp:scriptBlock id="scriptBlockMaskedJquery">
 		<xp:this.value><![CDATA[jQuery(function($){
-	$(".classPrt_importe").mask('0.000.000,00', {reverse: true}); //Por clase porque es un repeat
+	$(".classPrt_importe").mask('0.000.000,00', {reverse: true,
+		translation: {'0': { pattern: /-|\d/, optional: true}
+		}   
+	}); //Por clase porque es un repeat
 	x$("#{id:numeroFactura}").mask('0000-00000000', {placeholder: "0000-00000000"});
 });]]></xp:this.value>
 	</xp:scriptBlock>
@@ -329,8 +332,8 @@ $('textarea').each(function () {
 										disabled="#{gastoBean.gasto.isReadMode}">
 										<xp:this.converter>
 											<xp:convertNumber
-												pattern="#,##0.00;(#,##0.00)" />
-
+												type="number">
+											</xp:convertNumber>
 										</xp:this.converter>
 									</xp:inputText>
 								</xp:repeat>
