@@ -332,7 +332,7 @@ $('textarea').each(function () {
 										disabled="#{gastoBean.gasto.isReadMode}">
 										<xp:this.converter>
 											<xp:convertNumber
-												type="number">
+												pattern="0.00">
 											</xp:convertNumber>
 										</xp:this.converter>
 									</xp:inputText>
@@ -532,9 +532,7 @@ if (element.value.length > 13) {
 						</xp:div>
 					</xe:this.facets>
 				</xe:formTable>
-				
 			</xp:panel>
-
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>
 	<xp:eventHandler event="onClientLoad" submit="false">
@@ -542,7 +540,42 @@ if (element.value.length > 13) {
 	</xp:eventHandler>
 	<xc:ccModalAltaProveedor></xc:ccModalAltaProveedor>
 	<xp:div id="divDialogDetalle">
-		<xe:dialog id="dialogDetalle" title="El detalle del gasto se verá asi:">
+		<xe:dialog id="dialogDetalle" title="En la impresión el detalle del gasto se verá asi:">
+			<br />
+			<xp:label id="labelDialogDatosProveedor">
+				<xp:this.rendered><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto != "0"}]]></xp:this.rendered>
+				<xp:this.value><![CDATA[#{javascript:var mapa:java.util.HashMap = gastoOpcionesBean.devolverMapaOrdenado(edfObj.edf_ConfigOrdenDetalleGasto.split("").toString().trim());
+
+if(gastoBean.gasto.cuitProveedor.equals("0"))
+	return "";
+var proveedor = proveedorBean.getProveedorPorCuit(gastoBean.gasto.cuitProveedor);
+var cuit:Sting = proveedor.prv_cuit;
+var cuitFormateado = cuit.substring(0,2) + "-" + cuit.substring(2,10) + "-" + cuit.substring(cuit.length() - 1);
+var fecha = gastoBean.gasto.fechaFactura == null ? "" : ar.com.ada3d.utilidades.Conversores.DateToString(gastoBean.gasto.fechaFactura, "dd/MM/yyyy");
+var sb:java.lang.StringBuilder = new java.lang.StringBuilder();
+var count = 0; 
+for (p in mapa.values()) {
+	switch(p){
+		case "Proveedor y cuit":
+			sb.append(proveedor.prv_razonSocial + " - " + cuitFormateado);	
+			break;	
+		case "Fecha de la factura":
+			sb.append(fecha);
+			break;
+		case "Número de la factura":
+			sb.append(gastoBean.gasto.numeroFactura);
+			break;
+		case "Dirección proveedor":
+			sb.append(proveedor.prv_domicilio);
+			break;
+    }
+    count = count + 1;
+    if(count < 4){
+    	sb.append(" - ");
+    }
+}
+return sb.toString() + " - ";}]]></xp:this.value>
+			</xp:label>
 			<xp:label value="#{gastoBean.gasto.textoDetalleFactura}"
 				id="labelDialogDetalle">
 			</xp:label>
