@@ -52,6 +52,7 @@ if(!sessionScope.edfObj.edf_ConfigOrdenDetalleGasto.equals("")){ //al crear un n
 	gastoBean.createNew();
 	context.redirectToPage("frmGastos.xsp");
 }else{
+	sessionScope.put("navRule", "viewGastos");
 	gastoOpcionesBean.createNewOpcionGasto();
 	context.redirectToPage("frmOpcionesGastos.xsp");
 }}]]></xp:this.action>

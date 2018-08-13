@@ -69,7 +69,13 @@ if(!msgValidacion.isEmpty()){
 	facesMsgValidation(msgValidacion);
 	view.postScript("window.scrollTo(0,0)");
 }else{
-	context.redirectToPage("viewOpcionesGastos")
+	if(sessionScope.navRule == null){
+		context.redirectToPage("viewOpcionesGastos");
+	}else{
+		var proxPage:String = sessionScope.navRule;
+		sessionScope.remove("navRule");
+		context.redirectToPage(proxPage);
+	}
 }}]]></xp:this.action>
 					<xp:this.script><![CDATA[XSP._setDirty(false,"");
 var x = document.getElementsByClassName("helperOpciones");
