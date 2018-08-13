@@ -112,7 +112,7 @@ public class GastoBean implements Serializable {
 		}
 		boolean importeCero = true;
 		for (Prorrateo myProrrateo : this.gasto.getListaProrrateos()){
-			if(!myProrrateo.getPrt_importe().equals(new BigDecimal(0))){
+			if(myProrrateo.getPrt_importe().compareTo(BigDecimal.ZERO) != 0){
 				importeCero = false;
 			}
 		}

@@ -2,7 +2,7 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.resources>
-		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js" clientSide="true" />
+		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.maskMoney.js" clientSide="true" />
 		<xp:script src="/General_SSJS.jss" clientSide="false" />
 	</xp:this.resources>
 
@@ -17,10 +17,7 @@ x$( "#{id:btnNewProveedor}" ).popover();
 	</xp:scriptBlock>
 	<xp:scriptBlock id="scriptBlockMaskedJquery">
 		<xp:this.value><![CDATA[jQuery(function($){
-	$(".classPrt_importe").mask('0.000.000,00', {reverse: true,
-		translation: {'0': { pattern: /-|\d/, optional: true}
-		}   
-	}); //Por clase porque es un repeat
+	$(".classPrt_importe").maskMoney({allowZero: true, allowNegative: true, thousands:'.', decimal:',', selectAllOnFocus: true});
 	x$("#{id:numeroFactura}").mask('0000-00000000', {placeholder: "0000-00000000"});
 });]]></xp:this.value>
 	</xp:scriptBlock>
@@ -170,7 +167,7 @@ if(!msgValidacion.isEmpty()){
 									property_VisualizarCodigo="true"
 									property_VisualizarFechaUltimaLiquidacion="false"
 									property_AnchoPxCombo="250"
-									property_ReadOnly="#{gastoBean.gasto.isReadMode}"
+									property_ReadOnly="#{gastoBean.gasto.isReadMode or gastoBean.gasto.idGasto != null}"
 									refreshIdOnChange="PNL_Principal" id="comboEdificio" />
 
 
@@ -325,17 +322,36 @@ $('textarea').each(function () {
 								<xp:repeat id="repeatProrrateoImporte"
 									value="#{gastoBean.gasto.listaProrrateos}"
 									var="rptProrrateoImporte" indexVar="idxRptProrrateoImporte">
+									
 									<xp:inputText id="prt_importe"
 										styleClass="row form-inline classPrt_importe"
 										value="#{rptProrrateoImporte.prt_importe}"
 										style="text-align:right"
-										disabled="#{gastoBean.gasto.isReadMode}">
+										disabled="#{gastoBean.gasto.isReadMode}"
+										disableClientSideValidation="true">
 										<xp:this.converter>
 											<xp:convertNumber
-												pattern="0.00">
+												pattern="#,##0.00;-#,##0.00">
 											</xp:convertNumber>
 										</xp:this.converter>
-									</xp:inputText>
+										<xp:this.validators>
+											<xp:validateExpression
+												message="Los valores deben estar entre -9.999.999,99 y 9.999.999">
+												<xp:this.expression><![CDATA[#{javascript:value < 10000000 && value > -10000000}]]></xp:this.expression>
+
+
+												<xp:this.clientScript><![CDATA[value < 10000000 && value > -10000000]]></xp:this.clientScript>
+											</xp:validateExpression>
+										</xp:this.validators>
+										
+										<xp:eventHandler event="onfocus"
+											submit="false">
+											<xp:this.script><![CDATA[console.log('focus');
+$(".classPrt_importe").maskMoney({allowZero: true, allowNegative: true, thousands:'.', decimal:','});]]></xp:this.script>
+										</xp:eventHandler></xp:inputText>
+
+
+
 								</xp:repeat>
 							</xe:formRow>
 						</xe:formColumn>
