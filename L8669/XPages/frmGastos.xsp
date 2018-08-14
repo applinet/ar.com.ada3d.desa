@@ -89,7 +89,8 @@ return true;	}]]></xp:this.condition>
 }	}]]></xp:this.script>
 							</xp:executeScript>
 						</xp:actionGroup>
-					</xp:this.action></xp:eventHandler>
+					</xp:this.action>
+				</xp:eventHandler>
 			</xp:button>
 			<xe:tooltip id="tooltipBtnClose" for="btnClose" label="Salir sin guardar" position="below"></xe:tooltip>
 			&#160;
@@ -258,6 +259,7 @@ $('textarea').each(function () {
 										class="glyphicon glyphicon-question-sign">
 									</span>
 								</xp:button>
+								<xe:tooltip id="tooltipDialogDetalle" for="btnDialogDetalle" label="Haga click aqui para previsualizar el detalle" position="below"></xe:tooltip>
 							</xe:formRow>
 						</xe:formColumn>
 					</xp:div>
