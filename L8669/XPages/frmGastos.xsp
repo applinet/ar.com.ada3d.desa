@@ -3,6 +3,7 @@
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.resources>
 		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.maskMoney.js" clientSide="true" />
+		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js" clientSide="true" />
 		<xp:script src="/General_SSJS.jss" clientSide="false" />
 	</xp:this.resources>
 
@@ -18,7 +19,8 @@ x$( "#{id:btnNewProveedor}" ).popover();
 	<xp:scriptBlock id="scriptBlockMaskedJquery">
 		<xp:this.value><![CDATA[jQuery(function($){
 	$(".classPrt_importe").maskMoney({allowZero: true, allowNegative: true, thousands:'.', decimal:',', selectAllOnFocus: true});
-	x$("#{id:numeroFactura}").mask('0000-00000000', {placeholder: "0000-00000000"});
+	x$("#{id:sucursalFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 3});
+	x$("#{id:numeroFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 7});
 });]]></xp:this.value>
 	</xp:scriptBlock>
 	
@@ -169,8 +171,6 @@ if(!msgValidacion.isEmpty()){
 									property_AnchoPxCombo="250"
 									property_ReadOnly="#{gastoBean.gasto.isReadMode or gastoBean.gasto.idGasto != null}"
 									refreshIdOnChange="PNL_Principal" id="comboEdificio" />
-
-
 							</xe:formRow>
 						</xe:formColumn>
 						<xe:formColumn
@@ -240,28 +240,7 @@ $('textarea').each(function () {
 });]]></xp:this.script>
 									</xp:eventHandler>
 								</xp:inputTextarea>
-								<!-- 
-									<xp:repeat
-									value="#{gastoBean.gasto.textoDetalleFactura}"
-									var="rptTextoFactura">
-									<xp:inputText
-									id="textoDetalleFacturaRead" value="#{rptTextoFactura}"
-									readonly="#{gastoBean.gasto.isReadMode}" rendered="#{gastoBean.gasto.isReadMode}">
-									<xp:eventHandler event="onkeyup"
-									submit="false">
-									<xp:this.script><![CDATA[var element = thisEvent.srcElement;
-									if (element.value.length > 72) {
-									element.value = element.value.substring(0, 72);
-									}]]></xp:this.script>
-									</xp:eventHandler>
-									</xp:inputText>
-									<xp:text escape="false" id="enter"
-									rendered="#{gastoBean.gasto.isReadMode}">
-									<xp:this.value><![CDATA[#{javascript:"<br>"}]]></xp:this.value>
-									</xp:text>
-									</xp:repeat>
-								-->
-								</xe:formRow>
+							</xe:formRow>
 						</xe:formColumn>
 						<xe:formColumn styleClass="form-group col-sm-4"
 							rendered="#{gastoBean.gasto.isReadMode}">
@@ -282,8 +261,6 @@ $('textarea').each(function () {
 							</xe:formRow>
 						</xe:formColumn>
 					</xp:div>
-
-
 
 					<xp:div id="divPorcentuales"
 						styleClass="form-inline">
@@ -336,7 +313,7 @@ $('textarea').each(function () {
 										</xp:this.converter>
 										<xp:this.validators>
 											<xp:validateExpression
-												message="Los valores deben estar entre -9.999.999,99 y 9.999.999">
+												message="Los valores deben estar entre -9.999.999,99 y 9.999.999,99">
 												<xp:this.expression><![CDATA[#{javascript:value < 10000000 && value > -10000000}]]></xp:this.expression>
 
 
@@ -346,12 +323,9 @@ $('textarea').each(function () {
 										
 										<xp:eventHandler event="onfocus"
 											submit="false">
-											<xp:this.script><![CDATA[console.log('focus');
-$(".classPrt_importe").maskMoney({allowZero: true, allowNegative: true, thousands:'.', decimal:','});]]></xp:this.script>
-										</xp:eventHandler></xp:inputText>
-
-
-
+											<xp:this.script><![CDATA[$(".classPrt_importe").maskMoney({allowZero: true, allowNegative: true, thousands:'.', decimal:','});]]></xp:this.script>
+										</xp:eventHandler>
+									</xp:inputText>
 								</xp:repeat>
 							</xe:formRow>
 						</xe:formColumn>
@@ -414,8 +388,6 @@ $(".classPrt_importe").maskMoney({allowZero: true, allowNegative: true, thousand
 						</xe:formColumn>
 					</xp:div>
 					<!-- FIN - Agrupamiento y Codigo Especial -->
-
-				
 					<xp:div styleClass="form-inline">
 						<xe:formColumn styleClass="form-group col-sm-6">
 							<xe:formRow id="rowFechaFactura" 
@@ -425,8 +397,13 @@ $(".classPrt_importe").maskMoney({allowZero: true, allowNegative: true, thousand
 									readonly="#{gastoBean.gasto.isReadMode}">
 									<xp:this.converter>
 										<xp:convertDateTime type="date" />
-
 									</xp:this.converter>
+									<xp:this.required><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto !="0"}]]></xp:this.required>
+									<xp:this.validators>
+										<xp:validateRequired
+											message="La fecha de factura es requerida">
+										</xp:validateRequired>
+									</xp:this.validators>
 									<xp:dateTimeHelper />
 								</xp:inputText>
 							</xe:formRow>
@@ -442,7 +419,6 @@ $(".classPrt_importe").maskMoney({allowZero: true, allowNegative: true, thousand
 									readonly="#{gastoBean.gasto.isReadMode}" required="true"
 									disabled="#{ edfObj.edf_ConfigNumerarGastos eq 1}">
 									<xp:this.validators>
-
 										<xp:validateRequired
 											message="Si no ingresa comprobante debe ingresar el número cero">
 										</xp:validateRequired>
@@ -457,7 +433,6 @@ return edfObj.edf_ConfigNumerarGastos.equals("1") ? edfObj.edf_ConfigNumeroProxi
 										</xp:convertNumber>
 									</xp:this.converter>
 								</xp:inputText>
-
 							</xe:formRow>
 						</xe:formColumn>
 					</xp:div>	
@@ -480,6 +455,12 @@ return edfObj.edf_ConfigNumerarGastos.equals("1") ? edfObj.edf_ConfigNumeroProxi
 									<xp:eventHandler event="onChange"
 										submit="true" refreshMode="partial"
 										refreshId="djComboMyProveedores" disableValidators="true" />
+									<xp:this.required><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto !="0"}]]></xp:this.required>
+									<xp:this.validators>
+										<xp:validateRequired
+											message="El proveedor es requerido  ">
+										</xp:validateRequired>
+									</xp:this.validators>
 								</xe:djFilteringSelect>
 								&#160;
 								
@@ -500,19 +481,40 @@ return edfObj.edf_ConfigNumerarGastos.equals("1") ? edfObj.edf_ConfigNumeroProxi
 							styleClass="form-group col-sm-6">
 							<xe:formRow id="formRow1"
 								label="Número Factura" style="padding-right:2.0%"
-								for="numeroFactura">
+								for="numeroFactura" styleClass="form-inline">
+								<xp:inputText id="sucursalFactura" 
+									maxlength="4" value="#{gastoBean.gasto.sucursalFactura}"
+									readonly="#{gastoBean.gasto.isReadMode}" style="width:60.0px"
+									disableClientSideValidation="true">
+									<xp:this.required><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto !="0"}]]></xp:this.required>
+									<xp:this.validators>
+										<xp:validateRequired
+											message="La sucursal de la factura es requerida">
+										</xp:validateRequired>
+									</xp:this.validators>
+									<xp:eventHandler event="onfocus"
+										submit="false">
+										<xp:this.script><![CDATA[console.log('focus sucursal');
+x$("#{id:sucursalFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 3});]]></xp:this.script>
+									</xp:eventHandler>
+								</xp:inputText>
+								  &#160;-&#160;
 								<xp:inputText id="numeroFactura"
-									style=" width:200.0px"
+									maxlength="8" style="width:100.0px"
 									value="#{gastoBean.gasto.numeroFactura}"
-									validator="#{validadorBean.validateNumeroFactura}"
-									readonly="#{gastoBean.gasto.isReadMode}">
-								<xp:eventHandler event="onkeyup"
-									submit="false">
-									<xp:this.script><![CDATA[var element = thisEvent.srcElement;
-if (element.value.length > 13) {
-    element.value = element.value.substring(0, 13);
-}]]></xp:this.script>
-								</xp:eventHandler>
+									readonly="#{gastoBean.gasto.isReadMode}"
+									disableClientSideValidation="true">
+									<xp:this.required><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto !="0"}]]></xp:this.required>
+									<xp:this.validators>
+										<xp:validateRequired
+											message="El número de factura es requerido  ">
+										</xp:validateRequired>
+									</xp:this.validators>
+									<xp:eventHandler event="onfocus"
+										submit="false">
+										<xp:this.script><![CDATA[console.log('focus nro factura');
+x$("#{id:numeroFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 7});]]></xp:this.script>
+									</xp:eventHandler>
 								</xp:inputText>
 							</xe:formRow>
 						</xe:formColumn>

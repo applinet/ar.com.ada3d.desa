@@ -10,6 +10,7 @@ public class Gasto {
 	private Date fechaFactura;
 	private BigDecimal numeroComprobante; 
 	private String numeroFactura;
+	private String sucursalFactura;
 	private List<String> textoDetalleFactura;
 	//columnas en AS: IMPOR1, IMPOR2, IMPOR3, IMPOR4 
 	List<Prorrateo> listaProrrateos = new ArrayList<Prorrateo>();
@@ -84,6 +85,16 @@ public class Gasto {
 	}
 	
 	
+	public String getSucursalFactura() {
+		return sucursalFactura;
+	}
+
+
+	public void setSucursalFactura(String sucursalFactura) {
+		this.sucursalFactura = sucursalFactura;
+	}
+
+
 	public List<String> getTextoDetalleFactura() {
 		return textoDetalleFactura;
 	}

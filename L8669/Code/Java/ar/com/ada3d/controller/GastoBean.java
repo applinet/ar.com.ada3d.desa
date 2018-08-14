@@ -110,6 +110,7 @@ public class GastoBean implements Serializable {
 		if(acumulaDetalle.size() > 99){
 			listAcumulaErrores.add("btnSave~El detalle de la factura es demasiado largo excede las 99 lineas y no puede ser grabado.");
 		}
+		//Validacion de importes que carguen al menos uno
 		boolean importeCero = true;
 		for (Prorrateo myProrrateo : this.gasto.getListaProrrateos()){
 			if(myProrrateo.getPrt_importe().compareTo(BigDecimal.ZERO) != 0){
@@ -119,11 +120,27 @@ public class GastoBean implements Serializable {
 		if(importeCero)
 			listAcumulaErrores.add("prt_importe~Debe cargar al menos un importe para el gasto.");
 		
+		//Datos de proveedor
+		if(!prm_edificio.getEdf_ConfigOrdenDetalleGasto().equals("0")){
+			//Los datos de proveedor son mandatorios: fecha, nro factura y proveedor 
+			if(this.gasto.getSucursalFactura().equals("0000"))
+				listAcumulaErrores.add("sucursalFactura~La sucursal de la factura no puede ser cero");
+			
+			if(this.gasto.getNumeroFactura().equals("00000000"))
+				listAcumulaErrores.add("numeroFactura~El número de factura no puede ser cero");
+			
+			if(this.gasto.getCuitProveedor().equals("0"))//El combo proveedor tiene un valor 'Seleccione' por defecto
+				listAcumulaErrores.add("djComboMyProveedores~Por favor seleccione un proveedor para el gasto.");
+			
+		}
+		if(this.gasto.getSucursalFactura().length() > 4)
+			listAcumulaErrores.add("sucursalFactura~La sucursal de la factura debe ser de 4 digitos");
+		
+		if(this.gasto.getNumeroFactura().length() > 8)
+			listAcumulaErrores.add("numeroFactura~El número de la factura debe ser de 8 digitos");
+		
 		if(this.gasto.getAgrupamiento().equals("--")){//El combo agrupamiento tiene un valor 'Seleccione' por defecto
 			listAcumulaErrores.add("djComboAgrupamiento~Por favor seleccione un agrupamiento para el gasto.");
-		}
-		if(this.gasto.getCuitProveedor().equals("0")){//El combo proveedor tiene un valor 'Seleccione' por defecto
-			listAcumulaErrores.add("djComboMyProveedores~Por favor seleccione un proveedor para el gasto.");
 		}
 		return listAcumulaErrores;
 	}
@@ -149,6 +166,7 @@ public class GastoBean implements Serializable {
 		if(this.gasto.getIdGasto() == null){//Es un gasto nuevo
 			this.gasto.setIdGasto(ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), "yyMMddHHmm" + docDummy.getItemValueString("nroSecuencial")));
 			this.gasto.setCodigoEdificio(prm_edificio.getEdf_codigo());
+			//TODO: que mensaje grabamos en origen de los datos cuando es nuevo?
 			this.gasto.setOrigenDatos("QUE PONEMOS?");
 			isNew = true;
 		}
@@ -157,7 +175,8 @@ public class GastoBean implements Serializable {
 		docDummy.appendItemValue("EDIF", this.gasto.getCodigoEdificio());
 		docDummy.appendItemValue("FECLIQ", this.gasto.getFechaLiquidacion());
 		docDummy.appendItemValue("CUITPR", this.gasto.getCuitProveedor());
-		docDummy.appendItemValue("NFACT", this.gasto.getNumeroFactura());
+		
+		docDummy.appendItemValue("NFACT", (this.gasto.getSucursalFactura().equals("") ? "0000" : this.gasto.getSucursalFactura()) + "-" + (this.gasto.getNumeroFactura().equals("") ? "00000000" : this.gasto.getNumeroFactura()));
 		if(this.gasto.getFechaFactura()== null){
 			docDummy.appendItemValue("FFACT", "0");
 		}else{
@@ -419,7 +438,8 @@ public class GastoBean implements Serializable {
 				myGasto.setCuitProveedor(strLinea.split("\\|")[6].trim());
 				if(!strLinea.split("\\|")[8].trim().equals("0")) //la fecha si es nula viene un cero
 					myGasto.setFechaFactura(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[8].trim()));
-				myGasto.setNumeroFactura(strLinea.split("\\|")[7].trim());
+				myGasto.setSucursalFactura(strLinea.split("\\|")[7].trim().split("-")[0]);
+				myGasto.setNumeroFactura(strLinea.split("\\|")[7].trim().split("-")[1]);
 				myGasto.setAgrupamiento(strLinea.split("\\|")[9].trim());
 				myGasto.setCodigoEspecial(strLinea.split("\\|")[10].trim());
 
