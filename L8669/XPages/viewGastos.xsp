@@ -58,6 +58,17 @@ if(!sessionScope.edfObj.edf_ConfigOrdenDetalleGasto.equals("")){ //al crear un n
 }}]]></xp:this.action>
 			</xp:eventHandler>
 		</xp:button>
+		<xp:button id="btnNewProveedor"	styleClass="btn btn-success" type="button">
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="partial" refreshId="btnNewProveedor"
+				disableValidators="true">
+				<xp:this.action><![CDATA[#{javascript:proveedorBean.viewProveedores(); //Actualizo la lista de proveedores
+proveedorBean.createNewProveedor();
+proveedorBean.proveedor.prv_isNew = true;
+getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
+			</xp:eventHandler>
+		</xp:button>
+		<xc:ccModalAltaProveedor refreshIdOnSave="PNL_container"></xc:ccModalAltaProveedor>
 	</div>
 
 </xp:view>
