@@ -149,7 +149,7 @@ public class ProveedorBean implements Serializable{
 			fillListaProveedores();
 		List<Proveedor> lista = prm_isDeTrabajo ? listaProveedores : listaProveedores;
 		for (Proveedor myProveedor : lista) {
-			result.add(myProveedor.getPrv_razonSocial() + "|" + myProveedor.getPrv_domicilio() +"|" + myProveedor.getPrv_cuit());
+			result.add(myProveedor.getPrv_razonSocial() + "|" + myProveedor.getPrv_domicilio() + "|" + myProveedor.getPrv_cuit());
 		}
 		return result;
 	}
@@ -162,6 +162,10 @@ public class ProveedorBean implements Serializable{
 	 * @return el dato del proveedor solicitado por parametros
 	 * */
 	public String getDatoPorCuit(String prm_cuit, String prm_dato) {
+		if (listaProveedores == null)
+			fillListaProveedores();
+		if(prm_cuit.contains("-"))
+			prm_cuit = prm_cuit.replaceAll("-", "");
 		if (listaProveedores == null)
 			fillListaProveedores();
 		for (Proveedor myProveedor : listaProveedores){
