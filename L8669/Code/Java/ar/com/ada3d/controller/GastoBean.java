@@ -657,7 +657,6 @@ public class GastoBean implements Serializable {
 	 */
 	
 	public ArrayList<String> getPreviewDetalleGastos(Gasto prm_gasto, HashMap<String, String> prm_OrdenDetalleGasto, ProveedorBean prm_beanProveedor) {
-		System.out.println(prm_OrdenDetalleGasto.toString());
 		ArrayList<String> result = new ArrayList<String>();
 		if(prm_OrdenDetalleGasto.containsValue(null) || prm_OrdenDetalleGasto == null){
 			result.addAll(prm_gasto.getTextoDetalleFactura());
@@ -672,7 +671,7 @@ public class GastoBean implements Serializable {
 						texto.append(datonulo + " - " + datonulo);
 					}else{
 						String strCuit = prm_gasto.getCuitProveedor();
-						texto.append((prm_gasto.getCuitProveedor() == null) ? datonulo + " - " + datonulo : prm_beanProveedor.getRazonSocialPorCuit(prm_gasto.getCuitProveedor()) + " - " + strCuit.substring(0,2) + "-" + strCuit.substring(2,10) + "-" + strCuit.substring(strCuit.length() - 1));
+						texto.append((prm_gasto.getCuitProveedor() == null) ? datonulo + " - " + datonulo : prm_beanProveedor.getDatoPorCuit(prm_gasto.getCuitProveedor(), "razonSocial") + " - " + strCuit.substring(0,2) + "-" + strCuit.substring(2,10) + "-" + strCuit.substring(strCuit.length() - 1));
 					}
 				}	
 				if(orden.equals("Fecha de la factura")){
@@ -685,7 +684,7 @@ public class GastoBean implements Serializable {
 					texto.append((prm_gasto.getNumeroFactura() == null) ? datonulo : prm_gasto.getNumeroFactura());
 				}
 				if(orden.equals("Dirección proveedor")){
-					texto.append(prm_beanProveedor.getDomicilioPorCuit(prm_gasto.getCuitProveedor()));
+					texto.append(prm_beanProveedor.getDatoPorCuit(prm_gasto.getCuitProveedor(), "domicilio"));
 				}
 				count += count;
 			    if(count < 4){

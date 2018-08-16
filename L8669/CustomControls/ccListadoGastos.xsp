@@ -33,15 +33,17 @@
 						style="font-weight:bold" for="textoDetalleFactura">
 					</xp:label>
 				</xp:this.facets>
-				<xp:repeat id="repeat1" rows="30" var="row" value="#{gasto.textoDetalleFactura}">
-					<xp:link escape="true" text="#{javascript:row.toString()}"	id="textoDetalleFactura">
+				<xp:repeat id="repeat1" rows="30" var="row"
+					value="#{javascript:gastoBean.getPreviewDetalleGastos(gasto, gastoOpcionesBean.devolverMapaOrdenado(sessionScope.edfObj.edf_ConfigOrdenDetalleGasto.split('').toString().trim()) , proveedorBean)}">
+					<xp:link escape="true"
+						text="#{javascript:row.toString()}" id="textoDetalleFactura">
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="complete" id="eventHandler1">
 							<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
 						</xp:eventHandler>
 					</xp:link>
-    				<br />
-    			</xp:repeat>
+					<br />
+				</xp:repeat>
 			</xp:column>
 
 			<xp:column id="importeColumn" style="width:10.0%">

@@ -154,6 +154,33 @@ public class ProveedorBean implements Serializable{
 		return result;
 	}
 		
+	
+	/**
+	 * Devuelve datos de un proveedor por cuit
+	 * @param prm_cuit el numero de cuit a buscar
+	 * @param prm_dato el dato a devolver: razonSocial, domicilio, localidad, tipoFactura
+	 * @return el dato del proveedor solicitado por parametros
+	 * */
+	public String getDatoPorCuit(String prm_cuit, String prm_dato) {
+		if (listaProveedores == null)
+			fillListaProveedores();
+		for (Proveedor myProveedor : listaProveedores){
+			if (myProveedor.getPrv_cuit().equals(prm_cuit)){
+				if(prm_dato.equals("razonSocial"))
+					return myProveedor.getPrv_razonSocial();				
+				if(prm_dato.equals("domicilio"))
+					return myProveedor.getPrv_domicilio();				
+				if(prm_dato.equals("localidad"))
+					return myProveedor.getPrv_localidad();			
+				if(prm_dato.equals("tipoFactura"))
+					return myProveedor.getPrv_tipoFactura();			
+			}
+		}
+		return "";
+	}
+	
+	
+	
 	//Getters & Setters
 	public List<Proveedor> getListaProveedores() {
 		return listaProveedores;
