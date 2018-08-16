@@ -281,5 +281,5 @@ public class Gasto {
 	public static String getCodigoRegistro() {
 		return codigoRegistro;
 	}
-	
+
 }

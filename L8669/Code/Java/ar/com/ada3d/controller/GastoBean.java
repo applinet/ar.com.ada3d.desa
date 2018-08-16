@@ -80,11 +80,12 @@ public class GastoBean implements Serializable {
 	/**
 	 * Desde la vista de gastos elimino
 	 * @usedIn: viewGasto
+	 * @param prm_gasto: el gasto que voy a eliminar
 	 */
-	public void deleteGasto(Gasto gasto){
+	public void deleteGasto(Gasto prm_gasto){
 		//TODO: Validar que no esté tomado y que se pueda eliminar
 		Document docDummy = JSFUtil.getDocDummy();
-		docDummy.appendItemValue("NCTROL", gasto.getIdGasto());
+		docDummy.appendItemValue("NCTROL", prm_gasto.getIdGasto());
 		docDummy.appendItemValue("ESTADO", "B");
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		query.updateAS("gastosCambiarEstado", docDummy);
@@ -95,6 +96,7 @@ public class GastoBean implements Serializable {
 	/**
 	 * Chequea los datos del gasto antes de guardarlos
 	 * @usedIn: Boton save 
+	 * @param prm_edificio: del edificio necesito la configuracion del gasto 
 	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
 	 */
 	public ArrayList<String> strValidacionGasto(Edificio prm_edificio){
@@ -124,7 +126,7 @@ public class GastoBean implements Serializable {
 		if(!prm_edificio.getEdf_ConfigOrdenDetalleGasto().equals("0")){
 			//Los datos de proveedor son mandatorios: fecha, nro factura y proveedor 
 			if(this.gasto.getSucursalFactura().equals("0000"))
-				listAcumulaErrores.add("sucursalFactura~La sucursal de la factura no puede ser cero");
+				listAcumulaErrores.add("numeroFactura~El punto de venta de la factura no puede ser cero");
 			
 			if(this.gasto.getNumeroFactura().equals("00000000"))
 				listAcumulaErrores.add("numeroFactura~El número de factura no puede ser cero");
@@ -134,7 +136,7 @@ public class GastoBean implements Serializable {
 			
 		}
 		if(this.gasto.getSucursalFactura().length() > 4)
-			listAcumulaErrores.add("sucursalFactura~La sucursal de la factura debe ser de 4 digitos");
+			listAcumulaErrores.add("numeroFactura~El punto de venta de la factura debe ser de 4 digitos");
 		
 		if(this.gasto.getNumeroFactura().length() > 8)
 			listAcumulaErrores.add("numeroFactura~El número de la factura debe ser de 8 digitos");
@@ -152,6 +154,7 @@ public class GastoBean implements Serializable {
 	/**Cuando presiona btnSave Gasto actualizo el AS400
 	 * Esto ya tiene que venir validado
 	 * @usedIn: Boton save 
+	 * @param prm_edificio: del edificio necesito la configuracion del gasto 
 	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
 
 	 */
@@ -314,7 +317,7 @@ public class GastoBean implements Serializable {
 	//***** INI VISTAS ****
 	
 	/**Cuando ingresa a la vista de Gastos
-	 * @param prm_edificio:objeto edificio 
+	 * @param prm_edificio: necesito los porcentuales del edificio 
 	 */
 	public void viewGastos(Edificio prm_edificio){
 		fillListaGastos(prm_edificio);
@@ -323,7 +326,7 @@ public class GastoBean implements Serializable {
 	/**
 	 * Completo la variable listaGastos consultando As400, cada linea separa el dato por un pipe
 	 * Cada gasto puede tener mas de una linea, pero existe un unico importe por factura.
-	 * @param prm_edificio:objeto edificio 
+	 * @param prm_edificio: necesito los porcentuales del edificio 
 	 * @return la lista de facturas de un edificio
 	 */
 	private void fillListaGastos(Edificio prm_edificio){
@@ -362,7 +365,11 @@ public class GastoBean implements Serializable {
 					myGasto.setAgrupamiento(strLinea.split("\\|")[10].trim());
 					myGasto.setCodigoEspecial(strLinea.split("\\|")[11].trim());
 					myGasto.setFechaLiquidacion(ar.com.ada3d.utilidades.Conversores.DateToString(ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[12].trim()), "MMyyyy"));
-					
+					myGasto.setCuitProveedor(strLinea.split("\\|")[14].trim());
+					myGasto.setSucursalFactura(strLinea.split("\\|")[15].trim().split("-")[0]);
+					myGasto.setNumeroFactura(strLinea.split("\\|")[15].trim().split("-")[1]);
+					if(!strLinea.split("\\|")[16].trim().equals("0")) //la fecha si es nula viene un cero
+						myGasto.setFechaFactura(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[16].trim()));
 					
 					//Detalle factura
 					tempTextoFactura.add(strLinea.split("\\|")[2].trim());
@@ -415,12 +422,13 @@ public class GastoBean implements Serializable {
 	/** UPDATE DEL GASTO
 	 * Al ingresar en un registro de la lista de gastos hago un nuevo update del gasto con los datos que faltan
 	 * Recordar que cada gasto puede tener mas de una linea, pero existe un unico importe por factura
+	 * @param prm_Gasto: el gasto por actualizar
 	 */
-	private void updateGasto(Gasto myGasto){
+	private void updateGasto(Gasto prm_Gasto){
 		ArrayList<String> nl = null;
 		Document docDummy = JSFUtil.getDocDummy();
-		docDummy.appendItemValue("Codigo", myGasto.getCodigoEdificio());
-		docDummy.appendItemValue("Idgasto", myGasto.getIdGasto());
+		docDummy.appendItemValue("Codigo", prm_Gasto.getCodigoEdificio());
+		docDummy.appendItemValue("Idgasto", prm_Gasto.getIdGasto());
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		try {
 			nl = query.getSelectAS("gasto_Individual_CONTROLLER", docDummy);
@@ -433,28 +441,28 @@ public class GastoBean implements Serializable {
 			if(strLinea.split("\\|")[3].trim().equals("1")){ 
 				// Solo leo el primer renglon
 				temp = ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[2].trim());
-				myGasto.setFechaLiquidacion(ar.com.ada3d.utilidades.Conversores.DateToString(temp, "MMyyyy"));
-				myGasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[5].trim(), Locale.UK, 0)));
-				myGasto.setCuitProveedor(strLinea.split("\\|")[6].trim());
+				prm_Gasto.setFechaLiquidacion(ar.com.ada3d.utilidades.Conversores.DateToString(temp, "MMyyyy"));
+				prm_Gasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[5].trim(), Locale.UK, 0)));
+				prm_Gasto.setCuitProveedor(strLinea.split("\\|")[6].trim());
 				if(!strLinea.split("\\|")[8].trim().equals("0")) //la fecha si es nula viene un cero
-					myGasto.setFechaFactura(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[8].trim()));
-				myGasto.setSucursalFactura(strLinea.split("\\|")[7].trim().split("-")[0]);
-				myGasto.setNumeroFactura(strLinea.split("\\|")[7].trim().split("-")[1]);
-				myGasto.setAgrupamiento(strLinea.split("\\|")[9].trim());
-				myGasto.setCodigoEspecial(strLinea.split("\\|")[10].trim());
+					prm_Gasto.setFechaFactura(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[8].trim()));
+				prm_Gasto.setSucursalFactura(strLinea.split("\\|")[7].trim().split("-")[0]);
+				prm_Gasto.setNumeroFactura(strLinea.split("\\|")[7].trim().split("-")[1]);
+				prm_Gasto.setAgrupamiento(strLinea.split("\\|")[9].trim());
+				prm_Gasto.setCodigoEspecial(strLinea.split("\\|")[10].trim());
 
 				//Fecha de creacion del registro
 				Calendar tempDate = ar.com.ada3d.utilidades.Conversores.dateToCalendar(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyyyy", strLinea.split("\\|")[11].trim()));
 				tempDate.set(Calendar.HOUR_OF_DAY, Integer.parseInt(strLinea.split("\\|")[12].trim().substring(0, 2)));
 				tempDate.set(Calendar.MINUTE, Integer.parseInt(strLinea.split("\\|")[12].trim().substring(2)));
-				myGasto.setFechaCreacion(tempDate.getTime());
+				prm_Gasto.setFechaCreacion(tempDate.getTime());
 					
-				myGasto.setUsuarioCreacion(strLinea.split("\\|")[13].trim());//Usuario creacion	
-				myGasto.setOrigenDatos(strLinea.split("\\|")[14].trim());//Origen de los datos	
+				prm_Gasto.setUsuarioCreacion(strLinea.split("\\|")[13].trim());//Usuario creacion	
+				prm_Gasto.setOrigenDatos(strLinea.split("\\|")[14].trim());//Origen de los datos	
 			}
 			detalleFactura.add(strLinea.split("\\|")[1].trim());
 		}
-		myGasto.setTextoDetalleFactura(detalleFactura);
+		prm_Gasto.setTextoDetalleFactura(detalleFactura);
 		
 	}
 
@@ -463,10 +471,11 @@ public class GastoBean implements Serializable {
 	
 	/**
 	 * Al cargar una factura en la misma consulta al AS400 tambien cargo los importes de prorrateo
-	 * @param strLinea de AS400 que estoy procesando, ¡¡debe ser la linea que contiene los importes!!
+	 * @param prm_strLinea de AS400 que estoy procesando, ¡¡debe ser la linea que contiene los importes!!
+	 * @param prm_edificio: necesito los porcentuales del edificio
 	 * @return la lista de prorrateos
 	 */
-	private List<Prorrateo> cargaProrrateo(String strLinea, Edificio prm_edificio){
+	private List<Prorrateo> cargaProrrateo(String prm_strLinea, Edificio prm_edificio){
 		
 		// ***** Esta funcion solo debe recibir la linea de importes !!! ***
 		List<Prorrateo> listaProrrateos = new ArrayList<Prorrateo>();
@@ -477,10 +486,10 @@ public class GastoBean implements Serializable {
 			gastoProrrateo.setPrt_posicionEnGrilla(edificioProrrateo.getPrt_posicionEnGrilla());
 			gastoProrrateo.setPrt_titulo(edificioProrrateo.getPrt_titulo());
 			gastoProrrateo.setPrt_porcentaje(edificioProrrateo.getPrt_porcentaje());
-			if(strLinea.equals("")){
+			if(prm_strLinea.equals("")){
 				gastoProrrateo.setPrt_importe(new BigDecimal(0));
 			}else{
-				gastoProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[(edificioProrrateo.getPrt_posicion()+ 2)].trim(), Locale.UK, 2)));
+				gastoProrrateo.setPrt_importe(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(prm_strLinea.split("\\|")[(edificioProrrateo.getPrt_posicion()+ 2)].trim(), Locale.UK, 2)));
 			}
 			listaProrrateos.add(gastoProrrateo);	
 		}
@@ -491,8 +500,8 @@ public class GastoBean implements Serializable {
 	/**
 	 * Al cambiar el combo de edificios en un gasto voy a blanquear los porcentuales y regenerarlos 
 	 * agregando el total de importes en el primer porcentual disponible
-	 * @param el gasto que estoy editando
-	 * @param el nuevo edificio cambiado en el combo
+	 * @param prm_gasto: el gasto que estoy editando
+	 * @param prm_edificio: el nuevo edificio cambiado en el combo
 	 */
 	public void blanqueoProrrateosAlCambiarEdificio(Gasto prm_gasto, Edificio prm_edificio){
 		if(prm_gasto.getListaProrrateos().size() == prm_edificio.getListaProrrateos().size())
@@ -589,7 +598,7 @@ public class GastoBean implements Serializable {
 	
 	/**
 	 * En frmGastos el combo de Liquidacion son 12 meses y default proxima liquidación
-	 * @param edificio actual
+	 * @param prm_edificio: necesito la frecuencia de liquidacion del edificio actual
 	 * @return Myyyy de liquidacion
 	 */
 	public List<SelectItem> getComboboxFechaLiquidacion(Edificio prm_edificio) {
@@ -635,6 +644,65 @@ public class GastoBean implements Serializable {
 		}
 		return result;
 	}
+	
+	
+	/**
+	 * Junta el detalle de los gastos con los datos del Proveedor  y los devuelve en un array
+	 * Los datos por agregar son: Proveedor y cuit - Fecha de la factura - Número de la factura - Dirección proveedor
+	 * @param prm_gasto del que muestro el detalle
+	 * @param prm_OrdenDetalleGasto: el orden de los datos 
+	 * @param prm_beanProveedor : el bean para obtener el proveedor
+	 * @return array con datos de proveedor + el texto (detalle) de cada gasto 
+	 * @usedIn: viewGastos, frmGastos en modo lectura
+	 */
+	
+	public ArrayList<String> getPreviewDetalleGastos(Gasto prm_gasto, HashMap<String, String> prm_OrdenDetalleGasto, ProveedorBean prm_beanProveedor) {
+		System.out.println(prm_OrdenDetalleGasto.toString());
+		ArrayList<String> result = new ArrayList<String>();
+		if(prm_OrdenDetalleGasto.containsValue(null) || prm_OrdenDetalleGasto == null){
+			result.addAll(prm_gasto.getTextoDetalleFactura());
+		}else{
+			//Puede que los datos del proveedor vengan nulos si cambiaron la configuracion y ya habian cargado previamente datos vacios
+			final String datonulo = "***"; 
+			StringBuilder texto = new java.lang.StringBuilder();
+			int count = 0;
+			for (String orden : prm_OrdenDetalleGasto.values()) {
+				if(orden.equals("Proveedor y cuit")){
+					if(prm_gasto.getCuitProveedor().equals("0")){
+						texto.append(datonulo + " - " + datonulo);
+					}else{
+						String strCuit = prm_gasto.getCuitProveedor();
+						texto.append((prm_gasto.getCuitProveedor() == null) ? datonulo + " - " + datonulo : prm_beanProveedor.getRazonSocialPorCuit(prm_gasto.getCuitProveedor()) + " - " + strCuit.substring(0,2) + "-" + strCuit.substring(2,10) + "-" + strCuit.substring(strCuit.length() - 1));
+					}
+				}	
+				if(orden.equals("Fecha de la factura")){
+					texto.append((prm_gasto.getFechaFactura() == null) ? datonulo : ar.com.ada3d.utilidades.Conversores.DateToString(prm_gasto.getFechaFactura(), "dd/MM/yyyy"));
+				}
+				
+				if(orden.equals("Número de la factura")){
+					texto.append((prm_gasto.getSucursalFactura() == null) ? datonulo : prm_gasto.getSucursalFactura());
+					texto.append("-");
+					texto.append((prm_gasto.getNumeroFactura() == null) ? datonulo : prm_gasto.getNumeroFactura());
+				}
+				if(orden.equals("Dirección proveedor")){
+					texto.append(prm_beanProveedor.getDomicilioPorCuit(prm_gasto.getCuitProveedor()));
+				}
+				count += count;
+			    if(count < 4){
+			    	texto.append(" - ");
+			    }				
+			}
+			//Agrego el detalle del gasto
+			for (String detalle : prm_gasto.getTextoDetalleFactura()){
+				texto.append(detalle);
+			}
+			//Divido el string hasta 72 caracteres
+			result.addAll(ar.com.ada3d.utilidades.Conversores.splitString(texto.toString(), 72));
+		}
+		return result;
+	}
+
+	
 	
 	/**
 	 * Devuelve un gasto que busco por id
