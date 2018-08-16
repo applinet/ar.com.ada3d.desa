@@ -467,7 +467,10 @@ return edfObj.edf_ConfigNumerarGastos.equals("1") ? edfObj.edf_ConfigNumeroProxi
 									<xp:eventHandler event="onclick"
 										submit="true" refreshMode="partial"
 										refreshId="btnNewProveedor" disableValidators="true">
-										<xp:this.action><![CDATA[#{javascript:getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
+										<xp:this.action><![CDATA[#{javascript:proveedorBean.viewProveedores(); //Actualizo la lista de proveedores
+proveedorBean.createNewProveedor();
+proveedorBean.proveedor.prv_isNew = true;
+getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
 									</xp:eventHandler>
 								</xp:button>
 								<xe:tooltip id="tooltipButtonNuevaSolicitud" for="btnNewProveedor" label="Agregar un nuevo proveedor" position="below"></xe:tooltip>
@@ -550,5 +553,5 @@ return edfObj.edf_ConfigNumerarGastos.equals("1") ? edfObj.edf_ConfigNumeroProxi
 	<xp:eventHandler event="onClientLoad" submit="false">
 		<xp:this.script><![CDATA[document.getElementById("#{id:textoDetalleFactura}").focus();]]></xp:this.script>
 	</xp:eventHandler>
-	<xc:ccModalAltaProveedor></xc:ccModalAltaProveedor>
+	<xc:ccModalAltaProveedor refreshIdOnSave="formTableGastos"></xc:ccModalAltaProveedor>
 </xp:view>
