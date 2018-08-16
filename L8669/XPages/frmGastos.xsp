@@ -482,7 +482,7 @@ return edfObj.edf_ConfigNumerarGastos.equals("1") ? edfObj.edf_ConfigNumeroProxi
 						<xe:formColumn
 							styleClass="form-group col-sm-6">
 							<xe:formRow id="formRow1"
-								label="Número Factura" style="padding-right:2.0%"
+								label="Nro. Factura" style="padding-right:2.0%"
 								for="numeroFactura" styleClass="form-inline">
 								<xp:inputText id="sucursalFactura" 
 									maxlength="4" value="#{gastoBean.gasto.sucursalFactura}"
@@ -491,13 +491,12 @@ return edfObj.edf_ConfigNumerarGastos.equals("1") ? edfObj.edf_ConfigNumeroProxi
 									<xp:this.required><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto !="0"}]]></xp:this.required>
 									<xp:this.validators>
 										<xp:validateRequired
-											message="La sucursal de la factura es requerida">
+											message="El punto de venta de la factura es requerido">
 										</xp:validateRequired>
 									</xp:this.validators>
 									<xp:eventHandler event="onfocus"
 										submit="false">
-										<xp:this.script><![CDATA[console.log('focus sucursal');
-x$("#{id:sucursalFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 3});]]></xp:this.script>
+										<xp:this.script><![CDATA[x$("#{id:sucursalFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 3});]]></xp:this.script>
 									</xp:eventHandler>
 								</xp:inputText>
 								  &#160;-&#160;
@@ -514,8 +513,7 @@ x$("#{id:sucursalFactura}").maskMoney({allowZero: true, allowNegative: true, tho
 									</xp:this.validators>
 									<xp:eventHandler event="onfocus"
 										submit="false">
-										<xp:this.script><![CDATA[console.log('focus nro factura');
-x$("#{id:numeroFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 7});]]></xp:this.script>
+										<xp:this.script><![CDATA[x$("#{id:numeroFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 7});]]></xp:this.script>
 									</xp:eventHandler>
 								</xp:inputText>
 							</xe:formRow>
