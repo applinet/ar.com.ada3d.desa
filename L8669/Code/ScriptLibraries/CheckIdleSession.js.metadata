@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.9" replicaid="83258294005DFE4F" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="3ee" sequence="1" unid="B83809F23C92F3E88325824000624374">
+<noteinfo noteid="3ee" sequence="6" unid="B83809F23C92F3E88325824000624374">
 <created><datetime dst="true">20180226T155317,96-02</datetime></created>
-<modified><datetime dst="true">20180521T150643,28-02</datetime></modified>
-<revised><datetime dst="true">20180226T155319,96-02</datetime></revised>
-<lastaccessed><datetime dst="true">20180521T150643,28-02</datetime></lastaccessed>
+<modified><datetime dst="true">20180817T090537,68-02</datetime></modified>
+<revised><datetime dst="true">20180817T090537,67-02</datetime></revised>
+<lastaccessed><datetime dst="true">20180817T090537,68-02</datetime></lastaccessed>
 <addedtofile><datetime dst="true">20180521T150643,28-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
 <item name="$TITLE" sign="true"><text>CheckIdleSession</text></item>
+<item name="$Flags"><text>h534Q</text></item>
 <item name="$PublicAccess" sign="true"><text>1</text></item>
-<item name="$DesignerVersion"><text>8.5.3</text></item>
 
-<item name="$Flags"><text>h534Q</text></item></note>
+<item name="$Comment" sign="true"><text>*** SIN USO - DEJAR POR SI LA NECESITO</text></item>
+<item name="$DesignerVersion" sign="true"><text>8.5.3</text></item></note>

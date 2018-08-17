@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
  replicaid='83258294005DFE4F'>
-<noteinfo noteid='79a' unid='8F2B85BC3C560E31832582DE005D7FB2' sequence='41'>
+<noteinfo noteid='79a' unid='8F2B85BC3C560E31832582DE005D7FB2' sequence='45'>
 <created><datetime dst='true'>20180803T150115,38-02</datetime></created>
-<modified><datetime dst='true'>20180803T184012,29-02</datetime></modified>
-<revised><datetime dst='true'>20180803T184012,28-02</datetime></revised>
-<lastaccessed><datetime dst='true'>20180803T184012,29-02</datetime></lastaccessed>
+<modified><datetime dst='true'>20180817T091646,48-02</datetime></modified>
+<revised><datetime dst='true'>20180817T091646,47-02</datetime></revised>
+<lastaccessed><datetime dst='true'>20180817T091646,48-02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20180803T150115,52-02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Notes Standard Control/O=SASA</name></updatedby>
 <wassignedby><name>CN=Notes Standard Control/O=SASA</name></wassignedby>
@@ -17,10 +17,9 @@
 AAAAAAAAAAA=
 </rawitemdata></item>
 <item name='$AssistDocCount' sign='true'><number>0</number></item>
-<item name='$Comment' sign='true'><text>sql.xsp</text></item>
 <item name='$FlagsExt' sign='true'><text/></item>
 <item name='$AssistFlags' sign='true'><text>EHu</text></item>
-<item name='$AssistTrigger'><text>4</text></item>
+<item name='$AssistTrigger' sign='true'><text>4</text></item>
 <item name='$AssistInfo' sign='true'>
 <rawitemdata type='11'>
 AQAEAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -32,16 +31,15 @@ gQYAAAAA
 </rawitemdata></item>
 <item name='$Restricted' sign='true'><number>2</number></item>
 <item name='$Flags'><text>fL3u</text></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$AssistRunInfo' summary='true'>
 <rawitemdata type='3'>
-BgABAAAACACyCAAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAh/52AN6CJQNP/l0AlIIlgwAAAAAAAAAAAAAAAAAAAAAAAAAATa7TYPo1
-Kvguzj82I4qrfN6jHnjYmAkNLgsW4kh68W4t/figaq3TnRoDw+1GZ8BgWOmGGdOnkWsBOGhaANz0
-/kfLA6xoMhxromn4BzxgL/6/cA2U5tlaZQAfATbG881OXLDevQEgAAAm01MAnoElADh+UwAlEyYD
-AAAGAE89U0FTQQAAIABDTj1Ob3RlcyBTdGFuZGFyZCBDb250cm9sL089U0FTQQAAogAwgZ8wDQYJ
-KoZIhvcNAQEBBQADgY0AMIGJAoGBAK7BcjHbUro1iEVsY6gvsxOk/VVSTa46Oh7CWox0d2gbbb9X
-XffqrMHyPFFQeMW8/o8BqVIATv8ngDbJ1aezj3GoyB7IU3LkgOHXkIBWzvq/GMCnjfNy4oN+GN4o
+BgABAAAACADOCAAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAA9gAAAAAAAAAAAAAAAAAAABAAAAAA
+AAAAU5RpAOmCJYMAAAAA11dfAOKCJYNP/l0AlIIlgwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
+ZCBydW5uaW5nIGFnZW50ICcoTnVtZXJhY2lvbkF1dG9tYXRpY2FHYXN0b3NTYXZlKXxhLnNhdmVO
+ZXdGcm1HYXN0b3NOdW1BdXRTaW1wbGUnIG9uIDA4LzE0LzIwMTggMTc6MTM6MTINClJhbiBMb3R1
+c1NjcmlwdCBjb2RlDQpEb25lIHJ1bm5pbmcgYWdlbnQgJyhOdW1lcmFjaW9uQXV0b21hdGljYUdh
+c3Rvc1NhdmUpfGEuc2F2ZU5ld0ZybUdhc3Rvc051bUF1dFNpbXBsZScgb24gMDgvMTQvMjAxOCAx
+NzoxMzoxMg0KAA0KZsHTcnoAW6kAYqVjgyWC4nGoyB7IU3LkgOHXkIBWzvq/GMCnjfNy4oN+GN4o
 KjZwaI1mQO97tbl6f43qZptdO/yKnIxhoIOsPxI4iVjGlhUZAgMBAAGAAM1HQCtp3Jjbpjdy7YBb
 xOFyu8y8NFTW/7MFn1zFHZGCafsRze2keS8YTV3dCUvdDx5JNkQBlszw73kxZahcSXZrvk18rDh2
 1+7F1bQHieS+keT+z6GgDgV2wUOCIR6dk5Ozs/WJlzdBgNgDmTnsPZ5UG6lbgfy/P3I5bJsE+zdv
@@ -239,5 +237,6 @@ HBpWABpXABpZABwaWgAaWwBLtAUs2AsUFZgWk5sjMRpcAB0aZABb9AMrNAN9/AckphplAEv0A1Ew
 DH0gCKUaZgBL9ANRPAx9SAilGmcAS/QDUUgMfXwIpRpoAEv0A1FUDH2cCKUaaQBL9ANRYAyCpRpq
 AEv0AyxsDCMabAAdAgAAABEAGAAAAAAA//8BAAMADgAAABIAOAAXAPgEXgAKAAAA
 </rawitemdata></item>
-<item name='$AssistVersion'><datetime>20180803T183944,29-03</datetime></item></note>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
+<item name='$AssistVersion'><datetime>20180817T091615,24-03</datetime></item></note>
 
