@@ -16,6 +16,8 @@ Declare Function getDataSourceDoc(key As String) As NotesDocument
 		Es la clase para obtener de la base de Configuracion
 		@Return: NotesDatabase. Me.db es la base de configuracion
 		@Return: NotesView. Me.view es la vista con las claves de configuracion
+		@UsedIn: (Cambia Pwd Usuario AdaNab Externo)
+		@UsedIn: (Crear Usuario AdaNab Externo)
 %END REM
 
 Class cfg
@@ -117,6 +119,7 @@ Function getDataSourceDoc(key As String) As NotesDocument
 		Set getDataSourceDoc = Nothing
 	End If	
 End Function
+
 
 
 

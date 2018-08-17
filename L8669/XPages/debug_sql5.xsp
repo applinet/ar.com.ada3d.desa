@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" pageTitle="SQL"
+	xmlns:xc="http://www.ibm.com/xsp/custom" xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar">
+	<h4>
+		<xp:text escape="true" id="computedField2"><xp:this.value><![CDATA[#{javascript:session.evaluate(getFieldValueAsItemFromConfig("_*_sql5", "v.Sys.DataSource", "ds_select_des")[0])[0] + " " +
+session.evaluate(getFieldValueAsItemFromConfig("_*_sql5", "v.Sys.DataSource", "ds_Tabla1_des")[0])[0]}]]></xp:this.value></xp:text>
+	</h4>
+	<xp:this.data>
+		<xe:objectData var="objDataSQL" ignoreRequestParams="true"
+			readonly="false" scope="view">
+			<xe:this.createObject><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
+var javaClassQuery:QueryAS400 = new QueryAS400();
+var arrSQL = javaClassQuery.getSelectAS("_*_sql5", null);
+var config:java.util.Vector  = getFieldValueAsItemFromConfig("_*_sql5", "v.Sys.DataSource", "ds_queObtengo_des");
+var columnas:java.util.Vector = new java.util.Vector();
+var iteroCampos = 0;
+var iterator = config.iterator();
+	while (iterator.hasNext()) {
+		var itemvalue = iterator.next();
+		if(itemvalue.left(6) != "@text_"){
+			columnas.add(itemvalue);
+			iteroCampos = iteroCampos + 1;
+		}
+	}
+requestScope.put("columnas", columnas);
+
+var results = []; // Crear un array vacio a devolver al final
+var strData:String;
+
+for (var i = 0; i < arrSQL.length; i++) {
+	var contadorIdx = 0;
+	strData = "{";
+	var iterator2 = columnas.iterator();
+	while (iterator2.hasNext()) {
+		var itemvalue2 = iterator2.next();
+		if(contadorIdx > 0){strData = strData + ", "};
+		var strTemp = arrSQL[i].split("|")[contadorIdx].trim().replaceAll("'", "\\\\'")
+		strData = strData + "'" +itemvalue2 + "': '" + strTemp + "'";
+		contadorIdx = contadorIdx + 1; 
+	}
+	strData = strData + "}";
+	var jsonObject = eval( '(' + strData + ')' );
+    results.push(jsonObject);
+}
+
+return results;}]]></xe:this.createObject>
+			<xe:this.saveObject><![CDATA[#{javascript:return value.dummyAction();}]]></xe:this.saveObject>
+		</xe:objectData>
+
+	</xp:this.data>
+	<xp:this.resources>
+		<xp:script src="/viernes.jss" clientSide="false"></xp:script>
+		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
+	</xp:this.resources>
+
+	<xp:div style="margin-left:2.0%">
+		<xc:ccTestSTRSQL></xc:ccTestSTRSQL>		
+
+		<xp:table styleClass="table-hover">
+			<xp:repeat id="repeatEdificiosPorUsuario" var="rptSQL"
+				style="width:400px" value="#{objDataSQL}" indexVar="idxSQL"
+				rows="500">
+
+				<xp:this.facets>
+					<xp:panel xp:key="header">
+						<xp:text escape="false">
+							<xp:this.value><![CDATA[#{javascript:"<thead><tr>"}]]></xp:this.value>
+						</xp:text>
+
+						<xp:repeat id="repeat1" rows="500"
+							var="rptTitulos">
+							<xp:this.value><![CDATA[#{javascript:requestScope.get("columnas")}]]></xp:this.value>
+							<xp:text escape="false">
+								<xp:this.value><![CDATA[#{javascript:"<th>" + rptTitulos + "</th>"}]]></xp:this.value>
+							</xp:text>
+						</xp:repeat>
+						<xp:text escape="false">
+							<xp:this.value><![CDATA[#{javascript:"</tr></thead><tbody>"}]]></xp:this.value>
+						</xp:text>
+					</xp:panel>
+					<xp:panel xp:key="footer">
+						<xp:text escape="false">
+							<xp:this.value><![CDATA[#{javascript:"</tbody>"}]]></xp:this.value>
+						</xp:text>
+					</xp:panel>
+				</xp:this.facets>
+				<xp:tr>
+					<xp:repeat id="repeat2" rows="500"
+						var="rptTitulos2">
+						<xp:this.value><![CDATA[#{javascript:requestScope.get("columnas")}]]></xp:this.value>
+						<xp:td>
+							<xp:text escape="true"
+								id="computedField1">
+
+								<xp:this.value><![CDATA[#{javascript:return rptSQL[rptTitulos2]}]]></xp:this.value>
+							</xp:text>
+						</xp:td>
+					</xp:repeat>
+				</xp:tr>
+			</xp:repeat>
+		</xp:table>
+		
+	</xp:div>
+
+
+
+
+</xp:view>
+
