@@ -9,7 +9,7 @@ private static final long serialVersionUID = 1L;
 
 	public LayoutTitleBarActions() {
 		addLeaf("Nuevo Gasto", "btnNuevoGasto", "btn-info");
-		addLeaf("Alta de Proveedor", "btnNewProveedor", "btn-info");
+		addLeaf("Alta de Proveedor", "btnNewProveedor", "btn-primary");
 		addLeaf("Pagar", "btnPagar", "");
 		addLeaf("Recalcular", "btnClose", "");
 		
