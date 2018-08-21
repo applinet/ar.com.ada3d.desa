@@ -2,14 +2,20 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.resources>
+		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.maskMoney.js" clientSide="true" />
 		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js"
 			clientSide="true">
 		</xp:script>
 	</xp:this.resources>
-
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if(sessionScope.scopeTipoFacturaMap == null){
+		proveedorBean.fillTipoFacturaMap();
+		sessionScope.put("scopeTipoFacturaMap", proveedorBean.TipoFacturaMap)
+	}}]]></xp:this.beforePageLoad>
 	<xp:scriptBlock id="scriptBlockMaskedJquery">
 		<xp:this.value><![CDATA[jQuery(function($){
     x$("#{id:prv_cuit}").mask('00-00000000-0', {placeholder: "__-________-_"});
+    x$("#{id:prv_comision}").maskMoney({allowZero: true, allowNegative: true, thousands:'.', decimal:',', selectAllOnFocus: true, suffix: ' %'});
+	x$("#{id:prv_saldoInicial}").maskMoney({allowZero: true, allowNegative: true, thousands:'.', decimal:',', selectAllOnFocus: true});
 });    ]]></xp:this.value>
 	</xp:scriptBlock>
 
@@ -134,6 +140,163 @@ if (element.value.length > 34) {
 								</xp:eventHandler>
 							</xp:inputText>
 						</xe:formRow>
+					</xe:formColumn>
+				</xp:div>
+				
+				
+				
+				
+				<xp:div styleClass="form-inline">
+					<xe:formColumn styleClass="form-group col-sm-6">
+						<xe:formRow id="rowPrv_codigoPostal"
+							label="Código Postal" style="padding-right:2.0%"
+							for="prv_codigoPostal">
+							<xp:inputText id="prv_codigoPostal"
+								required="true" onblur="this.value=this.value.toUpperCase();"
+								value="#{proveedorBean.proveedor.prv_codigoPostal}"
+								style="width:20.0%"
+								readonly="#{proveedorBean.proveedor.prv_isReadMode}">
+								<xp:this.validators>
+									<xp:validateLength minimum="4" maximum="8"
+										message="El código postal como mínimo debe tener 4 caracteres y como máximo hasta 8 caracteres">
+									</xp:validateLength>
+									<xp:validateRequired
+										message="El código postal es un campo requerido">
+									</xp:validateRequired>
+									<xp:validateConstraint message="Puede utilizar el nuevo código postal (A123BCD) o el viejo de 4 números"> 
+										<xp:this.regex><![CDATA[^([A-HJ-TP-Z]{1}\d{4}[A-Z]{3}|[a-z]{1}\d{4}[a-hj-tp-z]{3}|[0-9][0-9][0-9][0-9])$]]></xp:this.regex> 
+									</xp:validateConstraint> 
+								</xp:this.validators>
+								<xp:eventHandler event="onkeyup"
+									submit="false">
+									<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+				if (element.value.length > 8) {
+				    element.value = element.value.substring(0, 8);
+				}]]></xp:this.script>
+								</xp:eventHandler>
+							</xp:inputText>
+
+						</xe:formRow>
+					</xe:formColumn>
+					<xe:formColumn styleClass="form-group col-sm-6">
+						<xe:formRow id="rowPrv_telefono"
+							label="Teléfono" style="padding-right:2.0%"
+							for="prv_telefono">
+							<xp:inputText id="prv_telefono"
+								onblur="this.value=this.value.toUpperCase();"
+								value="#{proveedorBean.proveedor.prv_telefono}"
+								readonly="#{proveedorBean.proveedor.prv_isReadMode}">
+								<xp:this.validators>
+									<xp:validateLength minimum="1" maximum="34"
+										message="Los teléfonos puede ser hasta 34 caracteres">
+									</xp:validateLength>
+								</xp:this.validators>
+								<xp:eventHandler event="onkeyup"
+									submit="false">
+									<xp:this.script><![CDATA[var element = thisEvent.srcElement;
+				if (element.value.length > 34) {
+				    element.value = element.value.substring(0, 34);
+				}]]></xp:this.script>
+								</xp:eventHandler>
+							</xp:inputText>
+						</xe:formRow>
+					</xe:formColumn>
+				</xp:div>
+				
+				
+				<xp:div styleClass="form-inline">
+					<xe:formColumn styleClass="form-group col-sm-6">
+						<xe:formRow id="rowPrv_tipoFactura"
+							label="Tipo Factura" style="padding-right:2.0%"
+							for="djComboTipoFactura">
+							<xe:djFilteringSelect id="djComboTipoFactura"
+								queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
+								value="#{proveedorBean.proveedor.prv_tipoFactura}"
+								disabled="#{proveedorBean.proveedor.prv_isReadMode}"
+								uppercase="true" style="width:60.0px">
+								<xp:selectItems
+									value="#{javascript:proveedorBean.comboboxTipoFactura;}" />
+		
+		
+								<xe:this.dojoAttributes>
+									<xp:dojoAttribute name="required"
+										value="false" />
+		
+								</xe:this.dojoAttributes>
+								<xp:eventHandler event="onChange" submit="true"
+									refreshMode="partial" refreshId="djComboTipoFactura"
+									disableValidators="true" />
+							</xe:djFilteringSelect>
+
+						</xe:formRow>
+					</xe:formColumn>
+					<xe:formColumn styleClass="form-group col-sm-6">
+						<xe:formRow id="rowPrv_comision"
+							label="Comisión" style="padding-right:2.0%"
+							for="prv_comision">
+							<xp:inputText id="prv_comision"
+								onblur="this.value=this.value.toUpperCase();"
+								value="#{proveedorBean.proveedor.prv_comision}"
+								style="text-align:right;width:20.0%"
+								readonly="#{proveedorBean.proveedor.prv_isReadMode}">
+								<xp:this.converter>
+									<xp:convertNumber pattern="#,##0.00;-#,##0.00">
+									</xp:convertNumber>
+								</xp:this.converter>
+								<xp:this.validators>
+									<xp:validateExpression
+										message="El valor de comisión deben estar entre -99,99% y 99,99%">
+										<xp:this.expression><![CDATA[#{javascript:value < 100 && value > -100}]]></xp:this.expression>
+		
+		
+										<xp:this.clientScript><![CDATA[value < 100 && value > -100]]></xp:this.clientScript>
+									</xp:validateExpression>
+								</xp:this.validators>
+		
+								<xp:eventHandler event="onfocus"
+									submit="false">
+									<xp:this.script><![CDATA[x$("#{id:prv_comision}").maskMoney({allowZero: true, allowNegative: true, thousands:'.', decimal:',', suffix: ' %'});]]></xp:this.script>
+								</xp:eventHandler>
+							</xp:inputText>
+						</xe:formRow>
+					</xe:formColumn>
+				</xp:div>
+				
+				<xp:div styleClass="form-inline">
+					<xe:formColumn styleClass="form-group col-sm-6">
+						<xe:formRow id="rowPrv_saldoInicial"
+							label="Saldo Inicial" style="padding-right:2.0%"
+							for="prv_saldoInicial">
+							<xp:inputText id="prv_saldoInicial"
+								onblur="this.value=this.value.toUpperCase();"
+								value="#{proveedorBean.proveedor.prv_saldoInicial}"
+								style="text-align:right;width:35.0%"
+								readonly="#{proveedorBean.proveedor.prv_isReadMode}">
+								<xp:this.converter>
+									<xp:convertNumber
+										pattern="#,##0.00;-#,##0.00">
+									</xp:convertNumber>
+								</xp:this.converter>
+								<xp:this.validators>
+									<xp:validateExpression
+										message="El saldo inicial debe estar entre -9.999.999,99 y 9.999.999,99">
+										<xp:this.expression><![CDATA[#{javascript:value < 10000000 && value > -10000000}]]></xp:this.expression>
+		
+		
+										<xp:this.clientScript><![CDATA[value < 10000000 && value > -10000000]]></xp:this.clientScript>
+									</xp:validateExpression>
+								</xp:this.validators>
+		
+								<xp:eventHandler event="onfocus"
+									submit="false">
+									<xp:this.script><![CDATA[x$("#{id:prv_saldoInicial}").maskMoney({allowZero: true, allowNegative: true, thousands:'.', decimal:','});]]></xp:this.script>
+								</xp:eventHandler>
+							</xp:inputText>
+
+						</xe:formRow>
+					</xe:formColumn>
+					<xe:formColumn styleClass="form-group col-sm-6">
+						
 					</xe:formColumn>
 				</xp:div>
 

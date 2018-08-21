@@ -1,5 +1,7 @@
 package ar.com.ada3d.model;
 
+import java.math.BigDecimal;
+
 
 public class Proveedor {
 	private String prv_razonSocial;
@@ -13,6 +15,10 @@ public class Proveedor {
 	private String prv_contacto;
 	private boolean prv_isReadMode;
 	private boolean prv_isNew;
+	private String prv_codigoPostal;
+	private BigDecimal prv_comision;
+	private BigDecimal prv_saldoInicial;
+	
 	
 	
 	public Proveedor() {
@@ -107,5 +113,30 @@ public class Proveedor {
 
 	public void setPrv_isNew(boolean prv_isNew) {
 		this.prv_isNew = prv_isNew;
-	}	
+	}
+
+	public String getPrv_codigoPostal() {
+		return prv_codigoPostal;
+	}
+
+	public void setPrv_codigoPostal(String prv_codigoPostal) {
+		this.prv_codigoPostal = prv_codigoPostal;
+	}
+
+	public BigDecimal getPrv_comision() {
+		return prv_comision;
+	}
+
+	public void setPrv_comision(BigDecimal prv_comision) {
+		this.prv_comision = prv_comision;
+	}
+
+	public BigDecimal getPrv_saldoInicial() {
+		return prv_saldoInicial;
+	}
+
+	public void setPrv_saldoInicial(BigDecimal prv_saldoInicial) {
+		this.prv_saldoInicial = prv_saldoInicial;
+	}
+	
 }

@@ -1,9 +1,14 @@
 package ar.com.ada3d.controller;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import javax.faces.model.SelectItem;
 import org.openntf.domino.Document;
 
@@ -20,6 +25,7 @@ public class ProveedorBean implements Serializable{
 	public List<Proveedor> listaProveedores;
 	private Proveedor proveedor;
 	private String proveedorSelected = "";
+	public LinkedHashMap<String, String> TipoFacturaMap;
 	
 	
 	public ProveedorBean() {
@@ -47,8 +53,26 @@ public class ProveedorBean implements Serializable{
 			docDummy.appendItemValue("razon", proveedor.getPrv_razonSocial());
 			docDummy.appendItemValue("domici", proveedor.getPrv_domicilio());
 			docDummy.appendItemValue("locali", proveedor.getPrv_localidad());
+			if(proveedor.getPrv_codigoPostal() == null){
+				docDummy.appendItemValue("cp1","");
+				docDummy.appendItemValue("cp2","");
+				docDummy.appendItemValue("cp3","");
+			}else if(proveedor.getPrv_codigoPostal().matches("[0-9]+")){//Solo numeros
+				docDummy.appendItemValue("cp1","");
+				docDummy.appendItemValue("cp2", proveedor.getPrv_codigoPostal());
+				docDummy.appendItemValue("cp3","");
+			}else{
+				docDummy.appendItemValue("cp1", proveedor.getPrv_codigoPostal().substring(0, 1));
+				docDummy.appendItemValue("cp2", proveedor.getPrv_codigoPostal().substring(1, 5));
+				docDummy.appendItemValue("cp3", proveedor.getPrv_codigoPostal().substring(5, 8));
+				
+			}
 			docDummy.appendItemValue("cuit", proveedor.getPrv_cuit().replaceAll("-", ""));
 			docDummy.appendItemValue("telef", proveedor.getPrv_telefono());
+			docDummy.appendItemValue("tipofa", proveedor.getPrv_tipoFactura());
+			docDummy.appendItemValue("comis", (proveedor.getPrv_comision() == null) ? "0.00" : ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(proveedor.getPrv_comision(), 2));				
+			docDummy.appendItemValue("sldini", (proveedor.getPrv_saldoInicial() == null) ? "0.00" : ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(proveedor.getPrv_saldoInicial(), 2));				
+			docDummy.appendItemValue("estado", "0");
 			
 			QueryAS400 query = new QueryAS400();
 			DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
@@ -97,6 +121,12 @@ public class ProveedorBean implements Serializable{
 			myProveedor.setPrv_domicilio(strLinea.split("\\|")[1].trim());
 			myProveedor.setPrv_localidad(strLinea.split("\\|")[2].trim());
 			myProveedor.setPrv_cuit(strLinea.split("\\|")[3].trim());
+			myProveedor.setPrv_estado(strLinea.split("\\|")[4].trim());
+			myProveedor.setPrv_codigoPostal((strLinea.split("\\|")[5] + strLinea.split("\\|")[6] + strLinea.split("\\|")[7]).trim());
+			myProveedor.setPrv_telefono(strLinea.split("\\|")[8].trim());
+			myProveedor.setPrv_tipoFactura(strLinea.split("\\|")[9].trim());
+			myProveedor.setPrv_comision(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[10].trim(), Locale.UK, 2)));
+			myProveedor.setPrv_saldoInicial(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[11].trim(), Locale.UK, 2)));
 			myProveedor.setPrv_isReadMode(true);
 			listaProveedores.add(myProveedor);
 		}
@@ -183,7 +213,30 @@ public class ProveedorBean implements Serializable{
 		return "";
 	}
 	
+	/**
+	 * En ccModalAltaProveedor cargo en un mapa de Tipo de Factura sale de una lista notes
+	 * @return hashMap con Tipos de Factura
+	 */
+	public void fillTipoFacturaMap(){
+		TipoFacturaMap = new LinkedHashMap<String, String>();
+		TipoFacturaMap = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("facturaTipo");	
+	}
 	
+	
+	/**
+	 * En frmGastos el combo de Codigo Especial sale de configuracion de Notes
+	 * @return codigos especiales
+	 */
+	public List<SelectItem> getComboboxTipoFactura() {
+		List<SelectItem> options = new ArrayList<SelectItem>();
+		for (Map.Entry<String,String> entry : TipoFacturaMap.entrySet()) {
+			SelectItem option = new SelectItem();
+			option.setLabel(entry.getValue());
+			option.setValue(entry.getKey());
+			options.add(option);
+		}
+		return options;
+	}
 	
 	//Getters & Setters
 	public List<Proveedor> getListaProveedores() {

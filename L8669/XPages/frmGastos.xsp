@@ -155,8 +155,7 @@ if(!msgValidacion.isEmpty()){
 				<xp:div styleClass="col-sm-10" style="padding-left:10.0%">
 					<xc:ccFxServerSideJsMessages />
 				</xp:div>
-				<xe:formTable id="formTableGastos" formTitle="Gastos"
-					disableErrorSummary="true" disableRowError="false"
+				<xe:formTable id="formTableGastos" disableErrorSummary="true" disableRowError="false"
 					style="padding-left:10.0%;padding-right:10.0%;border-color:rgb(249,249,255);border-style:solid;border-width:medium">
 					<xe:this.labelPosition><![CDATA[#{javascript:gastoBean.gasto.isReadMode ? "left" : "above";}]]></xe:this.labelPosition>
 					<xp:div styleClass="form-inline">

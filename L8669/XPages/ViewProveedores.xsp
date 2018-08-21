@@ -17,7 +17,7 @@
 					pty_LineaAlias="CUIT: ">
 				</xc:ccFxTypeAheadProveedores>
 				<xp:dataTable id="proveedoresTable" var="proveedor"
-					value="#{proveedorBean.listaProveedores}" rows="15">
+					value="#{proveedorBean.listaProveedores}" rows="12">
 					<xp:this.facets>
 						<xp:panel xp:key="header">
 							<xp:pager layout="Previous Group Next"
