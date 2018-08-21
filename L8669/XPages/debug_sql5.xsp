@@ -50,7 +50,6 @@ return results;}]]></xe:this.createObject>
 
 	</xp:this.data>
 	<xp:this.resources>
-		<xp:script src="/viernes.jss" clientSide="false"></xp:script>
 		<xp:script src="/General_SSJS.jss" clientSide="false"></xp:script>
 	</xp:this.resources>
 
