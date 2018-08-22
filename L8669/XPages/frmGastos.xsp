@@ -260,44 +260,43 @@ $('textarea').each(function () {
 					<xp:div id="divPorcentuales"
 						styleClass="form-inline">
 						<!-- INI - Importes Porcentuales -->
-						<xe:formRow id="rowPorcentuales"
-							label="Importe Porcentuales" labelPosition="left"
-							labelWidth="80%" />
-
-
-						<xe:formColumn styleClass="form-group col-sm-3"
-							style="margin-left:5.0%">
+						
 							<xe:formRow id="rowProrrateoDescripcion"
 								label="" labelPosition="left" labelWidth="50%">
+								
+								<!-- Solo para mostrar los titulos en el table header  -->
 								<xp:repeat id="repeatProrrateoTitulo"
-									value="#{edfObj.listaProrrateos}" var="rptProrrateoTitulo"
-									indexVar="idxRptProrrateoTitulo">
-									<xp:inputText id="prt_titulo"
-										styleClass="row form-inline"
-										value="#{rptProrrateoTitulo.prt_titulo}" disabled="true" tabindex="2">
-										<xp:this.validators>
-											<xp:validateLength
-												maximum="15"
-												message="El largo no puede exceder 15 caracteres" />
-
-										</xp:this.validators>
-									</xp:inputText>
+									value="#{edfObj.listaProrrateos}" var="rptProrrateoTitulo"> 
+									<xp:this.facets>
+										<xp:text disableTheme="true"
+											xp:key="header" escape="false">
+											<xp:this.value><![CDATA[#{javascript:return "<table class='table-condensed'>"}]]></xp:this.value>
+										</xp:text>
+									</xp:this.facets>
+									<xp:text escape="false">
+										<xp:this.value><![CDATA[#{javascript: "<th>" + rptProrrateoTitulo.prt_titulo + "</th>"}]]></xp:this.value>
+									</xp:text>
 								</xp:repeat>
-							</xe:formRow>
-						</xe:formColumn>
-
-						<xe:formColumn
-							styleClass="form-group col-sm-4">
-							<xe:formRow id="rowProrrateoImporte"
-								labelWidth="50%" styleClass="col-lg-10">
-
+									
 								<xp:repeat id="repeatProrrateoImporte"
 									value="#{gastoBean.gasto.listaProrrateos}"
-									var="rptProrrateoImporte" indexVar="idxRptProrrateoImporte">
+									var="rptProrrateo" indexVar="idxrptProrrateo">
+									<xp:this.facets>
+										<xp:text disableTheme="true"
+											xp:key="header" escape="false">
+											<xp:this.value><![CDATA[#{'<tr>'}]]></xp:this.value>
+										</xp:text>
+										<xp:text disableTheme="true" xp:key="footer" escape="false">
+											<xp:this.value>
+												<![CDATA[</tr></table>]]>
+											</xp:this.value>
+										</xp:text>
+								    </xp:this.facets>
 									
-									<xp:inputText id="prt_importe"
+									<xp:td>
+      								<xp:inputText id="prt_importe"
 										styleClass="row form-inline classPrt_importe"
-										value="#{rptProrrateoImporte.prt_importe}"
+										value="#{rptProrrateo.prt_importe}"
 										style="text-align:right"
 										disabled="#{gastoBean.gasto.isReadMode}"
 										disableClientSideValidation="true">
@@ -321,9 +320,12 @@ $('textarea').each(function () {
 											<xp:this.script><![CDATA[$(".classPrt_importe").maskMoney({allowZero: true, allowNegative: true, thousands:'.', decimal:','});]]></xp:this.script>
 										</xp:eventHandler>
 									</xp:inputText>
+									</xp:td>
 								</xp:repeat>
 							</xe:formRow>
-						</xe:formColumn>
+						
+
+						
 					</xp:div>
 					<!-- FIN - Importes Porcentuales -->
 
