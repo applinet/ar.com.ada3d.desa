@@ -12,7 +12,7 @@ if(sessionScope.scopeCodigoEspecialMap == null){
 	<xp:this.beforeRenderResponse><![CDATA[#{javascript:gastoBean.viewGastos(sessionScope.edfObj);}]]></xp:this.beforeRenderResponse>
 	<xc:ccLayoutBootstrap property_hasTitleBar="true"
 		property_ShowComboEdificio="true"
-		property_TitleBarActions="ar.com.ada3d.frontend.LayoutTitleBarActions"
+		property_TitleBarActions="ar.com.ada3d.frontend.TitleBarActionsViewGastos"
 		property_ShowAffixToolBar="true">
 		<xp:this.facets>
 			<xp:panel id="PNL_container" xp:key="facetMiddle">

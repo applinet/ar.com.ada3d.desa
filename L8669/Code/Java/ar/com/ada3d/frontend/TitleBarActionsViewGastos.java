@@ -3,11 +3,11 @@ package ar.com.ada3d.frontend;
 import com.ibm.xsp.extlib.tree.impl.BasicLeafTreeNode;
 import com.ibm.xsp.extlib.tree.impl.BasicNodeList;
 
-public class LayoutTitleBarActions extends BasicNodeList {
+public class TitleBarActionsViewGastos extends BasicNodeList {
 private static final long serialVersionUID = 1L;
 
 
-	public LayoutTitleBarActions() {
+	public TitleBarActionsViewGastos() {
 		addLeaf("Nuevo Gasto", "btnNuevoGasto", "btn-info");
 		addLeaf("Alta de Proveedor", "btnNewProveedor", "btn-primary");
 		addLeaf("Pagar", "btnPagar", "");
