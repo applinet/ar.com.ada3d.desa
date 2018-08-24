@@ -33,37 +33,42 @@
 						style="font-weight:bold" for="textoDetalleFactura">
 					</xp:label>
 				</xp:this.facets>
-				<xp:repeat id="repeat1" rows="30" var="row"
-					value="#{javascript:gastoBean.getPreviewDetalleGastos(gasto, gastoOpcionesBean.devolverMapaOrdenado(sessionScope.edfObj.edf_ConfigOrdenDetalleGasto.split('').toString().trim()) , proveedorBean)}">
+				<xp:repeat id="repeat1" rows="30" var="row">
+					<xp:this.value><![CDATA[#{javascript:if(view.getPageName().equals("/viewGastos.xsp"))
+	return gastoBean.getPreviewDetalleGastos(gasto, gastoOpcionesBean.devolverMapaOrdenado(sessionScope.edfObj.edf_ConfigOrdenDetalleGasto.split('').toString().trim()) , proveedorBean);
+return gastoBean.getPreviewDetalleGastos(gasto, null , null)	}]]></xp:this.value>
 					<xp:link escape="true"
 						text="#{javascript:row.toString()}" id="textoDetalleFactura">
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="complete" id="eventHandler1">
-							<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+							<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true, @Trim(@Middle(view.getPageName(),5, 1)));context.redirectToPage("frm" + @Trim(@Middle(view.getPageName(),5, 15)))}]]></xp:this.action>
 						</xp:eventHandler>
 					</xp:link>
 					<br />
 				</xp:repeat>
 			</xp:column>
 
-			<xp:column id="importeColumn" style="width:10.0%">
+			<xp:column id="importeColumn">
 				<xp:this.facets>
 					<xp:label value="Importe Total" id="importeLabel"
 						xp:key="header" style="font-weight:bold">
 					</xp:label>
 				</xp:this.facets>
+				<xp:this.rendered><![CDATA[#{javascript:return view.getPageName().equals("/viewGastos.xsp")}]]></xp:this.rendered>
+				<xp:this.style><![CDATA[#{javascript:if(view.getPageName().equals("/viewGastos.xsp"))
+	return "width:10%;";
+return "width:10%;display: none;"	}]]></xp:this.style>
 				<xp:text escape="true"
 					value="#{gasto.listaProrrateos[0].prt_importe + gasto.listaProrrateos[1].prt_importe + gasto.listaProrrateos[2].prt_importe + gasto.listaProrrateos[3].prt_importe}"
 					id="importe">
+					<xp:this.rendered><![CDATA[#{javascript:return view.getPageName().equals("/viewGastos.xsp")}]]></xp:this.rendered>
 					<xp:this.converter>
 						<xp:convertNumber
 							pattern="#,##0.00;(#,##0.00)">
 						</xp:convertNumber>
 					</xp:this.converter>
 				</xp:text>
-
 			</xp:column>
-
 
 			<xp:column id="agrupamientoColumn"
 				style="text-align:center;width:5%">
@@ -78,38 +83,46 @@
 						<xp:attr name="data-toggle" value="popover"></xp:attr>
 						<xp:attr name="data-trigger" value="hover"></xp:attr>
 						<xp:attr name="data-content">
-							<xp:this.value><![CDATA[#{javascript:var result = sessionScope.scopeAgrupamientosMap.get(gasto.agrupamiento.toString());
+							<xp:this.value><![CDATA[#{javascript:var result = viewScope.scopeAgrupamientosMap.get(gasto.agrupamiento.toString());
 return result == null ? "" : result;}]]></xp:this.value>
 						</xp:attr>
 						<xp:attr name="data-placement" value="left"></xp:attr>
 					</xp:this.attrs>
 					<xp:eventHandler event="onclick" submit="true"
 						refreshMode="complete" id="eventHandler2">
-						<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+						<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true, @Trim(@Middle(view.getPageName(),5, 1)));context.redirectToPage("frm" + @Trim(@Middle(view.getPageName(),5, 15)))}]]></xp:this.action>
 					</xp:eventHandler>
 				</xp:link>
 			</xp:column>
-			<xp:column id="codigoEspecialColumn"
-				style="text-align:center;width:7%">
+				
+			<xp:column id="codigoEspecialColumn">
 				<xp:this.facets>
 					<xp:label value="Cod Esp" id="codigoEspecialLabel"
 						xp:key="header" style="font-weight:bold">
 					</xp:label>
 				</xp:this.facets>
+				<xp:this.rendered><![CDATA[#{javascript:return view.getPageName().equals("/viewGastos.xsp")}]]></xp:this.rendered>
+				<xp:this.style><![CDATA[#{javascript:if(view.getPageName().equals("/viewGastos.xsp"))
+	return "text-align:center;width:7%;";
+return "text-align:center;width:7%;display: none;"	}]]></xp:this.style>
 				<xp:link escape="true" text="#{gasto.codigoEspecial}"
 					id="codigoEspecial" styleClass="popOverTooltip">
+					<xp:this.rendered><![CDATA[#{javascript:return view.getPageName().equals("/viewGastos.xsp")}]]></xp:this.rendered>
 					<xp:this.attrs>
-						<xp:attr name="data-toggle" value="popover"></xp:attr>
-						<xp:attr name="data-trigger" value="hover"></xp:attr>
+						<xp:attr name="data-toggle" value="popover">
+						</xp:attr>
+						<xp:attr name="data-trigger" value="hover">
+						</xp:attr>
 						<xp:attr name="data-content">
 							<xp:this.value><![CDATA[#{javascript:var result = sessionScope.scopeCodigoEspecialMap.get(gasto.codigoEspecial.toString());
 return result == null ? "" : result;}]]></xp:this.value>
 						</xp:attr>
-						<xp:attr name="data-placement" value="left"></xp:attr>
+						<xp:attr name="data-placement" value="left">
+						</xp:attr>
 					</xp:this.attrs>
 					<xp:eventHandler event="onclick" submit="true"
 						refreshMode="complete" id="eventHandler3">
-						<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true);context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+						<xp:this.action><![CDATA[#{javascript:gastoBean.setGasto(gasto, true, @Trim(@Middle(view.getPageName(),5, 1)));context.redirectToPage("frm" + @Trim(@Middle(view.getPageName(),5, 15)))}]]></xp:this.action>
 					</xp:eventHandler>
 				</xp:link>
 			</xp:column>
@@ -130,8 +143,12 @@ return result == null ? "" : result;}]]></xp:this.value>
 					<xp:this.action>
 
 						<xp:actionGroup>
-							<xp:confirm
-								message="Con esta acción se eliminará el gasto. Está seguro que desea eliminar este gasto?">
+
+
+
+							<xp:confirm>
+								<xp:this.message><![CDATA[#{javascript:var txt1 = view.getPageName().equals("/viewGastos.xsp") ? " el gasto." : " la nota.";
+return "Con esta acción se eliminará" + txt1 + " Está seguro que desea continuar?"}]]></xp:this.message>
 							</xp:confirm>
 							<xp:executeScript
 								script="#{javascript:gastoBean.deleteGasto(gasto);}">

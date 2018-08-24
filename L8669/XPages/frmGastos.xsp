@@ -341,7 +341,7 @@ $('textarea').each(function () {
 									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
 									value="#{gastoBean.gasto.agrupamiento}">
 									<xp:selectItems
-										value="#{javascript:gastoBean.comboboxAgrupamiento;}" />
+										value="#{javascript:gastoBean.comboboxAgrupamientoGastos;}" />
 
 									<xe:this.dojoAttributes>
 										<xp:dojoAttribute

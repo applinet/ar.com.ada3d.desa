@@ -22,7 +22,8 @@ public class GastoBean implements Serializable {
 	public List<Gasto> listaGastosLiquidacionSiguiente;
 	public List<Gasto> listaGastosLiquidacionesFuturas;
 	public List<Gasto> listaGastosLiquidacionesPasadas;
-	public LinkedHashMap<String, String> agrupamientosMap;
+	public LinkedHashMap<String, String> agrupamientosGastosMap;
+	public LinkedHashMap<String, String> agrupamientosNotasMap;
 	public LinkedHashMap<String, String> codigoEspecialMap;
 	
 	@SuppressWarnings("unused")
@@ -36,15 +37,21 @@ public class GastoBean implements Serializable {
 	
 	//***** INI BOTONES ****
 	
-	/**Cuando presiona btnNewGasto
+	/**Cuando presiona btnNewGasto en grabar y nuevo
 	 * Creo un objeto vacio
 	 */
-	public void createNew() {
-		
+	public void createNewGasto() {
 		setGasto(new Gasto());
 		Edificio prm_edificio = (Edificio) JSFUtil.resolveVariable("edfObj");
 		this.gasto.setListaProrrateos(cargaProrrateo("", prm_edificio));
-		
+	}
+	
+	
+	/**Cuando presiona btnNewNota en grabar y nuevo
+	 * Creo un objeto vacio
+	 */
+	public void createNewNota() {
+		setGasto(new Gasto());
 	}
 	
 	
@@ -132,7 +139,7 @@ public class GastoBean implements Serializable {
 				listAcumulaErrores.add("numeroFactura~El número de factura no puede ser cero");
 			
 			if(this.gasto.getCuitProveedor().equals("0"))//El combo proveedor tiene un valor 'Seleccione' por defecto
-				listAcumulaErrores.add("djComboMyProveedores~Por favor seleccione un proveedor para el gasto.");
+				listAcumulaErrores.add("djComboMyProveedores~Por favor seleccione un proveedor.");
 			
 		}
 		if(this.gasto.getSucursalFactura().length() > 4)
@@ -142,7 +149,7 @@ public class GastoBean implements Serializable {
 			listAcumulaErrores.add("numeroFactura~El número de la factura debe ser de 8 digitos");
 		
 		if(this.gasto.getAgrupamiento().equals("--")){//El combo agrupamiento tiene un valor 'Seleccione' por defecto
-			listAcumulaErrores.add("djComboAgrupamiento~Por favor seleccione un agrupamiento para el gasto.");
+			listAcumulaErrores.add("djComboAgrupamiento~Por favor seleccione un agrupamiento.");
 		}
 		return listAcumulaErrores;
 	}
@@ -312,6 +319,155 @@ public class GastoBean implements Serializable {
 		
 	}
 	
+	
+	/**
+	 * Chequea los datos de notas antes de guardarlas
+	 * @usedIn: Boton save 
+	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
+	 */
+	public ArrayList<String> strValidacionNota(){
+		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
+		List<String> acumulaDetalle = new ArrayList<String>();
+		//Textos puedo tener hasta 99 lineas de 72 caracteres
+		//Las lineas de mas de 72 caracteres las divido en un nuevo array (acumulaDetalle)
+		for (String detalle : this.gasto.getTextoDetalleFactura()){
+			acumulaDetalle.addAll(ar.com.ada3d.utilidades.Conversores.splitString(detalle, 72));
+		}
+		if(acumulaDetalle.size() > 99){
+			listAcumulaErrores.add("btnSave~El detalle de la nota es demasiado largo excede las 99 lineas y no puede ser grabado.");
+		}
+		
+		if(this.gasto.getAgrupamiento().equals("--")){//El combo agrupamiento tiene un valor 'Seleccione' por defecto
+			listAcumulaErrores.add("djComboAgrupamiento~Por favor seleccione un agrupamiento.");
+		}
+		return listAcumulaErrores;
+	}
+
+	
+	/**Cuando presiona btnSave en Nota actualizo el AS400
+	 * Esto ya tiene que venir validado
+	 * @usedIn: Boton save 
+	 * @param prm_edificio: del edificio necesito la configuracion del gasto 
+	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
+
+	 */
+	public ArrayList<String> saveNota(Edificio prm_edificio) {
+		
+		ArrayList<String> listAcumulaErroresAS400 = new ArrayList<String>();
+		
+		boolean isNew = false;
+		Document docDummy = JSFUtil.getDocDummy();
+		docDummy.appendItemValue("Form", "docDummy");
+		Session session = JSFUtil.getSession();
+		session.getCurrentDatabase().getAgent("a.ObtCorr").runWithDocumentContext(docDummy);
+
+		if(this.gasto.getIdGasto() == null){//Es un gasto nuevo
+			this.gasto.setIdGasto(ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), "yyMMddHHmm" + docDummy.getItemValueString("nroSecuencial")));
+			this.gasto.setCodigoEdificio(prm_edificio.getEdf_codigo());
+			//TODO: que mensaje grabamos en origen de los datos cuando es nuevo?
+			this.gasto.setOrigenDatos("QUE PONEMOS?");
+			isNew = true;
+		}
+		
+		docDummy.appendItemValue("NCTROL", this.gasto.getIdGasto());
+		docDummy.appendItemValue("EDIF", this.gasto.getCodigoEdificio());
+		docDummy.appendItemValue("FECLIQ", this.gasto.getFechaLiquidacion());
+		docDummy.appendItemValue("AGRUP", this.gasto.getAgrupamiento());
+				
+		List<String> acumulaDetalle = new ArrayList<String>();
+		for (String detalle : this.gasto.getTextoDetalleFactura()){
+			acumulaDetalle.addAll(ar.com.ada3d.utilidades.Conversores.splitString(detalle, 72));
+		}
+
+		docDummy.appendItemValue("ACUMULADETALLE", acumulaDetalle);
+		docDummy.appendItemValue("TRENGL", acumulaDetalle.size()); //Total de renglones
+		docDummy.appendItemValue("ORIGEN", this.gasto.getOrigenDatos());
+		
+		
+		// *** AS400 ***
+		
+		QueryAS400 query = new QueryAS400();
+		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
+		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
+		
+		if(isNew){ //es una nota nueva
+			if (!query.updateBatchGastos("notasInsertBatchGTS01", docDummy, acumulaDetalle, true)) {
+				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+				System.out.println("ERROR: " + errCode + " METH:saveNewNota" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo insertar en la tabla PH_GTS01.");
+			}
+		}else{  // es una nota existente
+			/******************DETALLE DE FACTURA *************************************
+			 * Cantidad de lineas que tengo ahora: acumulaDetalle.size()
+			 * Cantidad de lineas que tenia al ingresar: this.gasto.getCantidadRenglones()
+			 * Si la cantidad de lineas es = actualizo los datos en batch, sino elimino
+			 * todo y vuelvo a insertar  
+			*/
+			
+			
+			if (acumulaDetalle.size() == this.gasto.getCantidadRenglones()){
+				//Misma cantidad de lineas, solo actualizo 
+				if (!query.updateBatchGastos("notasUpdateBatchGTS01", docDummy, acumulaDetalle, true)) {
+					listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+					System.out.println("ERROR: " + errCode + " METH:saveNota" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo actualizar la tabla PH_GTS01.");
+				}
+						
+			}else{	
+				//La cantidad de lineas cambio elimino lineas y vuelvo a generar
+				if(query.updateAS("gastosDelete", docDummy)){
+					if (!query.updateBatchGastos("notasInsertBatchGTS01", docDummy, acumulaDetalle, true)) {
+						listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+						System.out.println("ERROR: " + errCode + " METH:saveNewNota" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo insertar en la tabla PH_GTS01.");
+					}
+				}else{
+					listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+					System.out.println("ERROR: " + errCode + " METH:saveNewNota" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo eliminar en la tabla PH_GTS01.");
+				}
+			}
+		}
+		
+		
+		
+		//Actualizo los campos de logueo si no hubo errores
+		if (listAcumulaErroresAS400.isEmpty()){
+			Calendar ahora = Calendar.getInstance();
+			if(isNew){ //es un nuevo gasto
+				docDummy.appendItemValue("FECHAC", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "ddMMyyyy"));
+				docDummy.appendItemValue("HORAC", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "HHmm"));
+				docDummy.appendItemValue("FECHAM", "0");
+				docDummy.appendItemValue("HORAM", "0");
+				docDummy.appendItemValue("USERC", docUsuario.getUserSec());
+				docDummy.appendItemValue("USERM", "0");
+			}else{
+				docDummy.appendItemValue("FECHAC", ar.com.ada3d.utilidades.Conversores.DateToString(this.gasto.getFechaCreacion(), "ddMMyyyy"));
+				docDummy.appendItemValue("HORAC", ar.com.ada3d.utilidades.Conversores.DateToString(this.gasto.getFechaCreacion(), "HHmm"));
+				docDummy.appendItemValue("USERC", this.gasto.getUsuarioCreacion());
+				docDummy.appendItemValue("FECHAM", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "ddMMyyyy"));
+				docDummy.appendItemValue("HORAM", ar.com.ada3d.utilidades.Conversores.DateToString(ahora.getTime(), "HHmm"));
+				docDummy.appendItemValue("USERM", docUsuario.getUserSec());
+			}
+			
+			if(!query.updateAS("gastosUpdateLog", docDummy)){
+				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+				System.out.println("ERROR: " + errCode + " METH:saveGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo loguear en la tabla PH_GTS01.");
+			}
+		}
+		
+		
+		DocLock lock = (DocLock) JSFUtil.resolveVariable("DocLock");
+		if (listAcumulaErroresAS400.isEmpty()){
+			//lock.removeLock("edf_" + prm_edificio.getEdf_codigo());
+			if(!isNew)
+				lock.removeLock("gts_" + this.gasto.getIdGasto());
+			//TODO: Que mensaje ponemos al salvar el gasto ok?
+			docUsuario.setUltimaActividad(lock.setLog("Ha guardado los cambios del la nota ???? " ));			
+		}else{
+			docUsuario.setUltimaActividad(lock.setLog("No se han guardado los cambios (ERROR: " + errCode + ")"));
+		}
+		
+		return listAcumulaErroresAS400;
+		
+	}
+	
 	//***** FIN BOTONES ****
 	
 	//***** INI VISTAS ****
@@ -320,16 +476,31 @@ public class GastoBean implements Serializable {
 	 * @param prm_edificio: necesito los porcentuales del edificio 
 	 */
 	public void viewGastos(Edificio prm_edificio){
-		fillListaGastos(prm_edificio);
+		fillListaGastos(prm_edificio, "G");
 	}
+	
+	
+	/**Cuando ingresa a la vista de Notas
+	 * @param prm_edificio: necesito los porcentuales del edificio 
+	 */
+	public void viewNotas(Edificio prm_edificio){
+		fillListaGastos(prm_edificio, "N");
+	}
+	
+	
 	
 	/**
 	 * Completo la variable listaGastos consultando As400, cada linea separa el dato por un pipe
 	 * Cada gasto puede tener mas de una linea, pero existe un unico importe por factura.
-	 * @param prm_edificio: necesito los porcentuales del edificio 
-	 * @return la lista de facturas de un edificio
+	 * @param prm_edificio: necesito los porcentuales del edificio
+	 * @param prm_tipo: N o G. Nota o gasto.
+	 * @return la lista de facturas o notas de un edificio
 	 */
-	private void fillListaGastos(Edificio prm_edificio){
+	private void fillListaGastos(Edificio prm_edificio, String prm_tipo){
+		if((prm_tipo.equals("N") && agrupamientosNotasMap == null) || (prm_tipo.equals("G") && agrupamientosGastosMap == null)){
+			System.out.println("** ERROR - agrupamientosNotasMap o agrupamientosGastosMap son nulos **");
+			return;
+		}
 		ArrayList<String> nl = null;
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		try {
@@ -350,69 +521,77 @@ public class GastoBean implements Serializable {
 		Calendar calGastoProxLiq = Calendar.getInstance();
 		Calendar calEdificioProxLiq = Calendar.getInstance();
 		for (String strLinea : nl) {
-			if(!strLinea.split("\\|")[13].equals("B")){ //Si no es una baja
-				//Voy a generar una linea por comprobante pero recordar que una factura puede tener muchas lineas de texto
-				Gasto miGasto = null;
-				if(!idGasto.equals(strLinea.split("\\|")[1].trim())){
-					idGasto = strLinea.split("\\|")[1].trim();
-					tempTextoFactura = new Vector<String>();
-					myGasto = new Gasto();
-					myGasto.setIdGasto(idGasto);
-					myGasto.setCodigoEdificio(strLinea.split("\\|")[0].trim());
-					myGasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[9].trim(), Locale.UK, 0)));
-					myGasto.setNumeroRenglon(Integer.parseInt(strLinea.split("\\|")[7].trim()));
-					myGasto.setCantidadRenglones(Integer.parseInt(strLinea.split("\\|")[8].trim()));
-					myGasto.setAgrupamiento(strLinea.split("\\|")[10].trim());
-					myGasto.setCodigoEspecial(strLinea.split("\\|")[11].trim());
-					myGasto.setFechaLiquidacion(ar.com.ada3d.utilidades.Conversores.DateToString(ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[12].trim()), "MMyyyy"));
-					myGasto.setCuitProveedor(strLinea.split("\\|")[14].trim());
-					myGasto.setSucursalFactura(strLinea.split("\\|")[15].trim().split("-")[0]);
-					myGasto.setNumeroFactura(strLinea.split("\\|")[15].trim().split("-")[1]);
-					if(!strLinea.split("\\|")[16].trim().equals("0")) //la fecha si es nula viene un cero
-						myGasto.setFechaFactura(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[16].trim()));
-					
-					//Detalle factura
-					tempTextoFactura.add(strLinea.split("\\|")[2].trim());
-					myGasto.setTextoDetalleFactura(tempTextoFactura);
-					
-					//Si es la linea de importes (NRENGL = TRENGL)
-					if(strLinea.split("\\|")[7].trim().equals(strLinea.split("\\|")[8].trim())){
-						//Prorrateo para gastos
-						myGasto.setListaProrrateos(cargaProrrateo(strLinea, prm_edificio));					
+			//Estoy llenando notas solo si el codigo de agrupamiento es de notas o estoy llenando gastos solo si el codigo de agrupamiento es de gastos
+			if((prm_tipo.equals("N") && agrupamientosNotasMap.containsKey(strLinea.split("\\|")[10].trim())) || (prm_tipo.equals("G") && agrupamientosGastosMap.containsKey(strLinea.split("\\|")[10].trim()))){
+			
+				if(!strLinea.split("\\|")[13].equals("B")){ //Si no es una baja
+					//Voy a generar una linea por comprobante pero recordar que una factura puede tener muchas lineas de texto
+					Gasto miGasto = null;
+					if(!idGasto.equals(strLinea.split("\\|")[1].trim())){
+						idGasto = strLinea.split("\\|")[1].trim();
+						tempTextoFactura = new Vector<String>();
+						myGasto = new Gasto();
+						myGasto.setIdGasto(idGasto);
+						myGasto.setCodigoEdificio(strLinea.split("\\|")[0].trim());
+						
+						if(prm_tipo.equals("G")){//Separacion notas de gastos
+							myGasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[9].trim(), Locale.UK, 0)));
+							myGasto.setCodigoEspecial(strLinea.split("\\|")[11].trim());
+							myGasto.setCuitProveedor(strLinea.split("\\|")[14].trim());
+							myGasto.setSucursalFactura(strLinea.split("\\|")[15].trim().split("-")[0]);
+							myGasto.setNumeroFactura(strLinea.split("\\|")[15].trim().split("-")[1]);
+							if(!strLinea.split("\\|")[16].trim().equals("0")) //la fecha si es nula viene un cero
+								myGasto.setFechaFactura(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[16].trim()));
+							
+							//Si es la linea de importes (NRENGL = TRENGL)
+							if(strLinea.split("\\|")[7].trim().equals(strLinea.split("\\|")[8].trim())){
+								//Prorrateo para gastos
+								myGasto.setListaProrrateos(cargaProrrateo(strLinea, prm_edificio));					
+							}
+						}
+						myGasto.setNumeroRenglon(Integer.parseInt(strLinea.split("\\|")[7].trim()));
+						myGasto.setCantidadRenglones(Integer.parseInt(strLinea.split("\\|")[8].trim()));
+						myGasto.setAgrupamiento(strLinea.split("\\|")[10].trim());
+						myGasto.setFechaLiquidacion(ar.com.ada3d.utilidades.Conversores.DateToString(ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[12].trim()), "MMyyyy"));
+						
+						//Detalle factura
+						tempTextoFactura.add(strLinea.split("\\|")[2].trim());
+						myGasto.setTextoDetalleFactura(tempTextoFactura);
+						
+						
+						myGasto.setIsReadMode(true);
+						listaGastos.add(myGasto);
+						
+						//Defino calendar para comparar las fechas de liquidacion
+						calGastoProxLiq.setTime(ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[12].trim()));
+						calGastoProxLiq.set(Calendar.DATE, calGastoProxLiq.getActualMaximum(Calendar.DAY_OF_MONTH));
+						calEdificioProxLiq.setTime(prm_edificio.getEdf_fechaProximaLiquidacion());
+						
+						if(calEdificioProxLiq.before(calGastoProxLiq)){
+							listaGastosLiquidacionesFuturas.add(myGasto);
+						}else if(calEdificioProxLiq.after(calGastoProxLiq)){
+							listaGastosLiquidacionesPasadas.add(myGasto);
+						}else{
+							listaGastosLiquidacionSiguiente.add(myGasto);
+						}
+						
+						
+						count = count + 1;
+					}else{//Es igual al anterior solo agregar el texto
+						tempTextoFactura.add(strLinea.split("\\|")[2].trim());
+						if(miGasto == null){
+							miGasto = listaGastos.get(count - 1);
+						}
+						//Si es la linea de importes (NRENGL = TRENGL)
+						if(strLinea.split("\\|")[7].trim().equals(strLinea.split("\\|")[8].trim()) && prm_tipo.equals("G")){
+							//Prorrateo para gastos
+							miGasto.setListaProrrateos(cargaProrrateo(strLinea, prm_edificio));					
+						}
+		
+						miGasto.setTextoDetalleFactura(tempTextoFactura);					
 					}
-					
-					myGasto.setIsReadMode(true);
-					listaGastos.add(myGasto);
-					
-					//Defino calendar para comparar las fechas de liquidacion
-					calGastoProxLiq.setTime(ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[12].trim()));
-					calGastoProxLiq.set(Calendar.DATE, calGastoProxLiq.getActualMaximum(Calendar.DAY_OF_MONTH));
-					calEdificioProxLiq.setTime(prm_edificio.getEdf_fechaProximaLiquidacion());
-					
-					if(calEdificioProxLiq.before(calGastoProxLiq)){
-						listaGastosLiquidacionesFuturas.add(myGasto);
-					}else if(calEdificioProxLiq.after(calGastoProxLiq)){
-						listaGastosLiquidacionesPasadas.add(myGasto);
-					}else{
-						listaGastosLiquidacionSiguiente.add(myGasto);
-					}
-					
-					
-					count = count + 1;
-				}else{//Es igual al anterior solo agregar el texto
-					tempTextoFactura.add(strLinea.split("\\|")[2].trim());
-					if(miGasto == null){
-						miGasto = listaGastos.get(count - 1);
-					}
-					//Si es la linea de importes (NRENGL = TRENGL)
-					if(strLinea.split("\\|")[7].trim().equals(strLinea.split("\\|")[8].trim())){
-						//Prorrateo para gastos
-						miGasto.setListaProrrateos(cargaProrrateo(strLinea, prm_edificio));					
-					}
-	
-					miGasto.setTextoDetalleFactura(tempTextoFactura);					
-				}
-			}
+				}//Fin if es una baja
+			}//Fin si es nota y coincide codigo de agrupamiento (o gasto) 
 		}
 		
 	}
@@ -424,7 +603,7 @@ public class GastoBean implements Serializable {
 	 * Recordar que cada gasto puede tener mas de una linea, pero existe un unico importe por factura
 	 * @param prm_Gasto: el gasto por actualizar
 	 */
-	private void updateGasto(Gasto prm_Gasto){
+	private void updateGasto(Gasto prm_Gasto, String tipoGasto){
 		ArrayList<String> nl = null;
 		Document docDummy = JSFUtil.getDocDummy();
 		docDummy.appendItemValue("Codigo", prm_Gasto.getCodigoEdificio());
@@ -442,23 +621,27 @@ public class GastoBean implements Serializable {
 				// Solo leo el primer renglon
 				temp = ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[2].trim());
 				prm_Gasto.setFechaLiquidacion(ar.com.ada3d.utilidades.Conversores.DateToString(temp, "MMyyyy"));
-				prm_Gasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[5].trim(), Locale.UK, 0)));
-				prm_Gasto.setCuitProveedor(strLinea.split("\\|")[6].trim());
-				if(!strLinea.split("\\|")[8].trim().equals("0")) //la fecha si es nula viene un cero
-					prm_Gasto.setFechaFactura(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[8].trim()));
-				prm_Gasto.setSucursalFactura(strLinea.split("\\|")[7].trim().split("-")[0]);
-				prm_Gasto.setNumeroFactura(strLinea.split("\\|")[7].trim().split("-")[1]);
 				prm_Gasto.setAgrupamiento(strLinea.split("\\|")[9].trim());
-				prm_Gasto.setCodigoEspecial(strLinea.split("\\|")[10].trim());
-
+				prm_Gasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[5].trim(), Locale.UK, 0)));
+				
 				//Fecha de creacion del registro
 				Calendar tempDate = ar.com.ada3d.utilidades.Conversores.dateToCalendar(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyyyy", strLinea.split("\\|")[11].trim()));
 				tempDate.set(Calendar.HOUR_OF_DAY, Integer.parseInt(strLinea.split("\\|")[12].trim().substring(0, 2)));
 				tempDate.set(Calendar.MINUTE, Integer.parseInt(strLinea.split("\\|")[12].trim().substring(2)));
 				prm_Gasto.setFechaCreacion(tempDate.getTime());
-					
+				
 				prm_Gasto.setUsuarioCreacion(strLinea.split("\\|")[13].trim());//Usuario creacion	
 				prm_Gasto.setOrigenDatos(strLinea.split("\\|")[14].trim());//Origen de los datos	
+				
+				if (tipoGasto.equals("G")){
+					prm_Gasto.setCuitProveedor(strLinea.split("\\|")[6].trim());
+					if(!strLinea.split("\\|")[8].trim().equals("0")) //la fecha si es nula viene un cero
+						prm_Gasto.setFechaFactura(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[8].trim()));
+					prm_Gasto.setSucursalFactura(strLinea.split("\\|")[7].trim().split("-")[0]);
+					prm_Gasto.setNumeroFactura(strLinea.split("\\|")[7].trim().split("-")[1]);
+					prm_Gasto.setCodigoEspecial(strLinea.split("\\|")[10].trim());
+				}
+
 			}
 			detalleFactura.add(strLinea.split("\\|")[1].trim());
 		}
@@ -539,11 +722,15 @@ public class GastoBean implements Serializable {
 	
 	
 	/**
-	 * En viewGastos cargo en un mapa el Agrupamiento sale de PH_$T
-	 * @return hashMap con codigos de agrupamiento
+	 * En viewGastos cargo en un mapa el Agrupamiento sale de PH_$T (tanto de gastos como de notas)
+	 * Recordar que existen 3 tipos de agrupamientos:
+	 * 	-Fijos: el usuario no puede cambiar su descripcion o código (10, 20, 30 y 40)
+	 * 	-Variables: el usuario no puede crear una descripcion o código (que no sean los fijos)
+	 * 	-Nota: no son gastos solo texto en detalle
+	 * @return hashMap con codigos de agrupamiento de gastos
 	 */
-	public void fillAgrupamientosMap(){
-		agrupamientosMap = new LinkedHashMap<String, String>();
+	public void fillAgrupamientosGastosMap(){
+		agrupamientosGastosMap = new LinkedHashMap<String, String>();
 		ArrayList<String> nl = null;
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		try {
@@ -553,23 +740,37 @@ public class GastoBean implements Serializable {
 		}
 		for (String strLinea : nl) {
 			if(!strLinea.split("\\|")[1].trim().equals("")){
-				agrupamientosMap.put(strLinea.split("\\|")[0].trim(), strLinea.split("\\|")[1].trim());
+				agrupamientosGastosMap.put(strLinea.split("\\|")[0].trim(), strLinea.split("\\|")[1].trim());
 			}
 		}		
 	}
 	
 	
 	/**
-	 * En frmGastos el combo de Agrupamiento sale de PH_$T
-	 * @return codigos de agrupamiento
+	 * En viewNotas cargo en un mapa el Agrupamiento sale de lista de configuracion ya que en PH_$T no tengo la descripcion de las notas
+	 * Recordar que existen 3 tipos de agrupamientos:
+	 * 	-Fijos: el usuario no puede cambiar su descripcion o código (10, 20, 30 y 40)
+	 * 	-Variables: el usuario no puede crear una descripcion o código (que no sean los fijos)
+	 * 	-Nota: no son gastos solo texto en detalle
+	 * @return hashMap con codigos de agrupamiento de Notas
 	 */
-	public List<SelectItem> getComboboxAgrupamiento() {
+	public void fillAgrupamientosNotasMap(){
+		agrupamientosNotasMap = new LinkedHashMap<String, String>();
+		agrupamientosNotasMap = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("agrupamientoNotas");	
+	}
+	
+		
+	/**
+	 * En frmGastos el combo de Agrupamiento sale de PH_$T
+	 * @return selector con codigos de agrupamiento de gastos
+	 */
+	public List<SelectItem> getComboboxAgrupamientoGastos() {
 		List<SelectItem> options = new ArrayList<SelectItem>();
 		SelectItem optionDefault = new SelectItem();
 		optionDefault.setLabel("-- Seleccionar --" );
 		optionDefault.setValue("--");
 		options.add(optionDefault);
-		for (Map.Entry<String,String> entry : agrupamientosMap.entrySet()) {
+		for (Map.Entry<String,String> entry : agrupamientosGastosMap.entrySet()) {
 	    	SelectItem option = new SelectItem();
 			option.setLabel(entry.getKey() + " " + entry.getValue());
 			option.setValue(entry.getKey());
@@ -578,9 +779,31 @@ public class GastoBean implements Serializable {
 		return options;
 	}
 	
+	
+	
+	/**
+	 * En frmNotas el combo de Agrupamiento sale de PH_$T
+	 * @return selector con codigos de agrupamiento de notas
+	 */
+	public List<SelectItem> getComboboxAgrupamientoNotas() {
+		List<SelectItem> options = new ArrayList<SelectItem>();
+		SelectItem optionDefault = new SelectItem();
+		optionDefault.setLabel("-- Seleccionar --" );
+		optionDefault.setValue("--");
+		options.add(optionDefault);
+		for (Map.Entry<String,String> entry : agrupamientosNotasMap.entrySet()) {
+	    	SelectItem option = new SelectItem();
+			option.setLabel(entry.getKey() + " " + entry.getValue());
+			option.setValue(entry.getKey());
+			options.add(option);
+		}
+		return options;
+	}
+	
+	
 	/**
 	 * En frmGastos el combo de Codigo Especial sale de configuracion de Notes
-	 * @return codigos especiales
+	 * @return selector con codigos especiales
 	 */
 	public List<SelectItem> getComboboxCodigoEspecial() {
 		List<SelectItem> options = new ArrayList<SelectItem>();
@@ -658,7 +881,9 @@ public class GastoBean implements Serializable {
 	
 	public ArrayList<String> getPreviewDetalleGastos(Gasto prm_gasto, HashMap<String, String> prm_OrdenDetalleGasto, ProveedorBean prm_beanProveedor) {
 		ArrayList<String> result = new ArrayList<String>();
-		if(prm_OrdenDetalleGasto.containsValue(null) || prm_OrdenDetalleGasto == null){
+		if(prm_OrdenDetalleGasto == null){
+			result.addAll(prm_gasto.getTextoDetalleFactura());
+		}else if(prm_OrdenDetalleGasto.containsValue(null)){
 			result.addAll(prm_gasto.getTextoDetalleFactura());
 		}else{
 			//Puede que los datos del proveedor vengan nulos si cambiaron la configuracion y ya habian cargado previamente datos vacios
@@ -749,8 +974,8 @@ public class GastoBean implements Serializable {
 		
 	}
 
-	public void setGasto(Gasto gasto, boolean updateAS400) {
-		updateGasto(gasto);
+	public void setGasto(Gasto gasto, boolean updateAS400, String tipoGasto) {
+		updateGasto(gasto, tipoGasto);
 		this.gasto = gasto;
 	}
 
@@ -765,8 +990,8 @@ public class GastoBean implements Serializable {
 	}
 
 
-	public HashMap<String, String> getAgrupamientosMap() {
-		return agrupamientosMap;
+	public HashMap<String, String> getAgrupamientosGastosMap() {
+		return agrupamientosGastosMap;
 	}
 	
 }

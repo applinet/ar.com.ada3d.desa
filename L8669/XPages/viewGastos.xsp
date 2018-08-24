@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
-	<xp:this.beforePageLoad><![CDATA[#{javascript:if(sessionScope.scopeAgrupamientosMap == null){
-	gastoBean.fillAgrupamientosMap();
-	sessionScope.put("scopeAgrupamientosMap", gastoBean.agrupamientosMap)
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if(viewScope.scopeAgrupamientosMap == null){
+	gastoBean.fillAgrupamientosGastosMap();
+	viewScope.put("scopeAgrupamientosMap", gastoBean.agrupamientosGastosMap)
 }
 if(sessionScope.scopeCodigoEspecialMap == null){
 	gastoBean.fillCodigoEspecialMap();
@@ -49,7 +49,7 @@ return gastoBean.getArrayDetallesGastos();}]]></xc:this.pty_Lista>
 				refreshMode="complete">
 				<xp:this.action><![CDATA[#{javascript:edificioBean.actualizoUnEdificioAs400(sessionScope.edfObj, "");
 if(!sessionScope.edfObj.edf_ConfigOrdenDetalleGasto.equals("")){ //al crear un nuevo gasto validar que tenga la configuracion cargada
-	gastoBean.createNew();
+	gastoBean.createNewGasto();
 	context.redirectToPage("frmGastos.xsp");
 }else{
 	sessionScope.put("navRule", "viewGastos");
