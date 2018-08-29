@@ -10,9 +10,6 @@ private static final long serialVersionUID = 1L;
 	public TitleBarActionsViewGastos() {
 		addLeaf("Nuevo Gasto", "btnNuevoGasto", "btn-info");
 		addLeaf("Alta de Proveedor", "btnNewProveedor", "btn-primary");
-		addLeaf("Pagar", "btnPagar", "");
-		addLeaf("Recalcular", "btnClose", "");
-		
 	}
 	
 	public void addLeaf(String label, String boton, String styleClass) {
