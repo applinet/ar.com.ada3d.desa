@@ -7,14 +7,22 @@ import java.util.*;
 import javax.faces.model.SelectItem;
 import org.openntf.domino.Document;
 import org.openntf.domino.Session;
+import org.openntf.domino.View;
+import org.openntf.domino.ViewEntry;
+import org.openntf.domino.ViewEntryCollection;
+import org.openntf.jsonbeanx.J2BConverter;
+import org.openntf.jsonbeanx.J2BException;
+
 import lotus.domino.NotesException;
 import ar.com.ada3d.connect.QueryAS400;
 import ar.com.ada3d.model.Edificio;
 import ar.com.ada3d.model.Gasto;
 import ar.com.ada3d.model.Prorrateo;
+import ar.com.ada3d.model.TextoPresetado;
 import ar.com.ada3d.utilidades.DocLock;
 import ar.com.ada3d.utilidades.DocUsr;
 import ar.com.ada3d.utilidades.JSFUtil;
+
 
 public class GastoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -22,6 +30,7 @@ public class GastoBean implements Serializable {
 	public List<Gasto> listaGastosLiquidacionSiguiente;
 	public List<Gasto> listaGastosLiquidacionesFuturas;
 	public List<Gasto> listaGastosLiquidacionesPasadas;
+	public List<TextoPresetado> listaTextosPreseteados;
 	public LinkedHashMap<String, String> agrupamientosGastosMap;
 	public LinkedHashMap<String, String> agrupamientosNotasMap;
 	public LinkedHashMap<String, String> codigoEspecialMap;
@@ -713,7 +722,6 @@ public class GastoBean implements Serializable {
 	
 	/**
 	 * En viewGastos cargo en un mapa de codigos especiales sale de una lista notes
-	 * @return hashMap con codigos especiales
 	 */
 	public void fillCodigoEspecialMap(){
 		codigoEspecialMap = new LinkedHashMap<String, String>();
@@ -727,7 +735,6 @@ public class GastoBean implements Serializable {
 	 * 	-Fijos: el usuario no puede cambiar su descripcion o código (10, 20, 30 y 40)
 	 * 	-Variables: el usuario no puede crear una descripcion o código (que no sean los fijos)
 	 * 	-Nota: no son gastos solo texto en detalle
-	 * @return hashMap con codigos de agrupamiento de gastos
 	 */
 	public void fillAgrupamientosGastosMap(){
 		agrupamientosGastosMap = new LinkedHashMap<String, String>();
@@ -752,13 +759,59 @@ public class GastoBean implements Serializable {
 	 * 	-Fijos: el usuario no puede cambiar su descripcion o código (10, 20, 30 y 40)
 	 * 	-Variables: el usuario no puede crear una descripcion o código (que no sean los fijos)
 	 * 	-Nota: no son gastos solo texto en detalle
-	 * @return hashMap con codigos de agrupamiento de Notas
 	 */
 	public void fillAgrupamientosNotasMap(){
 		agrupamientosNotasMap = new LinkedHashMap<String, String>();
 		agrupamientosNotasMap = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("agrupamientoNotas");	
 	}
 	
+	
+	/**
+	 * Obtiene los textos preseteados del edificio que estoy
+	 * @param prm_edificio objeto del edificio que estoy trabajando
+	 */
+	public void fillTextosPreseteados(Edificio prm_edificio) {
+		//Seguir ACA --> el combo de edificio no funciona y tampoco si elijo otro edificio. Tambien aparece siempre el tooltip al confirmar 
+		listaTextosPreseteados = null;
+		System.out.println("1");
+		StringBuilder conf_json = new StringBuilder();
+		View currentDbPreseteadosView = ar.com.ada3d.utilidades.JSFUtil.getCurrentDatabase().getView("(Clave Json por edificio)");
+		if (currentDbPreseteadosView == null) return;
+		ViewEntryCollection viewEntryColl = currentDbPreseteadosView.getAllEntriesByKey(prm_edificio.getEdf_codigo(), true);
+		if (viewEntryColl == null) return;
+		if (viewEntryColl.getCount() == 0) return; //Si no encuentra textos sale
+		if (viewEntryColl.getCount() > 0) {
+			ViewEntry entryEdificio = viewEntryColl.getFirstEntry();
+			conf_json.append("[");
+			while (entryEdificio != null) {
+				conf_json.append(entryEdificio.getDocument().getItemValueString("conf_json"));
+				ViewEntry tempEntry = viewEntryColl.getNextEntry();
+				if(tempEntry != null)
+					conf_json.append(",");
+				entryEdificio = tempEntry;
+			}
+			conf_json.append("]");
+		}
+		try {
+			listaTextosPreseteados = J2BConverter.jsonToBean(TextoPresetado.class, conf_json.toString()); //Funcion para crear beans desde json
+			//System.out.println("FPR:" + textosPreseteados.get(0).getPorcentuales().get(1).getUnadjusted());
+			String json = J2BConverter.beanToJson(listaTextosPreseteados);//Crea un json desde un bean
+			
+			//Detalle factura
+			
+		} catch (J2BException e) {
+			e.printStackTrace();
+		}
+					
+	}
+	
+	public void aplicarPreseteadoEnGasto(TextoPresetado prm_Preseteado) {
+		Vector tempTextoFactura = new java.util.Vector();
+		tempTextoFactura.add(prm_Preseteado.getId());
+	
+		this.gasto.setTextoDetalleFactura(tempTextoFactura);
+		System.out.println("este:" + prm_Preseteado.getId());
+	}
 		
 	/**
 	 * En frmGastos el combo de Agrupamiento sale de PH_$T
@@ -964,6 +1017,11 @@ public class GastoBean implements Serializable {
 	}
 
 	
+	public List<TextoPresetado> getListaTextosPreseteados() {
+		return listaTextosPreseteados;
+	}
+
+
 	public Gasto getGasto() {
 		return gasto;
 	}

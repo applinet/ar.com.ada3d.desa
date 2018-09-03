@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	
+	
+
+	<xe:dialog id="dialogPregrabado" title="Pregrabados - Seleccione el texto a utilizar"
+		styleClass="modal" style="margin-left: inherit;">
+		<xe:this.onHide><![CDATA[XSP._setDirty(false,"")]]></xe:this.onHide>
+		<xe:dialogContent id="dialogContent1" styleClass="modal-body">
+			<xp:dataTable id="PregrabadosTable" var="pregrabado"
+			value="#{gastoBean.listaTextosPreseteados}" rows="15">
+				<xp:this.facets>
+					<xp:panel xp:key="header">
+						<xp:pager layout="Previous Group Next"
+							id="pagerHeader">
+						</xp:pager>
+					</xp:panel>
+					<xp:pager layout="Previous Group Next" xp:key="footer"
+						id="pagerFooter">
+					</xp:pager>
+				</xp:this.facets>
+				
+				<xp:column id="edf_codigoColumn">
+					<xp:this.facets>
+						<xp:label value="Descripcion" id="label1"
+							xp:key="header" style="font-weight:bold">
+						</xp:label>
+					</xp:this.facets>
+					<xp:link escape="true"
+						text="#{pregrabado.label}"
+						id="label">
+						<xp:eventHandler event="onclick" submit="true" refreshMode="partial" refreshId="formTableGastos">
+							<xp:this.action><![CDATA[#{javascript:gastoBean.aplicarPreseteadoEnGasto(pregrabado)
+getComponent("dialogPregrabado").hide();}]]></xp:this.action>
+						</xp:eventHandler>
+					</xp:link>
+				</xp:column>
+				<xp:column id="edf_codigoid">
+					<xp:this.facets>
+						<xp:label value="id" id="label2"
+							xp:key="header" style="font-weight:bold">
+						</xp:label>
+					</xp:this.facets>
+					<xp:text escape="true"
+						value="#{pregrabado.id}" id="edf_id">
+					</xp:text>
+				</xp:column>
+			</xp:dataTable>
+			
+		</xe:dialogContent>
+
+		<xe:dialogButtonBar id="dialogButtonBar1">
+			<xp:button value="Cancelar" id="btnClose"
+				styleClass="btn">
+				<i class="glyphicon glyphicon-remove" />
+				<xp:eventHandler event="onclick" submit="false">
+					<xp:this.script><![CDATA[XSP.closeDialog('#{id:dialogPregrabado}');]]></xp:this.script>
+				</xp:eventHandler>
+			</xp:button>
+		</xe:dialogButtonBar>
+	</xe:dialog>
+</xp:view>

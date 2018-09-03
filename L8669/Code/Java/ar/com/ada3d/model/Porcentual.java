@@ -14,6 +14,7 @@ public class Porcentual {
 	private BigDecimal porc_importeHonorarios; // 9 posiciones AS400
 	private BigDecimal porc_importeHonorariosMasivo; // 9 posiciones AS400
 	private String porc_edf_codigo;
+	private double porc_importeJson;
 
 	//Getters and Setters
 	
@@ -54,5 +55,10 @@ public class Porcentual {
 	public void setPorc_edf_codigo(String porc_edf_codigo) {
 		this.porc_edf_codigo = porc_edf_codigo;
 	}
-	
+	public double getPorc_importeJson() {
+		return porc_importeJson;
+	}
+	public void setPorc_importeJson(double porc_importeJson) {
+		this.porc_importeJson = porc_importeJson;
+	}
 }
