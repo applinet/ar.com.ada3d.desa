@@ -204,9 +204,11 @@ if (element.value.length > 34) {
 						onblur="this.value=this.value.toUpperCase();"
 						value="#{proveedorBean.proveedor.prv_comision}"
 						style="text-align:right;width:20.0%"
-						readonly="#{proveedorBean.proveedor.prv_isReadMode}">
+						readonly="#{proveedorBean.proveedor.prv_isReadMode}"
+						defaultValue="0">
 						<xp:this.converter>
-							<xp:convertNumber pattern="#,##0.00;-#,##0.00">
+							<xp:convertNumber
+								pattern="#,##0.00;-#,##0.00">
 							</xp:convertNumber>
 						</xp:this.converter>
 						<xp:this.validators>
@@ -232,7 +234,8 @@ if (element.value.length > 34) {
 						onblur="this.value=this.value.toUpperCase();"
 						value="#{proveedorBean.proveedor.prv_saldoInicial}"
 						style="text-align:right;width:35.0%"
-						readonly="#{proveedorBean.proveedor.prv_isReadMode}">
+						readonly="#{proveedorBean.proveedor.prv_isReadMode}"
+						defaultValue="0">
 						<xp:this.converter>
 							<xp:convertNumber
 								pattern="#,##0.00;-#,##0.00">

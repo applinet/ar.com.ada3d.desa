@@ -3,7 +3,7 @@
 	<xp:this.beforePageLoad><![CDATA[#{javascript:if(sessionScope.edfObj == null){
 	var strCodigoPrimerEdificioDeLista = edificioBean.getComboBoxEdificiosQueTengoAutorizados(compositeData.get("property_SoloEdificiosEnProceso"), compositeData.get("property_VisualizarCodigo"), compositeData.get("property_VisualizarFechaUltimaLiquidacion")).get(0).getValue();
 	sessionScope.put("edfObj", edificioBean.getEdificioMap(strCodigoPrimerEdificioDeLista));
-}}]]></xp:this.beforePageLoad>
+}}]]></xp:this.beforePageLoad>	
 	<xe:djFilteringSelect id="djComboEdificios"
 		queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
 		defaultValue="#{javascript:sessionScope.edificioWork;}">
