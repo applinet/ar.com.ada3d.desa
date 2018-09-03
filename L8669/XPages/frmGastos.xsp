@@ -27,13 +27,58 @@ x$( "#{id:btnNewProveedor}" ).popover();
 	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
 
 	<xp:div id="buttonBarAffix" styleClass="navbar navbar-inverse"
-		style="width:70%;background-color:rgb(248,247,251);border-color:rgb(247,243,253);text-align:center;margin-top:%;padding-top:5.0px;margin-left:15.0%;margin-right:15.0%">
+		style="width:80%;background-color:rgb(255,255,255);border-color:rgb(247,243,253);margin-top:%;padding-top:5.0px;margin-left:10.0%;margin-right:10.0%">
 		<xp:this.attrs>
 			<xp:attr name="data-spy" value="affix" />
 			<xp:attr name="data-offset-top" value="30" />
 		</xp:this.attrs>
-		<xp:div id="buttonBar">
-		
+		<xp:div id="EdificioLiquidacionBar">
+			<table style="width:100%">
+				<tr>
+					<th style="width: 1px; white-space: nowrap;">
+						<i class="glyphicon glyphicon-star-empty" style="font-size: 32px; color:red"></i>
+					</th>
+					<th>	
+						<xc:ccComboBoxEdificios 
+							property_SoloEdificiosEnProceso="true"
+							property_VisualizarCodigo="true"
+							property_VisualizarFechaUltimaLiquidacion="false"
+							property_AnchoPxCombo="250"
+							property_ReadOnly="#{gastoBean.gasto.isReadMode or gastoBean.gasto.idGasto != null}"
+							refreshIdOnChange="PNL_Principal" id="comboEdificio" >
+						</xc:ccComboBoxEdificios>
+						
+					</th>
+					<th style="text-align: right">
+						<xp:label value="Liquidación: "
+							id="labelLiquidacion">
+						</xp:label>
+						<xe:djFilteringSelect
+							id="djComboFechaLiquidacion"
+							queryExpr="#{javascript:return '*\$\{0\}*';}"
+							autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
+							value="#{gastoBean.gasto.fechaLiquidacion}">
+							<xp:selectItems>
+								<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxFechaLiquidacion(sessionScope.edfObj)}]]></xp:this.value>
+							</xp:selectItems>
+							<xe:this.dojoAttributes>
+								<xp:dojoAttribute name="required"
+									value="false" />
+
+							</xe:this.dojoAttributes>
+							<xp:eventHandler event="onChange"
+								submit="true" refreshMode="partial"
+								refreshId="djComboFechaLiquidacion" disableValidators="true" />
+
+						</xe:djFilteringSelect>
+					</th>
+				</tr>
+			</table>
+				
+				
+		</xp:div>
+		<xp:br></xp:br>
+		<xp:div id="buttonBar" style="text-align:center;">
 			<xp:button value="Modificar" id="btnEdit">
 				<i class="glyphicon glyphicon-pencil" />
 				<xp:this.rendered><![CDATA[#{javascript:/*
@@ -46,21 +91,16 @@ if(DocLock.isLocked("gts_" + gastoBean.gasto.idGasto)){
 		return false;		
 }
 gastoBean.gasto.isReadMode; }]]></xp:this.rendered>
-				<xp:eventHandler event="onclick" submit="true"
-					refreshMode="partial" refreshId="formTableGastos">
+				<xp:eventHandler event="onclick" submit="true" refreshMode="partial" refreshId="formTableGastos">
 					<xp:this.action><![CDATA[#{javascript:gastoBean.editFormulario(sessionScope.get("edfObj"));}]]></xp:this.action>
 					<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:buttonBar}");
 document.getElementById("#{id:textoDetalleFactura}").focus();]]></xp:this.onComplete>
-
-
-
 				</xp:eventHandler>
 			</xp:button>
-
+			&#160;
 			<xp:button id="btnClose" styleClass="btn">
 				<i class="glyphicon glyphicon-remove" />
-				<xp:this.value><![CDATA[#{javascript:return gastoBean.gasto.isReadMode ? "Cerrar" : "Cancelar";}]]></xp:this.value><xp:eventHandler event="onclick" submit="true"
-					refreshMode="complete" immediate="true">
+				<xp:this.value><![CDATA[#{javascript:return gastoBean.gasto.isReadMode ? "Cerrar" : "Cancelar";}]]></xp:this.value><xp:eventHandler event="onclick" submit="true" refreshMode="complete" immediate="true">
 					<xp:this.script><![CDATA[if (XSP._isDirty()){
 	  if (confirm ("Está seguro de salir?" + "\n" + "\n" +
 	    "Sus cambios no serán guardados." + "\n" + 
@@ -95,11 +135,29 @@ return true;	}]]></xp:this.condition>
 			<xe:tooltip id="tooltipBtnClose" for="btnClose" label="Salir sin guardar" position="below"></xe:tooltip>
 			&#160;
 			
-			<xp:button value="Grabar" id="btnSave" styleClass="btn-primary"
-				rendered="#{javascript:!gastoBean.gasto.isReadMode}">
+			<xp:button value="Pregrabados" id="btnPregrabado">
+				<i class="glyphicon glyphicon-duplicate" />
+				<xp:this.rendered><![CDATA[#{javascript:/*
+if(DocLock.isLocked("edf_" + edfObj.edf_codigo)){
+	if(!DocLock.getLock("edf_" + edfObj.edf_codigo).equals(session.getEffectiveUserName()))
+		return false;		
+}*/
+if(DocLock.isLocked("gts_" + gastoBean.gasto.idGasto)){
+	if(!DocLock.getLock("gts_" + gastoBean.gasto.idGasto).equals(session.getEffectiveUserName()))
+		return false;		
+}
+!gastoBean.gasto.isReadMode; }]]></xp:this.rendered>
+				<xp:eventHandler event="onclick" submit="true" refreshMode="partial" refreshId="textoDetalleFactura" disableValidators="true">
+					<xp:this.action><![CDATA[#{javascript:gastoBean.fillTextosPreseteados(sessionScope.edfObj);
+getComponent("dialogPregrabado").show()}]]></xp:this.action>
+				</xp:eventHandler>
+			</xp:button>
+			<xe:tooltip id="tooltipBtnPregrabado" for="btnPregrabado" label="Utilizar un texto pregrabado" position="below"></xe:tooltip>
+			&#160;
+			
+			<xp:button value="Grabar" id="btnSave" styleClass="btn-primary" rendered="#{javascript:!gastoBean.gasto.isReadMode}">
 				<i class="glyphicon glyphicon-download-alt"></i>
-				<xp:eventHandler event="onclick" submit="true"
-					refreshMode="partial" refreshId="formTableGastos">
+				<xp:eventHandler event="onclick" submit="true" refreshMode="partial" refreshId="formTableGastos">
 					<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = gastoBean.strValidacionGasto(sessionScope.get("edfObj"));
 if(!msgValidacion.isEmpty()){
 	facesMsgValidation(msgValidacion);
@@ -120,9 +178,10 @@ if(!msgValidacion.isEmpty()){
 			<xe:tooltip id="tooltipBtnSave" for="btnSave" label="Guardar y salir" position="below"></xe:tooltip>
 			&#160;
 			
-			<xp:button value="Grabar y Nuevo gasto"
-				id="btnSaveNew" styleClass="btn-primary">
-				<xp:this.rendered><![CDATA[#{javascript:gastoBean.gasto.idGasto == null && !gastoBean.gasto.isReadMode}]]></xp:this.rendered>
+			<xp:button value="Grabar y Nuevo gasto" id="btnSaveNew"
+				styleClass="btn-primary"
+				rendered="#{javascript:!gastoBean.gasto.isReadMode}">
+
 				<i class="glyphicon glyphicon-download-alt"></i>
 				<xp:eventHandler event="onclick" submit="true"
 					refreshMode="partial" refreshId="formTableGastos">
@@ -145,6 +204,23 @@ if(!msgValidacion.isEmpty()){
 				</xp:eventHandler>
 			</xp:button>
 			<xe:tooltip id="tooltipBtnSaveNew" for="btnSaveNew" label="Guardar y continuar cargando un nuevo gasto" position="below"></xe:tooltip>
+			
+			
+			<xp:button value="Nuevo gasto" id="btnNew"
+				styleClass="btn-info"
+				rendered="#{javascript:gastoBean.gasto.isReadMode}">
+
+				<i class="glyphicon glyphicon-plus"></i>
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" refreshId="formTableGastos">
+					<xp:this.action><![CDATA[#{javascript:gastoBean.createNewGasto();
+context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
+					<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
+				</xp:eventHandler>
+			</xp:button>
+			<xe:tooltip id="tooltip1" for="btnSaveNew" label="Guardar y continuar cargando un nuevo gasto" position="below"></xe:tooltip>
+			
+			
 		</xp:div>
 	</xp:div>
 	
@@ -161,44 +237,107 @@ if(!msgValidacion.isEmpty()){
 					<xp:div styleClass="form-inline">
 						<xe:formColumn
 							styleClass="form-group col-sm-6">
-							<xe:formRow id="rowEdf_codigo"
-								label="Edificio" style="padding-right:2.0%">
-
-								<xc:ccComboBoxEdificios
-									property_SoloEdificiosEnProceso="true"
-									property_VisualizarCodigo="true"
-									property_VisualizarFechaUltimaLiquidacion="false"
-									property_AnchoPxCombo="250"
-									property_ReadOnly="#{gastoBean.gasto.isReadMode or gastoBean.gasto.idGasto != null}"
-									refreshIdOnChange="PNL_Principal" id="comboEdificio" />
+							<xe:formRow id="rowPrv_id" label="Proveedor"
+								style="padding-right:2.0%" for="djComboMyProveedores">
+								<xe:djFilteringSelect
+									id="djComboMyProveedores"
+									queryExpr="#{javascript:return '*\$\{0\}*';}"
+									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
+									value="#{gastoBean.gasto.cuitProveedor}" style="width:80.0%">
+									<xp:selectItems
+										value="#{javascript:proveedorBean.getComboboxMyProveedores();}" />
+									<xe:this.dojoAttributes>
+										<xp:dojoAttribute
+											name="required" value="false" />
+									</xe:this.dojoAttributes>
+									<xp:eventHandler event="onChange"
+										submit="true" refreshMode="partial"
+										refreshId="djComboMyProveedores" disableValidators="true" />
+									<xp:this.required><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto !="0"}]]></xp:this.required>
+									<xp:this.validators>
+										<xp:validateRequired
+											message="El proveedor es requerido  ">
+										</xp:validateRequired>
+									</xp:this.validators>
+								</xe:djFilteringSelect>
+								&#160;
+								
+								<xp:button id="btnNewProveedor"	styleClass="btn btn-success" type="button" rendered="#{!gastoBean.gasto.isReadMode}">
+									<xp:text id="iconWarning"
+										tagName="i" styleClass="glyphicon glyphicon-plus-sign">
+									</xp:text>
+									<xp:eventHandler event="onclick"
+										submit="true" refreshMode="partial"
+										refreshId="btnNewProveedor" disableValidators="true">
+										<xp:this.action><![CDATA[#{javascript:proveedorBean.viewProveedores(); //Actualizo la lista de proveedores
+proveedorBean.createNewProveedor();
+proveedorBean.proveedor.prv_isNew = true;
+getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
+									</xp:eventHandler>
+								</xp:button>
+								<xe:tooltip id="tooltipButtonNuevaSolicitud" for="btnNewProveedor" label="Agregar un nuevo proveedor" position="below"></xe:tooltip>
+							</xe:formRow>
+						</xe:formColumn>
+						
+					</xp:div>
+					<xp:div styleClass="form-inline">
+						<xe:formColumn styleClass="form-group col-sm-6">
+							<xe:formRow id="rowFechaFactura" 
+								label="Fecha Factura" style="padding-right:2.0%" for="fechaFactura">
+								<xp:inputText id="fechaFactura"
+									value="#{gastoBean.gasto.fechaFactura}"
+									readonly="#{gastoBean.gasto.isReadMode}">
+									<xp:this.converter>
+										<xp:convertDateTime type="date" />
+									</xp:this.converter>
+									<xp:this.required><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto !="0"}]]></xp:this.required>
+									<xp:this.validators>
+										<xp:validateRequired
+											message="La fecha de factura es requerida">
+										</xp:validateRequired>
+									</xp:this.validators>
+									<xp:dateTimeHelper />
+								</xp:inputText>
 							</xe:formRow>
 						</xe:formColumn>
 						<xe:formColumn
 							styleClass="form-group col-sm-6">
-							<xe:formRow id="rowfechaLiquidacion"
-							label="Liquidación" style="padding-right:2.0%"
-							for="djComboFechaLiquidacion">
-								<xe:djFilteringSelect
-									id="djComboFechaLiquidacion"
-									queryExpr="#{javascript:return '*\$\{0\}*';}"
-									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
-									value="#{gastoBean.gasto.fechaLiquidacion}">
-									<xp:selectItems>
-										<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxFechaLiquidacion(sessionScope.edfObj)}]]></xp:this.value>
-									</xp:selectItems>
-									<xe:this.dojoAttributes>
-										<xp:dojoAttribute name="required"
-											value="false" />
-	
-									</xe:this.dojoAttributes>
-									<xp:eventHandler event="onChange"
-										submit="true" refreshMode="partial"
-										refreshId="djComboFechaLiquidacion" disableValidators="true" />
-	
-								</xe:djFilteringSelect>
+							<xe:formRow id="formRow1"
+								label="Nro. Factura" style="padding-right:2.0%"
+								for="numeroFactura" styleClass="form-inline">
+								<xp:inputText id="sucursalFactura" 
+									maxlength="4" value="#{gastoBean.gasto.sucursalFactura}"
+									readonly="#{gastoBean.gasto.isReadMode}" style="width:60.0px"
+									disableClientSideValidation="true">
+									<xp:this.required><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto !="0"}]]></xp:this.required>
+									<xp:this.validators>
+										<xp:validateRequired
+											message="El punto de venta de la factura es requerido">
+										</xp:validateRequired>
+									</xp:this.validators>
+									<xp:eventHandler event="onfocus"
+										submit="false">
+										<xp:this.script><![CDATA[x$("#{id:sucursalFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 3});]]></xp:this.script>
+									</xp:eventHandler>
+								</xp:inputText>
+								  &#160;-&#160;
+								<xp:inputText id="numeroFactura"
+									maxlength="8" style="width:100.0px"
+									value="#{gastoBean.gasto.numeroFactura}"
+									readonly="#{gastoBean.gasto.isReadMode}"
+									disableClientSideValidation="true">
+									<xp:this.required><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto !="0"}]]></xp:this.required>
+									<xp:this.validators>
+										<xp:validateRequired
+											message="El número de factura es requerido  ">
+										</xp:validateRequired>
+									</xp:this.validators>
+									<xp:eventHandler event="onfocus"
+										submit="false">
+										<xp:this.script><![CDATA[x$("#{id:numeroFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 7});]]></xp:this.script>
+									</xp:eventHandler>
+								</xp:inputText>
 							</xe:formRow>
-							
-
 						</xe:formColumn>
 					</xp:div>
 
@@ -273,7 +412,7 @@ $('textarea').each(function () {
 											<xp:this.value><![CDATA[#{javascript:return "<table class='table-condensed'>"}]]></xp:this.value>
 										</xp:text>
 									</xp:this.facets>
-									<xp:text escape="false">
+									<xp:text escape="false" id="prt_titulo">
 										<xp:this.value><![CDATA[#{javascript: "<th>" + rptProrrateoTitulo.prt_titulo + "</th>"}]]></xp:this.value>
 									</xp:text>
 								</xp:repeat>
@@ -385,25 +524,11 @@ $('textarea').each(function () {
 						</xe:formColumn>
 					</xp:div>
 					<!-- FIN - Agrupamiento y Codigo Especial -->
-					<xp:div styleClass="form-inline">
-						<xe:formColumn styleClass="form-group col-sm-6">
-							<xe:formRow id="rowFechaFactura" 
-								label="Fecha Factura" style="padding-right:2.0%" for="fechaFactura">
-								<xp:inputText id="fechaFactura"
-									value="#{gastoBean.gasto.fechaFactura}"
-									readonly="#{gastoBean.gasto.isReadMode}">
-									<xp:this.converter>
-										<xp:convertDateTime type="date" />
-									</xp:this.converter>
-									<xp:this.required><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto !="0"}]]></xp:this.required>
-									<xp:this.validators>
-										<xp:validateRequired
-											message="La fecha de factura es requerida">
-										</xp:validateRequired>
-									</xp:this.validators>
-									<xp:dateTimeHelper />
-								</xp:inputText>
-							</xe:formRow>
+						
+					<xp:div styleClass="form-inline">	
+						<xe:formColumn
+							styleClass="form-group col-sm-6">
+							
 						</xe:formColumn>
 						<xe:formColumn
 							styleClass="form-group col-sm-6">
@@ -431,90 +556,8 @@ return edfObj.edf_ConfigNumerarGastos.equals("1") ? edfObj.edf_ConfigNumeroProxi
 									</xp:this.converter>
 								</xp:inputText>
 							</xe:formRow>
-						</xe:formColumn>
-					</xp:div>	
-					<xp:div styleClass="form-inline">	
-						<xe:formColumn
-							styleClass="form-group col-sm-6">
-							<xe:formRow id="rowPrv_id" label="Proveedor"
-								style="padding-right:2.0%" for="djComboMyProveedores">
-								<xe:djFilteringSelect
-									id="djComboMyProveedores"
-									queryExpr="#{javascript:return '*\$\{0\}*';}"
-									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
-									value="#{gastoBean.gasto.cuitProveedor}" style="width:80.0%">
-									<xp:selectItems
-										value="#{javascript:proveedorBean.getComboboxMyProveedores();}" />
-									<xe:this.dojoAttributes>
-										<xp:dojoAttribute
-											name="required" value="false" />
-									</xe:this.dojoAttributes>
-									<xp:eventHandler event="onChange"
-										submit="true" refreshMode="partial"
-										refreshId="djComboMyProveedores" disableValidators="true" />
-									<xp:this.required><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto !="0"}]]></xp:this.required>
-									<xp:this.validators>
-										<xp:validateRequired
-											message="El proveedor es requerido  ">
-										</xp:validateRequired>
-									</xp:this.validators>
-								</xe:djFilteringSelect>
-								&#160;
-								
-								<xp:button id="btnNewProveedor"	styleClass="btn btn-success" type="button" rendered="#{!gastoBean.gasto.isReadMode}">
-									<xp:text id="iconWarning"
-										tagName="i" styleClass="glyphicon glyphicon-plus-sign">
-									</xp:text>
-									<xp:eventHandler event="onclick"
-										submit="true" refreshMode="partial"
-										refreshId="btnNewProveedor" disableValidators="true">
-										<xp:this.action><![CDATA[#{javascript:proveedorBean.viewProveedores(); //Actualizo la lista de proveedores
-proveedorBean.createNewProveedor();
-proveedorBean.proveedor.prv_isNew = true;
-getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
-									</xp:eventHandler>
-								</xp:button>
-								<xe:tooltip id="tooltipButtonNuevaSolicitud" for="btnNewProveedor" label="Agregar un nuevo proveedor" position="below"></xe:tooltip>
-							</xe:formRow>
-						</xe:formColumn>
-						<xe:formColumn
-							styleClass="form-group col-sm-6">
-							<xe:formRow id="formRow1"
-								label="Nro. Factura" style="padding-right:2.0%"
-								for="numeroFactura" styleClass="form-inline">
-								<xp:inputText id="sucursalFactura" 
-									maxlength="4" value="#{gastoBean.gasto.sucursalFactura}"
-									readonly="#{gastoBean.gasto.isReadMode}" style="width:60.0px"
-									disableClientSideValidation="true">
-									<xp:this.required><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto !="0"}]]></xp:this.required>
-									<xp:this.validators>
-										<xp:validateRequired
-											message="El punto de venta de la factura es requerido">
-										</xp:validateRequired>
-									</xp:this.validators>
-									<xp:eventHandler event="onfocus"
-										submit="false">
-										<xp:this.script><![CDATA[x$("#{id:sucursalFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 3});]]></xp:this.script>
-									</xp:eventHandler>
-								</xp:inputText>
-								  &#160;-&#160;
-								<xp:inputText id="numeroFactura"
-									maxlength="8" style="width:100.0px"
-									value="#{gastoBean.gasto.numeroFactura}"
-									readonly="#{gastoBean.gasto.isReadMode}"
-									disableClientSideValidation="true">
-									<xp:this.required><![CDATA[#{javascript:edfObj.edf_ConfigOrdenDetalleGasto !="0"}]]></xp:this.required>
-									<xp:this.validators>
-										<xp:validateRequired
-											message="El número de factura es requerido  ">
-										</xp:validateRequired>
-									</xp:this.validators>
-									<xp:eventHandler event="onfocus"
-										submit="false">
-										<xp:this.script><![CDATA[x$("#{id:numeroFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 7});]]></xp:this.script>
-									</xp:eventHandler>
-								</xp:inputText>
-							</xe:formRow>
+							
+							
 						</xe:formColumn>
 					</xp:div>
 					<xe:this.facets>
@@ -555,4 +598,5 @@ getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
 		<xp:this.script><![CDATA[document.getElementById("#{id:textoDetalleFactura}").focus();]]></xp:this.script>
 	</xp:eventHandler>
 	<xc:ccModalAltaProveedor refreshIdOnSave="formTableGastos"></xc:ccModalAltaProveedor>
+	<xc:ccModalPregrabados refreshIdOnSave="formTableGastos"></xc:ccModalPregrabados>
 </xp:view>
