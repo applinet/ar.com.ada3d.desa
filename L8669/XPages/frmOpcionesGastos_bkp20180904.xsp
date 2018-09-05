@@ -338,46 +338,23 @@ return true;							      }]]></xp:this.expression>
 
 						<xe:formRow id="rowOrdenDatos"
 							label="Orden de los datos" style="padding-right:2.0%">
-							<table>
-								<tr>
-									<th>
-										<ol class="target connected col-sm-6">Agregar al detalle
-											<xp:repeat id="repeat2" rows="30"
-												var="manufacturer" removeRepeat="true"
-												value="#{javascript:gastoOpcionesBean.get_mapOrdenDatosProveedor().entrySet()}">
-			
-												<xp:text escape="true"
-													styleClass="helperOpciones" id="sourceLI"
-													value="#{javascript:manufacturer.getValue()}" tagName="li">
-													<xp:this.attrs>
-														<xp:attr
-															name="data-stock-symbol"
-															value="#{javascript:manufacturer.getKey()}">
-														</xp:attr>
-													</xp:this.attrs>
-												</xp:text>
-											</xp:repeat>
-										</ol>
-										
-									</th>
-									<th>
-										<ol class="source connected">Seleccione y arrastre a la izquierda                              
-										  <xp:repeat id="repeat1" rows="30" var="manufacturer" removeRepeat="true">
-										    <xp:this.value>
-										      <![CDATA[${javascript:
-										        return ["Alfa Romeo", "Audi", "BMW", "Jaguar", "Mercedes", "Porsche", "Tesla", "Volkswagen", "Volvo"];
-										      }]]>
-										    </xp:this.value>
-										    <xp:text escape="true" id="computedField1" value="#{manufacturer}" tagName="li"></xp:text>
-										  </xp:repeat>
-										</ol>
-									</th>
-								</tr>
-							</table>
-							
-							
-							
-							
+							<ol class="source connected col-sm-6">
+								<xp:repeat id="repeat2" rows="30"
+									var="manufacturer" removeRepeat="true"
+									value="#{javascript:gastoOpcionesBean.get_mapOrdenDatosProveedor().entrySet()}">
+
+									<xp:text escape="true"
+										styleClass="helperOpciones" id="sourceLI"
+										value="#{javascript:manufacturer.getValue()}" tagName="li">
+										<xp:this.attrs>
+											<xp:attr
+												name="data-stock-symbol"
+												value="#{javascript:manufacturer.getKey()}">
+											</xp:attr>
+										</xp:this.attrs>
+									</xp:text>
+								</xp:repeat>
+							</ol>
 
 						</xe:formRow>
 					</xp:div>

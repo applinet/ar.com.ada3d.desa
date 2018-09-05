@@ -7,65 +7,45 @@ ol {
   flex-wrap: wrap;
   margin: 0;
   padding: 0;
-   border-width: 1px;
-  border-style: solid;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
 }
-
 ol li {
+  counter-increment: my-awesome-counter;
   display: flex;
   width: 80%;
   margin-bottom: 0.5rem;
   border-radius: 4px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   list-style-type: none;
+  list-style-position: inside;
   border-width: 1px;
   border-style: solid;
   border-color: #ccc !important;
   color: #bbb !important;
   border: 1px dashed #ddd !important;
+  background-color: #e6ffcc !important;
   color: #aaa !important;
   padding: 0.1em 0 1em 0 !important;
 }
-
-ol li::before {  
+ol li::before {
+  content: counter(my-awesome-counter);
   font-weight: bold;
   font-size: 2rem;
   margin-right: 0.5rem;
   line-height: 1;
 }
 
-ol.target li::before {
-	content: counter(my-awesome-counter);
-}
 
-ol.source li{
-	 background-color: #f8e0b1 !important;
-	 	
-}	
-
-ol.target li{
-	counter-increment: my-awesome-counter;
-	background-color: #e6ffcc !important;
-	list-style-position: inside;
-	 	
-}
-
-ol.source {
-	border: 2px dashed #f8e0b1 !important;
-  	background-color: #fefcf5 !important;
-  	border-color: #f8e0b1 !important;
-}
-
-ol.target {
-	border: 2px dashed #add38d !important;
-	background-color: #f6fbf4 !important;
-	border-color: #add38d !important;
-}
 
 body {
   padding: 1rem;
+}
+
+ol.source {
+  border-color: #f8e0b1 !important;
+  list-style-type: none !important;
+}
+ol.target {
+  border-color: #add38d !important;
 }
 
 
