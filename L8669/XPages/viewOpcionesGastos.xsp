@@ -95,7 +95,9 @@ gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOp
 							</xp:label>
 						</xp:this.facets>
 						<xp:link escape="true" id="link1">
-							<xp:this.text><![CDATA[#{javascript:return opcionesGastos.numerarGastos != "0" ? opcionesGastos.numeroProximoGasto : "-";}]]></xp:this.text>
+							<xp:this.text><![CDATA[#{javascript:if(opcionesGastos.configuracionUnica)
+	return "***";
+return opcionesGastos.numerarGastos != "0" ? opcionesGastos.numeroProximoGasto : "-";}]]></xp:this.text>
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="complete" id="eventHandler5">
 								<xp:this.action><![CDATA[#{javascript:if(opcionesGastos.getCodigoEdificio().equals("***")){
