@@ -64,6 +64,7 @@ public class GastoOpcionesBean implements Serializable {
 		List<String> listaEdificios = new ArrayList<String>();
 		if(this.gastoOpciones.isConfiguracionUnica()){
 			listaEdificios.add("***");
+			prm_edificio.setEdf_codigo("***");
 		}else{
 			listaEdificios.add(prm_edificio.getEdf_codigo());
 		}
@@ -87,7 +88,11 @@ public class GastoOpcionesBean implements Serializable {
 			if (this.gastoOpciones.getIsNew()){
 				for(GastoOpciones go : listaOpcionesGastos){
 			        if(go.getCodigoEdificio() != null && go.getCodigoEdificio().contains(prm_edificio.getEdf_codigo())){
-			        	listAcumulaErroresAS400.add("btnSave~El edificio " + go.getCodigoEdificio()  + " ya tiene una configuración cargada. Para modificarla por favor ingrese por opciones de gastos");
+			        	if(prm_edificio.getEdf_codigo().equals("***")){
+			        		listAcumulaErroresAS400.add("btnSave~Ud. ya tiene cargada una configuración única para todos sus edificios. Para modificarla por favor ingrese por opciones de gastos e ingrese en el edificio: ***");
+			        	}else{
+			        		listAcumulaErroresAS400.add("btnSave~El edificio " + go.getCodigoEdificio()  + " ya tiene una configuración cargada. Para modificarla por favor ingrese por opciones de gastos");
+			        	}
 			        	return listAcumulaErroresAS400;
 			        }
 			    }
