@@ -528,7 +528,22 @@ $('textarea').each(function () {
 					<xp:div styleClass="form-inline">	
 						<xe:formColumn
 							styleClass="form-group col-sm-6">
-							
+							<xe:formRow id="rowTipoGasto"
+								label="Tipo" style="padding-right:2.0%">
+								<xe:djFilteringSelect
+									id="djComboTipoGasto"
+									queryExpr="#{javascript:return '*\$\{0\}*';}"
+									autoComplete="false"
+									value="#{gastoBean.gasto.codigoEspecial}"
+									disabled="#{gastoBean.gasto.isReadMode}">
+									<xp:selectItems
+										value="#{javascript:gastoBean.comboboxTipoGasto;}" />
+									<xe:this.dojoAttributes>
+										<xp:dojoAttribute
+											name="required" value="false" />
+									</xe:this.dojoAttributes>
+								</xe:djFilteringSelect>
+							</xe:formRow>
 						</xe:formColumn>
 						<xe:formColumn
 							styleClass="form-group col-sm-6">

@@ -35,6 +35,7 @@ public class GastoBean implements Serializable {
 	public LinkedHashMap<String, String> agrupamientosNotasMap;
 	public LinkedHashMap<String, String> codigoEspecialMap;
 	
+	
 	@SuppressWarnings("unused")
 	private BigDecimal importeTotalListaGastos;
 	private Gasto gasto;
@@ -770,6 +771,7 @@ public class GastoBean implements Serializable {
 	 * Obtiene los textos preseteados del edificio que estoy
 	 * @param prm_edificio objeto del edificio que estoy trabajando
 	 */
+	@SuppressWarnings("deprecation")
 	public void fillTextosPreseteados(Edificio prm_edificio) {
 		//Seguir ACA --> el combo de edificio no funciona y tampoco si elijo otro edificio. Tambien aparece siempre el tooltip al confirmar 
 		listaTextosPreseteados = null;
@@ -795,7 +797,8 @@ public class GastoBean implements Serializable {
 		try {
 			listaTextosPreseteados = J2BConverter.jsonToBean(TextoPresetado.class, conf_json.toString()); //Funcion para crear beans desde json
 			//System.out.println("FPR:" + textosPreseteados.get(0).getPorcentuales().get(1).getUnadjusted());
-			String json = J2BConverter.beanToJson(listaTextosPreseteados);//Crea un json desde un bean
+			@SuppressWarnings("unused")
+			final String json = J2BConverter.beanToJson(listaTextosPreseteados);//Crea un json desde un bean
 			
 			//Detalle factura
 			
@@ -806,6 +809,7 @@ public class GastoBean implements Serializable {
 	}
 	
 	public void aplicarPreseteadoEnGasto(TextoPresetado prm_Preseteado) {
+		//TODO: Seguir ACA con textos preseteados, fijarse que el string json le agregué  final
 		Vector tempTextoFactura = new java.util.Vector();
 		tempTextoFactura.add(prm_Preseteado.getId());
 	
@@ -871,6 +875,20 @@ public class GastoBean implements Serializable {
 	}
 	
 	
+	/**
+	 * En frmGastos el combo de Codigo Especial sale de configuracion de Notes
+	 * @return selector con codigos especiales
+	 */
+	public List<SelectItem> getComboboxTipoGasto() {
+		List<SelectItem> options = new ArrayList<SelectItem>();		
+		for (Map.Entry<String,String> entry : ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("gastoTipo").entrySet()) {
+			SelectItem option = new SelectItem();
+			option.setLabel(entry.getValue());
+			option.setValue(entry.getKey());
+			options.add(option);
+		}
+		return options;
+	}
 	
 	/**
 	 * En frmGastos el combo de Liquidacion son 12 meses y default proxima liquidación
