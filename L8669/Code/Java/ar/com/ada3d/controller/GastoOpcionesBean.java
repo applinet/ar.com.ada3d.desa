@@ -74,7 +74,7 @@ public class GastoOpcionesBean implements Serializable {
 		docDummy.appendItemValue("NROAUT", this.gastoOpciones.getNumerarGastos().equals("0") ? "0" : this.gastoOpciones.getNumeroProximoGasto());
 		docDummy.appendItemValue("NUMSLD", this.gastoOpciones.getNumerarSueldos().toString());
 		docDummy.appendItemValue("OPCPRV", this.gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto());
-		docDummy.appendItemValue("OPCTXT", this.gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto().equals("0") ? "0" : prm_ordenDatos.replace("," , ""));
+		docDummy.appendItemValue("ORDTXT", this.gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto().equals("0") ? "0" : prm_ordenDatos.replace("," , ""));
 		QueryAS400 query = new QueryAS400();
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
@@ -196,7 +196,7 @@ public class GastoOpcionesBean implements Serializable {
 	/** Opciones por defecto del orden que imprime los datos del proveedor */
 	private void crearMapaDefault(){
 		this._mapOrdenDatosProveedor = new HashMap<String, String>();
-		this._mapOrdenDatosProveedor.putAll(get_mapOrdenDatosProveedorOriginal());
+		//this._mapOrdenDatosProveedor.putAll(get_mapOrdenDatosProveedorOriginal());
 	}
 	
 	//***** FIN FUNCIONES ****
@@ -236,11 +236,7 @@ public class GastoOpcionesBean implements Serializable {
 	}
 
 	public HashMap<String, String> get_mapOrdenDatosProveedorOriginal() {
-		this._mapOrdenDatosProveedorOriginal = new HashMap<String, String>();
-		this._mapOrdenDatosProveedorOriginal.put("1", "Proveedor y cuit");
-		this._mapOrdenDatosProveedorOriginal.put("2", "Fecha de la factura");
-		this._mapOrdenDatosProveedorOriginal.put("3", "Número de la factura");
-		this._mapOrdenDatosProveedorOriginal.put("4", "Dirección proveedor");
+		this._mapOrdenDatosProveedorOriginal = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("opcionesGastoOrdenDatosProveedor");
 		return _mapOrdenDatosProveedorOriginal;
 	}
 	

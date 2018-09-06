@@ -488,7 +488,7 @@ public class EdificioBean implements Serializable {
 		//TODO: falta saber que campo tomar del AS400 para el titulo del procentual
 		myEdificio.setEdf_importeFranqueo( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[26].trim(), Locale.US, 2))); //FRANQ
 		myEdificio.setEdf_importeMultaDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[27].trim(), Locale.US, 2))); //MULTA
-		myEdificio.setEdf_ConfigOrdenDetalleGasto(strLinea.split("\\|")[28].trim()); //OPCTXT
+		myEdificio.setEdf_ConfigOrdenDetalleGasto(strLinea.split("\\|")[28].trim()); //ORDTXT
 		myEdificio.setEdf_ConfigNumerarGastos(strLinea.split("\\|")[29].trim()); //NUMCMP
 		myEdificio.setEdf_ConfigNumeroProximoGasto( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[30].trim(), Locale.US, 0))); //NROAUT
 		
