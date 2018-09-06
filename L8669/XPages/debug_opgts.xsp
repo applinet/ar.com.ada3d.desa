@@ -3,16 +3,16 @@
 	xmlns:xc="http://www.ibm.com/xsp/custom" xmlns:xe="http://www.ibm.com/xsp/coreex"
 	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar">
 	<h4>
-		<xp:text escape="true" id="computedField2"><xp:this.value><![CDATA[#{javascript:session.evaluate(getFieldValueAsItemFromConfig("_*_sql3", "v.Sys.DataSource", "ds_select_des")[0])[0] + " " +
-session.evaluate(getFieldValueAsItemFromConfig("_*_sql3", "v.Sys.DataSource", "ds_Tabla1_des")[0])[0]}]]></xp:this.value></xp:text>
+		<xp:text escape="true" id="computedField2"><xp:this.value><![CDATA[#{javascript:session.evaluate(getFieldValueAsItemFromConfig("_*_sql_OPGTS", "v.Sys.DataSource", "ds_select_des")[0])[0] + " " +
+session.evaluate(getFieldValueAsItemFromConfig("_*_sql_OPGTS", "v.Sys.DataSource", "ds_Tabla1_des")[0])[0]}]]></xp:this.value></xp:text>
 	</h4>
 	<xp:this.data>
 		<xe:objectData var="objDataSQL" ignoreRequestParams="true"
 			readonly="false" scope="view">
 			<xe:this.createObject><![CDATA[#{javascript:importPackage(ar.com.ada3d.connect);
 var javaClassQuery:QueryAS400 = new QueryAS400();
-var arrSQL = javaClassQuery.getSelectAS("_*_sql3", null);
-var config:java.util.Vector  = getFieldValueAsItemFromConfig("_*_sql3", "v.Sys.DataSource", "ds_queObtengo_des");
+var arrSQL = javaClassQuery.getSelectAS("_*_sql_OPGTS", null);
+var config:java.util.Vector  = getFieldValueAsItemFromConfig("_*_sql_OPGTS", "v.Sys.DataSource", "ds_queObtengo_des");
 var columnas:java.util.Vector = new java.util.Vector();
 var iteroCampos = 0;
 var iterator = config.iterator();
