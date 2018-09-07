@@ -78,11 +78,11 @@ if(!msgValidacion.isEmpty()){
 	}
 }}]]></xp:this.action>
 					<xp:this.script><![CDATA[XSP._setDirty(false,"");
-var x = document.getElementsByClassName("helperOpciones");
+var targetField = document.getElementsByClassName("target")[0].getElementsByTagName("li");
 var arr = [];
 var i;
-for (i = 0; i < x.length; i++) {
-    arr[i] = x[i].getAttribute("data-stock-symbol");
+for (i = 0; i < targetField.length; i++) {
+	arr[i] = targetField[i].getAttribute("codigoElementoImpresion");
 }
 
 XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
@@ -159,10 +159,8 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 						<xe:formRow id="rowNumerarGastos"
 							styleClass="form-inline" label="Numerar gastos"
 							style="padding-right:2.0%">
-							<xp:link escape="true" id="link1"
-								styleClass="control-label popOverTooltip">
-								<i
-									class="glyphicon glyphicon-question-sign" />
+							<xp:div styleClass="control-label popOverTooltip">
+								<i class="glyphicon glyphicon-question-sign blue" />
 								<xp:this.attrs>
 									<xp:attr name="data-toggle"
 										value="popover">
@@ -180,7 +178,7 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 										value="left">
 									</xp:attr>
 								</xp:this.attrs>
-							</xp:link>
+							</xp:div>
 							<xp:radioGroup id="radioGroupNumerarGastos"
 								value="#{gastoOpcionesBean.gastoOpciones.numerarGastos}"
 								layout="pageDirection" defaultValue="1">
@@ -214,10 +212,8 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 							styleClass="form-inline" label="Numerador de comprobantes"
 							style="padding-right:2.0%" for="numeroProximoGasto"
 							rendered="#{!gastoOpcionesBean.gastoOpciones.configuracionUnica}">
-							<xp:link escape="true" id="link4"
-								styleClass="control-label popOverTooltip">
-								<i
-									class="glyphicon glyphicon-question-sign" />
+							<xp:div styleClass="control-label popOverTooltip">
+								<i class="glyphicon glyphicon-question-sign blue" />
 								<xp:this.attrs>
 									<xp:attr name="data-toggle"
 										value="popover">
@@ -232,8 +228,7 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 										value="left">
 									</xp:attr>
 								</xp:this.attrs>
-							</xp:link>
-
+							</xp:div>
 							<xp:inputText id="numeroProximoGasto"
 								value="#{gastoOpcionesBean.gastoOpciones.numeroProximoGasto}"
 								disabled="#{gastoOpcionesBean.gastoOpciones.numerarGastos eq 0}">
@@ -260,10 +255,8 @@ return true;							      }]]></xp:this.expression>
 						<xe:formRow id="rowNumerarSueldos"
 							styleClass="form-inline" label="Numerar Sueldos"
 							style="padding-right:2.0%">
-							<xp:link escape="true" id="link2"
-								styleClass="control-label popOverTooltip">
-								<i
-									class="glyphicon glyphicon-question-sign" />
+							<xp:div styleClass="control-label popOverTooltip">
+								<i class="glyphicon glyphicon-question-sign blue" />
 								<xp:this.attrs>
 									<xp:attr name="data-toggle"
 										value="popover">
@@ -278,7 +271,9 @@ return true;							      }]]></xp:this.expression>
 										value="left">
 									</xp:attr>
 								</xp:this.attrs>
-							</xp:link>
+							
+							</xp:div>
+							
 							
 							<xp:radioGroup id="radioGroupNumerarSueldos"
 								value="#{gastoOpcionesBean.gastoOpciones.numerarSueldos}"
@@ -296,13 +291,10 @@ return true;							      }]]></xp:this.expression>
 							</xp:radioGroup>
 						</xe:formRow>
 
-						<xe:formRow id="rowAgregarDatosProveedor"
-							styleClass="form-inline" label="Agregar datos del proveedor"
-							style="padding-right:2.0%">
-							<xp:link escape="true" id="link3"
-								styleClass="control-label popOverTooltip">
-								<i
-									class="glyphicon glyphicon-question-sign" />
+						<xe:formRow id="rowOrdenDatos"
+							label="Agregar datos del proveedor" style="padding-right:2.0%">
+							<xp:div styleClass="control-label popOverTooltip">
+								<i class="glyphicon glyphicon-question-sign blue" />
 								<xp:this.attrs>
 									<xp:attr name="data-toggle"
 										value="popover">
@@ -314,74 +306,60 @@ return true;							      }]]></xp:this.expression>
 										value="true">
 									</xp:attr>
 									<xp:attr name="data-content">
-										<xp:this.value><![CDATA[#{javascript:"Si selecciona <b>No</b>, el orden de los datos no será tomado en cuenta.</br> Para cambiar el orden de las opciones, arrastre las opciones hasta tener el orden deseado"}]]></xp:this.value>
+										<xp:this.value><![CDATA[#{javascript:"La columna <b>Agregar automáticamente al detalle</b>, tendrá el orden de los datos que se agregarán automáticamente al detalle del gasto. Si la columna queda sin elementos no se agregarán los datos de proveedor al detale del gasto.</br> Para cambiar el orden de las opciones, arrastre las opciones hasta tener el orden deseado"}]]></xp:this.value>
 									</xp:attr>
 									<xp:attr name="data-placement"
 										value="left">
 									</xp:attr>
 								</xp:this.attrs>
-							</xp:link>
-							<xp:radioGroup
-								id="radioGroupAgregarDatosProveedor"
-								value="#{gastoOpcionesBean.gastoOpciones.agregarDatosProveedorEnDetalleDelGasto}"
-								layout="lineDirection" defaultValue="1">
-								<xp:selectItem itemLabel="Si"
-									itemValue="1" />
-								<xp:selectItem itemLabel="No"
-									itemValue="0" />
-								<xp:eventHandler event="onclick"
-									submit="true" refreshMode="partial"
-									refreshId="radioGroupAgregarDatosProveedor">
-								</xp:eventHandler>
-							</xp:radioGroup>
+							</xp:div>
 						</xe:formRow>
-
-						<xe:formRow id="rowOrdenDatos"
-							label="Orden de los datos" style="padding-right:2.0%">
-							<table>
-								<tr>
-									<th>
-										<ol class="target connected col-sm-6">Agregar al detalle
-											<xp:repeat id="repeat2" rows="30"
-												var="manufacturer" removeRepeat="true"
-												value="#{javascript:gastoOpcionesBean.get_mapOrdenDatosProveedor().entrySet()}">
-			
-												<xp:text escape="true"
-													styleClass="helperOpciones" id="sourceLI"
-													value="#{javascript:manufacturer.getValue()}" tagName="li">
-													<xp:this.attrs>
-														<xp:attr
-															name="data-stock-symbol"
-															value="#{javascript:manufacturer.getKey()}">
-														</xp:attr>
-													</xp:this.attrs>
-												</xp:text>
-											</xp:repeat>
-										</ol>
-										
-									</th>
-									<th>
-										<ol class="source connected">Seleccione y arrastre a la izquierda                              
-										  <xp:repeat id="repeat1" rows="30" var="manufacturer" removeRepeat="true">
-										    <xp:this.value>
-										      <![CDATA[${javascript:
-										        return ["Alfa Romeo", "Audi", "BMW", "Jaguar", "Mercedes", "Porsche", "Tesla", "Volkswagen", "Volvo"];
-										      }]]>
-										    </xp:this.value>
-										    <xp:text escape="true" id="computedField1" value="#{manufacturer}" tagName="li"></xp:text>
-										  </xp:repeat>
-										</ol>
-									</th>
-								</tr>
-							</table>
-							
-							
-							
-							
-
-						</xe:formRow>
+						
 					</xp:div>
 				</xe:formTable>
+				<xp:panel style="padding-left:10.0% ; padding-right:10.0%;">
+				<table>
+					<tr valign="top">
+						<th style="width: 50%">
+							<ol class="target connected col-sm-10">Agregar automáticamente al detalle
+								<xp:repeat id="repeat2" rows="30"
+									var="ordenDatos" removeRepeat="true"
+									value="#{javascript:gastoOpcionesBean.get_mapOrdenDatosProveedorTarget().entrySet()}">
+
+									<xp:text escape="true" id="ordenTargetLI"
+										value="#{javascript:ordenDatos.getValue()}" tagName="li">
+										<xp:this.attrs>
+											<xp:attr
+												name="codigoElementoImpresion"
+												value="#{javascript:ordenDatos.getKey()}">
+											</xp:attr>
+										</xp:this.attrs>
+									</xp:text>
+								</xp:repeat>
+							</ol>
+							
+						</th>
+						<th style="width: 50%">
+							<ol class="source connected col-sm-10">Seleccione y arrastre a la izquierda                              
+							  <xp:repeat id="repeatOrdenOriginal" rows="30" var="ordenOriginal" removeRepeat="true"
+							  	value="#{javascript:gastoOpcionesBean.get_mapOrdenDatosProveedorSource().entrySet()}">
+
+									<xp:text escape="true" id="ordenSourceLI"
+										value="#{javascript:ordenOriginal.getValue()}" tagName="li">
+										<xp:this.attrs>
+											<xp:attr
+												name="codigoElementoImpresion"
+												value="#{javascript:ordenOriginal.getKey()}">
+											</xp:attr>
+										</xp:this.attrs>
+									</xp:text>
+
+							  </xp:repeat>
+							</ol>
+						</th>
+					</tr>
+				</table>
+				</xp:panel>
 				<xp:panel id="PNL_HiddenFields">
 					<!-- Panel con campos temporales, no se visualizan -->
 					<xp:inputText id="helperGastoOpciones"

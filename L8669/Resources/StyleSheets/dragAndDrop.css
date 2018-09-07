@@ -36,33 +36,34 @@ ol li::before {
   line-height: 1;
 }
 
+/*Solo clase target*/
+
 ol.target li::before {
 	content: counter(my-awesome-counter);
 }
-
-ol.source li{
-	 background-color: #f8e0b1 !important;
-	 	
-}	
-
 ol.target li{
 	counter-increment: my-awesome-counter;
 	background-color: #e6ffcc !important;
 	list-style-position: inside;
 	 	
 }
+ol.target {
+	border: 2px dashed #add38d !important;
+	background-color: #f6fbf4 !important;
+	border-color: #add38d !important;
+}
 
+/*Solo clase source*/
+
+ol.source li{
+	 background-color: #f8e0b1 !important;
+}
 ol.source {
 	border: 2px dashed #f8e0b1 !important;
   	background-color: #fefcf5 !important;
   	border-color: #f8e0b1 !important;
 }
 
-ol.target {
-	border: 2px dashed #add38d !important;
-	background-color: #f6fbf4 !important;
-	border-color: #add38d !important;
-}
 
 body {
   padding: 1rem;

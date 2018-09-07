@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+
 import org.openntf.domino.Document;
 
 import lotus.domino.NotesException;
@@ -20,7 +22,8 @@ public class GastoOpcionesBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public List<GastoOpciones> listaOpcionesGastos;
 	private GastoOpciones gastoOpciones;
-	private HashMap<String, String> _mapOrdenDatosProveedor;
+	private HashMap<String, String> _mapOrdenDatosProveedorTarget;
+	private HashMap<String, String> _mapOrdenDatosProveedorSource;
 	private HashMap<String, String> _mapOrdenDatosProveedorOriginal;
 
 	
@@ -40,6 +43,7 @@ public class GastoOpcionesBean implements Serializable {
 		this.gastoOpciones.setNumeroProximoGasto(Integer.parseInt("1"));
 		this.gastoOpciones.setIsNew(true);
 		crearMapaDefault();
+		
 	}
 	
 	/**
@@ -73,8 +77,7 @@ public class GastoOpcionesBean implements Serializable {
 		docDummy.appendItemValue("NUMCMP", this.gastoOpciones.getNumerarGastos());
 		docDummy.appendItemValue("NROAUT", this.gastoOpciones.getNumerarGastos().equals("0") ? "0" : this.gastoOpciones.getNumeroProximoGasto());
 		docDummy.appendItemValue("NUMSLD", this.gastoOpciones.getNumerarSueldos().toString());
-		docDummy.appendItemValue("OPCPRV", this.gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto());
-		docDummy.appendItemValue("ORDTXT", this.gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto().equals("0") ? "0" : prm_ordenDatos.replace("," , ""));
+		docDummy.appendItemValue("ORDTXT", prm_ordenDatos.equals("") ? "0" : prm_ordenDatos.replace("," , ""));
 		QueryAS400 query = new QueryAS400();
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
@@ -138,10 +141,9 @@ public class GastoOpcionesBean implements Serializable {
 			myGastoOpciones.setCodigoEdificio(strLinea.split("\\|")[0].trim());
 			myGastoOpciones.setNumerarGastos(strLinea.split("\\|")[1].trim());
 			myGastoOpciones.setNumerarSueldos(strLinea.split("\\|")[2].trim());
-			myGastoOpciones.setAgregarDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[3].trim());
-			myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[4].trim());
+			myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[3].trim());
 			
-			myGastoOpciones.setNumeroProximoGasto(Integer.parseInt(strLinea.split("\\|")[5].trim()));
+			myGastoOpciones.setNumeroProximoGasto(Integer.parseInt(strLinea.split("\\|")[4].trim()));
 			if(myGastoOpciones.getCodigoEdificio().equals("***"))
 				myGastoOpciones.setConfiguracionUnica(true);
 			myGastoOpciones.setIsReadMode(true);
@@ -163,23 +165,57 @@ public class GastoOpcionesBean implements Serializable {
 	 * Al ingresar en un registro de la lista de opciones hago un nuevo update del gasto con los datos que faltan
 	 */
 	private void updateOpcionesGastos(GastoOpciones gastoOpciones){
-		if(gastoOpciones.getAgregarDatosProveedorEnDetalleDelGasto().equals("1")){
+		if(gastoOpciones.getOrdenDatosProveedorEnDetalleDelGasto().equals("0")){
+			crearMapaDefault();
+		}else{
 			String newString = Arrays.toString(gastoOpciones.getOrdenDatosProveedorEnDetalleDelGasto().split(""));
             newString = newString.substring(1, newString.length()-1).replace(" ", ""); 
-			this._mapOrdenDatosProveedor = devolverMapaOrdenado(newString.trim()); 
-		}else{
-			crearMapaDefault();
+			this._mapOrdenDatosProveedorTarget = devolverMapa(newString.trim());
+			this._mapOrdenDatosProveedorSource = new HashMap<String, String>();
+			
+			for (Entry<String, String> entry : _mapOrdenDatosProveedorOriginal.entrySet()) {
+				if(!_mapOrdenDatosProveedorTarget.containsKey(entry.getKey())){
+					_mapOrdenDatosProveedorSource.put(entry.getKey(), entry.getValue());
+				}
+			}
 		}
 	}
+
+
+	/**Orden de los datos de proveedores impresos en la descripcion del gasto
+	 * @usedIn: ccListadoGastos y al updateOpcionesGastos
+	 * @return: un nuevo mapa para asignar a mapOrdenDatosProveedor 
+	 * @param prm_ordenDatos: el orden como quiero que devuelva ordenado mapOrdenDatosProveedor	
+	 */
+
+	public HashMap<String, String> devolverMapa(String prm_codigosDatos){
+		if(this._mapOrdenDatosProveedorTarget == null){
+			crearMapaDefault();
+		}
+		List<String> myList = new ArrayList<String>(Arrays.asList(prm_codigosDatos.split(",")));
+		HashMap<String, String> tempMap = new HashMap<String, String>();
+		
+		for(String val : myList){
+			for (Entry<String, String> entry : _mapOrdenDatosProveedorOriginal.entrySet()) {
+				if(entry.getKey().equals(val)){
+					tempMap.put(entry.getKey(), entry.getValue());
+				}
+			}
+			
+		}
+		return tempMap;
+	}
+
+	
 	
 	/**Orden de los datos de proveedores impresos en la descripcion del gasto
-	 * @usedIn: 
+	 * @usedIn: ***ESTO NO SE USA*** YA QUE ANTES TENIAMOS 4 POSICIONES Y SE ORDENABA POR ESAS POCICIONES
 	 * @return: un nuevo mapa para asignar a mapOrdenDatosProveedor 
 	 * @param prm_ordenDatos: el orden como quiero que devuelva ordenado mapOrdenDatosProveedor	
 	 */
 
 	public HashMap<String, String> devolverMapaOrdenado(String prm_ordenDatos){
-		if(this._mapOrdenDatosProveedor == null){
+		if(this._mapOrdenDatosProveedorTarget == null){
 			crearMapaDefault();
 		}
 		List<String> myList = new ArrayList<String>(Arrays.asList(prm_ordenDatos.split(",")));
@@ -195,8 +231,9 @@ public class GastoOpcionesBean implements Serializable {
 	
 	/** Opciones por defecto del orden que imprime los datos del proveedor */
 	private void crearMapaDefault(){
-		this._mapOrdenDatosProveedor = new HashMap<String, String>();
-		//this._mapOrdenDatosProveedor.putAll(get_mapOrdenDatosProveedorOriginal());
+		this._mapOrdenDatosProveedorTarget = new HashMap<String, String>();
+		this._mapOrdenDatosProveedorSource = new HashMap<String, String>();
+		this._mapOrdenDatosProveedorSource.putAll(get_mapOrdenDatosProveedorOriginal());
 	}
 	
 	//***** FIN FUNCIONES ****
@@ -225,18 +262,22 @@ public class GastoOpcionesBean implements Serializable {
 	}
 
 
-	public HashMap<String, String> get_mapOrdenDatosProveedor() {
-		return _mapOrdenDatosProveedor;
+	public HashMap<String, String> get_mapOrdenDatosProveedorTarget() {
+		return _mapOrdenDatosProveedorTarget;
 	}
 
 
-	public void set_mapOrdenDatosProveedor(
+	public void set_mapOrdenDatosProveedorTarget(
 			HashMap<String, String> ordenDatosProveedor) {
-		_mapOrdenDatosProveedor = ordenDatosProveedor;
+		_mapOrdenDatosProveedorTarget = ordenDatosProveedor;
 	}
 
+	public HashMap<String, String> get_mapOrdenDatosProveedorSource() {
+		return _mapOrdenDatosProveedorSource;
+	}
+	
 	public HashMap<String, String> get_mapOrdenDatosProveedorOriginal() {
-		this._mapOrdenDatosProveedorOriginal = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("opcionesGastoOrdenDatosProveedor");
+		this._mapOrdenDatosProveedorOriginal = ar.com.ada3d.utilidades.JSFUtil.getCacheApp().getOpcionesGastoOrdenDatosProveedor();
 		return _mapOrdenDatosProveedorOriginal;
 	}
 	

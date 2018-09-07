@@ -4,7 +4,6 @@ public class GastoOpciones {
 	private String codigoEdificio;
 	private String numerarGastos;
 	private String numerarSueldos;
-	private String agregarDatosProveedorEnDetalleDelGasto;
 	private String ordenDatosProveedorEnDetalleDelGasto;
 	private boolean isReadMode;
 	private boolean configuracionUnica;
@@ -40,16 +39,7 @@ public class GastoOpciones {
 	public void setNumerarSueldos(String numerarSueldos) {
 		this.numerarSueldos = numerarSueldos;
 	}
-
-	public String getAgregarDatosProveedorEnDetalleDelGasto() {
-		return agregarDatosProveedorEnDetalleDelGasto;
-	}
-
-	public void setAgregarDatosProveedorEnDetalleDelGasto(
-			String agregarDatosProveedorEnDetalleDelGasto) {
-		this.agregarDatosProveedorEnDetalleDelGasto = agregarDatosProveedorEnDetalleDelGasto;
-	}
-
+	
 	public String getOrdenDatosProveedorEnDetalleDelGasto() {
 		return ordenDatosProveedorEnDetalleDelGasto;
 	}
