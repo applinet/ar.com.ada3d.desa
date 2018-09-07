@@ -503,11 +503,11 @@ public class GastoBean implements Serializable {
 	 * Completo la variable listaGastos consultando As400, cada linea separa el dato por un pipe
 	 * Cada gasto puede tener mas de una linea, pero existe un unico importe por factura.
 	 * @param prm_edificio: necesito los porcentuales del edificio
-	 * @param prm_tipo: N o G. Nota o gasto.
+	 * @param prm_tipoFormulario: N o G. Nota o gasto.
 	 * @return la lista de facturas o notas de un edificio
 	 */
-	private void fillListaGastos(Edificio prm_edificio, String prm_tipo){
-		if((prm_tipo.equals("N") && agrupamientosNotasMap == null) || (prm_tipo.equals("G") && agrupamientosGastosMap == null)){
+	private void fillListaGastos(Edificio prm_edificio, String prm_tipoFormulario){
+		if((prm_tipoFormulario.equals("N") && agrupamientosNotasMap == null) || (prm_tipoFormulario.equals("G") && agrupamientosGastosMap == null)){
 			System.out.println("** ERROR - agrupamientosNotasMap o agrupamientosGastosMap son nulos **");
 			return;
 		}
@@ -532,7 +532,7 @@ public class GastoBean implements Serializable {
 		Calendar calEdificioProxLiq = Calendar.getInstance();
 		for (String strLinea : nl) {
 			//Estoy llenando notas solo si el codigo de agrupamiento es de notas o estoy llenando gastos solo si el codigo de agrupamiento es de gastos
-			if((prm_tipo.equals("N") && agrupamientosNotasMap.containsKey(strLinea.split("\\|")[10].trim())) || (prm_tipo.equals("G") && agrupamientosGastosMap.containsKey(strLinea.split("\\|")[10].trim()))){
+			if((prm_tipoFormulario.equals("N") && agrupamientosNotasMap.containsKey(strLinea.split("\\|")[10].trim())) || (prm_tipoFormulario.equals("G") && agrupamientosGastosMap.containsKey(strLinea.split("\\|")[10].trim()))){
 			
 				if(!strLinea.split("\\|")[13].equals("B")){ //Si no es una baja
 					//Voy a generar una linea por comprobante pero recordar que una factura puede tener muchas lineas de texto
@@ -544,7 +544,7 @@ public class GastoBean implements Serializable {
 						myGasto.setIdGasto(idGasto);
 						myGasto.setCodigoEdificio(strLinea.split("\\|")[0].trim());
 						
-						if(prm_tipo.equals("G")){//Separacion notas de gastos
+						if(prm_tipoFormulario.equals("G")){//Separacion notas de gastos
 							myGasto.setNumeroComprobante(new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[9].trim(), Locale.UK, 0)));
 							myGasto.setCodigoEspecial(strLinea.split("\\|")[11].trim());
 							myGasto.setCuitProveedor(strLinea.split("\\|")[14].trim());
@@ -593,7 +593,7 @@ public class GastoBean implements Serializable {
 							miGasto = listaGastos.get(count - 1);
 						}
 						//Si es la linea de importes (NRENGL = TRENGL)
-						if(strLinea.split("\\|")[7].trim().equals(strLinea.split("\\|")[8].trim()) && prm_tipo.equals("G")){
+						if(strLinea.split("\\|")[7].trim().equals(strLinea.split("\\|")[8].trim()) && prm_tipoFormulario.equals("G")){
 							//Prorrateo para gastos
 							miGasto.setListaProrrateos(cargaProrrateo(strLinea, prm_edificio));					
 						}
@@ -612,8 +612,9 @@ public class GastoBean implements Serializable {
 	 * Al ingresar en un registro de la lista de gastos hago un nuevo update del gasto con los datos que faltan
 	 * Recordar que cada gasto puede tener mas de una linea, pero existe un unico importe por factura
 	 * @param prm_Gasto: el gasto por actualizar
+	 * @param prm_tipoFormulario: N o G. Nota o gasto.
 	 */
-	private void updateGasto(Gasto prm_Gasto, String tipoGasto){
+	private void updateGasto(Gasto prm_Gasto, String prm_tipoFormulario){
 		ArrayList<String> nl = null;
 		Document docDummy = JSFUtil.getDocDummy();
 		docDummy.appendItemValue("Codigo", prm_Gasto.getCodigoEdificio());
@@ -643,7 +644,7 @@ public class GastoBean implements Serializable {
 				prm_Gasto.setUsuarioCreacion(strLinea.split("\\|")[13].trim());//Usuario creacion	
 				prm_Gasto.setOrigenDatos(strLinea.split("\\|")[14].trim());//Origen de los datos	
 				
-				if (tipoGasto.equals("G")){
+				if (prm_tipoFormulario.equals("G")){
 					prm_Gasto.setCuitProveedor(strLinea.split("\\|")[6].trim());
 					if(!strLinea.split("\\|")[8].trim().equals("0")) //la fecha si es nula viene un cero
 						prm_Gasto.setFechaFactura(ar.com.ada3d.utilidades.Conversores.StringToDate("ddMMyy", strLinea.split("\\|")[8].trim()));
@@ -1050,8 +1051,8 @@ public class GastoBean implements Serializable {
 		
 	}
 
-	public void setGasto(Gasto gasto, boolean updateAS400, String tipoGasto) {
-		updateGasto(gasto, tipoGasto);
+	public void setGasto(Gasto gasto, boolean updateAS400, String tipoFormulario) {
+		updateGasto(gasto, tipoFormulario);
 		this.gasto = gasto;
 	}
 
