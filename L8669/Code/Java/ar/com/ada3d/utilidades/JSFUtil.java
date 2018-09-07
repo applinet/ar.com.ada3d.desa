@@ -21,6 +21,7 @@ public class JSFUtil {
 
 	}
 
+	
 	public static XSPContext getContext() {
 		return XSPContext.getXSPContext(FacesContext.getCurrentInstance());
 	}
@@ -278,4 +279,7 @@ public class JSFUtil {
             return null; 
     } 
 	
+    public static CfgCache getCacheApp(){
+    	return (CfgCache) JSFUtil.resolveVariable("cacheBean");
+    }
 }
