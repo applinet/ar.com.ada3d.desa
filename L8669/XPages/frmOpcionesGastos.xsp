@@ -138,9 +138,10 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 									property_VisualizarCodigo="true"
 									property_VisualizarFechaUltimaLiquidacion="false"
 									property_AnchoPxCombo="250"
-									property_ReadOnly="#{!gastoOpcionesBean.gastoOpciones.isNew}"
+									property_ReadOnly="true"
 									refreshIdOnChange="PNL_Principal" id="comboEdificio"
 									rendered="#{!gastoOpcionesBean.gastoOpciones.configuracionUnica}">
+									<xc:this.property_DisableEstosEdificios><![CDATA[#{javascript:['']}]]></xc:this.property_DisableEstosEdificios>
 								</xc:ccComboBoxEdificios>
 							</xp:div>
 							<xp:checkBox

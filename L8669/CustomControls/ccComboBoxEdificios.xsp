@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.beforePageLoad><![CDATA[#{javascript:if(sessionScope.edfObj == null){
-	var strCodigoPrimerEdificioDeLista = edificioBean.getComboBoxEdificiosQueTengoAutorizados(compositeData.get("property_SoloEdificiosEnProceso"), compositeData.get("property_VisualizarCodigo"), compositeData.get("property_VisualizarFechaUltimaLiquidacion")).get(0).getValue();
+	var strCodigoPrimerEdificioDeLista = edificioBean.getComboBoxEdificiosQueTengoAutorizados(compositeData.get("property_SoloEdificiosEnProceso"), compositeData.get("property_VisualizarCodigo"), compositeData.get("property_VisualizarFechaUltimaLiquidacion"), compositeData.get("property_DisableEstosEdificios")).get(0).getValue();
 	sessionScope.put("edfObj", edificioBean.getEdificioMap(strCodigoPrimerEdificioDeLista));
 }}]]></xp:this.beforePageLoad>	
 	<xe:djFilteringSelect id="djComboEdificios"
@@ -15,7 +15,7 @@ if(prop == "auto")
 style='width:' + prop + 'px';}]]></xe:this.style>
 		<xe:this.disabled><![CDATA[#{javascript:compositeData.get("property_ReadOnly")}]]></xe:this.disabled>
 		<xp:selectItems>
-			<xp:this.value><![CDATA[#{javascript:edificioBean.getComboBoxEdificiosQueTengoAutorizados(compositeData.get("property_SoloEdificiosEnProceso"), compositeData.get("property_VisualizarCodigo"), compositeData.get("property_VisualizarFechaUltimaLiquidacion"));}]]></xp:this.value>
+			<xp:this.value><![CDATA[#{javascript:edificioBean.getComboBoxEdificiosQueTengoAutorizados(compositeData.get("property_SoloEdificiosEnProceso"), compositeData.get("property_VisualizarCodigo"), compositeData.get("property_VisualizarFechaUltimaLiquidacion"), compositeData.get("property_DisableEstosEdificios"));}]]></xp:this.value>
 		</xp:selectItems>
 		<xe:this.dojoAttributes>
 			<xp:dojoAttribute name="required" value="false">

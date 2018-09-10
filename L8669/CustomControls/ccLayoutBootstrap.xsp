@@ -13,7 +13,7 @@
 	</xp:this.resources>
 
 	<xp:this.beforePageLoad><![CDATA[#{javascript:if(sessionScope.edfObj == null){
-	var strCodigoPrimerEdificioDeLista = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, true, true).get(0).getValue();
+	var strCodigoPrimerEdificioDeLista = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, true, true, new java.util.ArrayList()).get(0).getValue();
 	sessionScope.put("edfObj", edificioBean.getEdificioMap(strCodigoPrimerEdificioDeLista));
 }}]]></xp:this.beforePageLoad>
 	<xc:ccRolDesarrollo_Debug>
@@ -63,7 +63,7 @@
 					<xe:this.disabled><![CDATA[#{javascript:compositeData.get("property_ReadOnly")}]]></xe:this.disabled>
 					<xe:this.rendered><![CDATA[#{javascript:compositeData.get("property_ShowComboEdificio")}]]></xe:this.rendered>
 					<xp:selectItems>
-						<xp:this.value><![CDATA[#{javascript:edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, true, true);}]]></xp:this.value>
+						<xp:this.value><![CDATA[#{javascript:edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, true, true, new java.util.ArrayList());}]]></xp:this.value>
 					</xp:selectItems>
 					<xe:this.dojoAttributes>
 						<xp:dojoAttribute name="required"

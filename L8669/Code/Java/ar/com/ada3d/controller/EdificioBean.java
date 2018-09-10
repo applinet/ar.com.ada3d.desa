@@ -82,7 +82,7 @@ public class EdificioBean implements Serializable {
 	 * @param prm_isIncluyeCodigoVisual si en la descripcion del combo muestra el codigo visual
 	 * @param prm_isIncluyeFechaUltimaLiquidacion  si en la descripcion del combo muestra la Fecha
 	 */
-	public static List<SelectItem> getComboBoxEdificiosQueTengoAutorizados(Boolean prm_isNoChequearEstado, Boolean prm_isIncluyeCodigoVisual, Boolean prm_isIncluyeFechaUltimaLiquidacion) {
+	public static List<SelectItem> getComboBoxEdificiosQueTengoAutorizados(Boolean prm_isNoChequearEstado, Boolean prm_isIncluyeCodigoVisual, Boolean prm_isIncluyeFechaUltimaLiquidacion, List<String> prm_arrExcluirEstosCodigos ) {
 		prm_isNoChequearEstado = prm_isNoChequearEstado ? false : true;
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		String incluyeCodigoVisual;
@@ -90,15 +90,19 @@ public class EdificioBean implements Serializable {
 		List<SelectItem> options = new ArrayList<SelectItem>();
 		for (Edificio miEdificio : listaEdificios) {
 			if (miEdificio.getEdf_estadoProceso().equals("1") || prm_isNoChequearEstado) { // solo estado=1
-				if (!docUsuario.getEdificiosNoAccessLista().contains(
-						miEdificio.getEdf_codigo())) { // Solo edificios
-														// autorizados
+				if (!docUsuario.getEdificiosNoAccessLista().contains(miEdificio.getEdf_codigo())) { 
+					// Solo edificios autorizados
 					SelectItem option = new SelectItem();
 					incluyeCodigoVisual = prm_isIncluyeCodigoVisual ? miEdificio.getEdf_codigoVisual().equals("") ? miEdificio.getEdf_codigo(): miEdificio.getEdf_codigoVisual() + " " : "";
 					incluyeFechaUltimaLiquidacion = prm_isIncluyeFechaUltimaLiquidacion ? ar.com.ada3d.utilidades.Conversores.DateToString(miEdificio.getEdf_fechaUltimaLiquidacion(), "dd/MM/yyyy" ):"";
 					option.setLabel( incluyeCodigoVisual + miEdificio.getEdf_direccion() + " " + incluyeFechaUltimaLiquidacion);
 					option.setValue(miEdificio.getEdf_codigo());
-					options.add(option);
+					if ((!prm_arrExcluirEstosCodigos.contains(null) && !prm_arrExcluirEstosCodigos.contains("")) && prm_arrExcluirEstosCodigos.contains(miEdificio.getEdf_codigo())){
+						//System.out.println("deshabilito edificio:" + miEdificio.getEdf_codigo());
+					}else{
+						options.add(option);						
+					}
+					
 				}
 			}
 		}

@@ -63,5 +63,9 @@
         <required>false</required>
       </property-extension>
     </property>
+    <property>
+      <property-name>property_DisableEstosEdificios</property-name>
+      <property-class>object</property-class>
+    </property>
   </composite-component>
 </faces-config>
