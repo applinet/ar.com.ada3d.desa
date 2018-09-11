@@ -7,9 +7,14 @@
 		<xp:styleSheet href="/dragAndDrop.css"></xp:styleSheet>
 	</xp:this.resources>
 
-	<xp:this.afterPageLoad><![CDATA[#{javascript:viewScope.opcionesGastosPrimeraVez = gastoOpcionesBean.viewOpcionesGastos();}]]></xp:this.afterPageLoad>
-	<xp:this.beforePageLoad><![CDATA[#{javascript:if (gastoOpcionesBean.gastoOpciones == null)
-	gastoOpcionesBean.createNewOpcionGasto();}]]></xp:this.beforePageLoad>
+	
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if (gastoOpcionesBean.gastoOpciones == null){
+	gastoOpcionesBean.createNewOpcionGasto();
+}
+if(sessionScope.navRule != null && sessionScope.navRule == "viewGastos"){
+	gastoOpcionesBean.viewOpcionesGastos();
+}
+viewScope.edificiosOpcionesGastos = gastoOpcionesBean.edificiosOpcionesGastos;}]]></xp:this.beforePageLoad>
 	<script type="text/javascript"
 		src="dragAndDrop/jquery.sortable.min.js">
 	</script>
@@ -104,7 +109,8 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 				<xp:label
 					value="Ud. está viendo esta pantalla, debido a que debe configurar por primera vez sus opciones
 					de gastos; una vez grabada, podrá cargar los gastos y no se le volverá a solicitar. "
-					id="labelMensajeUnicaVez">
+					id="labelMensajeUnicaVez"
+					rendered="#{javascript:gastoOpcionesBean.edificiosOpcionesGastos.isEmpty()}">
 				</xp:label>
 				<xp:label value="Puede elegir entre tener una configuración individual para cada edificio o una única configuración para todos sus edificios.">
                 </xp:label>
@@ -131,28 +137,44 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 					formTitle="Opciones de carga rápida">
 					<xp:div styleClass="form-inline">
 						<xe:formRow id="rowEdificio" label="Edificio"
-							style="padding-right:2.0%" for="comboEdificio">
+							style="padding-right:2.0%">
 							<xp:div id="divComboEdificios">
+								<xc:ccComboBoxEdificiosFiltrado
+									property_SoloEdificiosEnProceso="true"
+									property_VisualizarCodigo="true"
+									property_VisualizarFechaUltimaLiquidacion="true"
+									property_AnchoPxCombo="250" property_ReadOnly="false"
+									refreshIdOnChange="formTableOpcionesGastos" id="comboEdificioFiltrado"
+									property_DisableEstosEdificios="#{javascript:viewScope.edificiosOpcionesGastos}"
+									loaded="${gastoOpcionesBean.gastoOpciones.isNew}">
+									<xc:this.rendered><![CDATA[#{javascript:!gastoOpcionesBean.gastoOpciones.configuracionUnica}]]></xc:this.rendered>
+								</xc:ccComboBoxEdificiosFiltrado>
 								<xc:ccComboBoxEdificios
 									property_SoloEdificiosEnProceso="true"
 									property_VisualizarCodigo="true"
 									property_VisualizarFechaUltimaLiquidacion="false"
 									property_AnchoPxCombo="250"
-									property_ReadOnly="true"
-									refreshIdOnChange="PNL_Principal" id="comboEdificio"
-									rendered="#{!gastoOpcionesBean.gastoOpciones.configuracionUnica}">
-									<xc:this.property_DisableEstosEdificios><![CDATA[#{javascript:['']}]]></xc:this.property_DisableEstosEdificios>
+									property_ReadOnly="#{!gastoOpcionesBean.gastoOpciones.isNew}"
+									refreshIdOnChange="formTableOpcionesGastos" id="comboEdificio"
+									loaded="${!gastoOpcionesBean.gastoOpciones.isNew}">
+									<xc:this.rendered><![CDATA[#{javascript:!gastoOpcionesBean.gastoOpciones.configuracionUnica}]]></xc:this.rendered>
 								</xc:ccComboBoxEdificios>
 							</xp:div>
+							
 							<xp:checkBox
-								text="Configuración única para todos mis edificios"
+								text="*** Configuración única para todos mis edificios"
 								id="checkBox1" checkedValue="#{javascript:true}"
 								uncheckedValue="#{javascript:false}"
 								value="#{gastoOpcionesBean.gastoOpciones.configuracionUnica}"
-								readonly="#{javascript:!gastoOpcionesBean.gastoOpciones.isNew}">
+								readonly="#{javascript:!gastoOpcionesBean.gastoOpciones.isNew}"
+								style="font-weight:bold">
+
+								<xp:this.rendered><![CDATA[#{javascript:if(!viewScope.edificiosOpcionesGastos.contains('***'))
+	return true
+return gastoOpcionesBean.gastoOpciones.configuracionUnica	}]]></xp:this.rendered>
 								<xp:eventHandler event="onclick"
 									submit="true" refreshMode="partial"
-									refreshId="divComboEdificios">
+									refreshId="formTableOpcionesGastos">
 								</xp:eventHandler>
 							</xp:checkBox>
 						</xe:formRow>
