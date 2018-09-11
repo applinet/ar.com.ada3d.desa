@@ -39,15 +39,14 @@ x$( "#{id:btnNewProveedor}" ).popover();
 						<i class="glyphicon glyphicon-star-empty" style="font-size: 32px; color:red"></i>
 					</th>
 					<th>	
-						<xc:ccComboBoxEdificios 
+						<xc:ccComboBoxEdificios
 							property_SoloEdificiosEnProceso="true"
 							property_VisualizarCodigo="true"
 							property_VisualizarFechaUltimaLiquidacion="false"
 							property_AnchoPxCombo="250"
 							property_ReadOnly="#{gastoBean.gasto.isReadMode or gastoBean.gasto.idGasto != null}"
-							refreshIdOnChange="PNL_Principal" id="comboEdificio" >
+							refreshIdOnChange="PNL_Principal" id="comboEdificio">
 						</xc:ccComboBoxEdificios>
-						
 					</th>
 					<th style="text-align: right">
 						<xp:label value="Liquidación: "
