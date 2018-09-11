@@ -21,6 +21,7 @@ import ar.com.ada3d.utilidades.JSFUtil;
 public class GastoOpcionesBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public List<GastoOpciones> listaOpcionesGastos;
+	private ArrayList<String> edificiosOpcionesGastos;
 	private GastoOpciones gastoOpciones;
 	private HashMap<String, String> _mapOrdenDatosProveedorTarget;
 	private HashMap<String, String> _mapOrdenDatosProveedorSource;
@@ -68,7 +69,6 @@ public class GastoOpcionesBean implements Serializable {
 		List<String> listaEdificios = new ArrayList<String>();
 		if(this.gastoOpciones.isConfiguracionUnica()){
 			listaEdificios.add("***");
-			prm_edificio.setEdf_codigo("***");
 		}else{
 			listaEdificios.add(prm_edificio.getEdf_codigo());
 		}
@@ -85,13 +85,13 @@ public class GastoOpcionesBean implements Serializable {
 		if(gastoOpciones.getCodigoEdificio() != null){ //es un update
 			if (!query.updateBatchGastos("opcionesgastoUpdateBatch", docDummy, listaEdificios, false)) {
 				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
-				System.out.println("ERROR: " + errCode + " METH:saveNewOpcionGasto" + "_EDID:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo actualizar la tabla PH_OPGTS.");
+				System.out.println("ERROR: " + errCode + " METH:saveNewOpcionGasto" + "_EDIF:" + (this.gastoOpciones.isConfiguracionUnica() ? "***" : prm_edificio.getEdf_codigo()) + "_DESC: No se pudo actualizar la tabla PH_OPGTS.");
 			}
 		}else{
 			if (this.gastoOpciones.getIsNew()){
 				for(GastoOpciones go : listaOpcionesGastos){
-			        if(go.getCodigoEdificio() != null && go.getCodigoEdificio().contains(prm_edificio.getEdf_codigo())){
-			        	if(prm_edificio.getEdf_codigo().equals("***")){
+			        if(go.getCodigoEdificio() != null && go.getCodigoEdificio().contains(this.gastoOpciones.isConfiguracionUnica() ? "***" : prm_edificio.getEdf_codigo())){
+			        	if(this.gastoOpciones.isConfiguracionUnica()){
 			        		listAcumulaErroresAS400.add("btnSave~Ud. ya tiene cargada una configuración única para todos sus edificios. Para modificarla por favor ingrese por opciones de gastos e ingrese en el edificio: ***");
 			        	}else{
 			        		listAcumulaErroresAS400.add("btnSave~El edificio " + go.getCodigoEdificio()  + " ya tiene una configuración cargada. Para modificarla por favor ingrese por opciones de gastos");
@@ -102,7 +102,7 @@ public class GastoOpcionesBean implements Serializable {
 			}
 			if (!query.updateBatchGastos("opcionesgastoInsertBatchOPGTS", docDummy, listaEdificios, false)) {
 				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
-				System.out.println("ERROR: " + errCode + " METH:saveNewOpcionGasto" + "_EDID:" + prm_edificio.getEdf_codigo() + "_DESC: No se pudo insertar en la tabla PH_OPGTS.");
+				System.out.println("ERROR: " + errCode + " METH:saveNewOpcionGasto" + "_EDIF:" + (this.gastoOpciones.isConfiguracionUnica() ? "***" : prm_edificio.getEdf_codigo()) + "_DESC: No se pudo insertar en la tabla PH_OPGTS.");
 			}
 		}
 		return listAcumulaErroresAS400;
@@ -126,6 +126,7 @@ public class GastoOpcionesBean implements Serializable {
 	 * @return true si tiene al menos un edificio configurado, sino falso para crearlas
 	 */
 	private boolean fillListaOpcionesGastos(){
+		edificiosOpcionesGastos = new ArrayList<String>();
 		ArrayList<String> nl = null;
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		try {
@@ -139,6 +140,7 @@ public class GastoOpcionesBean implements Serializable {
 		for (String strLinea : nl) {
 			myGastoOpciones = new GastoOpciones();
 			myGastoOpciones.setCodigoEdificio(strLinea.split("\\|")[0].trim());
+			edificiosOpcionesGastos.add(strLinea.split("\\|")[0].trim());
 			myGastoOpciones.setNumerarGastos(strLinea.split("\\|")[1].trim());
 			myGastoOpciones.setNumerarSueldos(strLinea.split("\\|")[2].trim());
 			myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[3].trim());
@@ -259,6 +261,12 @@ public class GastoOpcionesBean implements Serializable {
 		if(gastoOpciones.getCodigoEdificio() != null) //no es una opcion nueva
 			updateOpcionesGastos(gastoOpciones);
 		this.gastoOpciones = gastoOpciones;
+	}
+
+	
+
+	public ArrayList<String> getEdificiosOpcionesGastos() {
+		return edificiosOpcionesGastos;
 	}
 
 
