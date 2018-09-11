@@ -13,11 +13,21 @@
 	context.redirectToPage("frmOpcionesGastos");}]]></xp:this.afterPageLoad>
 	<xc:ccLayoutBootstrap property_hasTitleBar="true"
 		property_ShowComboEdificio="false"
-		property_TitleBarActions=""
-		property_ShowAffixToolBar="false">
+		property_TitleBarActions="ar.com.ada3d.frontend.LayoutTitleBarActionsOpcionesGastos"
+		property_ShowAffixToolBar="true">
 		<xp:this.facets>
 			<xp:panel id="PNL_container" xp:key="facetMiddle">
-				<xp:dataTable id="opcionesGastosTable"
+				  <xp:div role="alert"
+				  	styleClass="alert alert-danger alert-dismissable">
+				  	<xp:this.rendered><![CDATA[#{javascript:param.containsKey("TEC")}]]></xp:this.rendered>
+				  	<xp:span styleClass="glyphicon glyphicon-remove">
+				  	</xp:span>
+				  	<xp:label
+				  		value="No puede crear una nueva configuración. Todos los edificios se encuentran configurados"
+				  		id="label2">
+				  	</xp:label>
+				  </xp:div>
+				  <xp:dataTable id="opcionesGastosTable"
 					var="opcionesGastos"
 					value="#{gastoOpcionesBean.listaOpcionesGastos}" rows="15">
 					<xp:this.facets>
@@ -46,7 +56,7 @@
 								submit="true" refreshMode="complete" id="eventHandler2">
 								<xp:this.action><![CDATA[#{javascript:if(opcionesGastos.getCodigoEdificio().equals("***")){
 	
-	var codigoEdificio:String = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, false, false, new java.util.ArrayList()).get(0).getValue();
+	var codigoEdificio:String = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, false, false).get(0).getValue();
 	sessionScope.edificioWork = codigoEdificio;
 	sessionScope.put("edfObj", edificioBean.getEdificioMap(codigoEdificio));
 	opcionesGastos.setCodigoEdificio(codigoEdificio);
@@ -75,7 +85,7 @@ gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOp
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="complete" id="eventHandler1">
 								<xp:this.action><![CDATA[#{javascript:if(opcionesGastos.getCodigoEdificio().equals("***")){
-	var codigoEdificio:String = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, false, false, new java.util.ArrayList()).get(0).getValue();
+	var codigoEdificio:String = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, false, false).get(0).getValue();
 	sessionScope.edificioWork = codigoEdificio;
 	sessionScope.put("edfObj", edificioBean.getEdificioMap(codigoEdificio));
 	opcionesGastos.setCodigoEdificio(codigoEdificio);
@@ -102,7 +112,7 @@ return opcionesGastos.numerarGastos != "0" ? opcionesGastos.numeroProximoGasto :
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="complete" id="eventHandler5">
 								<xp:this.action><![CDATA[#{javascript:if(opcionesGastos.getCodigoEdificio().equals("***")){
-	var codigoEdificio:String = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, false, false, new java.util.ArrayList()).get(0).getValue();
+	var codigoEdificio:String = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, false, false).get(0).getValue();
 	sessionScope.edificioWork = codigoEdificio;
 	sessionScope.put("edfObj", edificioBean.getEdificioMap(codigoEdificio));
 	opcionesGastos.setCodigoEdificio(codigoEdificio);
@@ -151,7 +161,7 @@ return row == "0" ? "No" : gastoOpcionesBean.get_mapOrdenDatosProveedorOriginal(
 								<xp:eventHandler event="onclick"
 									submit="true" refreshMode="complete" id="eventHandler4">
 									<xp:this.action><![CDATA[#{javascript:if(opcionesGastos.getCodigoEdificio().equals("***")){
-	var codigoEdificio:String = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, false, false, new java.util.ArrayList()).get(0).getValue();
+	var codigoEdificio:String = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, false, false).get(0).getValue();
 	sessionScope.edificioWork = codigoEdificio;
 	sessionScope.put("edfObj", edificioBean.getEdificioMap(codigoEdificio));
 	opcionesGastos.setCodigoEdificio(codigoEdificio);
