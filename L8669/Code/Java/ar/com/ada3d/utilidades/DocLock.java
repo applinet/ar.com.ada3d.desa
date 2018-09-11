@@ -1,6 +1,6 @@
 package ar.com.ada3d.utilidades;
 
-/*201330517 - FPR - Para lockear un documento
+/*201330517 - Para lockear un documento
  * ------UTILIZA---------------------------------------------------------------------------------
  * <managed-bean-name>DocLock</managed-bean-name> 
  * con una beanScope de Aplicacion 

@@ -8,7 +8,7 @@ private static final long serialVersionUID = 1L;
 
 
 	public LayoutTitleBarActionsOpcionesGastos() {
-		addLeaf("Cfg edificio nuevo", "btnNuevaOpcionGasto", "btn-info");
+		addLeaf("Nueva Configuración", "btnNuevaOpcionGasto", "btn-info");
 	}
 	
 	public void addLeaf(String label, String boton, String styleClass) {

@@ -5,9 +5,9 @@
     <default-prefix>xc</default-prefix>
   </faces-config-extension>
   <composite-component>
-    <component-type>ccComboBoxEdificios</component-type>
-    <composite-name>ccComboBoxEdificios</composite-name>
-    <composite-file>/ccComboBoxEdificios.xsp</composite-file>
+    <component-type>ccComboBoxEdificiosFiltrado</component-type>
+    <composite-name>ccComboBoxEdificiosFiltrado</composite-name>
+    <composite-file>/ccComboBoxEdificiosFiltrado.xsp</composite-file>
     <composite-extension>
       <designer-extension>
         <in-palette>true</in-palette>
@@ -62,6 +62,10 @@
         </designer-extension>
         <required>false</required>
       </property-extension>
+    </property>
+    <property>
+      <property-name>property_DisableEstosEdificios</property-name>
+      <property-class>object</property-class>
     </property>
   </composite-component>
 </faces-config>
