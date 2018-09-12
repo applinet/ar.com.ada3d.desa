@@ -9,6 +9,7 @@ public class GastoOpciones {
 	private boolean configuracionUnica;
 	private Integer numeroProximoGasto;
 	private boolean isNew;
+	private String mensajeWarning;
 	
 	
 	public GastoOpciones() {
@@ -79,6 +80,14 @@ public class GastoOpciones {
 
 	public void setIsNew(boolean isNew) {
 		this.isNew = isNew;
+	}
+
+	public String getMensajeWarning() {
+		return mensajeWarning;
+	}
+
+	public void setMensajeWarning(String mensajeWarning) {
+		this.mensajeWarning = mensajeWarning;
 	}
 	
 	

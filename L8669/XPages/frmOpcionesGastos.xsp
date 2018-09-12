@@ -104,37 +104,20 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 
 		</xp:div>
 	</xp:div>
-	<xp:div styleClass="container">
-		<xp:this.rendered><![CDATA[#{javascript:return sessionScope.edfObj.edf_ConfigOrdenDetalleGasto.equals("0") ?  false : true;}]]></xp:this.rendered>
-		<xp:div styleClass="well-sm"
-			style="background-color:rgb(255,240,255)">
-			<h1>Configuración de gastos</h1>
-			<p>
-				<xp:label
-					value="Ud. está viendo esta pantalla, debido a que debe configurar por primera vez sus opciones
-					de gastos; una vez grabada, podrá cargar los gastos y no se le volverá a solicitar. "
-					id="labelMensajeUnicaVez"
-					rendered="#{javascript:gastoOpcionesBean.edificiosConOpcionesGastos.isEmpty()}">
-				</xp:label>
-				<xp:label value="Puede elegir entre tener una configuración individual para cada edificio o una única configuración para todos sus edificios.">
-                </xp:label>
-                <br />
-                <span>
-                    Si tilda la opción:
-                    <span style="font-weight: bold">
-                        'Configuración única para todos mis edificios'
-                    </span>
-                    , todos sus edificios compartirán esta configuración
-                    y incluso cuando se incorpore un nuevo edificio.
-                </span>
-			</p>
-		</xp:div>
-	</xp:div>
-
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="false"
 		property_hasTitleBar="false">
 		<xp:this.facets>
 			<xp:panel id="PNL_Principal" xp:key="facetMiddle">
+				<xp:div role="alert"
+					styleClass="alert alert-danger alert-dismissable"
+					rendered="#{gastoOpcionesBean.gastoOpciones.mensajeWarning ne null}">
+
+					<xp:span styleClass="glyphicon glyphicon-remove">
+					</xp:span>
+					<xp:label
+						value="#{gastoOpcionesBean.gastoOpciones.mensajeWarning}">
+					</xp:label>
+				</xp:div>
 				<xe:formTable id="formTableOpcionesGastos"
 					disableErrorSummary="false" disableRowError="false"
 					style="padding-left:10.0%;padding-right:10.0%"
