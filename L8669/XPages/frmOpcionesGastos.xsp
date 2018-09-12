@@ -14,7 +14,7 @@
 if(sessionScope.navRule != null && sessionScope.navRule == "viewGastos"){
 	gastoOpcionesBean.viewOpcionesGastos();
 }
-viewScope.edificiosOpcionesGastos = gastoOpcionesBean.edificiosOpcionesGastos;}]]></xp:this.beforePageLoad>
+viewScope.edificiosConOpcionesGastos = gastoOpcionesBean.edificiosConOpcionesGastos;}]]></xp:this.beforePageLoad>
 	<script type="text/javascript"
 		src="dragAndDrop/jquery.sortable.min.js">
 	</script>
@@ -74,12 +74,16 @@ if(!msgValidacion.isEmpty()){
 	facesMsgValidation(msgValidacion);
 	view.postScript("window.scrollTo(0,0)");
 }else{
-	if(sessionScope.navRule == null){
-		context.redirectToPage("viewOpcionesGastos");
+	if(gastoOpcionesBean.gastoOpciones.configuracionUnica){
+		getComponent("dialogMensajeConfirmacion").show();
 	}else{
-		var proxPage:String = sessionScope.navRule;
-		sessionScope.remove("navRule");
-		context.redirectToPage(proxPage);
+		if(sessionScope.navRule == null){
+			context.redirectToPage("viewOpcionesGastos");
+		}else{
+			var proxPage:String = sessionScope.navRule;
+			sessionScope.remove("navRule");
+			context.redirectToPage(proxPage);
+		}
 	}
 }}]]></xp:this.action>
 					<xp:this.script><![CDATA[XSP._setDirty(false,"");
@@ -110,7 +114,7 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 					value="Ud. está viendo esta pantalla, debido a que debe configurar por primera vez sus opciones
 					de gastos; una vez grabada, podrá cargar los gastos y no se le volverá a solicitar. "
 					id="labelMensajeUnicaVez"
-					rendered="#{javascript:gastoOpcionesBean.edificiosOpcionesGastos.isEmpty()}">
+					rendered="#{javascript:gastoOpcionesBean.edificiosConOpcionesGastos.isEmpty()}">
 				</xp:label>
 				<xp:label value="Puede elegir entre tener una configuración individual para cada edificio o una única configuración para todos sus edificios.">
                 </xp:label>
@@ -145,7 +149,7 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 									property_VisualizarFechaUltimaLiquidacion="true"
 									property_AnchoPxCombo="250" property_ReadOnly="false"
 									refreshIdOnChange="formTableOpcionesGastos" id="comboEdificioFiltrado"
-									property_DisableEstosEdificios="#{javascript:viewScope.edificiosOpcionesGastos}"
+									property_DisableEstosEdificios="#{javascript:viewScope.edificiosConOpcionesGastos}"
 									loaded="${gastoOpcionesBean.gastoOpciones.isNew}">
 									<xc:this.rendered><![CDATA[#{javascript:!gastoOpcionesBean.gastoOpciones.configuracionUnica}]]></xc:this.rendered>
 								</xc:ccComboBoxEdificiosFiltrado>
@@ -169,7 +173,7 @@ XSP.getElementById("#{id:helperGastoOpciones}").value = arr;]]></xp:this.script>
 								readonly="#{javascript:!gastoOpcionesBean.gastoOpciones.isNew}"
 								style="font-weight:bold">
 
-								<xp:this.rendered><![CDATA[#{javascript:if(!viewScope.edificiosOpcionesGastos.contains('***'))
+								<xp:this.rendered><![CDATA[#{javascript:if(!viewScope.edificiosConOpcionesGastos.contains('***'))
 	return true
 return gastoOpcionesBean.gastoOpciones.configuracionUnica	}]]></xp:this.rendered>
 								<xp:eventHandler event="onclick"
@@ -178,7 +182,8 @@ return gastoOpcionesBean.gastoOpciones.configuracionUnica	}]]></xp:this.rendered
 								</xp:eventHandler>
 							</xp:checkBox>
 						</xe:formRow>
-
+						
+						<!-- Numerar gastos (radioButton) -->
 						<xe:formRow id="rowNumerarGastos"
 							styleClass="form-inline" label="Numerar gastos"
 							style="padding-right:2.0%">
@@ -229,12 +234,12 @@ return gastoOpcionesBean.gastoOpciones.configuracionUnica	}]]></xp:this.rendered
 });]]></xp:this.onComplete>
 								</xp:eventHandler>
 							</xp:radioGroup>
-
 						</xe:formRow>
+						
+						<!-- Numerador de comprobantes -->
 						<xe:formRow id="rowNumeroProximoGasto"
 							styleClass="form-inline" label="Numerador de comprobantes"
-							style="padding-right:2.0%" for="numeroProximoGasto"
-							rendered="#{!gastoOpcionesBean.gastoOpciones.configuracionUnica}">
+							style="padding-right:2.0%" for="numeroProximoGasto">
 							<xp:div styleClass="control-label popOverTooltip">
 								<i class="glyphicon glyphicon-question-sign blue" />
 								<xp:this.attrs>
@@ -254,12 +259,12 @@ return gastoOpcionesBean.gastoOpciones.configuracionUnica	}]]></xp:this.rendered
 							</xp:div>
 							<xp:inputText id="numeroProximoGasto"
 								value="#{gastoOpcionesBean.gastoOpciones.numeroProximoGasto}"
-								disabled="#{gastoOpcionesBean.gastoOpciones.numerarGastos eq 0}">
+								disabled="#{gastoOpcionesBean.gastoOpciones.numerarGastos eq 0 or gastoOpcionesBean.gastoOpciones.configuracionUnica}">
 								<xp:this.validators>
 									<xp:validateExpression
 										message="El numerador debe ser un numero entre 1 y 9999">
 										<!-- (2) -->
-										<xp:this.expression><![CDATA[#{javascript:if (gastoOpcionesBean.gastoOpciones.numerarGastos.equals(0)){
+										<xp:this.expression><![CDATA[#{javascript:if (gastoOpcionesBean.gastoOpciones.numerarGastos.equals(0) || gastoOpcionesBean.gastoOpciones.configuracionUnica){
 	return true;
 }
 if (value == 0) {
@@ -275,6 +280,7 @@ return true;							      }]]></xp:this.expression>
 							</xp:inputText>
 						</xe:formRow>
 
+						<!-- Numerar Sueldos -->
 						<xe:formRow id="rowNumerarSueldos"
 							styleClass="form-inline" label="Numerar Sueldos"
 							style="padding-right:2.0%">
@@ -314,6 +320,7 @@ return true;							      }]]></xp:this.expression>
 							</xp:radioGroup>
 						</xe:formRow>
 
+						<!-- Agregar datos del proveedor esta solo el titulo hay una tabla separada para no refrescar el js -->
 						<xe:formRow id="rowOrdenDatos"
 							label="Agregar datos del proveedor" style="padding-right:2.0%">
 							<xp:div styleClass="control-label popOverTooltip">
@@ -402,4 +409,20 @@ return true;							      }]]></xp:this.expression>
 			</xp:label>
 		</xe:dialog>
 	</xp:div>
+	<xc:ccModalMensajeConfirmacion
+		textoMensaje="Desea copiar a todos los edificios esta misma configuración?"
+		tituloMensaje="Se ha grabado su configuración" textoBotonCancelar="No"
+		btnTextoOpcionesGastos="Si, actualizar todos"
+		btnRefreshTypeOpcionesGastos="complete">
+	</xc:ccModalMensajeConfirmacion>
+	<div id="divHiddenAplicar" style="display: none;">
+		<xp:button
+			value="btnSi"
+			id="btnSi">
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="complete">
+				<xp:this.action><![CDATA[#{javascript:print("interesPunitorioDeudoresMasivo");}]]></xp:this.action>
+			</xp:eventHandler>
+		</xp:button>
+	</div>	
 </xp:view>
