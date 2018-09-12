@@ -21,7 +21,7 @@ import ar.com.ada3d.utilidades.JSFUtil;
 public class GastoOpcionesBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public List<GastoOpciones> listaOpcionesGastos;
-	private ArrayList<String> edificiosOpcionesGastos;
+	private ArrayList<String> edificiosConOpcionesGastos;
 	private GastoOpciones gastoOpciones;
 	private HashMap<String, String> _mapOrdenDatosProveedorTarget;
 	private HashMap<String, String> _mapOrdenDatosProveedorSource;
@@ -72,7 +72,6 @@ public class GastoOpcionesBean implements Serializable {
 		}else{
 			listaEdificios.add(prm_edificio.getEdf_codigo());
 		}
-				
 		Document docDummy = JSFUtil.getDocDummy();
 		docDummy.appendItemValue("NUMCMP", this.gastoOpciones.getNumerarGastos());
 		docDummy.appendItemValue("NROAUT", this.gastoOpciones.getNumerarGastos().equals("0") ? "0" : this.gastoOpciones.getNumeroProximoGasto());
@@ -81,7 +80,6 @@ public class GastoOpcionesBean implements Serializable {
 		QueryAS400 query = new QueryAS400();
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
-
 		if(gastoOpciones.getCodigoEdificio() != null){ //es un update
 			if (!query.updateBatchGastos("opcionesgastoUpdateBatch", docDummy, listaEdificios, false)) {
 				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
@@ -109,6 +107,42 @@ public class GastoOpcionesBean implements Serializable {
 	}	
 	
 	
+	/**Cuando es edificio *** al presionar guardar presenta mensaje de copiar a todos los edificios
+	 * @usedIn: ccModalMensajeConfirmacion
+	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
+	 * @param prm_ordenDatos como debe ser el orden de los datos
+	 * @param prm_listaEdificios los edificios a copiar del actual
+	 * @param prm_instruccion I=insert / U=update 	
+	 */
+	public ArrayList<String> cargaAutomaticaOpcionGasto(String prm_ordenDatos, List<String> prm_listaEdificios, String prm_instruccion ) {
+		ArrayList<String> listAcumulaErroresAS400 = new ArrayList<String>();
+						
+		Document docDummy = JSFUtil.getDocDummy();
+		docDummy.appendItemValue("NUMCMP", this.gastoOpciones.getNumerarGastos());
+		docDummy.appendItemValue("NROAUT", this.gastoOpciones.getNumerarGastos().equals("0") ? "0" : "1");
+		docDummy.appendItemValue("NUMSLD", this.gastoOpciones.getNumerarSueldos().toString());
+		docDummy.appendItemValue("ORDTXT", prm_ordenDatos.equals("") ? "0" : prm_ordenDatos.replace("," , ""));
+		QueryAS400 query = new QueryAS400();
+		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
+		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
+		
+		if (prm_instruccion.equals("I")){
+			if (!query.updateBatchGastos("opcionesgastoInsertBatchOPGTS", docDummy, prm_listaEdificios, false)) {
+				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+				System.out.println("ERROR: " + errCode + " METH:cargaAutomaticaOpcionGasto" + "_DESC: No se pudo insertar en la tabla PH_OPGTS.");
+			}
+			
+		}else if (prm_instruccion.equals("U")){
+			if (!query.updateBatchGastos("opcionesgastoUpdateBatchSinNROAUT", docDummy, prm_listaEdificios, false)) {
+				listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
+				System.out.println("ERROR: " + errCode + " METH:cargaAutomaticaOpcionGasto" + "_DESC: No se pudo actualizar la tabla PH_OPGTS.");
+			}
+			
+		}
+		
+		return listAcumulaErroresAS400;
+	}
+	
 
 	
 //***** FIN BOTONES ****
@@ -126,7 +160,7 @@ public class GastoOpcionesBean implements Serializable {
 	 * @return true si tiene al menos un edificio configurado, sino falso para crearlas
 	 */
 	private boolean fillListaOpcionesGastos(){
-		edificiosOpcionesGastos = new ArrayList<String>();
+		edificiosConOpcionesGastos = new ArrayList<String>();
 		ArrayList<String> nl = null;
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		try {
@@ -140,7 +174,7 @@ public class GastoOpcionesBean implements Serializable {
 		for (String strLinea : nl) {
 			myGastoOpciones = new GastoOpciones();
 			myGastoOpciones.setCodigoEdificio(strLinea.split("\\|")[0].trim());
-			edificiosOpcionesGastos.add(strLinea.split("\\|")[0].trim());
+			edificiosConOpcionesGastos.add(strLinea.split("\\|")[0].trim());
 			myGastoOpciones.setNumerarGastos(strLinea.split("\\|")[1].trim());
 			myGastoOpciones.setNumerarSueldos(strLinea.split("\\|")[2].trim());
 			myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[3].trim());
@@ -265,8 +299,8 @@ public class GastoOpcionesBean implements Serializable {
 
 	
 
-	public ArrayList<String> getEdificiosOpcionesGastos() {
-		return edificiosOpcionesGastos;
+	public ArrayList<String> getEdificiosConOpcionesGastos() {
+		return edificiosConOpcionesGastos;
 	}
 
 
