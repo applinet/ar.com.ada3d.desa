@@ -46,7 +46,22 @@ public class GastoOpcionesBean implements Serializable {
 		crearMapaDefault();
 		
 	}
-	
+
+	/**Cuando presiona btnNewGasto
+	 * Creo un objeto vacio en base al maestro
+	 */
+	public void createNewOpcionGasto(GastoOpciones maestroGastoOpciones) {
+		setGastoOpciones(new GastoOpciones());
+		this.gastoOpciones.setNumerarGastos(maestroGastoOpciones.getNumerarGastos());
+		this.gastoOpciones.setNumeroProximoGasto(Integer.parseInt("1"));
+		this.gastoOpciones.setNumerarSueldos(maestroGastoOpciones.getNumerarSueldos());
+		this.gastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(maestroGastoOpciones.getOrdenDatosProveedorEnDetalleDelGasto());
+		this.gastoOpciones.setIsNew(true);
+		updateOpcionesGastos(this.gastoOpciones);
+		
+		
+	}
+
 	/**
 	 * Funcion en el boton editar
 	 * Actualizo y lockeo

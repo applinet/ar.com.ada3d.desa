@@ -17,6 +17,7 @@ import lotus.domino.NotesException;
 import ar.com.ada3d.connect.QueryAS400;
 import ar.com.ada3d.model.Edificio;
 import ar.com.ada3d.model.Gasto;
+import ar.com.ada3d.model.GastoOpciones;
 import ar.com.ada3d.model.Prorrateo;
 import ar.com.ada3d.model.TextoPresetado;
 import ar.com.ada3d.utilidades.DocLock;
@@ -1013,6 +1014,29 @@ public class GastoBean implements Serializable {
 		return null;
 	}
 	
+	public GastoOpciones getOpcionGastoMaestro(){
+		ArrayList<String> nl = null;
+		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
+		try {
+			nl = query.getSelectAS("opcionesGastoMaestro", null);
+		} catch (NotesException e) {
+			e.printStackTrace();
+		}
+		GastoOpciones myGastoOpciones = null;
+		for (String strLinea : nl) {
+			myGastoOpciones = new GastoOpciones();
+			myGastoOpciones.setCodigoEdificio(strLinea.split("\\|")[0].trim());
+			myGastoOpciones.setNumerarGastos(strLinea.split("\\|")[1].trim());
+			myGastoOpciones.setNumerarSueldos(strLinea.split("\\|")[2].trim());
+			myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[3].trim());
+			myGastoOpciones.setNumeroProximoGasto(Integer.parseInt(strLinea.split("\\|")[4].trim()));
+			myGastoOpciones.setConfiguracionUnica(true);
+			myGastoOpciones.setIsReadMode(true);
+			myGastoOpciones.setIsNew(false);
+		}
+		
+		return myGastoOpciones;
+	}
 	
 	//Getters & Setters
 	

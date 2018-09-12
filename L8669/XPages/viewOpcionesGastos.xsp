@@ -188,7 +188,13 @@ gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOp
 
 			<xp:eventHandler event="onclick" submit="true"
 				refreshMode="complete">
-				<xp:this.action><![CDATA[#{javascript:gastoOpcionesBean.createNewOpcionGasto();
+				<xp:this.action><![CDATA[#{javascript:if(viewScope.scopeOpcionGastoMaestro == null)
+	viewScope.put("scopeOpcionGastoMaestro", gastoBean.getOpcionGastoMaestro());
+if(viewScope.scopeOpcionGastoMaestro == null){
+	gastoOpcionesBean.createNewOpcionGasto();
+}else{
+	gastoOpcionesBean.createNewOpcionGasto(viewScope.scopeOpcionGastoMaestro);
+}
 context.redirectToPage("frmOpcionesGastos.xsp")}]]></xp:this.action>
 			</xp:eventHandler>
 		</xp:button>

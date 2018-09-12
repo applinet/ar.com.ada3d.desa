@@ -8,6 +8,9 @@
 if(sessionScope.scopeCodigoEspecialMap == null){
 	gastoBean.fillCodigoEspecialMap();
 	sessionScope.put("scopeCodigoEspecialMap", gastoBean.codigoEspecialMap)
+}
+if(viewScope.scopeOpcionGastoMaestro == null){
+	viewScope.put("scopeOpcionGastoMaestro", gastoBean.getOpcionGastoMaestro())
 }}]]></xp:this.beforePageLoad>
 	<xp:this.beforeRenderResponse><![CDATA[#{javascript:gastoBean.viewGastos(sessionScope.edfObj);}]]></xp:this.beforeRenderResponse>
 	<xc:ccLayoutBootstrap property_hasTitleBar="true"
@@ -48,13 +51,36 @@ return gastoBean.getArrayDetallesGastos();}]]></xc:this.pty_Lista>
 			<xp:eventHandler event="onclick" submit="true"
 				refreshMode="complete">
 				<xp:this.action><![CDATA[#{javascript:edificioBean.actualizoUnEdificioAs400(sessionScope.edfObj, "");
-if(!sessionScope.edfObj.edf_ConfigOrdenDetalleGasto.equals("")){ //al crear un nuevo gasto validar que tenga la configuracion cargada
+if(!sessionScope.edfObj.edf_ConfigOrdenDetalleGasto.equals("")){ 
 	gastoBean.createNewGasto();
 	context.redirectToPage("frmGastos.xsp");
 }else{
-	sessionScope.put("navRule", "viewGastos");
-	gastoOpcionesBean.createNewOpcionGasto();
-	context.redirectToPage("frmOpcionesGastos.xsp");
+	//no tiene la configuracion cargada ver si tiene ***
+	if(viewScope.scopeOpcionGastoMaestro == null)
+		viewScope.put("scopeOpcionGastoMaestro", gastoBean.getOpcionGastoMaestro());
+		
+	if(viewScope.scopeOpcionGastoMaestro == null){
+		print("FPR null");
+		//No tengo ***
+		sessionScope.put("navRule", "viewGastos");
+		gastoOpcionesBean.createNewOpcionGasto();
+		gastoOpcionesBean.gastoOpciones.setMensajeWarning("Puede elegir entre tener una configuración individual para cada edificio o una única configuración para todos sus edificios. Si tilda la opción:'*** Configuración única para todos mis edificios', todos sus edificios compartirán esta configuración y incluso cuando se incorpore un nuevo edificio.");
+		context.redirectToPage("frmOpcionesGastos.xsp");
+	}else{
+			print("FPR NO null");
+		//Tengo maestro(***) y no tengo edificio
+		if (viewScope.scopeOpcionGastoMaestro.getNumerarGastos().equals("0")){
+			sessionScope.edfObj.setEdf_ConfigOrdenDetalleGasto(viewScope.scopeOpcionGastoMaestro.getOrdenDatosProveedorEnDetalleDelGasto());
+			gastoBean.createNewGasto();
+			context.redirectToPage("frmGastos.xsp");
+		}else{
+			//Tengo que cargar el nro automático
+			sessionScope.put("navRule", "viewGastos");
+			gastoOpcionesBean.createNewOpcionGasto(viewScope.scopeOpcionGastoMaestro);
+			gastoOpcionesBean.gastoOpciones.setMensajeWarning("Por favor complete el campo 'Numerador de comprobantes' del edificio para poder crear un gasto. Esto es necesario debido a que ha optado por numeración automática.");
+			context.redirectToPage("frmOpcionesGastos.xsp");
+		}
+	}
 }}]]></xp:this.action>
 			</xp:eventHandler>
 		</xp:button>
