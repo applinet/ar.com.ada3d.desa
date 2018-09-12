@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+		
+	<xe:dialog id="dialogMensajeConfirmacion" title="#{compositeData.tituloMensaje}"
+		styleClass="modal" style="margin-left: inherit;">
+		<xe:this.onHide><![CDATA[XSP._setDirty(false,"");]]></xe:this.onHide>
+		<xe:dialogContent id="dialogContent1" styleClass="modal-body">
+			<xp:label value="#{compositeData.textoMensaje}"
+				id="labelTextoMensaje">
+			</xp:label>
+		</xe:dialogContent>
+
+		<xe:dialogButtonBar id="dialogButtonBar1">
+			<xp:button value="#{compositeData.textoBotonCancelar}" id="btnClose"
+				styleClass="btn" rendered="#{compositeData.textoBotonCancelar ne ''}">
+				<i class="glyphicon glyphicon-remove" />
+				<xp:eventHandler event="onclick" submit="true"
+						refreshMode="partial" refreshId="divHiddenAplicar">
+						<xp:this.action><![CDATA[#{javascript:if(sessionScope.navRule == null){
+		context.redirectToPage("viewOpcionesGastos");
+	}else{
+		var proxPage:String = sessionScope.navRule;
+		sessionScope.remove("navRule");
+		context.redirectToPage(proxPage);
+	}
+	
+	getComponent("dialogMensajeConfirmacion").hide()
+	}]]></xp:this.action>
+	
+					</xp:eventHandler>
+			</xp:button>
+
+
+			<xp:button value="#{compositeData.btnTextoOpcionesGastos}" id="btnTextoOpcionesGastos"
+				styleClass="btn-primary">
+				<i class="glyphicon glyphicon-download-alt"></i>
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" refreshId="divHiddenAplicar">
+					<xp:this.action><![CDATA[#{javascript:var iteraEdificio = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, false, false).iterator();
+var myList:java.util.List = new java.util.ArrayList();
+if(viewScope.edificiosConOpcionesGastos.isEmpty()){
+	while (iteraEdificio.hasNext()){
+	 	var itemvalue = iteraEdificio.next();
+		myList.add(itemvalue.getValue());
+	}	
+	gastoOpcionesBean.cargaAutomaticaOpcionGasto(viewScope.hidden_helperGastoOpciones, myList, "I");
+}else{
+	gastoOpcionesBean.cargaAutomaticaOpcionGasto(viewScope.hidden_helperGastoOpciones, viewScope.edificiosConOpcionesGastos, "U");
+	while (iteraEdificio.hasNext()){
+	 	var itemvalue = iteraEdificio.next();
+	 	if(!viewScope.edificiosConOpcionesGastos.contains(itemvalue.getValue())){
+			myList.add(itemvalue.getValue());
+	 	}
+	}
+	if(!myList.isEmpty())	
+		gastoOpcionesBean.cargaAutomaticaOpcionGasto(viewScope.hidden_helperGastoOpciones, myList, "I");
+		
+}	
+if(sessionScope.navRule == null){
+	context.redirectToPage("viewOpcionesGastos");
+}else{
+	var proxPage:String = sessionScope.navRule;
+	sessionScope.remove("navRule");
+	context.redirectToPage(proxPage);
+}
+
+getComponent("dialogMensajeConfirmacion").hide()
+}]]></xp:this.action>
+
+				</xp:eventHandler>
+
+			</xp:button>
+
+
+		</xe:dialogButtonBar>
+	</xe:dialog>
+</xp:view>
