@@ -12,6 +12,7 @@ import org.openntf.domino.Document;
 import org.openntf.domino.Session;
 
 import ar.com.ada3d.model.Edificio;
+import ar.com.ada3d.model.GastoOpciones;
 import ar.com.ada3d.model.Porcentual;
 import ar.com.ada3d.model.Prorrateo;
 import ar.com.ada3d.utilidades.*;
@@ -37,7 +38,10 @@ public class EdificioBean implements Serializable {
 	private boolean isMasivoActualizado = false;
 	@SuppressWarnings("unused")
 	private int cantidadTotalEdificiosTrabajo;
-
+	private GastoOpciones myGastoOpcionesMaestro = null;
+	
+	
+	
 	public EdificioBean() {
 		//System.out.println("FPR - Constr. Edificios y llamada AS400");
 		AddEdificiosAs400();
@@ -524,9 +528,22 @@ public class EdificioBean implements Serializable {
 		//TODO: falta saber que campo tomar del AS400 para el titulo del procentual
 		myEdificio.setEdf_importeFranqueo( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[26].trim(), Locale.US, 2))); //FRANQ
 		myEdificio.setEdf_importeMultaDeudores( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[27].trim(), Locale.US, 2))); //MULTA
-		myEdificio.setEdf_ConfigOrdenDetalleGasto(strLinea.split("\\|")[28].trim()); //ORDTXT
-		myEdificio.setEdf_ConfigNumerarGastos(strLinea.split("\\|")[29].trim()); //NUMCMP
-		myEdificio.setEdf_ConfigNumeroProximoGasto( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[30].trim(), Locale.US, 0))); //NROAUT
+		//Si OrdenDetalleGasto
+		if(strLinea.split("\\|")[28].trim().equals("")){//No tengo una configuracion de gasto del edificio
+			//Buscar ***
+			if(myGastoOpcionesMaestro == null){
+				myGastoOpcionesMaestro = GastoBean.getOpcionGastoMaestro();
+			}
+			if(myGastoOpcionesMaestro != null){
+				myEdificio.setEdf_ConfigOrdenDetalleGasto(myGastoOpcionesMaestro.getOrdenDatosProveedorEnDetalleDelGasto()); //ORDTXT
+				myEdificio.setEdf_ConfigTipoNumeracion(myGastoOpcionesMaestro.getTipoNumeracion()); //NUMCMP
+				myEdificio.setEdf_ConfigNumeroProximoGasto(new BigDecimal(myGastoOpcionesMaestro.getNumeroProximoGasto())); //NROAUT
+			}
+		}else{
+			myEdificio.setEdf_ConfigOrdenDetalleGasto(strLinea.split("\\|")[28].trim()); //ORDTXT
+			myEdificio.setEdf_ConfigTipoNumeracion(strLinea.split("\\|")[29].trim()); //NUMCMP
+			myEdificio.setEdf_ConfigNumeroProximoGasto( new BigDecimal(ar.com.ada3d.utilidades.Conversores.stringToStringDecimal(strLinea.split("\\|")[30].trim(), Locale.US, 0))); //NROAUT
+		}
 		
 		myEdificio.setEdf_isReadMode(true);
 		} catch(ArrayIndexOutOfBoundsException excepcion){
