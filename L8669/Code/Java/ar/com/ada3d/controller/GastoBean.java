@@ -206,6 +206,7 @@ public class GastoBean implements Serializable {
 		
 		docDummy.appendItemValue("AGRUP", this.gasto.getAgrupamiento());
 		docDummy.appendItemValue("SPECIAL", this.gasto.getCodigoEspecial());
+		docDummy.appendItemValue("TIPGTS", this.gasto.getTipoGasto());
 		//Importes del prorrateo
 		docDummy.appendItemValue("IMPOR1", "0");
 		docDummy.appendItemValue("IMPOR2", "0");
@@ -232,7 +233,7 @@ public class GastoBean implements Serializable {
 		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
 		
 		if(isNew){ //es un nuevo gasto
-			if(prm_edificio.getEdf_ConfigNumerarGastos().equals("1")){//Numeracion automatica
+			if(prm_edificio.getEdf_ConfigTipoNumeracion().equals("1")){//Numeracion automatica
 				//Actualizo el numero de comprobante si corresponde
 				session.getCurrentDatabase().getAgent("a.saveNewFrmGastosNumAutSimple").runWithDocumentContext(docDummy);
 				if(docDummy.getItemValueString("COMPRO") != null){
@@ -246,9 +247,9 @@ public class GastoBean implements Serializable {
 					System.out.println("ERROR: " + errCode + " METH:saveNewGasto" + "_ID:" + this.gasto.getIdGasto() + "_DESC: No se pudo obtener el COMPROBANTE para el gasto.");
 					return listAcumulaErroresAS400;
 				}
-			}else if(prm_edificio.getEdf_ConfigNumerarGastos().equals("2")){//Numeracion automatica por rubros
+			}else if(prm_edificio.getEdf_ConfigTipoNumeracion().equals("2")){//Numeracion automatica por rubros
 				docDummy.appendItemValue("COMPRO", "0");
-			}else{//Numeracion Manual
+			}else{//Numeracion Manual o sin numeración
 				docDummy.appendItemValue("COMPRO", this.gasto.getNumeroComprobante().toString());
 			}
 			
@@ -652,6 +653,7 @@ public class GastoBean implements Serializable {
 					prm_Gasto.setSucursalFactura(strLinea.split("\\|")[7].trim().split("-")[0]);
 					prm_Gasto.setNumeroFactura(strLinea.split("\\|")[7].trim().split("-")[1]);
 					prm_Gasto.setCodigoEspecial(strLinea.split("\\|")[10].trim());
+					prm_Gasto.setTipoGasto(strLinea.split("\\|")[15].trim());
 				}
 
 			}
@@ -1014,7 +1016,7 @@ public class GastoBean implements Serializable {
 		return null;
 	}
 	
-	public GastoOpciones getOpcionGastoMaestro(){
+	public static GastoOpciones getOpcionGastoMaestro(){
 		ArrayList<String> nl = null;
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		try {
@@ -1026,7 +1028,7 @@ public class GastoBean implements Serializable {
 		for (String strLinea : nl) {
 			myGastoOpciones = new GastoOpciones();
 			myGastoOpciones.setCodigoEdificio(strLinea.split("\\|")[0].trim());
-			myGastoOpciones.setNumerarGastos(strLinea.split("\\|")[1].trim());
+			myGastoOpciones.setTipoNumeracion(strLinea.split("\\|")[1].trim());
 			myGastoOpciones.setNumerarSueldos(strLinea.split("\\|")[2].trim());
 			myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[3].trim());
 			myGastoOpciones.setNumeroProximoGasto(Integer.parseInt(strLinea.split("\\|")[4].trim()));
