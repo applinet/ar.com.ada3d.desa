@@ -37,6 +37,11 @@ public class Gasto {
 	private boolean isReadMode;
 	private String lockedBy;
 	
+	private String tipoGasto;
+	private Integer filaColumnaTextoDetalleFactura;
+	private String gastoRepetitivo;
+	private String gastoRepetitivoTexto;
+	
 	
 	public Gasto() {
 		// Empty constructor
@@ -282,4 +287,46 @@ public class Gasto {
 		return codigoRegistro;
 	}
 
+
+	public String getTipoGasto() {
+		return tipoGasto;
+	}
+
+
+	public void setTipoGasto(String tipoGasto) {
+		this.tipoGasto = tipoGasto;
+	}
+
+
+	public Integer getFilaColumnaTextoDetalleFactura() {
+		return filaColumnaTextoDetalleFactura;
+	}
+
+
+	public void setFilaColumnaTextoDetalleFactura(
+			Integer filaColumnaTextoDetalleFactura) {
+		this.filaColumnaTextoDetalleFactura = filaColumnaTextoDetalleFactura;
+	}
+
+
+	public String getGastoRepetitivo() {
+		return gastoRepetitivo;
+	}
+
+
+	public void setGastoRepetitivo(String gastoRepetitivo) {
+		this.gastoRepetitivo = gastoRepetitivo;
+	}
+
+
+	public String getGastoRepetitivoTexto() {
+		return gastoRepetitivoTexto;
+	}
+
+
+	public void setGastoRepetitivoTexto(String gastoRepetitivoTexto) {
+		this.gastoRepetitivoTexto = gastoRepetitivoTexto;
+	}
+
+	
 }
