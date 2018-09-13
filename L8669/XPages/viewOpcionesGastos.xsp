@@ -69,18 +69,19 @@ gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOp
 						</xp:link>
 					</xp:column>
 
-					<xp:column id="numerarGastosColumn">
+					<xp:column id="tipoNumeracionColumn">
 						<xp:this.facets>
 							<xp:label value="Tipo de numeración"
-								id="labelNumerarGastos" xp:key="header"
+								id="labelTipoNumeracion" xp:key="header"
 								style="font-weight:bold">
 							</xp:label>
 						</xp:this.facets>
-						<xp:link escape="true" id="numerarGastos">
-							<xp:this.text><![CDATA[#{javascript:switch(opcionesGastos.numerarGastos){
+						<xp:link escape="true" id="tipoNumeracion">
+							<xp:this.text><![CDATA[#{javascript:switch(opcionesGastos.tipoNumeracion){
 	case "0": return "Manualmente";
 	case "1": return "Automáticamente simple";
 	case "2": return "Automáticamente por rubros";
+	case "3": return "Sin numeración";
 }}]]></xp:this.text>
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="complete" id="eventHandler1">
@@ -108,7 +109,7 @@ gastoOpcionesBean.setGastoOpciones(opcionesGastos);context.redirectToPage("frmOp
 						<xp:link escape="true" id="link1">
 							<xp:this.text><![CDATA[#{javascript:if(opcionesGastos.configuracionUnica)
 	return "***";
-return opcionesGastos.numerarGastos != "0" ? opcionesGastos.numeroProximoGasto : "-";}]]></xp:this.text>
+return (opcionesGastos.tipoNumeracion != "0" && opcionesGastos.tipoNumeracion != "3") ? opcionesGastos.numeroProximoGasto : "-";}]]></xp:this.text>
 							<xp:eventHandler event="onclick"
 								submit="true" refreshMode="complete" id="eventHandler5">
 								<xp:this.action><![CDATA[#{javascript:if(opcionesGastos.getCodigoEdificio().equals("***")){

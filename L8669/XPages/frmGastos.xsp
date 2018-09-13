@@ -533,7 +533,7 @@ $('textarea').each(function () {
 									id="djComboTipoGasto"
 									queryExpr="#{javascript:return '*\$\{0\}*';}"
 									autoComplete="false"
-									value="#{gastoBean.gasto.codigoEspecial}"
+									value="#{gastoBean.gasto.tipoGasto}"
 									disabled="#{gastoBean.gasto.isReadMode}">
 									<xp:selectItems
 										value="#{javascript:gastoBean.comboboxTipoGasto;}" />
@@ -546,23 +546,25 @@ $('textarea').each(function () {
 						</xe:formColumn>
 						<xe:formColumn
 							styleClass="form-group col-sm-6">
+							<xe:this.rendered><![CDATA[#{javascript:!edfObj.edf_ConfigTipoNumeracion.equals("3")}]]></xe:this.rendered>
 							<xe:formRow id="rowNumeroComprobante"
 								label="Comprobante" style="padding-right:2.0%"
-								for="numeroComprobante" rendered="#{edfObj.edf_ConfigNumerarGastos ne 2}">
+								for="numeroComprobante"
+								rendered="#{edfObj.edf_ConfigTipoNumeracion ne 2 and edfObj.edf_ConfigTipoNumeracion ne 3}">
 								<xp:inputText id="numeroComprobante"
 									style=" width:200.0px"
 									value="#{gastoBean.gasto.numeroComprobante}"
 									readonly="#{gastoBean.gasto.isReadMode}" required="true"
-									disabled="#{ edfObj.edf_ConfigNumerarGastos eq 1}">
+									disabled="#{ edfObj.edf_ConfigTipoNumeracion eq 1}">
 									<xp:this.validators>
 										<xp:validateRequired
 											message="Si no ingresa comprobante debe ingresar el número cero">
 										</xp:validateRequired>
 									</xp:this.validators>
 									<xp:this.defaultValue><![CDATA[#{javascript://Numerar Gastos = 0: es manual(default:0) / 1:traigo nro de configuracion / 2:se oculta (default:0)
-if(edfObj.edf_ConfigNumerarGastos.equals("0"))
+if(edfObj.edf_ConfigTipoNumeracion.equals("0") || edfObj.edf_ConfigTipoNumeracion.equals("3"))
 	return 0;
-return edfObj.edf_ConfigNumerarGastos.equals("1") ? edfObj.edf_ConfigNumeroProximoGasto : 0; }]]></xp:this.defaultValue>
+return edfObj.edf_ConfigTipoNumeracion.equals("1") ? edfObj.edf_ConfigNumeroProximoGasto : 0; }]]></xp:this.defaultValue>
 									<xp:this.converter>
 										<xp:convertNumber
 											pattern="####;(####)">
@@ -570,8 +572,8 @@ return edfObj.edf_ConfigNumerarGastos.equals("1") ? edfObj.edf_ConfigNumeroProxi
 									</xp:this.converter>
 								</xp:inputText>
 							</xe:formRow>
-							
-							
+
+
 						</xe:formColumn>
 					</xp:div>
 					<xe:this.facets>

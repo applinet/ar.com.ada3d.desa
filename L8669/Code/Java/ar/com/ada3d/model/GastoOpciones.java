@@ -2,7 +2,7 @@ package ar.com.ada3d.model;
 
 public class GastoOpciones {
 	private String codigoEdificio;
-	private String numerarGastos;
+	private String tipoNumeracion;
 	private String numerarSueldos;
 	private String ordenDatosProveedorEnDetalleDelGasto;
 	private boolean isReadMode;
@@ -25,12 +25,12 @@ public class GastoOpciones {
 		this.codigoEdificio = codigoEdificio;
 	}
 
-	public String getNumerarGastos() {
-		return numerarGastos;
+	public String getTipoNumeracion() {
+		return tipoNumeracion;
 	}
 
-	public void setNumerarGastos(String numerarGastos) {
-		this.numerarGastos = numerarGastos;
+	public void setTipoNumeracion(String tipoNumeracion) {
+		this.tipoNumeracion = tipoNumeracion;
 	}
 
 	public String getNumerarSueldos() {

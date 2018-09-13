@@ -13,7 +13,7 @@ public class CfgCache {
 	private LinkedHashMap<String, String> opcionesGastoOrdenDatosProveedor;
 	
 	public CfgCache() {
-		System.out.println("FPR_constructor cache bean");
+		//System.out.println("FPR_constructor cache bean");
 		this.opcionesGastoOrdenDatosProveedor = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("opcionesGastoOrdenDatosProveedor");
 		// Empty constructor
 	}

@@ -45,7 +45,7 @@ public class Edificio {
 	private Date edf_fechaMasivoVTOEX1;
 	private Date edf_fechaMasivoVTOEX2;
 	private String edf_ConfigOrdenDetalleGasto;
-	private String edf_ConfigNumerarGastos;
+	private String edf_ConfigTipoNumeracion;
 	private BigDecimal edf_ConfigNumeroProximoGasto;
 	
 	//Getters and Setters
@@ -251,11 +251,11 @@ public class Edificio {
 	public void setEdf_ConfigOrdenDetalleGasto(String edf_ConfigOrdenDetalleGasto) {
 		this.edf_ConfigOrdenDetalleGasto = edf_ConfigOrdenDetalleGasto;
 	}
-	public String getEdf_ConfigNumerarGastos() {
-		return edf_ConfigNumerarGastos;
+	public String getEdf_ConfigTipoNumeracion() {
+		return edf_ConfigTipoNumeracion;
 	}
-	public void setEdf_ConfigNumerarGastos(String edf_ConfigNumerarGastos) {
-		this.edf_ConfigNumerarGastos = edf_ConfigNumerarGastos;
+	public void setEdf_ConfigTipoNumeracion(String edf_ConfigTipoNumeracion) {
+		this.edf_ConfigTipoNumeracion = edf_ConfigTipoNumeracion;
 	}
 	public BigDecimal getEdf_ConfigNumeroProximoGasto() {
 		return edf_ConfigNumeroProximoGasto;

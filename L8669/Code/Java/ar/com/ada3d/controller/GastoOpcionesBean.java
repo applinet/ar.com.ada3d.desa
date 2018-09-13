@@ -40,7 +40,7 @@ public class GastoOpcionesBean implements Serializable {
 	 */
 	public void createNewOpcionGasto() {
 		setGastoOpciones(new GastoOpciones());
-		this.gastoOpciones.setNumerarGastos("1");
+		this.gastoOpciones.setTipoNumeracion("1");
 		this.gastoOpciones.setNumeroProximoGasto(Integer.parseInt("1"));
 		this.gastoOpciones.setIsNew(true);
 		crearMapaDefault();
@@ -52,7 +52,7 @@ public class GastoOpcionesBean implements Serializable {
 	 */
 	public void createNewOpcionGasto(GastoOpciones maestroGastoOpciones) {
 		setGastoOpciones(new GastoOpciones());
-		this.gastoOpciones.setNumerarGastos(maestroGastoOpciones.getNumerarGastos());
+		this.gastoOpciones.setTipoNumeracion(maestroGastoOpciones.getTipoNumeracion());
 		this.gastoOpciones.setNumeroProximoGasto(Integer.parseInt("1"));
 		this.gastoOpciones.setNumerarSueldos(maestroGastoOpciones.getNumerarSueldos());
 		this.gastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(maestroGastoOpciones.getOrdenDatosProveedorEnDetalleDelGasto());
@@ -88,9 +88,11 @@ public class GastoOpcionesBean implements Serializable {
 			listaEdificios.add(prm_edificio.getEdf_codigo());
 		}
 		Document docDummy = JSFUtil.getDocDummy();
-		docDummy.appendItemValue("NUMCMP", this.gastoOpciones.getNumerarGastos());
-		docDummy.appendItemValue("NROAUT", this.gastoOpciones.getNumerarGastos().equals("0") ? "0" : this.gastoOpciones.getNumeroProximoGasto());
+		docDummy.appendItemValue("NUMCMP", this.gastoOpciones.getTipoNumeracion());
+		docDummy.appendItemValue("NROAUT", this.gastoOpciones.getTipoNumeracion().equals("0") ? "0" : this.gastoOpciones.getNumeroProximoGasto());
 		docDummy.appendItemValue("NUMSLD", this.gastoOpciones.getNumerarSueldos().toString());
+		if(!prm_ordenDatos.contains("1") && !prm_ordenDatos.equals(""))
+			listAcumulaErroresAS400.add("ccModalMensajeConfirmacion~Advertencia!! Ha seleccionado datos del proveedor pero no ha incluido la razón social.");
 		docDummy.appendItemValue("ORDTXT", prm_ordenDatos.equals("") ? "0" : prm_ordenDatos.replace("," , ""));
 		QueryAS400 query = new QueryAS400();
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
@@ -133,8 +135,8 @@ public class GastoOpcionesBean implements Serializable {
 		ArrayList<String> listAcumulaErroresAS400 = new ArrayList<String>();
 						
 		Document docDummy = JSFUtil.getDocDummy();
-		docDummy.appendItemValue("NUMCMP", this.gastoOpciones.getNumerarGastos());
-		docDummy.appendItemValue("NROAUT", this.gastoOpciones.getNumerarGastos().equals("0") ? "0" : "1");
+		docDummy.appendItemValue("NUMCMP", this.gastoOpciones.getTipoNumeracion());
+		docDummy.appendItemValue("NROAUT", this.gastoOpciones.getTipoNumeracion().equals("0") ? "0" : "1");
 		docDummy.appendItemValue("NUMSLD", this.gastoOpciones.getNumerarSueldos().toString());
 		docDummy.appendItemValue("ORDTXT", prm_ordenDatos.equals("") ? "0" : prm_ordenDatos.replace("," , ""));
 		QueryAS400 query = new QueryAS400();
@@ -190,7 +192,7 @@ public class GastoOpcionesBean implements Serializable {
 			myGastoOpciones = new GastoOpciones();
 			myGastoOpciones.setCodigoEdificio(strLinea.split("\\|")[0].trim());
 			edificiosConOpcionesGastos.add(strLinea.split("\\|")[0].trim());
-			myGastoOpciones.setNumerarGastos(strLinea.split("\\|")[1].trim());
+			myGastoOpciones.setTipoNumeracion(strLinea.split("\\|")[1].trim());
 			myGastoOpciones.setNumerarSueldos(strLinea.split("\\|")[2].trim());
 			myGastoOpciones.setOrdenDatosProveedorEnDetalleDelGasto(strLinea.split("\\|")[3].trim());
 			
