@@ -71,8 +71,13 @@ viewScope.edificiosConOpcionesGastos = gastoOpcionesBean.edificiosConOpcionesGas
 					refreshMode="partial" refreshId="formTableOpcionesGastos">
 					<xp:this.action><![CDATA[#{javascript:msgValidacion = gastoOpcionesBean.saveOpcionGasto(viewScope.hidden_helperGastoOpciones, sessionScope.get("edfObj"));
 if(!msgValidacion.isEmpty()){
-	facesMsgValidation(msgValidacion);
-	view.postScript("window.scrollTo(0,0)");
+	if(msgValidacion.get(0).split("\~")[0] == "ccModalMensajeConfirmacion" && msgValidacion.size() == 1){
+		var scriptCode = "alert('" + msgValidacion.get(0).split("\~")[1] + "')"
+		view.postScript(scriptCode);
+	}else{	
+		facesMsgValidation(msgValidacion);
+		view.postScript("window.scrollTo(0,0)");
+	}
 }else{
 	if(gastoOpcionesBean.gastoOpciones.configuracionUnica){
 		getComponent("dialogMensajeConfirmacion").show();
@@ -167,7 +172,7 @@ return gastoOpcionesBean.gastoOpciones.configuracionUnica	}]]></xp:this.rendered
 						</xe:formRow>
 						
 						<!-- Numerar gastos (radioButton) -->
-						<xe:formRow id="rowNumerarGastos"
+						<xe:formRow id="rowTipoNumeracion"
 							styleClass="form-inline" label="Numerar gastos"
 							style="padding-right:2.0%">
 							<xp:div styleClass="control-label popOverTooltip">
@@ -190,16 +195,13 @@ return gastoOpcionesBean.gastoOpciones.configuracionUnica	}]]></xp:this.rendered
 									</xp:attr>
 								</xp:this.attrs>
 							</xp:div>
-							<xp:radioGroup id="radioGroupNumerarGastos"
-								value="#{gastoOpcionesBean.gastoOpciones.numerarGastos}"
+							<xp:radioGroup id="radioGroupTipoNumeracion"
+								value="#{gastoOpcionesBean.gastoOpciones.tipoNumeracion}"
 								layout="pageDirection" defaultValue="1">
-								<xp:selectItem itemLabel="Manualmente"
-									itemValue="0" />
-								<xp:selectItem
-									itemLabel="Automáticamente simple" itemValue="1" />
-								<xp:selectItem
-									itemLabel="Automáticamente por rubros" itemValue="2">
-								</xp:selectItem>
+								<xp:selectItem itemLabel="Manualmente" itemValue="0" />
+								<xp:selectItem itemLabel="Automáticamente simple" itemValue="1" />
+								<xp:selectItem itemLabel="Automáticamente por rubros" itemValue="2" />
+								<xp:selectItem itemLabel="Sin numeración" itemValue="3" />
 								<xp:eventHandler event="onclick"
 									submit="true" refreshMode="partial"
 									refreshId="numeroProximoGasto" disableValidators="true">
@@ -242,12 +244,12 @@ return gastoOpcionesBean.gastoOpciones.configuracionUnica	}]]></xp:this.rendered
 							</xp:div>
 							<xp:inputText id="numeroProximoGasto"
 								value="#{gastoOpcionesBean.gastoOpciones.numeroProximoGasto}"
-								disabled="#{gastoOpcionesBean.gastoOpciones.numerarGastos eq 0 or gastoOpcionesBean.gastoOpciones.configuracionUnica}">
+								disabled="#{gastoOpcionesBean.gastoOpciones.tipoNumeracion eq 0 or gastoOpcionesBean.gastoOpciones.configuracionUnica}">
 								<xp:this.validators>
 									<xp:validateExpression
 										message="El numerador debe ser un numero entre 1 y 9999">
 										<!-- (2) -->
-										<xp:this.expression><![CDATA[#{javascript:if (gastoOpcionesBean.gastoOpciones.numerarGastos.equals(0) || gastoOpcionesBean.gastoOpciones.configuracionUnica){
+										<xp:this.expression><![CDATA[#{javascript:if (gastoOpcionesBean.gastoOpciones.tipoNumeracion.equals(0) || gastoOpcionesBean.gastoOpciones.tipoNumeracion.equals(3) || gastoOpcionesBean.gastoOpciones.configuracionUnica){
 	return true;
 }
 if (value == 0) {
@@ -290,7 +292,7 @@ return true;							      }]]></xp:this.expression>
 							<xp:radioGroup id="radioGroupNumerarSueldos"
 								value="#{gastoOpcionesBean.gastoOpciones.numerarSueldos}"
 								layout="lineDirection" defaultValue="1"
-								disabled="#{gastoOpcionesBean.gastoOpciones.numerarGastos eq 0}">
+								disabled="#{gastoOpcionesBean.gastoOpciones.tipoNumeracion eq 0 || gastoOpcionesBean.gastoOpciones.tipoNumeracion eq 3}">
 								<xp:selectItem itemLabel="Si"
 									itemValue="1" />
 								<xp:selectItem itemLabel="No"
@@ -396,8 +398,12 @@ return true;							      }]]></xp:this.expression>
 		textoMensaje="Desea copiar a todos los edificios esta misma configuración?"
 		tituloMensaje="Se ha grabado su configuración" textoBotonCancelar="No"
 		btnTextoOpcionesGastos="Si, actualizar todos"
-		btnRefreshTypeOpcionesGastos="complete">
+		btnRefreshTypeOpcionesGastos="complete"
+		dialogId="dialogMensajeConfirmacion">
+
+
 	</xc:ccModalMensajeConfirmacion>
+
 	<div id="divHiddenAplicar" style="display: none;">
 		<xp:button
 			value="btnSi"
