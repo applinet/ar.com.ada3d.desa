@@ -12,12 +12,13 @@
 		</xe:dialogContent>
 
 		<xe:dialogButtonBar id="dialogButtonBar1">
-			<xp:button value="#{compositeData.textoBotonCancelar}" id="btnClose"
-				styleClass="btn" rendered="#{compositeData.textoBotonCancelar ne ''}">
+			<xp:button value="#{compositeData.textoBotonCancelar}"
+				id="btnClose" styleClass="btn"
+				rendered="#{compositeData.textoBotonCancelar ne ''}">
 				<i class="glyphicon glyphicon-remove" />
 				<xp:eventHandler event="onclick" submit="true"
-						refreshMode="partial" refreshId="divHiddenAplicar">
-						<xp:this.action><![CDATA[#{javascript:if(sessionScope.navRule == null){
+					refreshMode="partial" refreshId="divHiddenAplicar">
+					<xp:this.action><![CDATA[#{javascript:if(sessionScope.navRule == null){
 		context.redirectToPage("viewOpcionesGastos");
 	}else{
 		var proxPage:String = sessionScope.navRule;
@@ -27,13 +28,13 @@
 	
 	getComponent("dialogMensajeConfirmacion").hide()
 	}]]></xp:this.action>
-	
-					</xp:eventHandler>
+
+				</xp:eventHandler>
 			</xp:button>
 
 
-			<xp:button value="#{compositeData.btnTextoOpcionesGastos}" id="btnTextoOpcionesGastos"
-				styleClass="btn-primary">
+			<xp:button value="#{compositeData.btnTextoOpcionesGastos}"
+				id="btnTextoOpcionesGastos" styleClass="btn-primary">
 				<i class="glyphicon glyphicon-download-alt"></i>
 				<xp:eventHandler event="onclick" submit="true"
 					refreshMode="partial" refreshId="divHiddenAplicar">
