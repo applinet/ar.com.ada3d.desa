@@ -141,6 +141,7 @@ public class GastoBean implements Serializable {
 			listAcumulaErrores.add("prt_importe~Debe cargar al menos un importe para el gasto.");
 		
 		//Datos de proveedor
+		/*
 		if(!prm_edificio.getEdf_ConfigOrdenDetalleGasto().equals("0")){
 			//Los datos de proveedor son mandatorios: fecha, nro factura y proveedor 
 			if(this.gasto.getSucursalFactura().equals("0000"))
@@ -152,7 +153,8 @@ public class GastoBean implements Serializable {
 			if(this.gasto.getCuitProveedor().equals("0"))//El combo proveedor tiene un valor 'Seleccione' por defecto
 				listAcumulaErrores.add("djComboMyProveedores~Por favor seleccione un proveedor.");
 			
-		}
+		}*/
+		
 		if(this.gasto.getSucursalFactura().length() > 4)
 			listAcumulaErrores.add("numeroFactura~El punto de venta de la factura debe ser de 4 digitos");
 		
@@ -162,6 +164,23 @@ public class GastoBean implements Serializable {
 		if(this.gasto.getAgrupamiento().equals("--")){//El combo agrupamiento tiene un valor 'Seleccione' por defecto
 			listAcumulaErrores.add("djComboAgrupamiento~Por favor seleccione un agrupamiento.");
 		}
+		
+		//Datos de proveedor
+		if(this.gasto.getFechaFactura() != null && this.gasto.getCuitProveedor().equals("0"))
+			listAcumulaErrores.add("djComboMyProveedores~Si ingresa la fecha de factura debe seleccionar un proveedor.");
+		
+		if(!this.gasto.getSucursalFactura().equals("")){
+			if(!this.gasto.getSucursalFactura().equals("0000") && this.gasto.getCuitProveedor().equals("0"))
+				listAcumulaErrores.add("djComboMyProveedores~Si ingresa el punto de venta de la factura debe seleccionar un proveedor.");
+		}
+
+		if(!this.gasto.getNumeroFactura().equals("")){
+			if(!this.gasto.getNumeroFactura().equals("00000000") && this.gasto.getCuitProveedor().equals("0"))
+				listAcumulaErrores.add("djComboMyProveedores~Si ingresa el número de la factura debe seleccionar un proveedor.");
+		}
+
+		
+		
 		return listAcumulaErrores;
 	}
 	
