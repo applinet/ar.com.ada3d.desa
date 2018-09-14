@@ -208,6 +208,8 @@ public class ProveedorBean implements Serializable{
 					return myProveedor.getPrv_localidad();			
 				if(prm_dato.equals("tipoFactura"))
 					return myProveedor.getPrv_tipoFactura();			
+				if(prm_dato.equals("matricula"))
+					return myProveedor.getPrv_matricula();			
 			}
 		}
 		return "";

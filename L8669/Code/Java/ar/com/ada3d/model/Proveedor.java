@@ -18,6 +18,7 @@ public class Proveedor {
 	private String prv_codigoPostal;
 	private BigDecimal prv_comision;
 	private BigDecimal prv_saldoInicial;
+	private String prv_matricula;
 	
 	
 	
@@ -137,6 +138,14 @@ public class Proveedor {
 
 	public void setPrv_saldoInicial(BigDecimal prv_saldoInicial) {
 		this.prv_saldoInicial = prv_saldoInicial;
+	}
+
+	public String getPrv_matricula() {
+		return prv_matricula;
+	}
+
+	public void setPrv_matricula(String prv_matricula) {
+		this.prv_matricula = prv_matricula;
 	}
 	
 }
