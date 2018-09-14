@@ -118,15 +118,13 @@ public class GastoBean implements Serializable {
 	 * @return: un texto con: idComponente con error ~ Mensaje a Mostrar en pantalla
 	 */
 	public ArrayList<String> strValidacionGasto(Edificio prm_edificio){
-		
 		//TODO: que vamos a validar de la factura, si es nueva es otra validación?
+		
 		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
 		List<String> acumulaDetalle = new ArrayList<String>();
-		//Textos puedo tener hasta 99 lineas de 72 caracteres
-		//Las lineas de mas de 72 caracteres las divido en un nuevo array (acumulaDetalle)
-		for (String detalle : this.gasto.getTextoDetalleFactura()){
-			acumulaDetalle.addAll(ar.com.ada3d.utilidades.Conversores.splitString(detalle, 72));
-		}
+		//Textos puedo tener hasta 99 lineas de 72 caracteres; las lineas de mas de 72 caracteres las divido en un nuevo array (acumulaDetalle)
+		acumulaDetalle = getPreviewDetalleGastos(this.gasto, new ArrayList<String>(Arrays.asList(prm_edificio.getEdf_ConfigOrdenDetalleGasto().split(""))));
+		
 		if(acumulaDetalle.size() > 99){
 			listAcumulaErrores.add("btnSave~El detalle de la factura es demasiado largo excede las 99 lineas y no puede ser grabado.");
 		}
@@ -140,20 +138,6 @@ public class GastoBean implements Serializable {
 		if(importeCero)
 			listAcumulaErrores.add("prt_importe~Debe cargar al menos un importe para el gasto.");
 		
-		//Datos de proveedor
-		/*
-		if(!prm_edificio.getEdf_ConfigOrdenDetalleGasto().equals("0")){
-			//Los datos de proveedor son mandatorios: fecha, nro factura y proveedor 
-			if(this.gasto.getSucursalFactura().equals("0000"))
-				listAcumulaErrores.add("numeroFactura~El punto de venta de la factura no puede ser cero");
-			
-			if(this.gasto.getNumeroFactura().equals("00000000"))
-				listAcumulaErrores.add("numeroFactura~El número de factura no puede ser cero");
-			
-			if(this.gasto.getCuitProveedor().equals("0"))//El combo proveedor tiene un valor 'Seleccione' por defecto
-				listAcumulaErrores.add("djComboMyProveedores~Por favor seleccione un proveedor.");
-			
-		}*/
 		
 		if(this.gasto.getSucursalFactura().length() > 4)
 			listAcumulaErrores.add("numeroFactura~El punto de venta de la factura debe ser de 4 digitos");
@@ -235,11 +219,14 @@ public class GastoBean implements Serializable {
 			docDummy.replaceItemValue("IMPOR" + myProrrateo.getPrt_posicion(), ar.com.ada3d.utilidades.Conversores.bigDecimalToAS400(myProrrateo.getPrt_importe(), 2));
 		}
 		
+		//Detalle del gasto
 		List<String> acumulaDetalle = new ArrayList<String>();
-		for (String detalle : this.gasto.getTextoDetalleFactura()){
-			acumulaDetalle.addAll(ar.com.ada3d.utilidades.Conversores.splitString(detalle, 72));
-		}
-
+		acumulaDetalle = getPreviewDetalleGastos(this.gasto, new ArrayList<String>(Arrays.asList(prm_edificio.getEdf_ConfigOrdenDetalleGasto().split(""))));
+		String textoInicial = this.gasto.getTextoDetalleFactura().get(0).length() > 15 ? this.gasto.getTextoDetalleFactura().get(0).substring(0, 15) : this.gasto.getTextoDetalleFactura().get(0);
+		Integer posicionIniciaTextoDetalle = acumulaDetalle.toString().indexOf(textoInicial);
+		
+		docDummy.appendItemValue("FILCOL", posicionIniciaTextoDetalle.toString());
+		
 		docDummy.appendItemValue("ACUMULADETALLE", acumulaDetalle);
 		docDummy.appendItemValue("TRENGL", acumulaDetalle.size()); //Total de renglones
 		docDummy.appendItemValue("ORIGEN", this.gasto.getOrigenDatos());
@@ -586,6 +573,9 @@ public class GastoBean implements Serializable {
 						myGasto.setFechaLiquidacion(ar.com.ada3d.utilidades.Conversores.DateToString(ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[12].trim()), "MMyyyy"));
 						
 						//Detalle factura
+						System.out.println("FPR_1");
+						myGasto.setFilaColumnaTextoDetalleFactura(Integer.parseInt(strLinea.split("\\|")[17].trim()));
+						System.out.println("FPR_2:" + myGasto.getFilaColumnaTextoDetalleFactura().toString());
 						tempTextoFactura.add(strLinea.split("\\|")[2].trim());
 						myGasto.setTextoDetalleFactura(tempTextoFactura);
 						
@@ -1020,6 +1010,80 @@ public class GastoBean implements Serializable {
 		return result;
 	}
 
+	
+	/**
+	 * Junta el detalle de los gastos con los datos del Proveedor  y los devuelve en un array
+	 * Los datos por agregar son: Proveedor y cuit - Fecha de la factura - Número de la factura - Dirección proveedor
+	 * @param prm_gasto del que muestro el detalle
+	 * @param prm_OrdenDetalleGasto: el orden de los datos 
+	 * @param prm_beanProveedor : el bean para obtener el proveedor
+	 * @return array con datos de proveedor + el texto (detalle) de cada gasto 
+	 * @usedIn: viewGastos, frmGastos en modo lectura
+	 */
+	
+	public ArrayList<String> getPreviewDetalleGastos(Gasto prm_gasto, ArrayList<String> prm_OrdenDetalleGasto) {
+		ArrayList<String> result = new ArrayList<String>();
+		if(prm_OrdenDetalleGasto == null){
+			result.addAll(prm_gasto.getTextoDetalleFactura());
+		}else if(prm_OrdenDetalleGasto.contains(null)){
+			result.addAll(prm_gasto.getTextoDetalleFactura());
+		}else{
+			//Puede que los datos del proveedor vengan nulos si cambiaron la configuracion y ya habian cargado previamente datos vacios
+			boolean appendGuion = false; 
+			StringBuilder texto = new java.lang.StringBuilder();
+			
+			if (prm_gasto.getCuitProveedor() != null && !prm_gasto.getCuitProveedor().equals("0")){
+				ProveedorBean beanProveedor = new ProveedorBean();
+				String strCuit = prm_gasto.getCuitProveedor();
+				for (String orden : prm_OrdenDetalleGasto) {
+					if(orden.equals("1")){//Razón social proveedor
+						texto.append(beanProveedor.getDatoPorCuit(prm_gasto.getCuitProveedor(), "razonSocial"));
+						appendGuion = true;
+					}	
+					if(orden.equals("2")){//CUIT proveedor
+						texto.append(strCuit.substring(0,2) + "-" + strCuit.substring(2,10) + "-" + strCuit.substring(strCuit.length() - 1));
+						appendGuion = true;
+					}	
+					if(orden.equals("3") && prm_gasto.getFechaFactura() != null){//Fecha factura
+						texto.append(ar.com.ada3d.utilidades.Conversores.DateToString(prm_gasto.getFechaFactura(), "dd/MM/yyyy"));
+						appendGuion = true;
+					}
+					
+					if(orden.equals("4")){//Número factura
+						if(!prm_gasto.getSucursalFactura().equals("") && !prm_gasto.getSucursalFactura().equals("0000") && !prm_gasto.getNumeroFactura().equals("") && !prm_gasto.getNumeroFactura().equals("00000000")){
+							texto.append(prm_gasto.getSucursalFactura());
+							texto.append("-");
+							texto.append(prm_gasto.getNumeroFactura());
+							appendGuion = true;
+						}
+					}
+					if(orden.equals("5")){//Dirección proveedor
+						texto.append(beanProveedor.getDatoPorCuit(prm_gasto.getCuitProveedor(), "domicilio"));
+						appendGuion = true;
+					}
+					if(orden.equals("6")){//Matrícula proveedor
+						String matricula = beanProveedor.getDatoPorCuit(prm_gasto.getCuitProveedor(), "matricula");
+						if(matricula != null && !matricula.equals("")){
+							texto.append(beanProveedor.getDatoPorCuit(prm_gasto.getCuitProveedor(), "matricula"));
+							appendGuion = true;
+						}
+					}
+					
+					if(appendGuion){
+						texto.append(" - ");
+						appendGuion = false;
+					}				
+				}
+			}
+			//Agrego el detalle del gasto
+			for (String detalle : prm_gasto.getTextoDetalleFactura()){
+				texto.append(detalle);
+			}
+			//Divido el string hasta 72 caracteres
+			result.addAll(ar.com.ada3d.utilidades.Conversores.splitString(texto.toString(), 72));
+		}
+		return result;
+	}
 	
 	
 	/**
