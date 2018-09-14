@@ -156,7 +156,8 @@ getComponent("dialogPregrabado").show()}]]></xp:this.action>
 			
 			<xp:button value="Grabar" id="btnSave" styleClass="btn-primary" rendered="#{javascript:!gastoBean.gasto.isReadMode}">
 				<i class="glyphicon glyphicon-download-alt"></i>
-				<xp:eventHandler event="onclick" submit="true" refreshMode="partial" refreshId="formTableGastos">
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" refreshId="formTableGastos">
 					<xp:this.action><![CDATA[#{javascript:var msgValidacion:java.util.ArrayList = gastoBean.strValidacionGasto(sessionScope.get("edfObj"));
 if(!msgValidacion.isEmpty()){
 	facesMsgValidation(msgValidacion);
@@ -252,7 +253,7 @@ context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
 									<xp:eventHandler event="onChange"
 										submit="true" refreshMode="partial"
 										refreshId="djComboMyProveedores" disableValidators="true" />
-									</xe:djFilteringSelect>
+								</xe:djFilteringSelect>
 								&#160;
 								
 								<xp:button id="btnNewProveedor"	styleClass="btn btn-success" type="button" rendered="#{!gastoBean.gasto.isReadMode}">
@@ -279,7 +280,7 @@ getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
 								label="Fecha Factura" style="padding-right:2.0%" for="fechaFactura">
 								<xp:inputText id="fechaFactura"
 									value="#{gastoBean.gasto.fechaFactura}"
-									readonly="#{gastoBean.gasto.isReadMode}">
+									readonly="#{gastoBean.gasto.isReadMode}" tabindex="2">
 									<xp:this.converter>
 										<xp:convertDateTime type="date" />
 									</xp:this.converter>
@@ -295,7 +296,7 @@ getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
 								<xp:inputText id="sucursalFactura" 
 									maxlength="4" value="#{gastoBean.gasto.sucursalFactura}"
 									readonly="#{gastoBean.gasto.isReadMode}" style="width:60.0px"
-									disableClientSideValidation="true">
+									disableClientSideValidation="true" tabindex="1">
 									<xp:eventHandler event="onfocus"
 										submit="false">
 										<xp:this.script><![CDATA[x$("#{id:sucursalFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 3});]]></xp:this.script>
@@ -306,7 +307,7 @@ getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
 									maxlength="8" style="width:100.0px"
 									value="#{gastoBean.gasto.numeroFactura}"
 									readonly="#{gastoBean.gasto.isReadMode}"
-									disableClientSideValidation="true">
+									disableClientSideValidation="true" tabindex="3">
 									<xp:eventHandler event="onfocus"
 										submit="false">
 										<xp:this.script><![CDATA[x$("#{id:numeroFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 7});]]></xp:this.script>
