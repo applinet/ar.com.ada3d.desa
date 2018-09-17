@@ -38,9 +38,7 @@ public class EdificioBean implements Serializable {
 	private boolean isMasivoActualizado = false;
 	@SuppressWarnings("unused")
 	private int cantidadTotalEdificiosTrabajo;
-	private GastoOpciones myGastoOpcionesMaestro = null;
-	
-	
+	private static GastoOpciones myGastoOpcionesMaestro = null;
 	
 	public EdificioBean() {
 		//System.out.println("FPR - Constr. Edificios y llamada AS400");
@@ -189,6 +187,7 @@ public class EdificioBean implements Serializable {
 	 * Agrego Edificios consultando As400, cada linea separa el dato por un pipe
 	 */
 	private void AddEdificiosAs400() {
+        myGastoOpcionesMaestro = (GastoOpciones) JSFUtil.resolveVariable("scopeOpcionGastoMaestro");
 		DocUsr docUsuario = (DocUsr) JSFUtil.resolveVariable("DocUsr");
 		//ArrayList<String> tempEdificiosSinAcceso = new ArrayList<String>();
 		ArrayList<String> tempEdificiosSinAcceso = docUsuario.getEdificiosNoAccessLista();	
@@ -531,9 +530,7 @@ public class EdificioBean implements Serializable {
 		//Si OrdenDetalleGasto
 		if(strLinea.split("\\|")[28].trim().equals("")){//No tengo una configuracion de gasto del edificio
 			//Buscar ***
-			if(myGastoOpcionesMaestro == null){
-				myGastoOpcionesMaestro = GastoBean.getOpcionGastoMaestro();
-			}
+			
 			if(myGastoOpcionesMaestro != null){
 				myEdificio.setEdf_ConfigOrdenDetalleGasto(myGastoOpcionesMaestro.getOrdenDatosProveedorEnDetalleDelGasto()); //ORDTXT
 				myEdificio.setEdf_ConfigTipoNumeracion(myGastoOpcionesMaestro.getTipoNumeracion()); //NUMCMP
@@ -1371,5 +1368,16 @@ public class EdificioBean implements Serializable {
 	public boolean isMasivoActualizado() {
 		return isMasivoActualizado;
 	}
+
+	public static GastoOpciones getMyGastoOpcionesMaestro() {
+		return myGastoOpcionesMaestro;
+	}
+
+	public static void setMyGastoOpcionesMaestro(
+			GastoOpciones myGastoOpcionesMaestro) {
+		EdificioBean.myGastoOpcionesMaestro = myGastoOpcionesMaestro;
+	}
+
+	
 
 }
