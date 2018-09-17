@@ -36,7 +36,7 @@
 				<xp:repeat id="repeat1" rows="30" var="row">
 					<xp:this.value><![CDATA[#{javascript:if(view.getPageName().equals("/viewGastos.xsp"))
 	return gastoBean.getPreviewDetalleGastos(gasto, gastoOpcionesBean.devolverMapa(sessionScope.edfObj.edf_ConfigOrdenDetalleGasto.split('').toString().trim()) , proveedorBean);
-return gastoBean.getPreviewDetalleGastos(gasto, null , null)	}]]></xp:this.value>
+return gastoBean.getPreviewDetalleGastos(gasto, null , null);}]]></xp:this.value>
 					<xp:link escape="true"
 						text="#{javascript:row.toString()}" id="textoDetalleFactura">
 						<xp:eventHandler event="onclick" submit="true"

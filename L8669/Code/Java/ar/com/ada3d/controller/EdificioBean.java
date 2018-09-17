@@ -537,7 +537,6 @@ public class EdificioBean implements Serializable {
 			if(myGastoOpcionesMaestro != null){
 				myEdificio.setEdf_ConfigOrdenDetalleGasto(myGastoOpcionesMaestro.getOrdenDatosProveedorEnDetalleDelGasto()); //ORDTXT
 				myEdificio.setEdf_ConfigTipoNumeracion(myGastoOpcionesMaestro.getTipoNumeracion()); //NUMCMP
-				myEdificio.setEdf_ConfigNumeroProximoGasto(new BigDecimal(myGastoOpcionesMaestro.getNumeroProximoGasto())); //NROAUT
 			}
 		}else{
 			myEdificio.setEdf_ConfigOrdenDetalleGasto(strLinea.split("\\|")[28].trim()); //ORDTXT

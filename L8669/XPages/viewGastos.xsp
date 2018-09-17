@@ -51,7 +51,7 @@ return gastoBean.getArrayDetallesGastos();}]]></xc:this.pty_Lista>
 			<xp:eventHandler event="onclick" submit="true"
 				refreshMode="complete">
 				<xp:this.action><![CDATA[#{javascript:edificioBean.actualizoUnEdificioAs400(sessionScope.edfObj, "");
-if(!sessionScope.edfObj.edf_ConfigOrdenDetalleGasto.equals("")){ 
+if(sessionScope.edfObj.edf_ConfigNumeroProximoGasto != null){ 
 	gastoBean.createNewGasto();
 	context.redirectToPage("frmGastos.xsp");
 }else{//no tiene la configuracion cargada ver si tiene ***
