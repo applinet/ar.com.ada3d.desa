@@ -121,11 +121,7 @@ document.getElementById("#{id:textoDetalleFactura}").focus();]]></xp:this.onComp
 }	
 return true;	}]]></xp:this.condition>
 							<xp:executeScript>
-								<xp:this.script><![CDATA[#{javascript:if(gastoBean.gasto.idGasto != null && !gastoBean.gasto.isReadMode){
-	gastoBean.gasto.isReadMode = true;
-}else{
-	context.redirectToPage("viewGastos");
-}	}]]></xp:this.script>
+								<xp:this.script><![CDATA[#{javascript:context.redirectToPage("viewGastos");	}]]></xp:this.script>
 							</xp:executeScript>
 						</xp:actionGroup>
 					</xp:this.action>
@@ -330,7 +326,7 @@ getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
 								for="textoDetalleFactura" labelWidth="15%">
 								<xp:repeat id="repeatDetalleReadMode"
 									rows="30" var="row"
-									value="#{javascript:gastoBean.getPreviewDetalleGastos(gastoBean.gasto, gastoOpcionesBean.devolverMapa(edfObj.edf_ConfigOrdenDetalleGasto.split('').toString().trim()) , proveedorBean)}"
+									value="#{gastoBean.gasto.textoDetalleFactura}"
 									rendered="#{gastoBean.gasto.isReadMode}">
 									<xp:label
 										id="labelDetalleReadMode">

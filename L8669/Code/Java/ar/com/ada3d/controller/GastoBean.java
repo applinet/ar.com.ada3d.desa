@@ -92,6 +92,18 @@ public class GastoBean implements Serializable {
 		prm_edificio.setEdf_lockedBy(session.getEffectiveUserName());
 		this.gasto.setLockedBy(session.getEffectiveUserName());
 		this.gasto.setIsReadMode(false);
+		
+		//Detalle factura para edicion
+		Vector<String> tempTextoFactura = new Vector<String>();		
+		List<String> detalleCompleto = this.gasto.getTextoDetalleFactura();
+		StringBuilder sb = new StringBuilder();
+		for (String s : detalleCompleto){
+		    sb.append(s);
+		    sb.append("\n");
+		}
+		sb.delete(0, this.gasto.getFilaColumnaTextoDetalleFactura());
+		tempTextoFactura.add(sb.toString());
+		this.gasto.setTextoDetalleFactura(tempTextoFactura);
 	}
 	
 	
@@ -222,10 +234,7 @@ public class GastoBean implements Serializable {
 		//Detalle del gasto
 		List<String> acumulaDetalle = new ArrayList<String>();
 		acumulaDetalle = getPreviewDetalleGastos(this.gasto, new ArrayList<String>(Arrays.asList(prm_edificio.getEdf_ConfigOrdenDetalleGasto().split(""))));
-		String textoInicial = this.gasto.getTextoDetalleFactura().get(0).length() > 15 ? this.gasto.getTextoDetalleFactura().get(0).substring(0, 15) : this.gasto.getTextoDetalleFactura().get(0);
-		Integer posicionIniciaTextoDetalle = acumulaDetalle.toString().indexOf(textoInicial);
-		
-		docDummy.appendItemValue("FILCOL", posicionIniciaTextoDetalle.toString());
+		docDummy.appendItemValue("FILCOL", this.gasto.getFilaColumnaTextoDetalleFactura().toString());
 		
 		docDummy.appendItemValue("ACUMULADETALLE", acumulaDetalle);
 		docDummy.appendItemValue("TRENGL", acumulaDetalle.size()); //Total de renglones
@@ -573,9 +582,6 @@ public class GastoBean implements Serializable {
 						myGasto.setFechaLiquidacion(ar.com.ada3d.utilidades.Conversores.DateToString(ar.com.ada3d.utilidades.Conversores.StringToDate("Myyyy", strLinea.split("\\|")[12].trim()), "MMyyyy"));
 						
 						//Detalle factura
-						System.out.println("FPR_1");
-						myGasto.setFilaColumnaTextoDetalleFactura(Integer.parseInt(strLinea.split("\\|")[17].trim()));
-						System.out.println("FPR_2:" + myGasto.getFilaColumnaTextoDetalleFactura().toString());
 						tempTextoFactura.add(strLinea.split("\\|")[2].trim());
 						myGasto.setTextoDetalleFactura(tempTextoFactura);
 						
@@ -654,6 +660,7 @@ public class GastoBean implements Serializable {
 				
 				prm_Gasto.setUsuarioCreacion(strLinea.split("\\|")[13].trim());//Usuario creacion	
 				prm_Gasto.setOrigenDatos(strLinea.split("\\|")[14].trim());//Origen de los datos	
+				prm_Gasto.setFilaColumnaTextoDetalleFactura(Integer.parseInt(strLinea.split("\\|")[16].trim()));//FilaColumna texto variable	
 				
 				if (prm_tipoFormulario.equals("G")){
 					prm_Gasto.setCuitProveedor(strLinea.split("\\|")[6].trim());
@@ -1013,6 +1020,7 @@ public class GastoBean implements Serializable {
 	
 	/**
 	 * Junta el detalle de los gastos con los datos del Proveedor  y los devuelve en un array
+	 * Tambien completa FilaColumnaTextoDetalleFactura del prm_gasto
 	 * Los datos por agregar son: Proveedor y cuit - Fecha de la factura - Número de la factura - Dirección proveedor
 	 * @param prm_gasto del que muestro el detalle
 	 * @param prm_OrdenDetalleGasto: el orden de los datos 
@@ -1025,8 +1033,10 @@ public class GastoBean implements Serializable {
 		ArrayList<String> result = new ArrayList<String>();
 		if(prm_OrdenDetalleGasto == null){
 			result.addAll(prm_gasto.getTextoDetalleFactura());
+			prm_gasto.setFilaColumnaTextoDetalleFactura(1);
 		}else if(prm_OrdenDetalleGasto.contains(null)){
 			result.addAll(prm_gasto.getTextoDetalleFactura());
+			prm_gasto.setFilaColumnaTextoDetalleFactura(1);
 		}else{
 			//Puede que los datos del proveedor vengan nulos si cambiaron la configuracion y ya habian cargado previamente datos vacios
 			boolean appendGuion = false; 
@@ -1074,10 +1084,16 @@ public class GastoBean implements Serializable {
 						appendGuion = false;
 					}				
 				}
+				//texto.setLength(texto.length() - 3);
+				//texto.append("~^¬");
 			}
+			//Agrego la fila columna
+			prm_gasto.setFilaColumnaTextoDetalleFactura(texto.length());
+			
 			//Agrego el detalle del gasto
 			for (String detalle : prm_gasto.getTextoDetalleFactura()){
 				texto.append(detalle);
+				texto.append("\n");
 			}
 			//Divido el string hasta 72 caracteres
 			result.addAll(ar.com.ada3d.utilidades.Conversores.splitString(texto.toString(), 72));
@@ -1119,7 +1135,6 @@ public class GastoBean implements Serializable {
 			myGastoOpciones.setIsReadMode(true);
 			myGastoOpciones.setIsNew(false);
 		}
-		
 		return myGastoOpciones;
 	}
 	
