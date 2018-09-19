@@ -31,19 +31,19 @@ style='width:' + prop + 'px';}]]></xe:this.style>
 		<xp:eventHandler event="onChange" submit="true"
 			refreshMode="partial" disableValidators="true">
 			<xp:this.refreshId><![CDATA[#{javascript:compositeData.refreshIdOnChange}]]></xp:this.refreshId>
-			<xe:this.action><![CDATA[#{javascript:var edificio = edificioBean.getEdificioMap(this.getParent().getValue());
+			<xe:this.action><![CDATA[#{javascript:edificioBean.actualizoUnEdificioAs400(sessionScope.edfObj, "");
+var edificio = edificioBean.getEdificioMap(this.getParent().getValue());
 if(edificio != null){
 	sessionScope.put("edfObj", edificio);
 }
 //Cuando modifica el edificio igualo porcentuales al nuevo edificio solo para gastos
 if(context.getUrl().getSiteRelativeAddress(context).equals("/frmGastos.xsp")){
 	
-	if(sessionScope.edfObj.edf_ConfigOrdenDetalleGasto.equals("")){ //al crear un nuevo gasto validar que tenga la configuracion cargada
-		sessionScope.put("navRule", "viewGastos");
-		gastoOpcionesBean.createNewOpcionGasto();
+	if(validarConfiguracionGasto() == "frmOpcionesGastos.xsp"){
 		sessionScope.edificioWork = this.getParent().getValue();
 		context.redirectToPage("frmOpcionesGastos.xsp");
 	}
+	
 	
 	gastoBean.blanqueoProrrateosAlCambiarEdificio(gastoBean.getGasto(), edificio);
 	var msg:java.util.ArrayList = new java.util.ArrayList();

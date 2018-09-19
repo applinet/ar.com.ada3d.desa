@@ -2,9 +2,13 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.resources>
-		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.maskMoney.js" clientSide="true" />
-		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js" clientSide="true" />
+		<xp:script
+			src="\jQuery-Mask-Plugin-master\src\jquery.maskMoney.js"
+			clientSide="true" />
+		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js"
+			clientSide="true" />
 		<xp:script src="/General_SSJS.jss" clientSide="false" />
+		<xp:script src="/Gastos_SSJS.jss" clientSide="false"></xp:script>
 	</xp:this.resources>
 
 	<xp:scriptBlock id="scriptBlockbtnNewProveedor">
@@ -240,6 +244,7 @@ context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
 									queryExpr="#{javascript:return '*\$\{0\}*';}"
 									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
 									value="#{gastoBean.gasto.cuitProveedor}" style="width:80.0%">
+
 									<xp:selectItems
 										value="#{javascript:proveedorBean.getComboboxMyProveedores();}" />
 									<xe:this.dojoAttributes>
@@ -251,7 +256,7 @@ context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
 										refreshId="djComboMyProveedores" disableValidators="true" />
 								</xe:djFilteringSelect>
 								&#160;
-								
+
 								<xp:button id="btnNewProveedor"	styleClass="btn btn-success" type="button" rendered="#{!gastoBean.gasto.isReadMode}">
 									<xp:text id="iconWarning"
 										tagName="i" styleClass="glyphicon glyphicon-plus-sign">

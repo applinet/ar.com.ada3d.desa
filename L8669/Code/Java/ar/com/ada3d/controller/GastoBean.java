@@ -192,6 +192,7 @@ public class GastoBean implements Serializable {
 
 	 */
 	public ArrayList<String> saveGasto(Edificio prm_edificio) {
+		boolean printConsole = false;
 		ArrayList<String> listAcumulaErroresAS400 = new ArrayList<String>();
 		boolean isNew = false;
 		Document docDummy = JSFUtil.getDocDummy();
@@ -199,6 +200,7 @@ public class GastoBean implements Serializable {
 		Session session = JSFUtil.getSession();
 		session.getCurrentDatabase().getAgent("a.ObtCorr").runWithDocumentContext(docDummy);
 
+		if(printConsole) System.out.println("FPR_1");
 		if(this.gasto.getIdGasto() == null){//Es un gasto nuevo
 			this.gasto.setIdGasto(ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), "yyMMddHHmm" + docDummy.getItemValueString("nroSecuencial")));
 			this.gasto.setCodigoEdificio(prm_edificio.getEdf_codigo());
@@ -206,19 +208,19 @@ public class GastoBean implements Serializable {
 			this.gasto.setOrigenDatos("QUE PONEMOS?");
 			isNew = true;
 		}
-		
+		if(printConsole) System.out.println("FPR_2");
 		docDummy.appendItemValue("NCTROL", this.gasto.getIdGasto());
 		docDummy.appendItemValue("EDIF", this.gasto.getCodigoEdificio());
 		docDummy.appendItemValue("FECLIQ", this.gasto.getFechaLiquidacion());
 		docDummy.appendItemValue("CUITPR", this.gasto.getCuitProveedor());
-		
+		if(printConsole) System.out.println("FPR_3");
 		docDummy.appendItemValue("NFACT", (this.gasto.getSucursalFactura().equals("") ? "0000" : this.gasto.getSucursalFactura()) + "-" + (this.gasto.getNumeroFactura().equals("") ? "00000000" : this.gasto.getNumeroFactura()));
 		if(this.gasto.getFechaFactura()== null){
 			docDummy.appendItemValue("FFACT", "0");
 		}else{
 			docDummy.appendItemValue("FFACT", ar.com.ada3d.utilidades.Conversores.DateToString(this.gasto.getFechaFactura(), "ddMMyy"));
 		}
-		
+		if(printConsole) System.out.println("FPR_4");
 		docDummy.appendItemValue("AGRUP", this.gasto.getAgrupamiento());
 		docDummy.appendItemValue("SPECIAL", this.gasto.getCodigoEspecial());
 		docDummy.appendItemValue("TIPGTS", this.gasto.getTipoGasto());
@@ -239,7 +241,7 @@ public class GastoBean implements Serializable {
 		docDummy.appendItemValue("ACUMULADETALLE", acumulaDetalle);
 		docDummy.appendItemValue("TRENGL", acumulaDetalle.size()); //Total de renglones
 		docDummy.appendItemValue("ORIGEN", this.gasto.getOrigenDatos());
-		
+		if(printConsole) System.out.println("FPR_5");
 		
 		// *** AS400 ***
 		
@@ -248,7 +250,9 @@ public class GastoBean implements Serializable {
 		String errCode = ar.com.ada3d.utilidades.Conversores.DateToString(Calendar.getInstance().getTime(), docUsuario.getUserSec() + "ddMMyyHHmmss" );
 		
 		if(isNew){ //es un nuevo gasto
+			if(printConsole) System.out.println("FPR_6");
 			if(prm_edificio.getEdf_ConfigTipoNumeracion().equals("1")){//Numeracion automatica
+				if(printConsole) System.out.println("FPR_7");
 				//Actualizo el numero de comprobante si corresponde
 				session.getCurrentDatabase().getAgent("a.saveNewFrmGastosNumAutSimple").runWithDocumentContext(docDummy);
 				if(docDummy.getItemValueString("COMPRO") != null){
@@ -265,7 +269,8 @@ public class GastoBean implements Serializable {
 			}else if(prm_edificio.getEdf_ConfigTipoNumeracion().equals("2")){//Numeracion automatica por rubros
 				docDummy.appendItemValue("COMPRO", "0");
 			}else{//Numeracion Manual o sin numeración
-				docDummy.appendItemValue("COMPRO", this.gasto.getNumeroComprobante().toString());
+				if(printConsole) System.out.println("FPR_8");
+				docDummy.appendItemValue("COMPRO", "0");
 			}
 			
 			if (!query.updateBatchGastos("gastosInsertBatchGTS01", docDummy, acumulaDetalle, true)) {
@@ -280,7 +285,7 @@ public class GastoBean implements Serializable {
 			 * Si la cantidad de lineas es = actualizo los datos en batch, sino elimino
 			 * todo y vuelvo a insertar  
 			*/
-			
+			if(printConsole) System.out.println("FPR_9");
 			docDummy.appendItemValue("COMPRO", this.gasto.getNumeroComprobante().toString());
 			if (acumulaDetalle.size() == this.gasto.getCantidadRenglones()){
 				//Misma cantidad de lineas, solo actualizo 
@@ -304,7 +309,7 @@ public class GastoBean implements Serializable {
 		}
 		
 		
-		
+		if(printConsole) System.out.println("FPR_10");
 		//Actualizo los campos de logueo si no hubo errores
 		if (listAcumulaErroresAS400.isEmpty()){
 			Calendar ahora = Calendar.getInstance();
