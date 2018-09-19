@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex" dojoParseOnLoad="true"
+	dojoTheme="true">
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if(viewScope.scopeAgrupamientosMap == null){
+	gastoBean.fillAgrupamientosGastosMap();
+	viewScope.put("scopeAgrupamientosMap", gastoBean.agrupamientosGastosMap)
+}
+if(sessionScope.scopeCodigoEspecialMap == null){
+	gastoBean.fillCodigoEspecialMap();
+	sessionScope.put("scopeCodigoEspecialMap", gastoBean.codigoEspecialMap)
+}
+if(viewScope.scopeOpcionGastoMaestro == null){
+	viewScope.put("scopeOpcionGastoMaestro", gastoBean.getOpcionGastoMaestro())
+}}]]></xp:this.beforePageLoad>
+	<xp:this.beforeRenderResponse><![CDATA[#{javascript:gastoBean.viewGastos(sessionScope.edfObj);}]]></xp:this.beforeRenderResponse>
+	<xp:this.resources>
+		<xp:dojoModule name="dojo.store.JsonRest"></xp:dojoModule>
+		<xp:dojoModule name="dojo.data.ObjectStore"></xp:dojoModule>
+	</xp:this.resources>
+	<xe:restService id="restService1" pathInfo="gridData">
+		<xe:this.service>
+			<xe:customRestService
+				serviceBean="ar.com.ada3d.controller.DataService"
+				contentType="application/json" requestContentType="application/json"
+				requestVar="gridData">
+			</xe:customRestService>
+		</xe:this.service>
+	</xe:restService>
+	<script>
+		var jsonStore = new dojo.store.JsonRest(
+		{target:"viewGastos1.xsp/gridData"} ); var dataStore =
+		dojo.data.ObjectStore({objectStore: jsonStore});
+	</script>
+	<xc:ccLayoutBootstrap property_hasTitleBar="true"
+		property_ShowComboEdificio="true"
+		property_TitleBarActions="ar.com.ada3d.frontend.TitleBarActionsViewGastos"
+		property_ShowAffixToolBar="true">
+		<xp:this.facets>
+			<xp:panel id="PNL_container" xp:key="facetMiddle">
+
+				<xe:djxDataGrid id="djxDataGrid1" store="dataStore">
+					<xe:djxDataGridColumn id="djxDataGridColumn2"
+						field="universalID">
+					</xe:djxDataGridColumn>
+					<xe:djxDataGridColumn id="djxDataGridColumn1"
+						field="status">
+					</xe:djxDataGridColumn>
+				</xe:djxDataGrid>
+			</xp:panel>
+		</xp:this.facets>
+	</xc:ccLayoutBootstrap>
+	<div id="divHiddenAplicar" style="display: none;">
+		<xp:button value="Nuevo Gasto" id="btnNuevoGasto">
+
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="complete">
+				<xp:this.action><![CDATA[#{javascript:edificioBean.actualizoUnEdificioAs400(sessionScope.edfObj, "");
+if(sessionScope.edfObj.edf_ConfigNumeroProximoGasto != null){ 
+	gastoBean.createNewGasto();
+	context.redirectToPage("frmGastos.xsp");
+}else{//no tiene la configuracion cargada ver si tiene ***
+	if(viewScope.scopeOpcionGastoMaestro == null)
+		viewScope.put("scopeOpcionGastoMaestro", gastoBean.getOpcionGastoMaestro());
+		
+	if(viewScope.scopeOpcionGastoMaestro == null){//No tengo ***
+		sessionScope.put("navRule", "viewGastos");
+		gastoOpcionesBean.createNewOpcionGasto();
+		gastoOpcionesBean.gastoOpciones.setMensajeWarning("Puede elegir entre tener una configuración individual para cada edificio o una única configuración para todos sus edificios. Si tilda la opción:'*** Configuración única para todos mis edificios', todos sus edificios compartirán esta configuración y incluso cuando se incorpore un nuevo edificio.");
+		context.redirectToPage("frmOpcionesGastos.xsp");
+	}else{//Tengo maestro(***) y no tengo edificio
+		if (viewScope.scopeOpcionGastoMaestro.getTipoNumeracion().equals("0") || viewScope.scopeOpcionGastoMaestro.getTipoNumeracion().equals("3")){
+			sessionScope.edfObj.setEdf_ConfigOrdenDetalleGasto(viewScope.scopeOpcionGastoMaestro.getOrdenDatosProveedorEnDetalleDelGasto());
+			gastoBean.createNewGasto();
+			context.redirectToPage("frmGastos.xsp");
+		}else{//Tengo que cargar el nro automático
+			sessionScope.put("navRule", "viewGastos");
+			gastoOpcionesBean.createNewOpcionGasto(viewScope.scopeOpcionGastoMaestro);
+			gastoOpcionesBean.gastoOpciones.setMensajeWarning("Por favor complete el campo 'Numerador de comprobantes' del edificio para poder crear un gasto. Esto es necesario debido a que ha optado por numeración automática.");
+			context.redirectToPage("frmOpcionesGastos.xsp");
+		}
+	}
+}}]]></xp:this.action>
+			</xp:eventHandler>
+		</xp:button>
+		<xp:button id="btnNewProveedor" styleClass="btn btn-success"
+			type="button">
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="partial" refreshId="btnNewProveedor"
+				disableValidators="true">
+				<xp:this.action><![CDATA[#{javascript:proveedorBean.viewProveedores(); //Actualizo la lista de proveedores
+proveedorBean.createNewProveedor();
+proveedorBean.proveedor.prv_isNew = true;
+getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
+			</xp:eventHandler>
+		</xp:button>
+		<xc:ccModalAltaProveedor refreshIdOnSave="PNL_container"></xc:ccModalAltaProveedor>
+	</div>
+
+</xp:view>
