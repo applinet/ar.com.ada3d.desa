@@ -138,7 +138,7 @@ public class JSFUtil {
 		LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
 		View vOpciones = getDbCfg().getView("v.Sys.Opciones.Clave");
 		
-		ViewEntryCollection entryCol = vOpciones.getAllEntriesByKey(clave);
+		ViewEntryCollection entryCol = vOpciones.getAllEntriesByKey(clave, true);
 		for(ViewEntry entryResult : entryCol){
 			result.put(entryResult.getDocument().getItemValueString("opt_Codigo_des"), entryResult.getDocument().getItemValueString("opt_Nombre_des"));
 			
