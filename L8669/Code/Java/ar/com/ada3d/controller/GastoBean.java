@@ -900,13 +900,15 @@ public class GastoBean implements Serializable {
 	}
 	
 	
+			
 	/**
-	 * En frmGastos el combo de Codigo Especial sale de configuracion de Notes
-	 * @return selector con codigos especiales
+	 * Devuelve las opciones para diferentes combos segun la clave a buscar
+	 * @param clave lookup que hace en Notes
+	 * @return selector con codigos de Opciones Clave de Notes
 	 */
-	public List<SelectItem> getComboboxTipoGasto() {
+	public List<SelectItem> getComboboxGasto(String clave) {
 		List<SelectItem> options = new ArrayList<SelectItem>();		
-		for (Map.Entry<String,String> entry : ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("gastoTipo").entrySet()) {
+		for (Map.Entry<String,String> entry : ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap(clave).entrySet()) {
 			SelectItem option = new SelectItem();
 			option.setLabel(entry.getValue());
 			option.setValue(entry.getKey());
