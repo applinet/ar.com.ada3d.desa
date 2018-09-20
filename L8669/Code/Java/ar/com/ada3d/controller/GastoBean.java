@@ -55,6 +55,7 @@ public class GastoBean implements Serializable {
 		setGasto(new Gasto());
 		Edificio prm_edificio = (Edificio) JSFUtil.resolveVariable("edfObj");
 		this.gasto.setListaProrrateos(cargaProrrateo("", prm_edificio));
+		this.gasto.setGastoRepetitivo("0");
 	}
 	
 	
@@ -175,8 +176,16 @@ public class GastoBean implements Serializable {
 				listAcumulaErrores.add("djComboMyProveedores~Si ingresa el número de la factura debe seleccionar un proveedor.");
 		}
 
-		
-		
+		if(this.gasto.getGastoRepetitivo().equals("3")){
+			if (this.gasto.getGastoRepetitivoTexto() == null){
+				listAcumulaErrores.add("divGastoRepetitivoTexto~Al seleccionar repetir en cuotas debe ingresar el numero de cuota actual (ej.: 01 de 03).");
+			}else{
+				 if(this.gasto.getGastoRepetitivoTexto().trim().equals("")){
+					 listAcumulaErrores.add("divGastoRepetitivoTexto~Al seleccionar repetir en cuotas debe ingresar el numero de cuota actual (ej.: 01 de 03).");
+				 }else if(this.gasto.getGastoRepetitivoTexto().length() != 8)
+					 listAcumulaErrores.add("divGastoRepetitivoTexto~Al seleccionar repetir en cuotas debe ingresar el numero de cuota actual (ej.: 01 de 03).");
+			}
+		}
 		return listAcumulaErrores;
 	}
 	
@@ -241,6 +250,8 @@ public class GastoBean implements Serializable {
 		docDummy.appendItemValue("ACUMULADETALLE", acumulaDetalle);
 		docDummy.appendItemValue("TRENGL", acumulaDetalle.size()); //Total de renglones
 		docDummy.appendItemValue("ORIGEN", this.gasto.getOrigenDatos());
+		docDummy.appendItemValue("CMPREP", this.gasto.getGastoRepetitivo());
+		docDummy.appendItemValue("TXTREP", this.gasto.getGastoRepetitivo().equals("0") || this.gasto.getGastoRepetitivo().equals("1") || this.gasto.getGastoRepetitivoTexto() == null ? "" : this.gasto.getGastoRepetitivoTexto());
 		if(printConsole) System.out.println("FPR_5");
 		
 		// *** AS400 ***
@@ -675,6 +686,9 @@ public class GastoBean implements Serializable {
 					prm_Gasto.setNumeroFactura(strLinea.split("\\|")[7].trim().split("-")[1]);
 					prm_Gasto.setCodigoEspecial(strLinea.split("\\|")[10].trim());
 					prm_Gasto.setTipoGasto(strLinea.split("\\|")[15].trim());
+					prm_Gasto.setGastoRepetitivo(strLinea.split("\\|")[17].trim());
+					prm_Gasto.setGastoRepetitivoTexto(strLinea.split("\\|")[18].trim() == "" ? null : strLinea.split("\\|")[18].trim());
+					
 				}
 
 			}

@@ -25,6 +25,7 @@ x$( "#{id:btnNewProveedor}" ).popover();
 	$(".classPrt_importe").maskMoney({allowZero: true, allowNegative: true, thousands:'.', decimal:',', selectAllOnFocus: true});
 	x$("#{id:sucursalFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 3});
 	x$("#{id:numeroFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 7});
+	x$("#{id:cuotaGastoRepetitivoTexto}").mask('00 de 00', {placeholder: "00 de 00"});
 });]]></xp:this.value>
 	</xp:scriptBlock>
 	
@@ -513,8 +514,9 @@ $('textarea').each(function () {
 									autoComplete="false"
 									value="#{gastoBean.gasto.tipoGasto}"
 									disabled="#{gastoBean.gasto.isReadMode}">
-									<xp:selectItems
-										value="#{javascript:gastoBean.comboboxTipoGasto;}" />
+									<xp:selectItems>
+										<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxGasto("gastoTipo");}]]></xp:this.value>
+									</xp:selectItems>
 									<xe:this.dojoAttributes>
 										<xp:dojoAttribute
 											name="required" value="false" />
@@ -551,9 +553,76 @@ return edfObj.edf_ConfigTipoNumeracion.equals("1") ? edfObj.edf_ConfigNumeroProx
 								</xp:inputText>
 							</xe:formRow>
 
-
 						</xe:formColumn>
 					</xp:div>
+										
+					<xp:div styleClass="form-inline">
+						<xe:formColumn styleClass="form-group col-sm-6">
+							<xe:formRow id="rowGastoRepetitivo"
+								label="Repetir gasto" style="padding-right:2.0%" for="divGastoRepetitivoTexto">
+								<xe:djFilteringSelect id="djGastoRepetitivo"
+									queryExpr="#{javascript:return '*\$\{0\}*';}"
+									autoComplete="false"
+									value="#{gastoBean.gasto.gastoRepetitivo}"
+									disabled="#{gastoBean.gasto.isReadMode}"
+									style="width:250.0px">
+									<xp:selectItems>
+										<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxGasto("gastoRepetitivo");}]]></xp:this.value>
+									</xp:selectItems>
+									<xe:this.dojoAttributes>
+										<xp:dojoAttribute
+											name="required" value="false" />
+									</xe:this.dojoAttributes>
+									<xp:eventHandler event="onChange" submit="true" refreshMode="partial" refreshId="divGastoRepetitivoTexto" disableValidators="true">
+									</xp:eventHandler>
+								</xe:djFilteringSelect>
+								<xp:div id="divGastoRepetitivoTexto"
+									styleClass="form-inline" style="padding-top:2.0%">
+									<xp:label id="labelMes"
+										style="font-weight:bold"
+										rendered="#{gastoBean.gasto.gastoRepetitivo eq '2' or gastoBean.gasto.gastoRepetitivo eq '3'}">
+										<xp:this.value><![CDATA[#{javascript:return gastoBean.gasto.gastoRepetitivo == "2" ? "Mes: " : "Cuota: ";}]]></xp:this.value>
+									</xp:label>
+									<xe:djFilteringSelect
+										id="djGastoRepetitivoTexto"
+										queryExpr="#{javascript:return '*\$\{0\}*';}"
+										autoComplete="false"
+										value="#{gastoBean.gasto.gastoRepetitivoTexto}"
+										disabled="#{gastoBean.gasto.isReadMode}"
+										rendered="#{gastoBean.gasto.gastoRepetitivo eq '2'}">
+										<xp:selectItems>
+											<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxGasto("gastoRepetitivoMes");}]]></xp:this.value>
+										</xp:selectItems>
+										<xe:this.dojoAttributes>
+											<xp:dojoAttribute
+												name="required" value="false" />
+										</xe:this.dojoAttributes>
+									</xe:djFilteringSelect>
+									<xp:inputText id="cuotaGastoRepetitivoTexto" value="#{gastoBean.gasto.gastoRepetitivoTexto}"
+										rendered="#{gastoBean.gasto.gastoRepetitivo eq '3'}"
+										maxlength="4" readonly="#{gastoBean.gasto.isReadMode}" style="width:90.0px"
+										disableClientSideValidation="true">
+										<xp:this.validators>
+											<xp:validateConstraint
+												regex="^\d{2} de \d{2}$" message="Al seleccionar repetir en cuotas debe ingresar el numero de cuota actual (ej.: 01 de 03).">
+											</xp:validateConstraint>
+										</xp:this.validators>
+										<xp:eventHandler event="onfocus"
+											submit="false">
+											<xp:this.script><![CDATA[x$("#{id:cuotaGastoRepetitivoTexto}").mask('00 de 00', {placeholder: "00/00"});]]></xp:this.script>
+										</xp:eventHandler>
+									</xp:inputText>
+								</xp:div>
+							</xe:formRow>
+						</xe:formColumn>
+						
+						<xe:formColumn styleClass="form-group col-sm-6">
+							<xe:formRow id="rowGastoRepetitivoTexto"
+								style="padding-right:2.0%" label="">
+							</xe:formRow>
+						</xe:formColumn>
+					</xp:div>
+					
 					<xe:this.facets>
 						<xp:div xp:key="footer">
 							<xc:ccFXdocLock
