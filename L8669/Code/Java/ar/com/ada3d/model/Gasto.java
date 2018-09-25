@@ -122,6 +122,14 @@ public class Gasto {
 		this.listaProrrateos = listaProrrateos;
 	}
 
+	public Prorrateo getUnProrrateo(int prm_posicion) {
+		for (Prorrateo myProrrateo : listaProrrateos){
+			if(myProrrateo.getPrt_posicion() == prm_posicion){
+				return myProrrateo;
+			}
+		}
+		return null;
+	}
 
 	public Integer getCantidadRenglones() {
 		return cantidadRenglones;

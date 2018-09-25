@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
-	
-	
 
-	<xe:dialog id="dialogPregrabado" title="Pregrabados - Seleccione el texto a utilizar"
+	<xe:dialog id="dialogPregrabado" title="Pregrabados - Click para utilizar un texto pregrabado"
 		styleClass="modal" style="margin-left: inherit;">
 		<xe:this.onHide><![CDATA[XSP._setDirty(false,"")]]></xe:this.onHide>
 		<xe:dialogContent id="dialogContent1" styleClass="modal-body">
 			<xp:dataTable id="PregrabadosTable" var="pregrabado"
-			value="#{gastoBean.listaTextosPreseteados}" rows="15">
+			value="#{gastoBean.listaTextosPregrabados}" rows="15">
 				<xp:this.facets>
 					<xp:panel xp:key="header">
 						<xp:pager layout="Previous Group Next"
@@ -21,30 +19,42 @@
 					</xp:pager>
 				</xp:this.facets>
 				
-				<xp:column id="edf_codigoColumn">
+				<xp:column id="pregrabadoReferenciaColumn">
 					<xp:this.facets>
-						<xp:label value="Descripcion" id="label1"
+						<xp:label value="Referencia" id="label1"
 							xp:key="header" style="font-weight:bold">
 						</xp:label>
 					</xp:this.facets>
 					<xp:link escape="true"
-						text="#{pregrabado.label}"
-						id="label">
-						<xp:eventHandler event="onclick" submit="true" refreshMode="partial" refreshId="formTableGastos">
-							<xp:this.action><![CDATA[#{javascript:gastoBean.aplicarPreseteadoEnGasto(pregrabado)
+						text="#{pregrabado.referencia}"
+						id="pregrabadoReferencia">
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="formTableGastos">
+							<xp:this.action><![CDATA[#{javascript:gastoBean.aplicarPreseteadoEnGasto(pregrabado, sessionScope.edfObj.getEdf_codigo());
 getComponent("dialogPregrabado").hide();}]]></xp:this.action>
 						</xp:eventHandler>
 					</xp:link>
 				</xp:column>
-				<xp:column id="edf_codigoid">
+				
+				<xp:column id="pregrabadoTextoDetalleFacturaColumn">
 					<xp:this.facets>
-						<xp:label value="id" id="label2"
+						<xp:label value="Detalle" id="label2"
 							xp:key="header" style="font-weight:bold">
 						</xp:label>
 					</xp:this.facets>
-					<xp:text escape="true"
-						value="#{pregrabado.id}" id="edf_id">
-					</xp:text>
+					<xp:repeat id="repeatTextoDetalle" rows="30"
+						var="rptTextoDetalle" value="#{pregrabado.textoDetalle}">
+						<xp:link escape="true"
+							text="#{javascript:rptTextoDetalle.toString()}" id="pregrabadoTextoDetalleFactura">
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="partial"
+								refreshId="formTableGastos">
+								<xp:this.action><![CDATA[#{javascript:gastoBean.aplicarPreseteadoEnGasto(pregrabado, sessionScope.edfObj.getEdf_codigo());
+getComponent("dialogPregrabado").hide();}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+						<br />
+					</xp:repeat>
 				</xp:column>
 			</xp:dataTable>
 			

@@ -24,17 +24,16 @@ import ar.com.ada3d.utilidades.DocLock;
 import ar.com.ada3d.utilidades.DocUsr;
 import ar.com.ada3d.utilidades.JSFUtil;
 
-
 public class GastoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public List<Gasto> listaGastos;
-	public List<Gasto> listaGastosLiquidacionSiguiente;
-	public List<Gasto> listaGastosLiquidacionesFuturas;
-	public List<Gasto> listaGastosLiquidacionesPasadas;
-	public List<TextoPresetado> listaTextosPreseteados;
-	public LinkedHashMap<String, String> agrupamientosGastosMap;
-	public LinkedHashMap<String, String> agrupamientosNotasMap;
-	public LinkedHashMap<String, String> codigoEspecialMap;
+	private List<Gasto> listaGastos;
+	private List<Gasto> listaGastosLiquidacionSiguiente;
+	private List<Gasto> listaGastosLiquidacionesFuturas;
+	private List<Gasto> listaGastosLiquidacionesPasadas;
+	private List<TextoPresetado> listaTextosPregrabados;
+	private LinkedHashMap<String, String> agrupamientosGastosMap;
+	private LinkedHashMap<String, String> agrupamientosNotasMap;
+	private LinkedHashMap<String, String> codigoEspecialMap;
 	
 	
 	@SuppressWarnings("unused")
@@ -807,18 +806,17 @@ public class GastoBean implements Serializable {
 	
 	
 	/**
-	 * Obtiene los textos preseteados del edificio que estoy
+	 * Carga en listaTextosPregrabados los textos Pregrabados del edificio recibido 
 	 * @param prm_edificio objeto del edificio que estoy trabajando
 	 */
 	@SuppressWarnings("deprecation")
-	public void fillTextosPreseteados(Edificio prm_edificio) {
+	public void fillTextosPregrabados(Edificio prm_edificio) {
 		//Seguir ACA --> el combo de edificio no funciona y tampoco si elijo otro edificio. Tambien aparece siempre el tooltip al confirmar 
-		listaTextosPreseteados = null;
-		System.out.println("1");
+		listaTextosPregrabados = null;
 		StringBuilder conf_json = new StringBuilder();
-		View currentDbPreseteadosView = ar.com.ada3d.utilidades.JSFUtil.getCurrentDatabase().getView("(Clave Json por edificio)");
-		if (currentDbPreseteadosView == null) return;
-		ViewEntryCollection viewEntryColl = currentDbPreseteadosView.getAllEntriesByKey(prm_edificio.getEdf_codigo(), true);
+		View currentDbPregrabadosView = ar.com.ada3d.utilidades.JSFUtil.getCurrentDatabase().getView("(Clave Json por edificio)");
+		if (currentDbPregrabadosView == null) return;
+		ViewEntryCollection viewEntryColl = currentDbPregrabadosView.getAllEntriesByKey(prm_edificio.getEdf_codigo(), true);
 		if (viewEntryColl == null) return;
 		if (viewEntryColl.getCount() == 0) return; //Si no encuentra textos sale
 		if (viewEntryColl.getCount() > 0) {
@@ -834,28 +832,60 @@ public class GastoBean implements Serializable {
 			conf_json.append("]");
 		}
 		try {
-			listaTextosPreseteados = J2BConverter.jsonToBean(TextoPresetado.class, conf_json.toString()); //Funcion para crear beans desde json
-			//System.out.println("FPR:" + textosPreseteados.get(0).getPorcentuales().get(1).getUnadjusted());
-			@SuppressWarnings("unused")
-			final String json = J2BConverter.beanToJson(listaTextosPreseteados);//Crea un json desde un bean
+			listaTextosPregrabados = J2BConverter.jsonToBean(TextoPresetado.class, conf_json.toString()); //Funcion para crear un bean tomando un json
+            //System.out.println("FPR:" + listaTextosPregrabados.get(0).getPorcentuales().get(1).getUnadjusted());
 			
-			//Detalle factura
+			/* *** NO BORRAR ***** IMPORTANTE *****
+			 * Para debug, te muestra como debe quedar el JSON de Texto preseteado por si lo eliminas de Notes
+			  
+			TextoPreseteadoEdificio textoPreseteadoEdificio1 = new TextoPreseteadoEdificio();
+			textoPreseteadoEdificio1.setEdif("VEC1");
 			
+			LinkedHashMap<String, TextoPreseteadoEdificio> mapaEdificios = new LinkedHashMap<String, TextoPreseteadoEdificio>();
+			mapaEdificios.put("VEC1", textoPreseteadoEdificio1);
+						
+			TextoPresetado textoPresetado = new TextoPresetado();
+			textoPresetado.setEdificios(mapaEdificios);
+			textoPresetado.setReferencia("Referencia");
+			List myList = new ArrayList();
+			myList.add(textoPresetado);
+			final String json = J2BConverter.beanToJson(myList);//Crea un json tomando un bean
+			System.out.println(json);
+			*/ 
 		} catch (J2BException e) {
 			e.printStackTrace();
 		}
 					
 	}
 	
-	public void aplicarPreseteadoEnGasto(TextoPresetado prm_Preseteado) {
-		//TODO: Seguir ACA con textos preseteados, fijarse que el string json le agregué  final
-		Vector tempTextoFactura = new java.util.Vector();
-		tempTextoFactura.add(prm_Preseteado.getId());
 	
-		this.gasto.setTextoDetalleFactura(tempTextoFactura);
-		System.out.println("este:" + prm_Preseteado.getId());
+	/**
+	 * Al clickear en un preseteado lo recibe y transfiere los datos al gasto 
+	 * @param prm_Preseteado objeto TextoPresetado para aplicar al gasto
+	 * @param prm_edf_codigo codigo de efificio seleccionado
+	 */
+	public void aplicarPreseteadoEnGasto(TextoPresetado prm_Preseteado, String prm_edf_codigo) {
+		this.gasto.setTextoDetalleFactura(prm_Preseteado.getTextoDetalle());
+		
+		//De listaEdificios obtengo el edificio del preseteado 
+		int posicionEdificio = prm_Preseteado.getListaEdificios().indexOf(prm_edf_codigo);
+		if (posicionEdificio > -1){
+			this.gasto.setCodigoEspecial(prm_Preseteado.getEdificios().get(posicionEdificio).getCodigoEspecial());
+			this.gasto.setAgrupamiento(prm_Preseteado.getEdificios().get(posicionEdificio).getAgrupamiento());
+			this.gasto.setTipoGasto(prm_Preseteado.getEdificios().get(posicionEdificio).getTipoGasto());
+			this.gasto.setCuitProveedor(prm_Preseteado.getEdificios().get(posicionEdificio).getPrv_cuit());
+			
+			for (int idxPorcentual = 0; idxPorcentual < prm_Preseteado.getEdificios().get(posicionEdificio).getPorcentuales().size(); idxPorcentual++) {
+				Integer posi = prm_Preseteado.getEdificios().get(posicionEdificio).getPorcentuales().get(idxPorcentual).getPorc_posicion();
+				double importe = prm_Preseteado.getEdificios().get(posicionEdificio).getPorcentuales().get(idxPorcentual).getPorc_importeJson();
+				if(this.gasto.getUnProrrateo(posi) != null){
+					this.gasto.getUnProrrateo(posi).setPrt_importe(new BigDecimal(importe));
+				}
+			}
+		}
 	}
 		
+	
 	/**
 	 * En frmGastos el combo de Agrupamiento sale de PH_$T
 	 * @return selector con codigos de agrupamiento de gastos
@@ -1181,8 +1211,14 @@ public class GastoBean implements Serializable {
 	}
 
 	
-	public List<TextoPresetado> getListaTextosPreseteados() {
-		return listaTextosPreseteados;
+	public List<TextoPresetado> getListaTextosPregrabados() {
+		return listaTextosPregrabados;
+	}
+
+	
+
+	public LinkedHashMap<String, String> getCodigoEspecialMap() {
+		return codigoEspecialMap;
 	}
 
 
@@ -1215,5 +1251,5 @@ public class GastoBean implements Serializable {
 	public HashMap<String, String> getAgrupamientosGastosMap() {
 		return agrupamientosGastosMap;
 	}
-	
+
 }

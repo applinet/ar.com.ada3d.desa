@@ -53,7 +53,6 @@ if(context.getUrl().getSiteRelativeAddress(context).equals("/frmGastos.xsp")){
 	viewScope.MessageType="W";
 	viewScope.MessageText = [];
 	viewScope.MessageText.push(["Ud. ha cambiado de edificio, por favor verificar los porcentuales."]);
-	
 }
 sessionScope.edificioWork = this.getParent().getValue();}]]></xe:this.action>
 		</xp:eventHandler>

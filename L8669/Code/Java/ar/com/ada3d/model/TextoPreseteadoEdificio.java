@@ -7,7 +7,9 @@ public class TextoPreseteadoEdificio {
 	private String mes;
 	private String agrupamiento;
 	private String codigoEspecial;
+	private String tipoGasto;
 	private List<Porcentual> porcentuales;
+	private String prv_cuit;
 	
 	
 	public TextoPreseteadoEdificio() {
@@ -48,12 +50,28 @@ public class TextoPreseteadoEdificio {
 		this.codigoEspecial = codigoEspecial;
 	}
 	
+	public String getTipoGasto() {
+		return tipoGasto;
+	}
+
+	public void setTipoGasto(String tipoGasto) {
+		this.tipoGasto = tipoGasto;
+	}
+
 	public List<Porcentual> getPorcentuales() {
 		return porcentuales;
 	}
 
 	public void setPorcentuales(List<Porcentual> porcentuales) {
 		this.porcentuales = porcentuales;
+	}
+
+	public String getPrv_cuit() {
+		return prv_cuit;
+	}
+
+	public void setPrv_cuit(String prv_cuit) {
+		this.prv_cuit = prv_cuit;
 	}
 
 }

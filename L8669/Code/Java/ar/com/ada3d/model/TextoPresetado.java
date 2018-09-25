@@ -4,9 +4,10 @@ import java.util.List;
 
 public class TextoPresetado {
 	private String id;
-	private String label;
-	private String[] lineas;
+	private String referencia;
+	private List<String> textoDetalle;
 	private List<TextoPreseteadoEdificio> edificios;
+	private List<String> listaEdificios;
 	
 	public TextoPresetado() {
 		// Empty constructor
@@ -22,20 +23,21 @@ public class TextoPresetado {
 		this.id = id;
 	}
 
-	public String getLabel() {
-		return label;
+	public String getReferencia() {
+		return referencia;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
+	public void setReferencia(String referencia) {
+		this.referencia = referencia;
 	}
 
-	public String[] getLineas() {
-		return lineas;
+	
+	public List<String> getTextoDetalle() {
+		return textoDetalle;
 	}
 
-	public void setLineas(String[] lineas) {
-		this.lineas = lineas;
+	public void setTextoDetalle(List<String> textoDetalle) {
+		this.textoDetalle = textoDetalle;
 	}
 
 	public List<TextoPreseteadoEdificio> getEdificios() {
@@ -46,5 +48,12 @@ public class TextoPresetado {
 		this.edificios = edificios;
 	}
 
-	
+	public List<String> getListaEdificios() {
+		return listaEdificios;
+	}
+
+	public void setListaEdificios(List<String> listaEdificios) {
+		this.listaEdificios = listaEdificios;
+	}
+
 }

@@ -148,7 +148,7 @@ if(DocLock.isLocked("gts_" + gastoBean.gasto.idGasto)){
 }
 !gastoBean.gasto.isReadMode; }]]></xp:this.rendered>
 				<xp:eventHandler event="onclick" submit="true" refreshMode="partial" refreshId="textoDetalleFactura" disableValidators="true">
-					<xp:this.action><![CDATA[#{javascript:gastoBean.fillTextosPreseteados(sessionScope.edfObj);
+					<xp:this.action><![CDATA[#{javascript:gastoBean.fillTextosPregrabados(sessionScope.edfObj);
 getComponent("dialogPregrabado").show()}]]></xp:this.action>
 				</xp:eventHandler>
 			</xp:button>
