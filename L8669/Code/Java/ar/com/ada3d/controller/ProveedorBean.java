@@ -151,7 +151,7 @@ public class ProveedorBean implements Serializable{
 			
 			if (options.isEmpty()){ //Primer pasada opcion sin proveedor
 				SelectItem option = new SelectItem();
-				option.setLabel("-- Seleccionar --");
+				option.setLabel("");
 				option.setValue("0");
 				options.add(option);
 			}

@@ -893,7 +893,7 @@ public class GastoBean implements Serializable {
 	public List<SelectItem> getComboboxAgrupamientoGastos() {
 		List<SelectItem> options = new ArrayList<SelectItem>();
 		SelectItem optionDefault = new SelectItem();
-		optionDefault.setLabel("-- Seleccionar --" );
+		optionDefault.setLabel("" );
 		optionDefault.setValue("--");
 		options.add(optionDefault);
 		for (Map.Entry<String,String> entry : agrupamientosGastosMap.entrySet()) {
