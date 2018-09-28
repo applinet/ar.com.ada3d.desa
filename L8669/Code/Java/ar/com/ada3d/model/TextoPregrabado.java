@@ -2,14 +2,14 @@ package ar.com.ada3d.model;
 
 import java.util.List;
 
-public class TextoPresetado {
+public class TextoPregrabado {
 	private String id;
 	private String referencia;
 	private List<String> textoDetalle;
-	private List<TextoPreseteadoEdificio> edificios;
+	private List<TextoPregrabadoEdificio> edificios;
 	private List<String> listaEdificios;
 	
-	public TextoPresetado() {
+	public TextoPregrabado() {
 		// Empty constructor
 	}
 
@@ -40,11 +40,11 @@ public class TextoPresetado {
 		this.textoDetalle = textoDetalle;
 	}
 
-	public List<TextoPreseteadoEdificio> getEdificios() {
+	public List<TextoPregrabadoEdificio> getEdificios() {
 		return edificios;
 	}
 
-	public void setEdificios(List<TextoPreseteadoEdificio> edificios) {
+	public void setEdificios(List<TextoPregrabadoEdificio> edificios) {
 		this.edificios = edificios;
 	}
 

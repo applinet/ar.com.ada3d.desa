@@ -2,7 +2,7 @@ package ar.com.ada3d.model;
 
 import java.util.List;
 
-public class TextoPreseteadoEdificio {
+public class TextoPregrabadoEdificio {
 	private String edif;
 	private String mes;
 	private String agrupamiento;
@@ -12,7 +12,7 @@ public class TextoPreseteadoEdificio {
 	private String prv_cuit;
 	
 	
-	public TextoPreseteadoEdificio() {
+	public TextoPregrabadoEdificio() {
 		// Empty constructor
 	}
 	

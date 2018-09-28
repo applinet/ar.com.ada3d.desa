@@ -58,6 +58,12 @@
     <managed-bean-class>ar.com.ada3d.controller.GastoOpcionesBean</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <managed-bean id="PregrabadoBean">
+    <description>Gastos Pregrabados</description>
+    <managed-bean-name>pregrabadoBean</managed-bean-name>
+    <managed-bean-class>ar.com.ada3d.controller.PregrabadoBean</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+  </managed-bean>
   <managed-bean id="validadorBean">
     <description>Validadores</description>
     <managed-bean-name>validadorBean</managed-bean-name>

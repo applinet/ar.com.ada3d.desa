@@ -19,7 +19,7 @@ import ar.com.ada3d.model.Edificio;
 import ar.com.ada3d.model.Gasto;
 import ar.com.ada3d.model.GastoOpciones;
 import ar.com.ada3d.model.Prorrateo;
-import ar.com.ada3d.model.TextoPresetado;
+import ar.com.ada3d.model.TextoPregrabado;
 import ar.com.ada3d.utilidades.DocLock;
 import ar.com.ada3d.utilidades.DocUsr;
 import ar.com.ada3d.utilidades.JSFUtil;
@@ -30,7 +30,7 @@ public class GastoBean implements Serializable {
 	private List<Gasto> listaGastosLiquidacionSiguiente;
 	private List<Gasto> listaGastosLiquidacionesFuturas;
 	private List<Gasto> listaGastosLiquidacionesPasadas;
-	private List<TextoPresetado> listaTextosPregrabados;
+	private List<TextoPregrabado> listaTextosPregrabados;
 	private LinkedHashMap<String, String> agrupamientosGastosMap;
 	private LinkedHashMap<String, String> agrupamientosNotasMap;
 	private LinkedHashMap<String, String> codigoEspecialMap;
@@ -811,7 +811,7 @@ public class GastoBean implements Serializable {
 	 */
 	@SuppressWarnings("deprecation")
 	public void fillTextosPregrabados(Edificio prm_edificio) {
-		//Seguir ACA --> el combo de edificio no funciona y tampoco si elijo otro edificio. Tambien aparece siempre el tooltip al confirmar 
+		//TODO: el combo de edificio no funciona y tampoco si elijo otro edificio. Tambien aparece siempre el tooltip al confirmar 
 		listaTextosPregrabados = null;
 		StringBuilder conf_json = new StringBuilder();
 		View currentDbPregrabadosView = ar.com.ada3d.utilidades.JSFUtil.getCurrentDatabase().getView("(Clave Json por edificio)");
@@ -832,23 +832,23 @@ public class GastoBean implements Serializable {
 			conf_json.append("]");
 		}
 		try {
-			listaTextosPregrabados = J2BConverter.jsonToBean(TextoPresetado.class, conf_json.toString()); //Funcion para crear un bean tomando un json
+			listaTextosPregrabados = J2BConverter.jsonToBean(TextoPregrabado.class, conf_json.toString()); //Funcion para crear un bean tomando un json
             //System.out.println("FPR:" + listaTextosPregrabados.get(0).getPorcentuales().get(1).getUnadjusted());
 			
 			/* *** NO BORRAR ***** IMPORTANTE *****
 			 * Para debug, te muestra como debe quedar el JSON de Texto preseteado por si lo eliminas de Notes
 			  
-			TextoPreseteadoEdificio textoPreseteadoEdificio1 = new TextoPreseteadoEdificio();
-			textoPreseteadoEdificio1.setEdif("VEC1");
+			TextoPregrabadoEdificio textoPregrabadoEdificio1 = new TextoPregrabadoEdificio();
+			textoPregrabadoEdificio1.setEdif("VEC1");
 			
-			LinkedHashMap<String, TextoPreseteadoEdificio> mapaEdificios = new LinkedHashMap<String, TextoPreseteadoEdificio>();
-			mapaEdificios.put("VEC1", textoPreseteadoEdificio1);
+			LinkedHashMap<String, TextoPregrabadoEdificio> mapaEdificios = new LinkedHashMap<String, TextoPregrabadoEdificio>();
+			mapaEdificios.put("VEC1", textoPregrabadoEdificio1);
 						
-			TextoPresetado textoPresetado = new TextoPresetado();
-			textoPresetado.setEdificios(mapaEdificios);
-			textoPresetado.setReferencia("Referencia");
+			TextoPregrabado textoPregrabado = new TextoPregrabado();
+			textoPregrabado.setEdificios(mapaEdificios);
+			textoPregrabado.setReferencia("Referencia");
 			List myList = new ArrayList();
-			myList.add(textoPresetado);
+			myList.add(textoPregrabado);
 			final String json = J2BConverter.beanToJson(myList);//Crea un json tomando un bean
 			System.out.println(json);
 			*/ 
@@ -861,10 +861,10 @@ public class GastoBean implements Serializable {
 	
 	/**
 	 * Al clickear en un preseteado lo recibe y transfiere los datos al gasto 
-	 * @param prm_Preseteado objeto TextoPresetado para aplicar al gasto
+	 * @param prm_Preseteado objeto TextoPregrabado para aplicar al gasto
 	 * @param prm_edf_codigo codigo de efificio seleccionado
 	 */
-	public void aplicarPreseteadoEnGasto(TextoPresetado prm_Preseteado, String prm_edf_codigo) {
+	public void aplicarPreseteadoEnGasto(TextoPregrabado prm_Preseteado, String prm_edf_codigo) {
 		this.gasto.setTextoDetalleFactura(prm_Preseteado.getTextoDetalle());
 		
 		//De listaEdificios obtengo el edificio del preseteado 
@@ -1211,7 +1211,7 @@ public class GastoBean implements Serializable {
 	}
 
 	
-	public List<TextoPresetado> getListaTextosPregrabados() {
+	public List<TextoPregrabado> getListaTextosPregrabados() {
 		return listaTextosPregrabados;
 	}
 

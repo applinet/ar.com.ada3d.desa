@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.resources>
+		<xp:styleSheet href="/wizard Pregrabados.css"></xp:styleSheet>
+
+	</xp:this.resources>
+	<xp:this.data>
+		<xe:objectData var="objDataEdificiosPorUsuario"
+			ignoreRequestParams="true" readonly="false" scope="view">
+			<xe:this.createObject><![CDATA[#{javascript:var results = []; // Crear un array vacio a devolver al final
+
+var listaEdificios = edificioBean.getArraySrtringListaEdificios(false); //Lista total de edificios
+if(listaEdificios == null){
+	return results;
+}
+
+var codigoEdificio:String;
+var seleccionado:String;
+
+for (var i = 0; i < listaEdificios.length; i++) {
+	// Agrego la metadata por cada entrada al array:
+	codigoEdificio = listaEdificios[i].split("|")[1].trim();
+	seleccionado = "0";
+		
+    results.push({
+	    codigoEdificio: codigoEdificio,
+	    descripcionEdificio: "(" + codigoEdificio + ") " + listaEdificios[i].split("|")[0].trim(),
+	    selected: seleccionado
+    });
+}
+
+return results;}]]></xe:this.createObject>
+			<xe:this.saveObject><![CDATA[#{javascript:return value.dummyAction();}]]></xe:this.saveObject>
+		</xe:objectData>
+	</xp:this.data>	
+	<xc:ccLayoutBootstrap property_ShowComboEdificio="false"
+		property_hasTitleBar="false">
+		<xp:this.facets>
+			<xp:panel id="PNL_Principal" xp:key="facetMiddle">
+				<div class="container">
+					<div class="row">
+						<div class="board">
+							<div class="board-inner">
+								<ul class="nav nav-tabs" id="myTab">
+									<div class="liner"></div>
+									<li class="active">
+										<a href="#tabGasto" data-toggle="tab"
+											title="Gasto">
+											<span class="round-tabs one">
+												<i class="glyphicon glyphicon-duplicate"></i>
+											</span>
+										</a>
+									</li>
+									<li>
+										<a href="#tabEdificios" data-toggle="tab"
+											title="Edificios">
+											<span class="round-tabs">
+												<i class="glyphicon glyphicon-tasks"></i>
+											</span>
+										</a>
+									</li>
+									<li>
+										<a href="#tabPorcentuales" data-toggle="tab"
+											title="Porcentuales">
+											<span class="round-tabs">
+												<i class="glyphicon glyphicon-usd"></i>
+											</span>
+										</a>
+									</li>
+									<li>
+										<a href="#tabPersonalizacion" data-toggle="tab"
+											title="Personalización">
+											<span class="round-tabs">
+												<i class="glyphicon glyphicon-random"></i>
+											</span>
+										</a>
+									</li>
+									<li>
+										<a href="#tabConfirmacion" data-toggle="tab"
+											title="completed">
+											<span class="round-tabs">
+												<i class="glyphicon glyphicon-ok"></i>
+											</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="tab-content">
+								<div class="tab-pane fade in active" id="tabGasto">
+									<h2 class="text-center">Datos del texto pregrabado</h2>
+									<p class="text-center">
+										<xc:ccFrmGastos
+											renderDatosFactura="false">
+										</xc:ccFrmGastos>
+									</p>
+									<p class="text-center">
+										<xp:button value="Continuar" id="btnContinuarGasto"
+											styleClass="btn btn-success btn-lg">
+											<i class="glyphicon glyphicon-arrow-right pull-right" style="padding-left: 10px"></i>
+											<xp:eventHandler
+												event="onclick" submit="true" refreshMode="partial"
+												refreshId="formTableGastos">
+												<xp:this.action><![CDATA[#{javascript:view.postScript("$('[href=\"#tabEdificios\"]').tab('show');");}]]></xp:this.action>
+											</xp:eventHandler>
+										</xp:button>
+									</p>
+								</div>
+								<div class="tab-pane fade" id="tabEdificios">
+									<h2 class="text-center">Seleccione los edificios</h2>
+									<p class="text-center">
+										
+										<xp:link id="btnSelectAll" text="Seleccionar todos">
+											<i class="glyphicon glyphicon-ok-circle"></i>
+											<xp:eventHandler
+												event="onclick" submit="false">
+												<xp:this.script><![CDATA[var chks=document.getElementsByClassName("checkBoxEdificios");
+for(var i=0;i<chks.length;i++){
+	chks[i].click();
+};]]></xp:this.script>
+											</xp:eventHandler>
+										</xp:link>
+										<xc:ccFxServerSideJsMessages id="JsMessages"></xc:ccFxServerSideJsMessages>
+										<xc:ccEdificiosCheckBox></xc:ccEdificiosCheckBox>
+									</p>
+									<p class="text-center">
+										<xp:button value="Atras" id="btnAtrasEdificios"
+											styleClass="btn btn-lg">
+											<i class="glyphicon glyphicon-arrow-left" style="padding-right: 10px"></i>
+											<xp:eventHandler event="onclick"
+												submit="false">
+												<xp:this.script><![CDATA[$('[href="#tabGasto"]').tab('show');]]></xp:this.script>
+											</xp:eventHandler>
+										</xp:button>
+										<xp:button value="Continuar " id="btnContinuarEdificios" styleClass="btn btn-success btn-lg">
+											<i class="glyphicon glyphicon-arrow-right pull-right" style="padding-left: 10px"></i>
+											<xp:eventHandler
+												event="onclick" submit="true" refreshMode="partial"
+												refreshId="JsMessages">
+												<xp:this.action><![CDATA[#{javascript:var myList:java.util.List = new java.util.ArrayList();
+for (var i = 0; i < objDataEdificiosPorUsuario.length; i++) {
+	var eachRequest = objDataEdificiosPorUsuario[i];
+    if (eachRequest.selected == "1") {
+    	myList.add(eachRequest.codigoEdificio);
+    }
+}
+if (myList == null || myList.isEmpty()) {	
+	viewScope.MessageType="E";
+	viewScope.MessageText = [];
+	viewScope.MessageText.push(["Para continuar debe seleccionar un edificio."]);
+}else{
+	pregrabadoBean.cargoPregrabado(myList);//Actualizo los edificios
+	view.postScript("$('[href=\"#tabPorcentuales\"]').tab('show');");
+
+}	}]]></xp:this.action>
+											<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:divPorcentuales}");]]></xp:this.onComplete>
+											</xp:eventHandler>
+										</xp:button>
+									</p>
+								</div>
+								<div class="tab-pane fade" id="tabPorcentuales">
+									<h2 class="text-center">Porcentuales</h2>
+									<p class="text-center">
+										Tabla con listado de edificios pudiendo editar los porcentuales .
+										<xp:div id="divPorcentuales">
+											<xp:repeat id="rptPorcentuales"	var="rptPorcentuales"
+												rows="30" value="#{pregrabadoBean.textoPregrabado.edificios}">
+												<xp:inputText id="inputText1" value="#{rptPorcentuales.edif}">
+
+												</xp:inputText>
+
+											</xp:repeat>
+										</xp:div>
+									</p>
+									<p class="text-center">
+										<xp:button value="Atras" id="button6"
+											styleClass="btn btn-lg">
+											<i class="glyphicon glyphicon-arrow-left" style="padding-right: 10px"></i>
+											<xp:eventHandler event="onclick"
+												submit="false">
+												<xp:this.script><![CDATA[$('[href="#tabEdificios"]').tab('show');]]></xp:this.script>
+											</xp:eventHandler>
+										</xp:button>
+										<xp:button value="Continuar " id="button3" styleClass="btn btn-success btn-lg">
+											<i class="glyphicon glyphicon-arrow-right pull-right" style="padding-left: 10px"></i>
+											<xp:eventHandler event="onclick"
+												submit="false">
+												<xp:this.action><![CDATA[#{javascript:view.postScript("$('[href=\"#tabPersonalizacion\"]').tab('show');");}]]></xp:this.action>
+											</xp:eventHandler>
+										</xp:button>
+									</p>
+								</div>
+								<div class="tab-pane fade" id="tabPersonalizacion">
+									<h2 class="text-center">Presonalización por edificio</h2>
+									<p class="text-center">
+										Una tabla para modificar:<br /><br />
+										-Mes<br />
+										-Agrupamiento<br />
+										-Codigo Especial<br />
+									</p>
+									<p class="text-center">
+										<xp:button value="Atras" id="button7"
+											styleClass="btn btn-lg">
+											<i class="glyphicon glyphicon-arrow-left" style="padding-right: 10px"></i>
+											<xp:eventHandler event="onclick"
+												submit="false">
+												<xp:this.script><![CDATA[$('[href="#tabPorcentuales"]').tab('show');]]></xp:this.script>
+											</xp:eventHandler>
+										</xp:button>
+										<xp:button value="OK " id="button4" styleClass="btn btn-success btn-lg">
+											<i class="glyphicon glyphicon-arrow-right pull-right" style="padding-left: 10px"></i>
+											<xp:eventHandler event="onclick"
+												submit="false">
+												<xp:this.action><![CDATA[#{javascript:view.postScript("$('[href=\"#tabConfirmacion\"]').tab('show');");}]]></xp:this.action>
+											</xp:eventHandler>
+										</xp:button>
+									</p>
+								</div>
+								<div class="tab-pane fade" id="tabConfirmacion">
+									<div class="text-center">
+										<i class="img-intro icon-checkmark-circle"></i>
+									</div>
+									<h2 class="text-center">Confirmacion</h2>
+									<p class="text-center">
+										Un resumen de todo lo anterior para confirmar.
+									</p>
+									<p class="text-center">
+										<xp:button value="Atras" id="button8"
+											styleClass="btn btn-lg">
+											<i class="glyphicon glyphicon-arrow-left" style="padding-right: 10px"></i>
+											<xp:eventHandler event="onclick"
+												submit="false">
+												<xp:this.script><![CDATA[$('[href="#tabPersonalizacion"]').tab('show');]]></xp:this.script>
+											</xp:eventHandler>
+										</xp:button>
+										<a href="" class="btn btn-success btn-lg">
+											Confirmar
+										</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</xp:panel>
+		</xp:this.facets>
+	</xc:ccLayoutBootstrap>
+</xp:view>
