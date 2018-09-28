@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:panel id="PNL_EdificiosCheckBox">
+		<xp:repeat id="repeatEdificiosPorUsuario" rows="50"
+			var="rptEdificiosPorUsuario" value="#{objDataEdificiosPorUsuario}"
+			indexVar="idxEdificios" disableOutputTag="true">
+
+			<xp:this.facets>
+				<xp:panel xp:key="header">
+					<xp:text escape="false">
+						<xp:this.value><![CDATA[#{javascript:"<div style='padding-left:35.0%'"}]]></xp:this.value>
+					</xp:text>
+				</xp:panel>
+				<xp:panel xp:key="footer">
+					<xp:text escape="false">
+						<xp:this.value><![CDATA[#{javascript:"</div>"}]]></xp:this.value>
+					</xp:text>
+				</xp:panel>
+			</xp:this.facets>
+			<xp:tr>
+				<xp:td>
+					<xp:checkBox styleClass="checkBoxEdificios"
+						value="#{rptEdificiosPorUsuario.selected}" id="checkBoxEdificios"
+						text="#{rptEdificiosPorUsuario.descripcionEdificio}"
+						checkedValue="1" uncheckedValue="0">
+					</xp:checkBox>
+				</xp:td>
+			</xp:tr>
+		</xp:repeat>
+	</xp:panel>
+</xp:view>
