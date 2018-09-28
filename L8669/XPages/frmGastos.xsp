@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.resources>
+		<xp:script
+			src="\jQuery-Mask-Plugin-master\src\jquery.maskMoney.js"
+			clientSide="true" />
+		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js"
+			clientSide="true" />
+		<xp:script src="/General_SSJS.jss" clientSide="false" />
+		<xp:script src="/Gastos_SSJS.jss" clientSide="false"></xp:script>
+	</xp:this.resources>
+
+	<xp:scriptBlock id="scriptBlockbtnNewProveedor">
+		<xp:this.value><![CDATA[
+$(document).ready(
+function() {
+x$( "#{id:btnNewProveedor}" ).popover();
+}
+);
+]]></xp:this.value>
+	</xp:scriptBlock>
+	<xp:scriptBlock id="scriptBlockMaskedJquery">
+		<xp:this.value><![CDATA[jQuery(function($){
+	$(".classPrt_importe").maskMoney({allowZero: true, allowNegative: true, thousands:'.', decimal:',', selectAllOnFocus: true});
+	x$("#{id:sucursalFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 3});
+	x$("#{id:numeroFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 7});
+	x$("#{id:cuotaGastoRepetitivoTexto}").mask('00 de 00', {placeholder: "00 de 00"});
+});]]></xp:this.value>
+	</xp:scriptBlock>
 	
 	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
 	<!-- INI - Affix -->
@@ -218,6 +245,5 @@ context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
 			</xp:panel>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>
-	<xc:ccModalAltaProveedor refreshIdOnSave="formTableGastos"></xc:ccModalAltaProveedor>
 	<xc:ccModalPregrabados refreshIdOnSave="formTableGastos"></xc:ccModalPregrabados>
 </xp:view>

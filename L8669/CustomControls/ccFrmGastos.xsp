@@ -4,33 +4,6 @@
 	<xp:eventHandler event="onClientLoad" submit="false">
 		<xp:this.script><![CDATA[document.getElementById("#{id:djComboMyProveedores}").focus();]]></xp:this.script>
 	</xp:eventHandler>
-	<xp:this.resources>
-		<xp:script
-			src="\jQuery-Mask-Plugin-master\src\jquery.maskMoney.js"
-			clientSide="true" />
-		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js"
-			clientSide="true" />
-		<xp:script src="/General_SSJS.jss" clientSide="false" />
-		<xp:script src="/Gastos_SSJS.jss" clientSide="false"></xp:script>
-	</xp:this.resources>
-
-	<xp:scriptBlock id="scriptBlockbtnNewProveedor">
-		<xp:this.value><![CDATA[
-$(document).ready(
-function() {
-x$( "#{id:btnNewProveedor}" ).popover();
-}
-);
-]]></xp:this.value>
-	</xp:scriptBlock>
-	<xp:scriptBlock id="scriptBlockMaskedJquery">
-		<xp:this.value><![CDATA[jQuery(function($){
-	$(".classPrt_importe").maskMoney({allowZero: true, allowNegative: true, thousands:'.', decimal:',', selectAllOnFocus: true});
-	x$("#{id:sucursalFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 3});
-	x$("#{id:numeroFactura}").maskMoney({allowZero: true, allowNegative: true, thousands:'', decimal:'', selectAllOnFocus: true, precision: 7});
-	x$("#{id:cuotaGastoRepetitivoTexto}").mask('00 de 00', {placeholder: "00 de 00"});
-});]]></xp:this.value>
-	</xp:scriptBlock>
 	
 	<xe:formTable id="formTableGastos" disableErrorSummary="true" disableRowError="false"
 		style="padding-left:10.0%;padding-right:10.0%;border-color:rgb(249,249,255);border-style:solid;border-width:medium">
@@ -77,11 +50,11 @@ getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
 			</xe:formColumn>
 			
 		</xp:div>
-		<xp:div styleClass="form-inline">
-			<xe:formColumn styleClass="form-group col-sm-6">
-				<xe:formRow id="rowFechaFactura" 
-					label="Fecha Factura" style="padding-right:2.0%" for="fechaFactura">
-					<xp:inputText id="fechaFactura"
+		<xp:div styleClass="form-inline" loaded="${compositeData.renderDatosFactura}">
+			<xe:formColumn styleClass="form-group col-sm-6" >
+				<xe:formRow id="rowFechaFactura" label="Fecha Factura"
+					style="padding-right:2.0%" for="fechaFactura" >
+					<xp:inputText id="fechaFactura" 
 						value="#{gastoBean.gasto.fechaFactura}"
 						readonly="#{gastoBean.gasto.isReadMode}" tabindex="2">
 						<xp:this.converter>
@@ -91,13 +64,12 @@ getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
 					</xp:inputText>
 				</xe:formRow>
 			</xe:formColumn>
-			<xe:formColumn
-				styleClass="form-group col-sm-6">
-				<xe:formRow id="formRow1"
-					label="Nro. Factura" style="padding-right:2.0%"
-					for="numeroFactura" styleClass="form-inline">
-					<xp:inputText id="sucursalFactura"
-						maxlength="4" value="#{gastoBean.gasto.sucursalFactura}"
+			<xe:formColumn styleClass="form-group col-sm-6">
+				<xe:formRow id="formRow1" label="Nro. Factura"
+					style="padding-right:2.0%" for="numeroFactura"
+					styleClass="form-inline">
+					<xp:inputText id="sucursalFactura" maxlength="4"
+						value="#{gastoBean.gasto.sucursalFactura}"
 						readonly="#{gastoBean.gasto.isReadMode}" style="width:60.0px"
 						disableClientSideValidation="true">
 						<xp:eventHandler event="onfocus"
@@ -106,9 +78,8 @@ getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
 						</xp:eventHandler>
 					</xp:inputText>
 					&#160;-&#160;
-					<xp:inputText id="numeroFactura"
-						maxlength="8" style="width:100.0px"
-						value="#{gastoBean.gasto.numeroFactura}"
+					<xp:inputText id="numeroFactura" maxlength="8"
+						style="width:100.0px" value="#{gastoBean.gasto.numeroFactura}"
 						readonly="#{gastoBean.gasto.isReadMode}"
 						disableClientSideValidation="true" tabindex="3">
 						<xp:eventHandler event="onfocus"
@@ -120,7 +91,7 @@ getComponent("dialogAltaProveedor").show()}]]></xp:this.action>
 			</xe:formColumn>
 		</xp:div>
 
-		
+
 
 		<!-- Detalle factura -->
 
@@ -176,7 +147,7 @@ $('textarea').each(function () {
 		</xp:div>
 
 		<xp:div id="divPorcentuales"
-			styleClass="form-inline">
+			styleClass="form-inline" loaded="${compositeData.renderDatosFactura}">
 			<!-- INI - Importes Porcentuales -->
 			
 				<xe:formRow id="rowProrrateoDescripcion"
@@ -324,7 +295,7 @@ $('textarea').each(function () {
 				</xe:formRow>
 			</xe:formColumn>
 			<xe:formColumn
-				styleClass="form-group col-sm-6">
+				styleClass="form-group col-sm-6" loaded="${compositeData.renderDatosFactura}">
 				<xe:this.rendered><![CDATA[#{javascript:!edfObj.edf_ConfigTipoNumeracion.equals("3")}]]></xe:this.rendered>
 				<xe:formRow id="rowNumeroComprobante"
 					label="Comprobante" style="padding-right:2.0%"
@@ -355,7 +326,7 @@ return edfObj.edf_ConfigTipoNumeracion.equals("1") ? edfObj.edf_ConfigNumeroProx
 			</xe:formColumn>
 		</xp:div>
 							
-		<xp:div styleClass="form-inline">
+		<xp:div styleClass="form-inline" loaded="${compositeData.renderDatosFactura}">
 			<xe:formColumn styleClass="form-group col-sm-6">
 				<xe:formRow id="rowGastoRepetitivo"
 					label="Repetir gasto" style="padding-right:2.0%" for="divGastoRepetitivoTexto">
@@ -453,4 +424,5 @@ return edfObj.edf_ConfigTipoNumeracion.equals("1") ? edfObj.edf_ConfigNumeroProx
 			</xp:div>
 		</xe:this.facets>
 	</xe:formTable>
+	<xc:ccModalAltaProveedor refreshIdOnSave="formTableGastos"></xc:ccModalAltaProveedor>
 </xp:view>
