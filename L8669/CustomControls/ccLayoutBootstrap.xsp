@@ -15,7 +15,9 @@
 	<xp:this.beforePageLoad><![CDATA[#{javascript:if(sessionScope.edfObj == null){
 	var strCodigoPrimerEdificioDeLista = edificioBean.getComboBoxEdificiosQueTengoAutorizados(true, true, true).get(0).getValue();
 	sessionScope.put("edfObj", edificioBean.getEdificioMap(strCodigoPrimerEdificioDeLista));
-}}]]></xp:this.beforePageLoad>
+}
+//Cargo CacheBean
+cacheBean.initCacheBean();}]]></xp:this.beforePageLoad>
 	<xc:ccRolDesarrollo_Debug>
 		<xc:this.propertyFormName><![CDATA[#{javascript:"docUsuario"}]]></xc:this.propertyFormName>
 	</xc:ccRolDesarrollo_Debug>

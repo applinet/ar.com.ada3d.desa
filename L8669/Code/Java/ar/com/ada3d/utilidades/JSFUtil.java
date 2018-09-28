@@ -279,6 +279,10 @@ public class JSFUtil {
             return null; 
     } 
 	
+    /**
+     * TODO: fijarse si esto es necesario o se puede eliminar
+     * @return
+     */
     public static CfgCache getCacheApp(){
     	return (CfgCache) JSFUtil.resolveVariable("cacheBean");
     }

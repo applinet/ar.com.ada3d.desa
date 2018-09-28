@@ -39,7 +39,6 @@ public class EdificioBean implements Serializable {
 	@SuppressWarnings("unused")
 	private int cantidadTotalEdificiosTrabajo;
 	private static GastoOpciones myGastoOpcionesMaestro = null;
-	
 	public EdificioBean() {
 		//System.out.println("FPR - Constr. Edificios y llamada AS400");
 		AddEdificiosAs400();
@@ -183,6 +182,32 @@ public class EdificioBean implements Serializable {
 		return null;
 	}
 
+	
+	/**
+	 * Esto lo voy a cargar en el cache de la aplicacion para que estén siempre los edificios disponibles.
+	 * TODO: Cuando tengo un nuevo edificio hay que actualizar el cache
+	 * @return mapa con clave codigo de edificio y objeto edificio
+	 */
+	public static HashMap<String, Edificio> cargaHashMapEdificios(){
+		HashMap<String, Edificio> result = new HashMap<String, Edificio>();
+		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
+		ArrayList<String> nl = null;
+		Edificio myEdificio = null;
+		try {
+			nl = query.getSelectAS("edificio_CONTROLLER", null);
+		} catch (NotesException e) {
+			e.printStackTrace();
+		}
+		for (String strLinea : nl) {
+			myEdificio = actualizoUnEdificioAs400( myEdificio, strLinea);
+			result.put(myEdificio.getEdf_codigo(), myEdificio);
+			myEdificio = null;
+		}
+		return result;
+	}
+	
+	
+	
 	/**
 	 * Agrego Edificios consultando As400, cada linea separa el dato por un pipe
 	 */
@@ -249,7 +274,7 @@ public class EdificioBean implements Serializable {
 	 * @param tipo de prorrateo del edificio
 	 * @return la lista de prorrateos
 	 */
-	private List<Prorrateo> cargaProrrateoEdificio(String strLinea, String strTipo){
+	private static List<Prorrateo> cargaProrrateoEdificio(String strLinea, String strTipo){
 		Prorrateo myProrrateo;
 		List<Prorrateo> listaProrrateosEdificio = new ArrayList<Prorrateo>();
 		int posicionPorcentaje = 5;
@@ -301,7 +326,7 @@ public class EdificioBean implements Serializable {
 	 * @return lista con porcentuales
 	 */
 	
-	private List<Porcentual> cargaPorcentualEdificio(String strLinea){
+	private static List<Porcentual> cargaPorcentualEdificio(String strLinea){
 		Porcentual myPorcentual;
 		List<Porcentual> listaPorcentualesEdificio = new ArrayList<Porcentual>();
 		int posicionPorcentaje = 6;
@@ -422,8 +447,8 @@ public class EdificioBean implements Serializable {
 	 * @Param strLinea leida del AS, solo con datos si es un nuevo el objeto. (blanco si es una actualización)
 	 * @return objeto Edificio
 	 */
-	@SuppressWarnings("static-access")
-	public Edificio actualizoUnEdificioAs400(Edificio myEdificio, String strLinea) {
+	
+	public static Edificio actualizoUnEdificioAs400(Edificio myEdificio, String strLinea) {
 		String controlador;
 		DocLock lockeos = (DocLock) JSFUtil.resolveVariable("DocLock");
 		if(!strLinea.equals("")){
