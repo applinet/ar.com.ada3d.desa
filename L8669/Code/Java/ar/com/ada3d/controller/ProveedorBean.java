@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -25,8 +24,6 @@ public class ProveedorBean implements Serializable{
 	public List<Proveedor> listaProveedores;
 	private Proveedor proveedor;
 	private String proveedorSelected = "";
-	public LinkedHashMap<String, String> TipoFacturaMap;
-	
 	
 	public ProveedorBean() {
 		// Empty constructor
@@ -219,10 +216,6 @@ public class ProveedorBean implements Serializable{
 	 * En ccModalAltaProveedor cargo en un mapa de Tipo de Factura sale de una lista notes
 	 * @return hashMap con Tipos de Factura
 	 */
-	public void fillTipoFacturaMap(){
-		TipoFacturaMap = new LinkedHashMap<String, String>();
-		TipoFacturaMap = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("facturaTipo");	
-	}
 	
 	
 	/**
@@ -231,7 +224,7 @@ public class ProveedorBean implements Serializable{
 	 */
 	public List<SelectItem> getComboboxTipoFactura() {
 		List<SelectItem> options = new ArrayList<SelectItem>();
-		for (Map.Entry<String,String> entry : TipoFacturaMap.entrySet()) {
+		for (Map.Entry<String,String> entry : ar.com.ada3d.utilidades.JSFUtil.getCacheApp().getOpcionesFacturaTipo().entrySet()) {
 			SelectItem option = new SelectItem();
 			option.setLabel(entry.getValue());
 			option.setValue(entry.getKey());

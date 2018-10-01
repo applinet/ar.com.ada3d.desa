@@ -13,6 +13,7 @@ public class CfgCache {
 		
 	private LinkedHashMap<String, String> opcionesGastoOrdenDatosProveedor;
 	private LinkedHashMap<String, String> opcionesCodigoEspecial;
+	private LinkedHashMap<String, String> opcionesFacturaTipo;
 	private HashMap<String, Edificio> hmEdificios;
 	
 	/**
@@ -22,6 +23,7 @@ public class CfgCache {
 		System.out.println("FPR_constructor cache bean");
 		opcionesGastoOrdenDatosProveedor = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("opcionesGastoOrdenDatosProveedor");
 		opcionesCodigoEspecial = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("codigoEspecial");
+		opcionesFacturaTipo = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("facturaTipo");
 		hmEdificios = ar.com.ada3d.controller.EdificioBean.cacheHashMapEdificios();
 	}
 	
@@ -48,6 +50,17 @@ public class CfgCache {
 			LinkedHashMap<String, String> opcionesCodigoEspecial) {
 		this.opcionesCodigoEspecial = opcionesCodigoEspecial;
 	}
+
+	public LinkedHashMap<String, String> getOpcionesFacturaTipo() {
+		return opcionesFacturaTipo;
+	}
+
+
+	public void setOpcionesFacturaTipo(
+			LinkedHashMap<String, String> opcionesFacturaTipo) {
+		this.opcionesFacturaTipo = opcionesFacturaTipo;
+	}
+
 
 	public HashMap<String, Edificio> getHmEdificios() {
 		return hmEdificios;

@@ -8,10 +8,8 @@
 	</xp:this.resources>
 
 	
-	<xp:this.beforePageLoad><![CDATA[#{javascript:if(sessionScope.scopeTipoFacturaMap == null){
-	proveedorBean.fillTipoFacturaMap();
-	sessionScope.put("scopeTipoFacturaMap", proveedorBean.TipoFacturaMap)
-}}]]></xp:this.beforePageLoad>
+	
+	
 	<xp:scriptBlock id="scriptBlockMaskedJquery">
 		<xp:this.value><![CDATA[jQuery(function($){
 	$(".classCuit").mask('00-00000000-0', {placeholder: "__-________-_"}); //Por clase porque no funciona el x$ en dialogos
