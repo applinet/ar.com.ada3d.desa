@@ -7,10 +7,6 @@
 	gastoBean.fillAgrupamientosGastosMap();
 	viewScope.put("scopeAgrupamientosMap", gastoBean.agrupamientosGastosMap)
 }
-if(sessionScope.scopeCodigoEspecialMap == null){
-	gastoBean.fillCodigoEspecialMap();
-	sessionScope.put("scopeCodigoEspecialMap", gastoBean.codigoEspecialMap)
-}
 if(viewScope.scopeOpcionGastoMaestro == null){
 	viewScope.put("scopeOpcionGastoMaestro", gastoBean.getOpcionGastoMaestro())
 }}]]></xp:this.beforePageLoad>

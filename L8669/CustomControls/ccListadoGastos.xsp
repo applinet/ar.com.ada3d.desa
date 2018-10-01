@@ -114,7 +114,7 @@ return "text-align:center;width:7%;display: none;"	}]]></xp:this.style>
 						<xp:attr name="data-trigger" value="hover">
 						</xp:attr>
 						<xp:attr name="data-content">
-							<xp:this.value><![CDATA[#{javascript:var result = sessionScope.scopeCodigoEspecialMap.get(gasto.codigoEspecial.toString());
+							<xp:this.value><![CDATA[#{javascript:var result = cacheBean.getOpcionesCodigoEspecial().get(gasto.codigoEspecial);
 return result == null ? "" : result;}]]></xp:this.value>
 						</xp:attr>
 						<xp:attr name="data-placement" value="left">

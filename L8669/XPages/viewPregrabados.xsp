@@ -7,10 +7,7 @@
 	gastoBean.fillAgrupamientosGastosMap();
 	viewScope.put("scopeAgrupamientosMap", gastoBean.agrupamientosGastosMap)
 }
-if(sessionScope.scopeCodigoEspecialMap == null){
-	gastoBean.fillCodigoEspecialMap();
-	sessionScope.put("scopeCodigoEspecialMap", gastoBean.codigoEspecialMap)
-}}]]></xp:this.beforePageLoad>
+}]]></xp:this.beforePageLoad>
 	<xc:ccLayoutBootstrap property_hasTitleBar="true"
 		property_ShowComboEdificio="false"
 		property_TitleBarActions="ar.com.ada3d.frontend.TitleBarActionsViewPregrabados"

@@ -184,11 +184,11 @@ public class EdificioBean implements Serializable {
 
 	
 	/**
-	 * Esto lo voy a cargar en el cache de la aplicacion para que estén siempre los edificios disponibles.
+	 * Esto lo voy a cargar en el cacheBean de la aplicacion para que estén siempre los edificios disponibles.
 	 * TODO: Cuando tengo un nuevo edificio hay que actualizar el cache
 	 * @return mapa con clave codigo de edificio y objeto edificio
 	 */
-	public static HashMap<String, Edificio> cargaHashMapEdificios(){
+	public static HashMap<String, Edificio> cacheHashMapEdificios(){
 		HashMap<String, Edificio> result = new HashMap<String, Edificio>();
 		QueryAS400 query = new ar.com.ada3d.connect.QueryAS400();
 		ArrayList<String> nl = null;
