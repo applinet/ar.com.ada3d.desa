@@ -33,7 +33,7 @@ public class GastoBean implements Serializable {
 	private List<TextoPregrabado> listaTextosPregrabados;
 	private LinkedHashMap<String, String> agrupamientosGastosMap;
 	private LinkedHashMap<String, String> agrupamientosNotasMap;
-	private LinkedHashMap<String, String> codigoEspecialMap;
+	
 	
 	
 	@SuppressWarnings("unused")
@@ -758,16 +758,6 @@ public class GastoBean implements Serializable {
 		prm_gasto.setListaProrrateos(listaProrrateos);
 	}
 	
-	
-	/**
-	 * En viewGastos cargo en un mapa de codigos especiales sale de una lista notes
-	 */
-	public void fillCodigoEspecialMap(){
-		codigoEspecialMap = new LinkedHashMap<String, String>();
-		codigoEspecialMap = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("codigoEspecial");	
-	}
-	
-	
 	/**
 	 * En viewGastos cargo en un mapa el Agrupamiento sale de PH_$T (tanto de gastos como de notas)
 	 * Recordar que existen 3 tipos de agrupamientos:
@@ -875,11 +865,18 @@ public class GastoBean implements Serializable {
 			this.gasto.setTipoGasto(prm_Preseteado.getEdificios().get(posicionEdificio).getTipoGasto());
 			this.gasto.setCuitProveedor(prm_Preseteado.getEdificios().get(posicionEdificio).getPrv_cuit());
 			
+			for (Iterator<Prorrateo> i = this.gasto.getListaProrrateos().iterator(); i.hasNext();) {
+				Prorrateo item = i.next();
+				item.setPrt_importe(new BigDecimal(0));
+				item.setPrt_disabled(true);
+			}
+			
 			for (int idxPorcentual = 0; idxPorcentual < prm_Preseteado.getEdificios().get(posicionEdificio).getPorcentuales().size(); idxPorcentual++) {
 				Integer posi = prm_Preseteado.getEdificios().get(posicionEdificio).getPorcentuales().get(idxPorcentual).getPorc_posicion();
 				double importe = prm_Preseteado.getEdificios().get(posicionEdificio).getPorcentuales().get(idxPorcentual).getPorc_importeJson();
 				if(this.gasto.getUnProrrateo(posi) != null){
 					this.gasto.getUnProrrateo(posi).setPrt_importe(new BigDecimal(importe));
+					this.gasto.getUnProrrateo(posi).setPrt_disabled(false);
 				}
 			}
 		}
@@ -934,7 +931,8 @@ public class GastoBean implements Serializable {
 	public List<SelectItem> getComboboxCodigoEspecial() {
 		List<SelectItem> options = new ArrayList<SelectItem>();
 		
-		for (Map.Entry<String,String> entry : codigoEspecialMap.entrySet()) {
+		
+		for (Map.Entry<String,String> entry : ar.com.ada3d.utilidades.JSFUtil.getCacheApp().getOpcionesCodigoEspecial().entrySet()) {
 			SelectItem option = new SelectItem();
 			option.setLabel(entry.getValue());
 			option.setValue(entry.getKey());
@@ -1216,12 +1214,6 @@ public class GastoBean implements Serializable {
 	}
 
 	
-
-	public LinkedHashMap<String, String> getCodigoEspecialMap() {
-		return codigoEspecialMap;
-	}
-
-
 	public Gasto getGasto() {
 		return gasto;
 	}

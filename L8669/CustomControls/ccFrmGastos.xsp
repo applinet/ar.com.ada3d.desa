@@ -187,7 +187,7 @@ $('textarea').each(function () {
    									styleClass="row form-inline classPrt_importe"
    									value="#{rptProrrateo.prt_importe}"
    									style="text-align:right"
-   									disabled="#{gastoBean.gasto.isReadMode}"
+   									disabled="#{gastoBean.gasto.isReadMode or rptProrrateo.prt_disabled}"
    									disableClientSideValidation="true" tabindex="5">
    									<xp:this.converter>
    										<xp:convertNumber

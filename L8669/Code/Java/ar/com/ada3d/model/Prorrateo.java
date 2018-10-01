@@ -17,7 +17,8 @@ public class Prorrateo {
 	//define si la posición es utilizada o no (cero no se utiliza)
 	private int prt_porcentaje;
 	private BigDecimal prt_importe;
-
+	private boolean prt_disabled;
+	
 	//Getters and Setters
 	
 	public int getPrt_posicion() {
@@ -56,5 +57,14 @@ public class Prorrateo {
 	public void setPrt_importe(BigDecimal prt_importe) {
 		this.prt_importe = prt_importe;
 	}
+	
+	public boolean isPrt_disabled() {
+		return prt_disabled;
+	}
+	public void setPrt_disabled(boolean prt_disabled) {
+		this.prt_disabled = prt_disabled;
+	}
+	
+	
 	
 }

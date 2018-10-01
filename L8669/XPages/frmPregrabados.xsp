@@ -161,7 +161,8 @@ if (myList == null || myList.isEmpty()) {
 								<div class="tab-pane fade" id="tabPorcentuales">
 									<h2 class="text-center">Porcentuales</h2>
 									<p class="text-center">
-										Tabla con listado de edificios pudiendo editar los porcentuales .
+										Los porcentuales con importe cero, al utilizar el pregrabado se le solicitará ingresar un valor. <br />
+										Si es blanco no podrá ingresar un valor en el gasto
 										<xp:div id="divPorcentuales">
 											<xp:repeat id="rptPorcentuales"	var="rptPorcentuales"
 												rows="30" value="#{pregrabadoBean.textoPregrabado.edificios}">
