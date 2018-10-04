@@ -224,23 +224,27 @@ $('textarea').each(function () {
 				<xe:formRow id="rowAgrupamiento"
 					label="Agrupamiento" style="padding-right:2.0%"
 					for="djComboAgrupamiento">
-					<xe:djFilteringSelect
-						id="djComboAgrupamiento"
-						queryExpr="#{javascript:return '*\$\{0\}*';}"
-						autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
-						value="#{gastoBean.gasto.agrupamiento}" tabIndex="6">
+					<xe:djFilteringSelect id="djComboAgrupamiento"
+						queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
+						disabled="#{gastoBean.gasto.isReadMode}"
+						value="#{gastoBean.gasto.agrupamiento}" tabIndex="6"
+						required="true">
+						<xe:this.validators>
+							<xp:validateExpression message="El agrupamiento es obligatorio">
+								<xp:this.expression><![CDATA[#{javascript:return (gastoBean.gasto.agrupamiento == null || gastoBean.gasto.agrupamiento == "--") ? false : true;}]]></xp:this.expression>
+							</xp:validateExpression>
+						</xe:this.validators>
 						<xp:selectItems
 							value="#{javascript:gastoBean.comboboxAgrupamientoGastos;}" />
-
 						<xe:this.dojoAttributes>
-							<xp:dojoAttribute
-								name="required" value="false" />
+							<xp:dojoAttribute name="required"
+								value="true" />
 
 						</xe:this.dojoAttributes>
-						<xp:eventHandler event="onChange"
-							submit="true" refreshMode="partial"
-							refreshId="djComboAgrupamiento" disableValidators="true" />
-
+						 
+						<xp:eventHandler event="onChange" submit="true"
+							refreshMode="partial" refreshId="djComboAgrupamiento"
+							disableValidators="true" />
 					</xe:djFilteringSelect>
 				</xe:formRow>
 			</xe:formColumn>
