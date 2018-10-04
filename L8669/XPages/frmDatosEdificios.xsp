@@ -272,15 +272,14 @@ if (element.value.length > 13) {
 					</xe:formRow>
 
 					<xp:div id="divPorcentuales">
+					
 						<!-- INI Valores a Prorratear en 3 columnas -->
 						<xe:formRow id="rowPorcentuales"
 							label="Valores a Prorratear" labelPosition="left"
 							labelWidth="80%">
 						</xe:formRow>
 
-
-						<xe:formColumn styleClass="form-group col-sm-3"
-							style="margin-left:5.0%">
+						<xe:formColumn styleClass="form-group col-sm-3" style="margin-left:5.0%">
 							<xe:formRow id="rowProrrateoDescripcion"
 								label="" labelPosition="left" labelWidth="50%">
 								<xp:repeat id="repeatProrrateoTitulo"
@@ -301,12 +300,10 @@ if (element.value.length > 13) {
 							</xe:formRow>
 						</xe:formColumn>
 
-						<xe:formColumn
-							styleClass="form-group col-sm-5">
+						<xe:formColumn styleClass="form-group col-sm-5">
 							<xe:formRow id="rowProrrateoTipo"
 								labelPosition="left" labelWidth="50%" styleClass="col-lg-12">
-								<xp:repeat id="repeat1"
-									value="#{edfObj.listaProrrateos}" var="rptProrrateoTipo"
+								<xp:repeat id="repeat1"	value="#{edfObj.listaProrrateos}" var="rptProrrateoTipo"
 									indexVar="idxRptProrrateoTipo">
 									<xp:comboBox id="prt_tipo"
 										disabled="#{edfObj.edf_isReadMode}"
