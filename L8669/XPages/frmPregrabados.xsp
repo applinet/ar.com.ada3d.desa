@@ -3,8 +3,15 @@
 	xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.resources>
 		<xp:styleSheet href="/wizard Pregrabados.css"></xp:styleSheet>
-
+		<xp:script
+			src="\jQuery-Mask-Plugin-master\src\jquery.mask.js"
+			clientSide="true" />
 	</xp:this.resources>
+	<xp:scriptBlock id="scriptBlockMaskedJquery">
+		<xp:this.value><![CDATA[jQuery(function($){
+	$(".classPrt_importe").mask('0.000.000,00', {reverse: true});
+});]]></xp:this.value>
+	</xp:scriptBlock>
 	<xp:this.data>
 		<xe:objectData var="objDataEdificiosPorUsuario"
 			ignoreRequestParams="true" readonly="false" scope="view">
@@ -90,11 +97,13 @@ return results;}]]></xe:this.createObject>
 								<div class="tab-pane fade in active" id="tabGasto">
 									<h2 class="text-center">Datos del texto pregrabado</h2>
 									<p class="text-center">
+		<!-- Formulario Gasto -->
 										<xc:ccFrmGastos
 											renderDatosFactura="false">
 										</xc:ccFrmGastos>
 									</p>
 									<p class="text-center">
+		<!-- Continuar Gasto -->
 										<xp:button value="Continuar" id="btnContinuarGasto"
 											styleClass="btn btn-success btn-lg">
 											<i class="glyphicon glyphicon-arrow-right pull-right" style="padding-left: 10px"></i>
@@ -120,7 +129,7 @@ for(var i=0;i<chks.length;i++){
 };]]></xp:this.script>
 											</xp:eventHandler>
 										</xp:link>
-										<xc:ccFxServerSideJsMessages id="JsMessages"></xc:ccFxServerSideJsMessages>
+										<xc:ccFxServerSideJsMessages id="JsMessagesEdificios"></xc:ccFxServerSideJsMessages>
 										<xc:ccEdificiosCheckBox></xc:ccEdificiosCheckBox>
 									</p>
 									<p class="text-center">
@@ -132,11 +141,12 @@ for(var i=0;i<chks.length;i++){
 												<xp:this.script><![CDATA[$('[href="#tabGasto"]').tab('show');]]></xp:this.script>
 											</xp:eventHandler>
 										</xp:button>
+		<!-- Continuar Edificios -->
 										<xp:button value="Continuar " id="btnContinuarEdificios" styleClass="btn btn-success btn-lg">
 											<i class="glyphicon glyphicon-arrow-right pull-right" style="padding-left: 10px"></i>
 											<xp:eventHandler
 												event="onclick" submit="true" refreshMode="partial"
-												refreshId="JsMessages">
+												refreshId="JsMessagesEdificios">
 												<xp:this.action><![CDATA[#{javascript:var myList:java.util.List = new java.util.ArrayList();
 for (var i = 0; i < objDataEdificiosPorUsuario.length; i++) {
 	var eachRequest = objDataEdificiosPorUsuario[i];
@@ -149,11 +159,11 @@ if (myList == null || myList.isEmpty()) {
 	viewScope.MessageText = [];
 	viewScope.MessageText.push(["Para continuar debe seleccionar un edificio."]);
 }else{
-	pregrabadoBean.cargoPregrabado(myList);//Actualizo los edificios
+	pregrabadoBean.initPregrabado(myList, gastoBean.gasto);//Actualizo los edificios
 	view.postScript("$('[href=\"#tabPorcentuales\"]').tab('show');");
 
 }	}]]></xp:this.action>
-											<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:divPorcentuales}");]]></xp:this.onComplete>
+												<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:divPorcentuales}");]]></xp:this.onComplete>
 											</xp:eventHandler>
 										</xp:button>
 									</p>
@@ -162,31 +172,91 @@ if (myList == null || myList.isEmpty()) {
 									<h2 class="text-center">Porcentuales</h2>
 									<p class="text-center">
 										Los porcentuales con importe cero, al utilizar el pregrabado se le solicitará ingresar un valor. <br />
-										Si es blanco no podrá ingresar un valor en el gasto
+										Para impedir el ingreso de un valor en un porcentual deberá destildarlo. 
 										<xp:div id="divPorcentuales">
-											<xp:repeat id="rptPorcentuales"	var="rptPorcentuales"
-												rows="30" value="#{pregrabadoBean.textoPregrabado.edificios}">
-												<xp:inputText id="inputText1" value="#{rptPorcentuales.edif}">
+											<xp:messages id="messages1" styleClass="alert alert-error"></xp:messages>
+											<xp:repeat id="rptEdificios" var="rptEdificios"	rows="30" value="#{pregrabadoBean.textoPregrabado.edificios}">
+												<xp:this.facets>
+													<xp:text disableTheme="true" xp:key="header" escape="false">
+														<xp:this.value><![CDATA[<table class="table"><th>Edificio</th><th>Porc #1</th><th>Porc #2</th><th>Porc #3</th><th>Porc #4</th>]]></xp:this.value>
+													</xp:text>
+													<xp:text disableTheme="true" xp:key="footer" escape="false">
+														<xp:this.value><![CDATA[</table>]]></xp:this.value>
+													</xp:text>
+												</xp:this.facets>
+												<xp:tr>
+													<xp:td>
+														<xp:text id="inputText1" value="#{rptEdificios.edif}"></xp:text>
+													</xp:td>
+													<xp:repeat
+														id="rptPorcentuales" var="rptPorcentuales" rows="30"
+														value="#{rptEdificios.porcentuales}" repeatControls="false">
+														<xp:td styleClass="form-inline">
+															<xp:checkBox
+																value="#{rptPorcentuales.porc_CheckBoxImporteJson}"
+																text="" id="checkBox_importe"
+																rendered="#{rptPorcentuales.porc_porcentaje gt 0}"
+																checkedValue="#{javascript:true}"
+																uncheckedValue="#{javascript:false}"
+																defaultChecked="true">
+																<xp:eventHandler event="onclick"
+																	submit="true" refreshMode="partial"
+																	refreshId="divPorcentuales">
+																</xp:eventHandler>
+															</xp:checkBox>
+															<xp:inputText id="prt_importe"
+																value="#{rptPorcentuales.porc_importeJson}"
+																styleClass="classPrt_importe"
+																disabled="#{not rptPorcentuales.porc_CheckBoxImporteJson}"
+																rendered="#{rptPorcentuales.porc_porcentaje gt 0}"
+																style="text-align:right">
+																<xp:this.converter>
+																	<xp:convertNumber
+																		pattern="#,##0.00;-#,##0.00">
+																	</xp:convertNumber>
+																</xp:this.converter>
+																<xp:this.validators>
+																	<xp:validateExpression
+																		message="Los valores deben estar entre -9.999.999,99 y 9.999.999,99">
+																		<xp:this.expression><![CDATA[#{javascript:value < 10000000 && value > -10000000}]]></xp:this.expression>
 
-												</xp:inputText>
 
+																		<xp:this.clientScript><![CDATA[value < 10000000 && value > -10000000]]></xp:this.clientScript>
+																	</xp:validateExpression>
+																</xp:this.validators>
+
+																<xp:eventHandler
+																	event="onfocus" submit="false">
+																	<xp:this.script><![CDATA[$(".classPrt_importe").mask('0.000.000,00', {reverse: true});]]></xp:this.script>
+																</xp:eventHandler>
+															</xp:inputText>
+														</xp:td>
+
+
+													</xp:repeat>
+												</xp:tr>
 											</xp:repeat>
 										</xp:div>
 									</p>
 									<p class="text-center">
-										<xp:button value="Atras" id="button6"
+										<xp:button value="Atras" id="btnAtrasPorcentuales"
 											styleClass="btn btn-lg">
 											<i class="glyphicon glyphicon-arrow-left" style="padding-right: 10px"></i>
-											<xp:eventHandler event="onclick"
-												submit="false">
-												<xp:this.script><![CDATA[$('[href="#tabEdificios"]').tab('show');]]></xp:this.script>
+											<xp:eventHandler
+												event="onclick" submit="true" refreshMode="partial"
+												refreshId="divPorcentuales">
+												<xp:this.action><![CDATA[#{javascript:view.postScript("$('[href=\"#tabEdificios\"]').tab('show');");}]]></xp:this.action>
 											</xp:eventHandler>
 										</xp:button>
-										<xp:button value="Continuar " id="button3" styleClass="btn btn-success btn-lg">
+		<!-- Continuar Porcentuales -->
+										<xp:button value="Continuar " id="btnContinuarPorcentuales" styleClass="btn btn-success btn-lg">
 											<i class="glyphicon glyphicon-arrow-right pull-right" style="padding-left: 10px"></i>
-											<xp:eventHandler event="onclick"
-												submit="false">
-												<xp:this.action><![CDATA[#{javascript:view.postScript("$('[href=\"#tabPersonalizacion\"]').tab('show');");}]]></xp:this.action>
+											<xp:eventHandler
+												event="onclick" submit="true" refreshMode="partial"
+												refreshId="divPorcentuales" disableValidators="true">
+												<xp:this.action><![CDATA[#{javascript:
+view.postScript("$('[href=\"#tabPersonalizacion\"]').tab('show');");}]]></xp:this.action>
+											<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:divPersonalizacion}");]]></xp:this.onComplete>
 											</xp:eventHandler>
 										</xp:button>
 									</p>
@@ -194,24 +264,109 @@ if (myList == null || myList.isEmpty()) {
 								<div class="tab-pane fade" id="tabPersonalizacion">
 									<h2 class="text-center">Presonalización por edificio</h2>
 									<p class="text-center">
-										Una tabla para modificar:<br /><br />
-										-Mes<br />
-										-Agrupamiento<br />
-										-Codigo Especial<br />
+										<xp:div id="divPersonalizacion">
+											<xp:messages id="messages2" styleClass="alert alert-error"></xp:messages>
+											<xp:repeat
+												id="rptEdificiosPersonalizacion"
+												var="rptEdificiosPersonalizacion" rows="30"
+												value="#{pregrabadoBean.textoPregrabado.edificios}"
+												indexVar="idxEdificiosPersonalizacion"
+												repeatControls="false">
+												<xp:this.facets>
+													<xp:text
+														disableTheme="true" xp:key="header" escape="false">
+														<xp:this.value><![CDATA[<table class="table"><th>Edificio</th><th>Mes</th><th>Agrupamiento</th><th>Código Especial</th>]]></xp:this.value>
+													</xp:text>
+													<xp:text
+														disableTheme="true" xp:key="footer" escape="false">
+														<xp:this.value><![CDATA[</table>]]></xp:this.value>
+													</xp:text>
+												</xp:this.facets>
+												<xp:tr>
+													<xp:td>
+														<xp:text
+															id="computedField1"
+															value="#{rptEdificiosPersonalizacion.edif}">
+														</xp:text>
+													</xp:td>
+													<xp:td>
+														<xe:djFilteringSelect
+															id="djGastoRepetitivoTexto"
+															queryExpr="#{javascript:return '*\$\{0\}*';}"
+															autoComplete="false"
+															value="#{pregrabadoBean.textoPregrabado.edificios[idxEdificiosPersonalizacion].mes}">
+															<xp:selectItems>
+																<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxGasto("gastoRepetitivoMes");}]]></xp:this.value>
+															</xp:selectItems>
+															<xe:this.dojoAttributes>
+																<xp:dojoAttribute
+																	name="required" value="false" />
+															</xe:this.dojoAttributes>
+														</xe:djFilteringSelect>
+													</xp:td>
+													<xp:td>
+														<xe:djFilteringSelect
+															id="djComboAgrupamiento"
+															queryExpr="#{javascript:return '*\$\{0\}*';}"
+															autoComplete="false"
+															value="#{rptEdificiosPersonalizacion.agrupamiento}">
+															<xp:selectItems
+																value="#{javascript:gastoBean.comboboxAgrupamientoGastos;}" />
+
+
+															<xe:this.dojoAttributes>
+																<xp:dojoAttribute
+																	name="required" value="false" />
+
+															</xe:this.dojoAttributes>
+															<xp:eventHandler
+																event="onChange" submit="true" refreshMode="partial"
+																refreshId="djComboAgrupamiento"
+																disableValidators="true" />
+
+														</xe:djFilteringSelect>
+													</xp:td>
+													<xp:td>
+														<xe:djFilteringSelect
+															id="djComboCodigoEspecial"
+															queryExpr="#{javascript:return '*\$\{0\}*';}"
+															autoComplete="false"
+															value="#{rptEdificiosPersonalizacion.codigoEspecial}">
+															<xp:selectItems
+																value="#{javascript:gastoBean.comboboxCodigoEspecial;}" />
+
+
+															<xe:this.dojoAttributes>
+																<xp:dojoAttribute
+																	name="required" value="false" />
+
+															</xe:this.dojoAttributes>
+															<xp:eventHandler
+																event="onChange" submit="true" refreshMode="partial"
+																refreshId="djComboCodigoEspecial"
+																disableValidators="true" />
+
+														</xe:djFilteringSelect>
+													</xp:td>
+												</xp:tr>
+											</xp:repeat>
+										</xp:div>
 									</p>
 									<p class="text-center">
-										<xp:button value="Atras" id="button7"
+										<xp:button value="Atras" id="btnAtrasPersonalizacion"
 											styleClass="btn btn-lg">
 											<i class="glyphicon glyphicon-arrow-left" style="padding-right: 10px"></i>
-											<xp:eventHandler event="onclick"
-												submit="false">
-												<xp:this.script><![CDATA[$('[href="#tabPorcentuales"]').tab('show');]]></xp:this.script>
+											<xp:eventHandler
+												event="onclick" submit="true" refreshMode="partial"
+												refreshId="divPersonalizacion">
+												<xp:this.action><![CDATA[#{javascript:view.postScript("$('[href=\"#tabPorcentuales\"]').tab('show');");}]]></xp:this.action>
 											</xp:eventHandler>
 										</xp:button>
-										<xp:button value="OK " id="button4" styleClass="btn btn-success btn-lg">
+		<!-- Continuar Personalizacion -->										
+										<xp:button value="Continuar " id="btnContinuarPersonalizacion" styleClass="btn btn-success btn-lg">
 											<i class="glyphicon glyphicon-arrow-right pull-right" style="padding-left: 10px"></i>
 											<xp:eventHandler event="onclick"
-												submit="false">
+												submit="true" refreshMode="partial" refreshId="divPersonalizacion">
 												<xp:this.action><![CDATA[#{javascript:view.postScript("$('[href=\"#tabConfirmacion\"]').tab('show');");}]]></xp:this.action>
 											</xp:eventHandler>
 										</xp:button>

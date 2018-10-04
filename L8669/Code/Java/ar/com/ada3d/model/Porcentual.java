@@ -15,6 +15,7 @@ public class Porcentual {
 	private BigDecimal porc_importeHonorariosMasivo; // 9 posiciones AS400
 	private String porc_edf_codigo;
 	private double porc_importeJson;
+	private boolean porc_CheckBoxImporteJson;
 
 	//Getters and Setters
 	
@@ -61,4 +62,11 @@ public class Porcentual {
 	public void setPorc_importeJson(double porc_importeJson) {
 		this.porc_importeJson = porc_importeJson;
 	}
+	public boolean getPorc_CheckBoxImporteJson() {
+		return porc_CheckBoxImporteJson;
+	}
+	public void setPorc_CheckBoxImporteJson(boolean porc_CheckBoxImporteJson) {
+		this.porc_CheckBoxImporteJson = porc_CheckBoxImporteJson;
+	}
+	
 }
