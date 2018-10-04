@@ -20,7 +20,7 @@ public class CfgCache {
 	 * Constructor de cacheBean
 	 */
 	public CfgCache() {
-		System.out.println("FPR_constructor cache bean");
+		//System.out.println("FPR_constructor cache bean");
 		opcionesGastoOrdenDatosProveedor = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("opcionesGastoOrdenDatosProveedor");
 		opcionesCodigoEspecial = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("codigoEspecial");
 		opcionesFacturaTipo = ar.com.ada3d.utilidades.JSFUtil.getOpcionesClaveMap("facturaTipo");

@@ -22,7 +22,6 @@ cacheBean.initCacheBean();}]]></xp:this.beforePageLoad>
 		<xc:this.propertyFormName><![CDATA[#{javascript:"docUsuario"}]]></xc:this.propertyFormName>
 	</xc:ccRolDesarrollo_Debug>
 	
-	
 	<!-- Boton que se visualiza al achicar el navegador para que el titleBar se vea en forma colapsada -->
 	<xp:button styleClass='navbar-toggle navbar-header'
 		style="background-color:rgb(248,247,251);position: fixed; top: 50px; z-index: 999; right: 20px"

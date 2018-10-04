@@ -20,10 +20,10 @@
     ]]></xp:this.value></xp:scriptBlock>
     <xp:div style="display: none" id="keepAliveAndAlertError" styleClass="modal fade error-modal" role="dialog">
         <div class='modal-dialog'><div class='modal-content'>
-            <div class='modal-header'><h4 class='modal-title'>Page Session Expired</h4></div>
+            <div class='modal-header'><h4 class='modal-title'>Sesión expirada</h4></div>
             <div class='modal-body'>
-                <p>Your page session has expired.</p>
-                <p>Please&#160;<a href="javascript:location.reload()">reload</a>&#160;the page to continue working.</p>
+                <p>La sesión de su página ha expirado.</p>
+                <p>Por favor&#160;<a href="javascript:location.reload()">refrescar</a>&#160;la pagina para continuar.</p>
             </div>
         </div></div>
     </xp:div>
