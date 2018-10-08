@@ -139,21 +139,26 @@ if (dbConf != null){
 					<xe:basicContainerNode
 						label="#{javascript:return DocUsr.getUserMask();}">
 						<xe:this.children>
-							<xe:basicLeafNode submitValue="Deslogueo">
+							<xe:basicLeafNode
+								label="  Cambiar contraseña" image="/ChangePwd.png">
+								<xe:this.href><![CDATA[#{javascript:facesContext.getExternalContext().getRequest().getContextPath()+ "?changepassword&redirectTo=names.nsf?logout"}]]></xe:this.href>
+							</xe:basicLeafNode>
+							<xe:basicLeafNode
+								label="  Mis últimos cambios" href="/breadCrum.xsp"
+								image="/LastChanges.png">
+							</xe:basicLeafNode>
+							<xe:basicLeafNode submitValue="Deslogueo"
+								image="/logout.png">
+
 
 								<xe:this.label><![CDATA[#{javascript:var uName:NotesName = session.createName(session.getEffectiveUserName())
 if(uName.getCommon() == "Anonymous")
 	return "Login"
-return "Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
+return "  Desconectar usuario: " + DocUsr.getUserMask(); }]]></xe:this.label>
 								<xe:this.onClick><![CDATA[document.getElementById("#{id:btnLogOut}").click();]]></xe:this.onClick>
-							</xe:basicLeafNode>
 
-							<xe:basicLeafNode
-								label="Cambiar contraseña">
-								<xe:this.href><![CDATA[#{javascript:facesContext.getExternalContext().getRequest().getContextPath()+ "?changepassword&redirectTo=names.nsf?logout"}]]></xe:this.href>
-							</xe:basicLeafNode>
-							<xe:basicLeafNode
-								label="Mis últimos cambios" href="/breadCrum.xsp">
+
+
 							</xe:basicLeafNode>
 						</xe:this.children>
 						<xe:this.rendered><![CDATA[#{javascript:!userBean.accessRoles.toString().contains('[usrInitial]')}]]></xe:this.rendered>
