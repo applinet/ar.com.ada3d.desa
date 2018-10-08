@@ -241,7 +241,9 @@ context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
 				<xp:div styleClass="col-sm-10" style="padding-left:10.0%">
 					<xc:ccFxServerSideJsMessages />
 				</xp:div>
-				<xc:ccFrmGastos></xc:ccFrmGastos>
+				<xc:ccFrmGastos renderMesPregrabado="false"
+					renderDatosFactura="true">
+				</xc:ccFrmGastos>
 			</xp:panel>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>

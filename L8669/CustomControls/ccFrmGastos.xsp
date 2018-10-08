@@ -298,6 +298,27 @@ $('textarea').each(function () {
 					</xe:djFilteringSelect>
 				</xe:formRow>
 			</xe:formColumn>
+			<xe:formColumn styleClass="form-group col-sm-6" loaded="${compositeData.renderMesPregrabado}">
+				<xe:formRow id="rowAplicarMesPregrabado"
+					style="padding-right:2.0%" label="Agregar mes en texto">
+					<xe:djFilteringSelect id="djComboAplicarMesPregrabado"
+						queryExpr="#{javascript:return '*\$\{0\}*';}"
+						autoComplete="false"
+						value="#{gastoBean.gasto.aplicarMes}">
+						<xp:selectItems>
+							<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxGasto("gastoRepetitivoMes");}]]></xp:this.value>
+						</xp:selectItems>
+						<xe:this.dojoAttributes>
+							<xp:dojoAttribute
+								name="required" value="false" />
+						</xe:this.dojoAttributes>
+						<xp:eventHandler
+							event="onChange" submit="true" refreshMode="partial"
+							refreshId="djComboAplicarMesPregrabado"
+							disableValidators="true" />
+					</xe:djFilteringSelect>
+				</xe:formRow>
+			</xe:formColumn>
 			<xe:formColumn
 				styleClass="form-group col-sm-6" loaded="${compositeData.renderDatosFactura}">
 				<xe:this.rendered><![CDATA[#{javascript:!edfObj.edf_ConfigTipoNumeracion.equals("3")}]]></xe:this.rendered>
@@ -331,6 +352,27 @@ return edfObj.edf_ConfigTipoNumeracion.equals("1") ? edfObj.edf_ConfigNumeroProx
 		</xp:div>
 							
 		<xp:div styleClass="form-inline" loaded="${compositeData.renderDatosFactura}">
+			<xe:formColumn styleClass="form-group col-sm-6">
+				<xe:formRow id="rowAplicarMes"
+					style="padding-right:2.0%" label="Agregar mes en texto">
+					<xe:djFilteringSelect id="djComboAplicarMes"
+						queryExpr="#{javascript:return '*\$\{0\}*';}"
+						autoComplete="false"
+						value="#{gastoBean.gasto.aplicarMes}">
+						<xp:selectItems>
+							<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxGasto("gastoRepetitivoMes");}]]></xp:this.value>
+						</xp:selectItems>
+						<xe:this.dojoAttributes>
+							<xp:dojoAttribute
+								name="required" value="false" />
+						</xe:this.dojoAttributes>
+						<xp:eventHandler
+							event="onChange" submit="true" refreshMode="partial"
+							refreshId="djComboAplicarMes"
+							disableValidators="true" />
+					</xe:djFilteringSelect>
+				</xe:formRow>
+			</xe:formColumn>
 			<xe:formColumn styleClass="form-group col-sm-6">
 				<xe:formRow id="rowGastoRepetitivo"
 					label="Repetir gasto" style="padding-right:2.0%" for="divGastoRepetitivoTexto">
@@ -390,11 +432,7 @@ return edfObj.edf_ConfigTipoNumeracion.equals("1") ? edfObj.edf_ConfigNumeroProx
 				</xe:formRow>
 			</xe:formColumn>
 			
-			<xe:formColumn styleClass="form-group col-sm-6">
-				<xe:formRow id="rowGastoRepetitivoTexto"
-					style="padding-right:2.0%" label="">
-				</xe:formRow>
-			</xe:formColumn>
+			
 		</xp:div>
 		
 		<xe:this.facets>

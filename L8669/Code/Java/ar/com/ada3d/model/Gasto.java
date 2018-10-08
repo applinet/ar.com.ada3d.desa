@@ -41,6 +41,7 @@ public class Gasto {
 	private Integer filaColumnaTextoDetalleFactura;
 	private String gastoRepetitivo;
 	private String gastoRepetitivoTexto;
+	private String aplicarMes;
 	
 	
 	public Gasto() {
@@ -336,5 +337,14 @@ public class Gasto {
 		this.gastoRepetitivoTexto = gastoRepetitivoTexto;
 	}
 
+
+	public String getAplicarMes() {
+		return aplicarMes;
+	}
+
+
+	public void setAplicarMes(String aplicarMes) {
+		this.aplicarMes = aplicarMes;
+	}
 	
 }

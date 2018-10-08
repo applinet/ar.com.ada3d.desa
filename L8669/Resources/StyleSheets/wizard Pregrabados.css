@@ -63,7 +63,7 @@ li.active:after {
 
 .tab-pane{
  position: relative;
- padding-top: 50px;
+ padding-top: 0px;
 }
 
 @media( max-width : 768px ){
