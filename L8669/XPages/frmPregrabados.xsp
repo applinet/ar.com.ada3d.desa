@@ -7,6 +7,7 @@
 			src="\jQuery-Mask-Plugin-master\src\jquery.mask.js"
 			clientSide="true" />
 	</xp:this.resources>
+	
 	<xp:scriptBlock id="scriptBlockMaskedJquery">
 		<xp:this.value><![CDATA[jQuery(function($){
 	$(".classPrt_importe").mask('0.000.000,00', {reverse: true});
@@ -24,12 +25,10 @@ if(listaEdificios == null){
 
 var codigoEdificio:String;
 var seleccionado:String;
-
 for (var i = 0; i < listaEdificios.length; i++) {
 	// Agrego la metadata por cada entrada al array:
 	codigoEdificio = listaEdificios[i].split("|")[1].trim();
 	seleccionado = "0";
-		
     results.push({
 	    codigoEdificio: codigoEdificio,
 	    descripcionEdificio: "(" + codigoEdificio + ") " + listaEdificios[i].split("|")[0].trim(),
@@ -40,7 +39,8 @@ for (var i = 0; i < listaEdificios.length; i++) {
 return results;}]]></xe:this.createObject>
 			<xe:this.saveObject><![CDATA[#{javascript:return value.dummyAction();}]]></xe:this.saveObject>
 		</xe:objectData>
-	</xp:this.data>	
+	</xp:this.data>
+	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="false"
 		property_hasTitleBar="false">
 		<xp:this.facets>
@@ -84,22 +84,31 @@ return results;}]]></xe:this.createObject>
 										</a>
 									</li>
 									<li>
-										<a href="#tabConfirmacion" data-toggle="tab"
-											title="completed">
-											<span class="round-tabs">
-												<i class="glyphicon glyphicon-ok"></i>
-											</span>
+                                        <a href="#tabConfirmacion" data-toggle="tab"
+                                            title="Confirmación">
+                                            <span class="round-tabs">
+                                                <i class="glyphicon glyphicon-ok"></i>
+                                            </span>
 										</a>
 									</li>
 								</ul>
 							</div>
 							<div class="tab-content">
+								<xp:div id="divRepeatDetalleReadMode" styleClass="col-lg-12">
+									<xp:repeat id="repeatDetalleReadMode" rows="30" var="detalleReadMode"
+										value="#{gastoBean.gasto.textoDetalleFactura}" styleClass="well-sm col-lg-6 col-lg-offset-3" style="background-color: #ffffcc; border-left: 6px solid #ffeb3b;"
+										rendered="#{gastoBean.gasto.textoDetalleFactura ne null}">
+										<xp:label id="labelDetalleReadMode">
+											<xp:this.value><![CDATA[#{javascript:detalleReadMode.toString()}]]></xp:this.value>
+										</xp:label>
+										<br />
+									</xp:repeat>
+								</xp:div>
 								<div class="tab-pane fade in active" id="tabGasto">
 									<h2 class="text-center">Datos del texto pregrabado</h2>
 									<p class="text-center">
 		<!-- Formulario Gasto -->
-										<xc:ccFrmGastos
-											renderDatosFactura="false">
+										<xc:ccFrmGastos renderDatosFactura="false" renderMesPregrabado="true">
 										</xc:ccFrmGastos>
 									</p>
 									<p class="text-center">
@@ -111,6 +120,7 @@ return results;}]]></xe:this.createObject>
 												event="onclick" submit="true" refreshMode="partial"
 												refreshId="formTableGastos">
 												<xp:this.action><![CDATA[#{javascript:view.postScript("$('[href=\"#tabEdificios\"]').tab('show');");}]]></xp:this.action>
+												<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:divRepeatDetalleReadMode}");]]></xp:this.onComplete>
 											</xp:eventHandler>
 										</xp:button>
 									</p>
@@ -178,10 +188,10 @@ if (myList == null || myList.isEmpty()) {
 											<xp:repeat id="rptEdificios" var="rptEdificios"	rows="30" value="#{pregrabadoBean.textoPregrabado.edificios}">
 												<xp:this.facets>
 													<xp:text disableTheme="true" xp:key="header" escape="false">
-														<xp:this.value><![CDATA[<table class="table"><th>Edificio</th><th>Porc #1</th><th>Porc #2</th><th>Porc #3</th><th>Porc #4</th>]]></xp:this.value>
+														<xp:this.value><![CDATA[<div class="table-responsive"><table class="table"><th>Edificio</th><th>Porc #1</th><th>Porc #2</th><th>Porc #3</th><th>Porc #4</th>]]></xp:this.value>
 													</xp:text>
 													<xp:text disableTheme="true" xp:key="footer" escape="false">
-														<xp:this.value><![CDATA[</table>]]></xp:this.value>
+														<xp:this.value><![CDATA[</table></div>]]></xp:this.value>
 													</xp:text>
 												</xp:this.facets>
 												<xp:tr>
@@ -262,12 +272,11 @@ view.postScript("$('[href=\"#tabPersonalizacion\"]').tab('show');");}]]></xp:thi
 									</p>
 								</div>
 								<div class="tab-pane fade" id="tabPersonalizacion">
-									<h2 class="text-center">Presonalización por edificio</h2>
+									<h2 class="text-center">Personalización por edificio</h2>
 									<p class="text-center">
 										<xp:div id="divPersonalizacion">
 											<xp:messages id="messages2" styleClass="alert alert-error"></xp:messages>
-											<xp:repeat
-												id="rptEdificiosPersonalizacion"
+											<xp:repeat id="rptEdificiosPersonalizacion"
 												var="rptEdificiosPersonalizacion" rows="30"
 												value="#{pregrabadoBean.textoPregrabado.edificios}"
 												indexVar="idxEdificiosPersonalizacion"
@@ -275,7 +284,7 @@ view.postScript("$('[href=\"#tabPersonalizacion\"]').tab('show');");}]]></xp:thi
 												<xp:this.facets>
 													<xp:text
 														disableTheme="true" xp:key="header" escape="false">
-														<xp:this.value><![CDATA[<table class="table"><th>Edificio</th><th>Mes</th><th>Agrupamiento</th><th>Código Especial</th>]]></xp:this.value>
+														<xp:this.value><![CDATA[<table class="table table-responsive"><th>Edificio</th><th>Mes</th><th>Agrupamiento</th><th>Código Especial</th><th>Proveedor</th>]]></xp:this.value>
 													</xp:text>
 													<xp:text
 														disableTheme="true" xp:key="footer" escape="false">
@@ -290,11 +299,10 @@ view.postScript("$('[href=\"#tabPersonalizacion\"]').tab('show');");}]]></xp:thi
 														</xp:text>
 													</xp:td>
 													<xp:td>
-														<xe:djFilteringSelect
-															id="djGastoRepetitivoTexto"
+														<xe:djFilteringSelect id="djComboAplicarMes"
 															queryExpr="#{javascript:return '*\$\{0\}*';}"
 															autoComplete="false"
-															value="#{pregrabadoBean.textoPregrabado.edificios[idxEdificiosPersonalizacion].mes}">
+															value="#{rptEdificiosPersonalizacion.mes}">
 															<xp:selectItems>
 																<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxGasto("gastoRepetitivoMes");}]]></xp:this.value>
 															</xp:selectItems>
@@ -302,22 +310,22 @@ view.postScript("$('[href=\"#tabPersonalizacion\"]').tab('show');");}]]></xp:thi
 																<xp:dojoAttribute
 																	name="required" value="false" />
 															</xe:this.dojoAttributes>
+															<xp:eventHandler
+																event="onChange" submit="true" refreshMode="partial"
+																refreshId="djComboAplicarMes"
+																disableValidators="true" />
 														</xe:djFilteringSelect>
 													</xp:td>
 													<xp:td>
-														<xe:djFilteringSelect
-															id="djComboAgrupamiento"
+														<xe:djFilteringSelect id="djComboAgrupamiento"
 															queryExpr="#{javascript:return '*\$\{0\}*';}"
 															autoComplete="false"
 															value="#{rptEdificiosPersonalizacion.agrupamiento}">
 															<xp:selectItems
 																value="#{javascript:gastoBean.comboboxAgrupamientoGastos;}" />
-
-
 															<xe:this.dojoAttributes>
 																<xp:dojoAttribute
 																	name="required" value="false" />
-
 															</xe:this.dojoAttributes>
 															<xp:eventHandler
 																event="onChange" submit="true" refreshMode="partial"
@@ -327,15 +335,12 @@ view.postScript("$('[href=\"#tabPersonalizacion\"]').tab('show');");}]]></xp:thi
 														</xe:djFilteringSelect>
 													</xp:td>
 													<xp:td>
-														<xe:djFilteringSelect
-															id="djComboCodigoEspecial"
+														<xe:djFilteringSelect id="djComboCodigoEspecial"
 															queryExpr="#{javascript:return '*\$\{0\}*';}"
 															autoComplete="false"
 															value="#{rptEdificiosPersonalizacion.codigoEspecial}">
 															<xp:selectItems
 																value="#{javascript:gastoBean.comboboxCodigoEspecial;}" />
-
-
 															<xe:this.dojoAttributes>
 																<xp:dojoAttribute
 																	name="required" value="false" />
@@ -345,7 +350,23 @@ view.postScript("$('[href=\"#tabPersonalizacion\"]').tab('show');");}]]></xp:thi
 																event="onChange" submit="true" refreshMode="partial"
 																refreshId="djComboCodigoEspecial"
 																disableValidators="true" />
-
+														</xe:djFilteringSelect>
+													</xp:td>
+													<xp:td>
+														<xe:djFilteringSelect id="djComboProveedor"
+														queryExpr="#{javascript:return '*\$\{0\}*';}"
+														autoComplete="false" 
+														value="#{rptEdificiosPersonalizacion.prv_cuit}" style="width:80.0%">
+								
+														<xp:selectItems 
+															value="#{javascript:proveedorBean.getComboboxMyProveedores();}" />
+														<xe:this.dojoAttributes>
+															<xp:dojoAttribute
+																name="required" value="false" />
+														</xe:this.dojoAttributes>
+														<xp:eventHandler event="onChange"
+															submit="true" refreshMode="partial"
+															refreshId="djComboProveedor" disableValidators="true" />
 														</xe:djFilteringSelect>
 													</xp:td>
 												</xp:tr>
@@ -358,40 +379,60 @@ view.postScript("$('[href=\"#tabPersonalizacion\"]').tab('show');");}]]></xp:thi
 											<i class="glyphicon glyphicon-arrow-left" style="padding-right: 10px"></i>
 											<xp:eventHandler
 												event="onclick" submit="true" refreshMode="partial"
-												refreshId="divPersonalizacion">
+												refreshId="divConfirmacion">
 												<xp:this.action><![CDATA[#{javascript:view.postScript("$('[href=\"#tabPorcentuales\"]').tab('show');");}]]></xp:this.action>
 											</xp:eventHandler>
 										</xp:button>
-		<!-- Continuar Personalizacion -->										
-										<xp:button value="Continuar " id="btnContinuarPersonalizacion" styleClass="btn btn-success btn-lg">
+		        <!-- Continuar Personalizacion -->                                        
+                                        <xp:button value="Continuar " id="btnContinuarPersonalizacion" styleClass="btn btn-success btn-lg">
 											<i class="glyphicon glyphicon-arrow-right pull-right" style="padding-left: 10px"></i>
-											<xp:eventHandler event="onclick"
-												submit="true" refreshMode="partial" refreshId="divPersonalizacion">
-												<xp:this.action><![CDATA[#{javascript:view.postScript("$('[href=\"#tabConfirmacion\"]').tab('show');");}]]></xp:this.action>
-											</xp:eventHandler>
-										</xp:button>
+											<xp:eventHandler event="onclick" submit="true" refreshMode="partial" refreshId="divConfirmacion">
+                                                <xp:this.action><![CDATA[#{javascript:view.postScript("$('[href=\"#tabConfirmacion\"]').tab('show');");}]]></xp:this.action>
+                                            </xp:eventHandler>
+                                        </xp:button>
 									</p>
+									
 								</div>
 								<div class="tab-pane fade" id="tabConfirmacion">
-									<div class="text-center">
-										<i class="img-intro icon-checkmark-circle"></i>
-									</div>
-									<h2 class="text-center">Confirmacion</h2>
-									<p class="text-center">
-										Un resumen de todo lo anterior para confirmar.
-									</p>
+                                    <div class="text-center">
+                                        <i class="img-intro icon-checkmark-circle"></i>
+                                    </div>
+                                    <h2 class="text-center">Confirmacion</h2>
+                                    <p class="text-center">
+                                    	<xp:div id="divConfirmacion" styleClass="text-center">
+                                    		<br />
+											<h4>Presione 'confirmar' para generar el pregrabado de los siguientes edificios:</h4>
+											<xp:text id="computedField3"
+												value="#{pregrabadoBean.textoPregrabado.listaEdificios}"
+												styleClass="h3">
+											</xp:text>
+											<br /><br />
+                                        </xp:div>
+                                    </p>
 									<p class="text-center">
 										<xp:button value="Atras" id="button8"
 											styleClass="btn btn-lg">
 											<i class="glyphicon glyphicon-arrow-left" style="padding-right: 10px"></i>
-											<xp:eventHandler event="onclick"
+												<xp:eventHandler event="onclick"
 												submit="false">
 												<xp:this.script><![CDATA[$('[href="#tabPersonalizacion"]').tab('show');]]></xp:this.script>
 											</xp:eventHandler>
 										</xp:button>
-										<a href="" class="btn btn-success btn-lg">
-											Confirmar
-										</a>
+                                    
+										<xp:button value="Confirmar " id="btnConfirmar" styleClass="btn btn-success btn-lg">
+											<xp:eventHandler
+												event="onclick" submit="true" refreshMode="partial"
+												refreshId="tabPersonalizacion">
+												<xp:this.action><![CDATA[#{javascript:msgValidacion = pregrabadoBean.savePregrabado();;
+if(!msgValidacion.isEmpty()){
+	facesMsgValidation(msgValidacion);
+	view.postScript("window.scrollTo(0,0)");
+}else{
+	context.redirectToPage("viewPregrabados")
+}
+}]]></xp:this.action>
+											</xp:eventHandler>
+										</xp:button>
 									</p>
 								</div>
 							</div>
