@@ -5,6 +5,8 @@ import java.util.*;
 import ar.com.ada3d.model.Edificio;
 
 
+/** fillAgrupamientosGastosMap no esta aca debido a que es una tabla de AS400 y va a necesitar un tratamiento especial
+ */
 public class CfgCache {
 	/**Esta clase va a tener las opciones clave de notes que no varian 
 	 * y se mantienen como applicationScope, para eliminarlas usar el debugToolbar
