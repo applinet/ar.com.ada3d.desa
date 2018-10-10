@@ -19,21 +19,28 @@
 					</xp:pager>
 				</xp:this.facets>
 				
-				<xp:column id="pregrabadoReferenciaColumn">
+				<xp:column id="pregrabadoProveedorColumn">
 					<xp:this.facets>
-						<xp:label value="Referencia" id="label1"
+						<xp:label value="Proveedor" id="label1"
 							xp:key="header" style="font-weight:bold">
 						</xp:label>
 					</xp:this.facets>
-					<xp:link escape="true"
-						text="#{pregrabado.referencia}"
-						id="pregrabadoReferencia">
-						<xp:eventHandler event="onclick" submit="true"
-							refreshMode="partial" refreshId="formTableGastos">
-							<xp:this.action><![CDATA[#{javascript:gastoBean.aplicarPreseteadoEnGasto(pregrabado, sessionScope.edfObj.getEdf_codigo());
-getComponent("dialogPregrabado").hide();}]]></xp:this.action>
-						</xp:eventHandler>
-					</xp:link>
+					<xp:repeat id="rptEdificiosPersonalizacion2"
+						var="rptEdificiosPersonalizacion" rows="30"
+						value="#{pregrabado.edificios}"
+						repeatControls="false">
+						<xp:link escape="true" id="link1"
+							rendered="#{javascript:rptEdificiosPersonalizacion.edif == sessionScope.edfObj.edf_codigo}">
+							<xp:this.text><![CDATA[#{javascript:proveedorBean.getDatoPorCuit(rptEdificiosPersonalizacion.prv_cuit, "razonSocial" )}]]></xp:this.text>
+							<xp:eventHandler event="onclick" submit="true"
+								refreshMode="partial" refreshId="formTableGastos">
+								<xp:this.action><![CDATA[#{javascript:gastoBean.aplicarPreseteadoEnGasto(pregrabado, sessionScope.edfObj.getEdf_codigo());
+	getComponent("dialogPregrabado").hide();}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</xp:repeat>
+						
+					
 				</xp:column>
 				
 				<xp:column id="pregrabadoTextoDetalleFacturaColumn">

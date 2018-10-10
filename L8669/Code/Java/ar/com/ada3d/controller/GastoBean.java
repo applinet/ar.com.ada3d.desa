@@ -863,6 +863,7 @@ public class GastoBean implements Serializable {
 			this.gasto.setCodigoEspecial(prm_Preseteado.getEdificios().get(posicionEdificio).getCodigoEspecial());
 			this.gasto.setAgrupamiento(prm_Preseteado.getEdificios().get(posicionEdificio).getAgrupamiento());
 			this.gasto.setTipoGasto(prm_Preseteado.getEdificios().get(posicionEdificio).getTipoGasto());
+			this.gasto.setAplicarMes(prm_Preseteado.getEdificios().get(posicionEdificio).getMes());
 			this.gasto.setCuitProveedor(prm_Preseteado.getEdificios().get(posicionEdificio).getPrv_cuit());
 			
 			for (Iterator<Prorrateo> i = this.gasto.getListaProrrateos().iterator(); i.hasNext();) {
@@ -874,9 +875,10 @@ public class GastoBean implements Serializable {
 			for (int idxPorcentual = 0; idxPorcentual < prm_Preseteado.getEdificios().get(posicionEdificio).getPorcentuales().size(); idxPorcentual++) {
 				Integer posi = prm_Preseteado.getEdificios().get(posicionEdificio).getPorcentuales().get(idxPorcentual).getPorc_posicion();
 				double importe = prm_Preseteado.getEdificios().get(posicionEdificio).getPorcentuales().get(idxPorcentual).getPorc_importeJson();
+				boolean esEditable = prm_Preseteado.getEdificios().get(posicionEdificio).getPorcentuales().get(idxPorcentual).getPorc_CheckBoxImporteJson();
 				if(this.gasto.getUnProrrateo(posi) != null){
 					this.gasto.getUnProrrateo(posi).setPrt_importe(new BigDecimal(importe));
-					this.gasto.getUnProrrateo(posi).setPrt_disabled(false);
+					if(esEditable) this.gasto.getUnProrrateo(posi).setPrt_disabled(false);
 				}
 			}
 		}
@@ -1080,11 +1082,14 @@ public class GastoBean implements Serializable {
 	
 	public ArrayList<String> getPreviewDetalleGastos(Gasto prm_gasto, ArrayList<String> prm_OrdenDetalleGasto) {
 		ArrayList<String> result = new ArrayList<String>();
+		
 		if(prm_OrdenDetalleGasto == null){
 			result.addAll(prm_gasto.getTextoDetalleFactura());
+			if(!prm_gasto.getAplicarMes().equals("0")) result.add(getAgregarMesEnTexto(prm_gasto.getAplicarMes(), prm_gasto.getFechaLiquidacion())); //Voy a incluir el mes automático en el texto
 			prm_gasto.setFilaColumnaTextoDetalleFactura(1);
 		}else if(prm_OrdenDetalleGasto.contains(null)){
 			result.addAll(prm_gasto.getTextoDetalleFactura());
+			if(!prm_gasto.getAplicarMes().equals("0")) result.add(getAgregarMesEnTexto(prm_gasto.getAplicarMes(), prm_gasto.getFechaLiquidacion())); //Voy a incluir el mes automático en el texto
 			prm_gasto.setFilaColumnaTextoDetalleFactura(1);
 		}else{
 			//Puede que los datos del proveedor vengan nulos si cambiaron la configuracion y ya habian cargado previamente datos vacios
@@ -1144,10 +1149,37 @@ public class GastoBean implements Serializable {
 				texto.append(detalle);
 				texto.append("\n");
 			}
+			if(!prm_gasto.getAplicarMes().equals("0")) texto.append(getAgregarMesEnTexto(prm_gasto.getAplicarMes(), prm_gasto.getFechaLiquidacion())); //Voy a incluir el mes automático en el texto
+			
 			//Divido el string hasta 72 caracteres
 			result.addAll(ar.com.ada3d.utilidades.Conversores.splitString(texto.toString(), 72));
 		}
 		return result;
+	}
+	
+	
+	public String getAgregarMesEnTexto(String prm_aplicarMes, String prm_fechaLiquidacion){
+		Date dtFechaLiquidacion = ar.com.ada3d.utilidades.Conversores.StringToDate("MMyyyy", prm_fechaLiquidacion);
+		
+		if(prm_aplicarMes.equals("1")){
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(dtFechaLiquidacion);
+			cal.add(Calendar.MONTH, -1);
+			return "MES: " + ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "MMMM/yy");
+		}
+		
+		if(prm_aplicarMes.equals("2"))			
+			return "MES: " + ar.com.ada3d.utilidades.Conversores.DateToString(dtFechaLiquidacion, "MMMM/yy");
+		
+		if(prm_aplicarMes.equals("3")){
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(dtFechaLiquidacion);
+			cal.add(Calendar.MONTH, 1);
+			return "MES: " + ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "MMMM/yy");
+			
+		}
+		
+		return "";
 	}
 	
 	

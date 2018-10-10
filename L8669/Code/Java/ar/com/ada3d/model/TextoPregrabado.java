@@ -3,8 +3,7 @@ package ar.com.ada3d.model;
 import java.util.List;
 
 public class TextoPregrabado {
-	private String id;
-	private String referencia;
+	private String id; //UNIVERSALID del doc
 	private List<String> textoDetalle;
 	private List<TextoPregrabadoEdificio> edificios;
 	private List<String> listaEdificios;
@@ -23,15 +22,6 @@ public class TextoPregrabado {
 		this.id = id;
 	}
 
-	public String getReferencia() {
-		return referencia;
-	}
-
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
-	}
-
-	
 	public List<String> getTextoDetalle() {
 		return textoDetalle;
 	}
