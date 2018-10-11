@@ -64,9 +64,7 @@
 								id="pregrabadoTextoDetalleFactura">
 								<xp:eventHandler event="onclick"
 									submit="true" refreshMode="complete">
-									<xp:this.action><![CDATA[#{javascript:gastoBean.createNewGasto();
-pregrabadoBean.fillPregrabado(pregrabado, gastoBean.gasto);
-context.redirectToPage("frmPregrabados")}]]></xp:this.action>
+									<xp:this.action><![CDATA[#{javascript:context.redirectToPage("frmPregrabados?pg=" + pregrabado.id)}]]></xp:this.action>
 								</xp:eventHandler>
 							</xp:link>
 							<br />
