@@ -47,6 +47,7 @@ public class Edificio {
 	private String edf_ConfigOrdenDetalleGasto;
 	private String edf_ConfigTipoNumeracion;
 	private BigDecimal edf_ConfigNumeroProximoGasto;
+	private String checkBoxSelected;
 	
 	//Getters and Setters
 	
@@ -264,4 +265,12 @@ public class Edificio {
 			BigDecimal edf_ConfigNumeroProximoGasto) {
 		this.edf_ConfigNumeroProximoGasto = edf_ConfigNumeroProximoGasto;
 	}
+	public String getCheckBoxSelected() {
+		return checkBoxSelected;
+	}
+	public void setCheckBoxSelected(String checkBoxSelected) {
+		this.checkBoxSelected = checkBoxSelected;
+	}
+	
+	
 }
