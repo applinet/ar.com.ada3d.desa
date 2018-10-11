@@ -8,38 +8,16 @@
 			clientSide="true" />
 	</xp:this.resources>
 	
+	
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if(param.pg != null){
+	gastoBean.createNewGasto();
+	pregrabadoBean.fillPregrabado(param.pg, gastoBean.gasto, edificioBean.getListaEdificios());
+}}]]></xp:this.beforePageLoad>
 	<xp:scriptBlock id="scriptBlockMaskedJquery">
 		<xp:this.value><![CDATA[jQuery(function($){
 	$(".classPrt_importe").mask('0.000.000,00', {reverse: true});
 });]]></xp:this.value>
 	</xp:scriptBlock>
-	<xp:this.data>
-		<xe:objectData var="objDataEdificiosPorUsuario"
-			ignoreRequestParams="true" readonly="false" scope="view">
-			<xe:this.createObject><![CDATA[#{javascript:var results = []; // Crear un array vacio a devolver al final
-
-var listaEdificios = edificioBean.getArraySrtringListaEdificios(false); //Lista total de edificios
-if(listaEdificios == null){
-	return results;
-}
-
-var codigoEdificio:String;
-var seleccionado:String;
-for (var i = 0; i < listaEdificios.length; i++) {
-	// Agrego la metadata por cada entrada al array:
-	codigoEdificio = listaEdificios[i].split("|")[1].trim();
-	seleccionado = "0";
-    results.push({
-	    codigoEdificio: codigoEdificio,
-	    descripcionEdificio: "(" + codigoEdificio + ") " + listaEdificios[i].split("|")[0].trim(),
-	    selected: seleccionado
-    });
-}
-
-return results;}]]></xe:this.createObject>
-			<xe:this.saveObject><![CDATA[#{javascript:return value.dummyAction();}]]></xe:this.saveObject>
-		</xe:objectData>
-	</xp:this.data>
 	<xc:ccFxPleaseWaitStandBy></xc:ccFxPleaseWaitStandBy>
 	<xc:ccLayoutBootstrap property_ShowComboEdificio="false"
 		property_hasTitleBar="false">
@@ -114,11 +92,12 @@ return results;}]]></xe:this.createObject>
 									<p class="text-center">
 		<!-- Continuar Gasto -->
 										<xp:button value="Continuar" id="btnContinuarGasto"
-											styleClass="btn btn-success btn-lg">
-											<i class="glyphicon glyphicon-arrow-right pull-right" style="padding-left: 10px"></i>
-											<xp:eventHandler
-												event="onclick" submit="true" refreshMode="partial"
-												refreshId="formTableGastos">
+											styleClass="btn btn-success btn-lg" tabindex="9">
+											<i class="glyphicon glyphicon-arrow-right pull-right"
+												style="padding-left: 10px">
+											</i>
+											<xp:eventHandler event="onclick" submit="true"
+												refreshMode="partial" refreshId="formTableGastos">
 												<xp:this.action><![CDATA[#{javascript:view.postScript("$('[href=\"#tabEdificios\"]').tab('show');");}]]></xp:this.action>
 												<xp:this.onComplete><![CDATA[XSP.partialRefreshGet("#{id:divRepeatDetalleReadMode}");]]></xp:this.onComplete>
 											</xp:eventHandler>
@@ -140,7 +119,9 @@ for(var i=0;i<chks.length;i++){
 											</xp:eventHandler>
 										</xp:link>
 										<xc:ccFxServerSideJsMessages id="JsMessagesEdificios"></xc:ccFxServerSideJsMessages>
-										<xc:ccEdificiosCheckBox></xc:ccEdificiosCheckBox>
+										<xc:ccEdificiosCheckBox
+											id="edificiosCheckBox">
+										</xc:ccEdificiosCheckBox>
 									</p>
 									<p class="text-center">
 										<xp:button value="Atras" id="btnAtrasEdificios"
@@ -158,10 +139,10 @@ for(var i=0;i<chks.length;i++){
 												event="onclick" submit="true" refreshMode="partial"
 												refreshId="JsMessagesEdificios">
 												<xp:this.action><![CDATA[#{javascript:var myList:java.util.List = new java.util.ArrayList();
-for (var i = 0; i < objDataEdificiosPorUsuario.length; i++) {
-	var eachRequest = objDataEdificiosPorUsuario[i];
-    if (eachRequest.selected == "1") {
-    	myList.add(eachRequest.codigoEdificio);
+for (var i = 0; i < edificioBean.listaEdificios.size(); i++) {
+	var eachRequest = edificioBean.listaEdificios[i];
+    if (eachRequest.checkBoxSelected == "1") {
+    	myList.add(eachRequest.edf_codigo);
     }
 }
 if (myList == null || myList.isEmpty()) {	
@@ -214,12 +195,13 @@ if (myList == null || myList.isEmpty()) {
 																	refreshId="divPorcentuales">
 																</xp:eventHandler>
 															</xp:checkBox>
-															<xp:inputText id="prt_importe"
+															<xp:inputText
+																id="prt_importe"
 																value="#{rptPorcentuales.porc_importeJson}"
 																styleClass="classPrt_importe"
 																disabled="#{not rptPorcentuales.porc_CheckBoxImporteJson}"
 																rendered="#{rptPorcentuales.porc_porcentaje gt 0}"
-																style="text-align:right">
+																style="text-align:right" tabindex="1">
 																<xp:this.converter>
 																	<xp:convertNumber
 																		pattern="#,##0.00;-#,##0.00">
