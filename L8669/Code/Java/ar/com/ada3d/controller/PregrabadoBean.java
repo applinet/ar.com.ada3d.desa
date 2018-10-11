@@ -2,6 +2,7 @@ package ar.com.ada3d.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -30,27 +31,35 @@ public class PregrabadoBean implements Serializable {
 		// Empty constructor
 	}
 
-	
-	public void fillPregrabado(TextoPregrabado prm_textoPregrabado, Gasto prm_gasto) {
-		this.myGasto = prm_gasto;
-		this.textoPregrabado = prm_textoPregrabado;
-		this.myGasto.setTextoDetalleFactura(prm_textoPregrabado.getTextoDetalle());
+
+	/**
+	 * Desde la vista de pregrabados al ingresar en un pregrabado, solo actualiza los datos del gasto
+	 * @usedIn: viewPregrabados
+	 * @param universalId del doc notes que estoy editando
+	 * @param prm_gasto nuevo gasto
+	 * @param listaEdificios todos los posibles
+	 */
+	public void fillPregrabado(String universalId, Gasto prm_gasto, List<Edificio> listaEdificios) {
+		this.myGasto = prm_gasto;		
+		setTextoPregrabado(universalId); //Cargo el notes document
+		if(this.textoPregrabado.getId() == null) return;
+		
+		this.myGasto.setTextoDetalleFactura(this.textoPregrabado.getTextoDetalle());
+		
 		//Cargo al gasto lo del primer edificio
-		this.myGasto.setCuitProveedor(prm_textoPregrabado.getEdificios().get(0).getPrv_cuit());
-		this.myGasto.setAgrupamiento(prm_textoPregrabado.getEdificios().get(0).getAgrupamiento());
-		this.myGasto.setCodigoEspecial(prm_textoPregrabado.getEdificios().get(0).getCodigoEspecial());
-		this.myGasto.setTipoGasto(prm_textoPregrabado.getEdificios().get(0).getTipoGasto());
-		this.myGasto.setAplicarMes(prm_textoPregrabado.getEdificios().get(0).getMes());
-		/*
-		for (TextoPregrabadoEdificio edificio : prm_textoPregrabado.getEdificios()){
-			edificio.getAgrupamiento()
-		}*/
-		
-		
-		
-		System.out.println("edif:" + prm_textoPregrabado.getListaEdificios());
-		System.out.println("id:" + prm_textoPregrabado.getId());
-		
+		this.myGasto.setCuitProveedor(this.textoPregrabado.getEdificios().get(0).getPrv_cuit());
+		this.myGasto.setAgrupamiento(this.textoPregrabado.getEdificios().get(0).getAgrupamiento());
+		this.myGasto.setCodigoEspecial(this.textoPregrabado.getEdificios().get(0).getCodigoEspecial());
+		this.myGasto.setTipoGasto(this.textoPregrabado.getEdificios().get(0).getTipoGasto());
+		this.myGasto.setAplicarMes(this.textoPregrabado.getEdificios().get(0).getMes());
+		//Tilda los edificios que estan seleccionados 
+		for (Iterator<Edificio> i = listaEdificios.iterator(); i.hasNext();) {
+			Edificio edificio = i.next();
+			if (textoPregrabado.getListaEdificios().contains(edificio.getEdf_codigo()))
+				edificio.setCheckBoxSelected("1");
+					
+		}
+				
 	}
 	
 	
@@ -61,6 +70,7 @@ public class PregrabadoBean implements Serializable {
 
 	 */
 	public ArrayList<String> savePregrabado() {
+		
 		ArrayList<String> listAcumulaErroresAS400 = new ArrayList<String>();
 		//TODO: Agregar control de errores --> listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 		Session session = ExtLibUtil.getCurrentSessionAsSignerWithFullAccess();
@@ -68,14 +78,25 @@ public class PregrabadoBean implements Serializable {
 		Document doc = null;
 		try {
 			thisdb = session.getCurrentDatabase();
-			doc = thisdb.createDocument();
-			doc.appendItemValue("Form", "f.ClaveJson");
-			doc.save(); //para tener un id
+			if (textoPregrabado.getId() == null){
+				doc = thisdb.createDocument();
+				doc.appendItemValue("Form", "f.ClaveJson");
+				doc.save(); //para tener un id
+			}else{
+				doc = thisdb.getDocumentByUNID(textoPregrabado.getId());
+			}
 			doc.appendItemValue("conf_clave", doc.getUniversalID()); //Texto para identificarlo en la vista no es necesario
 			textoPregrabado.setId(doc.getUniversalID());
-			doc.appendItemValue("conf_edf", new Vector<String>(textoPregrabado.getListaEdificios())); //Array con lista de edificios
+			if(doc.getFirstItem("conf_edf") == null)
+				doc.appendItemValue("conf_edf", new Vector<String>(textoPregrabado.getListaEdificios())); //Array con lista de edificios
+			else
+				doc.replaceItemValue("conf_edf", new Vector<String>(textoPregrabado.getListaEdificios())); //Array con lista de edificios
+			
 			final String json = J2BConverter.beanToJson(textoPregrabado);
-			doc.appendItemValue("conf_json", json);
+			if(doc.getFirstItem("conf_json") == null)
+				doc.appendItemValue("conf_json", json);
+			else
+				doc.replaceItemValue("conf_json", json);
 			doc.save();
 			
 		} catch (NotesException e) {
@@ -118,8 +139,10 @@ public class PregrabadoBean implements Serializable {
 			setTextoPregrabado(new TextoPregrabado());
 		textoPregrabado.setListaEdificios(prm_edificios);
 		textoPregrabado.setTextoDetalle(prm_gasto.getTextoDetalleFactura());
-		textoPregrabado.setEdificios(fillListaJsonEdificios(prm_edificios));	
+		textoPregrabado.setEdificios(fillListaJsonEdificios(prm_edificios));
+		
 	}
+	
 	
 	
 	/**Carga de lista de pregrabados
@@ -128,9 +151,21 @@ public class PregrabadoBean implements Serializable {
 	 */
 	private List<TextoPregrabadoEdificio> fillListaJsonEdificios(List<String> prm_edificios){
 		Edificio myEdificio = null;
+		List<String> tempList = new ArrayList<String>(prm_edificios);
 		List<TextoPregrabadoEdificio> ret = new ArrayList<TextoPregrabadoEdificio>();
-		for (String edif : prm_edificios){
-			
+		if(textoPregrabado.getEdificios() != null){
+			List<TextoPregrabadoEdificio> listaActual = textoPregrabado.getEdificios();
+			for (Iterator<TextoPregrabadoEdificio> i = listaActual.iterator(); i.hasNext();) {
+				TextoPregrabadoEdificio edificio = i.next();
+				if(tempList.contains(edificio.getEdif())){
+					ret.add(edificio);
+					tempList.remove(tempList.indexOf(edificio.getEdif()));
+				}
+			}
+		}
+		
+		
+		for (String edif : tempList){
 			myEdificio = ar.com.ada3d.utilidades.JSFUtil.getCacheApp().getHmEdificios().get(edif);
 			ret.add(fillJsonEdificio(myEdificio));
 			myEdificio = null;
@@ -186,6 +221,40 @@ public class PregrabadoBean implements Serializable {
 		this.textoPregrabado = textoPregrabado;
 	}
 
+	/** Setea tomando el Json de un doc Notes
+	 * @param universalId el documento a buscar
+	 */
+	private void setTextoPregrabado(String universalId){
+		Session session = ExtLibUtil.getCurrentSessionAsSignerWithFullAccess();
+		Database thisdb = null;
+		Document doc = null;
+		try {
+			thisdb = session.getCurrentDatabase();
+			doc = thisdb.getDocumentByUNID(universalId);
+			if (doc != null)
+				this.textoPregrabado = J2BConverter.jsonToBean(TextoPregrabado.class, doc.getItemValueString("conf_json")).get(0);
+		} catch (NotesException e) {
+			e.printStackTrace();
+		}catch (J2BException e) {
+			e.printStackTrace();
+		}finally{
+			//recyle domino objects here
+			if(doc!=null)
+				try {
+					doc.recycle();
+				} catch (NotesException e) {
+					e.printStackTrace();
+				}
+			if(thisdb != null)
+				try {
+					thisdb.recycle();
+				} catch (NotesException e) {
+					e.printStackTrace();
+				}
+			
+		}	
+	}
+	
 	public Gasto getMyGasto() {
 		return myGasto;
 	}
