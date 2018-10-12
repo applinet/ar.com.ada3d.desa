@@ -131,12 +131,10 @@ public class GastoBean implements Serializable {
 	 */
 	public ArrayList<String> strValidacionGasto(Edificio prm_edificio){
 		//TODO: que vamos a validar de la factura, si es nueva es otra validación?
-		
 		ArrayList<String> listAcumulaErrores = new ArrayList<String>();
 		List<String> acumulaDetalle = new ArrayList<String>();
 		//Textos puedo tener hasta 99 lineas de 72 caracteres; las lineas de mas de 72 caracteres las divido en un nuevo array (acumulaDetalle)
 		acumulaDetalle = getPreviewDetalleGastos(this.gasto, new ArrayList<String>(Arrays.asList(prm_edificio.getEdf_ConfigOrdenDetalleGasto().split(""))));
-		
 		if(acumulaDetalle.size() > 99){
 			listAcumulaErrores.add("btnSave~El detalle de la factura es demasiado largo excede las 99 lineas y no puede ser grabado.");
 		}
@@ -149,7 +147,6 @@ public class GastoBean implements Serializable {
 		}
 		if(importeCero)
 			listAcumulaErrores.add("prt_importe~Debe cargar al menos un importe para el gasto.");
-		
 		
 		if(this.gasto.getSucursalFactura().length() > 4)
 			listAcumulaErrores.add("numeroFactura~El punto de venta de la factura debe ser de 4 digitos");
@@ -1082,7 +1079,6 @@ public class GastoBean implements Serializable {
 	
 	public ArrayList<String> getPreviewDetalleGastos(Gasto prm_gasto, ArrayList<String> prm_OrdenDetalleGasto) {
 		ArrayList<String> result = new ArrayList<String>();
-		
 		if(prm_OrdenDetalleGasto == null){
 			result.addAll(prm_gasto.getTextoDetalleFactura());
 			if(!prm_gasto.getAplicarMes().equals("0")) result.add(getAgregarMesEnTexto(prm_gasto.getAplicarMes(), prm_gasto.getFechaLiquidacion())); //Voy a incluir el mes automático en el texto
@@ -1095,7 +1091,6 @@ public class GastoBean implements Serializable {
 			//Puede que los datos del proveedor vengan nulos si cambiaron la configuracion y ya habian cargado previamente datos vacios
 			boolean appendGuion = false; 
 			StringBuilder texto = new java.lang.StringBuilder();
-			
 			if (prm_gasto.getCuitProveedor() != null && !prm_gasto.getCuitProveedor().equals("0")){
 				ProveedorBean beanProveedor = new ProveedorBean();
 				String strCuit = prm_gasto.getCuitProveedor();
@@ -1132,7 +1127,7 @@ public class GastoBean implements Serializable {
 							appendGuion = true;
 						}
 					}
-					
+
 					if(appendGuion){
 						texto.append(" - ");
 						appendGuion = false;
@@ -1141,6 +1136,7 @@ public class GastoBean implements Serializable {
 				//texto.setLength(texto.length() - 3);
 				//texto.append("~^¬");
 			}
+
 			//Agrego la fila columna
 			prm_gasto.setFilaColumnaTextoDetalleFactura(texto.length());
 			
@@ -1149,7 +1145,9 @@ public class GastoBean implements Serializable {
 				texto.append(detalle);
 				texto.append("\n");
 			}
-			if(!prm_gasto.getAplicarMes().equals("0")) texto.append(getAgregarMesEnTexto(prm_gasto.getAplicarMes(), prm_gasto.getFechaLiquidacion())); //Voy a incluir el mes automático en el texto
+
+			if(prm_gasto.getAplicarMes() != null && !prm_gasto.getAplicarMes().equals("0"))
+				texto.append(getAgregarMesEnTexto(prm_gasto.getAplicarMes(), prm_gasto.getFechaLiquidacion())); //Voy a incluir el mes automático en el texto
 			
 			//Divido el string hasta 72 caracteres
 			result.addAll(ar.com.ada3d.utilidades.Conversores.splitString(texto.toString(), 72));
