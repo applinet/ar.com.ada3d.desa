@@ -5,7 +5,7 @@
 		<xp:this.script><![CDATA[document.getElementById("#{id:djComboMyProveedores}").focus();]]></xp:this.script>
 	</xp:eventHandler>
 	
-	<xe:formTable id="formTableGastos" disableErrorSummary="true" disableRowError="false"
+	<xe:formTable id="formTableGastos" disableErrorSummary="false" disableRowError="false"
 		style="padding-left:10.0%;padding-right:10.0%;border-color:rgb(249,249,255);border-style:solid;border-width:medium">
 		<xe:this.labelPosition><![CDATA[#{javascript:gastoBean.gasto.isReadMode ? "left" : "above";}]]></xe:this.labelPosition>
 		<xp:div styleClass="form-inline">
@@ -376,7 +376,8 @@ return edfObj.edf_ConfigTipoNumeracion.equals("1") ? edfObj.edf_ConfigNumeroProx
 			<xe:formColumn styleClass="form-group col-sm-6">
 				<xe:formRow id="rowGastoRepetitivo"
 					label="Repetir gasto" style="padding-right:2.0%"
-					for="divGastoRepetitivoTexto">
+					for="divGastoRepetitivoTexto"
+					rendered="#{gastoBean.gasto.idPregrabado eq null}">
 					<xe:djFilteringSelect id="djGastoRepetitivo"
 						queryExpr="#{javascript:return '*\$\{0\}*';}" autoComplete="false"
 						value="#{gastoBean.gasto.gastoRepetitivo}"
