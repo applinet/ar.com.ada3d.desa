@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
-	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	xmlns:xe="http://www.ibm.com/xsp/coreex" enableModifiedFlag="true">
 	<xp:this.resources>
 		<xp:script
 			src="\jQuery-Mask-Plugin-master\src\jquery.maskMoney.js"
@@ -179,9 +179,20 @@ msgValidacion = gastoBean.saveGasto(sessionScope.get("edfObj"));
 if(!msgValidacion.isEmpty()){
 	facesMsgValidation(msgValidacion);
 	view.postScript("window.scrollTo(0,0)");
+	return;
+}
+
+if (gastoBean.gasto.idPregrabado != null){ //Es un pregrabado
+	sessionScope.navRule = "viewGastos";
+	if(gastoBean.isModificacionesDelGastoAfectanPregrabado(gastoBean.gasto))
+		getComponent("dialogMensajeConfirmacion").show();
+	else
+		context.redirectToPage("viewGastos");
 }else{
-	context.redirectToPage("viewGastos")
-}}]]></xp:this.action>
+	context.redirectToPage("viewGastos");
+}
+
+}]]></xp:this.action>
 					<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
 				</xp:eventHandler>
 			</xp:button>
@@ -248,4 +259,17 @@ context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>
 	<xc:ccModalPregrabados refreshIdOnSave="formTableGastos"></xc:ccModalPregrabados>
-</xp:view>
+	<xc:ccModalMensajeConfirmacion tituloMensaje="Confirmar pregrabado"
+		textoBotonCancelar="No"
+		btnTextoOpcionesGastos="Si, actualizar el pregrabado"
+		btnRefreshTypeOpcionesGastos="complete"
+		dialogId="dialogMensajeConfirmacion"
+		btnVisualizar="btnActualizarPregrabado"
+		textoMensaje="Desea actualizar el pregrabado con los datos ingresados?">
+	</xc:ccModalMensajeConfirmacion>
+
+	<div id="divHiddenAplicar" style="display: none;">
+		
+	</div>
+	
+	</xp:view>
