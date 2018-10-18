@@ -13,6 +13,7 @@ import org.openntf.domino.ViewEntryCollection;
 import org.openntf.jsonbeanx.J2BConverter;
 import org.openntf.jsonbeanx.J2BException;
 
+import lotus.domino.Database;
 import lotus.domino.NotesException;
 import ar.com.ada3d.connect.QueryAS400;
 import ar.com.ada3d.model.Edificio;
@@ -853,10 +854,11 @@ public class GastoBean implements Serializable {
 	 */
 	public void aplicarPreseteadoEnGasto(TextoPregrabado prm_Preseteado, String prm_edf_codigo) {
 		this.gasto.setTextoDetalleFactura(prm_Preseteado.getTextoDetalle());
-		
+		this.gasto.setIdPregrabado(prm_Preseteado.getId());
 		//De listaEdificios obtengo el edificio del preseteado 
 		int posicionEdificio = prm_Preseteado.getListaEdificios().indexOf(prm_edf_codigo);
 		if (posicionEdificio > -1){
+			this.gasto.setPregrabado(prm_Preseteado.getEdificios().get(posicionEdificio)); //Seteo el pregrabado como propiedad
 			this.gasto.setCodigoEspecial(prm_Preseteado.getEdificios().get(posicionEdificio).getCodigoEspecial());
 			this.gasto.setAgrupamiento(prm_Preseteado.getEdificios().get(posicionEdificio).getAgrupamiento());
 			this.gasto.setTipoGasto(prm_Preseteado.getEdificios().get(posicionEdificio).getTipoGasto());
@@ -880,7 +882,72 @@ public class GastoBean implements Serializable {
 			}
 		}
 	}
+	
+	
+	/** Chequea si hicieron cambios en el gasto que involucran el pregrabado 
+	 * @param prm_gasto
+	 * @return Si modificiaron ciertos campos true
+	 */
+	public boolean isModificacionesDelGastoAfectanPregrabado(Gasto prm_gasto){
+		if(!prm_gasto.getCodigoEdificio().equals(prm_gasto.getPregrabado().getEdif())) 
+			return false; //Cambiaron el edificio
 		
+		if(!prm_gasto.getPregrabado().getPrv_cuit().equals(""))
+			if(!prm_gasto.getCuitProveedor().equals(prm_gasto.getPregrabado().getPrv_cuit())) return true;
+		if(!prm_gasto.getPregrabado().getAgrupamiento().equals(""))	
+			if(!prm_gasto.getAgrupamiento().equals(prm_gasto.getPregrabado().getAgrupamiento())) return true;
+			
+		if(!prm_gasto.getCodigoEspecial().equals(prm_gasto.getPregrabado().getCodigoEspecial())) return true;
+		if(!prm_gasto.getTipoGasto().equals(prm_gasto.getPregrabado().getTipoGasto())) return true;
+		if(!prm_gasto.getAplicarMes().equals(prm_gasto.getPregrabado().getMes())) return true;
+		
+		return false;
+	}
+	
+	
+	/** Guarda pregrabado con los cambios realizados en el gasto
+	 * @param prm_gasto
+	 */
+	public void updatePregrabado(Gasto prm_gasto){
+		TextoPregrabado textoPregrabado = null; 
+		Session session = JSFUtil.getSession();
+		Database thisdb = null;
+		Document doc = null;
+		try {
+			thisdb = session.getCurrentDatabase();
+			doc = (Document) thisdb.getDocumentByUNID(prm_gasto.getIdPregrabado());
+			textoPregrabado = J2BConverter.jsonToBean(TextoPregrabado.class, doc.getItemValueString("conf_json")).get(0);
+			//Actualizo los valores
+			int posicionEdificio = textoPregrabado.getListaEdificios().indexOf(prm_gasto.getCodigoEdificio());
+			if (posicionEdificio > -1){
+				textoPregrabado.getEdificios().get(posicionEdificio).setPrv_cuit(prm_gasto.getCuitProveedor());
+				textoPregrabado.getEdificios().get(posicionEdificio).setAgrupamiento(prm_gasto.getAgrupamiento());
+				textoPregrabado.getEdificios().get(posicionEdificio).setCodigoEspecial(prm_gasto.getCodigoEspecial());
+				textoPregrabado.getEdificios().get(posicionEdificio).setTipoGasto(prm_gasto.getTipoGasto());
+				textoPregrabado.getEdificios().get(posicionEdificio).setMes(prm_gasto.getAplicarMes());
+			}
+			
+			final String json = J2BConverter.beanToJson(textoPregrabado);
+			doc.replaceItemValue("conf_json", json);
+			doc.save();
+			
+		} catch (NotesException e) {
+			e.printStackTrace();
+		} catch (J2BException e) {
+			doc.remove(true);
+			e.printStackTrace();
+		}finally{
+			//recyle domino objects here
+			if(thisdb != null)
+				try {
+					thisdb.recycle();
+				} catch (NotesException e) {
+					e.printStackTrace();
+				}
+			
+		}
+	}
+	
 	
 	/**
 	 * En frmGastos el combo de Agrupamiento sale de PH_$T
