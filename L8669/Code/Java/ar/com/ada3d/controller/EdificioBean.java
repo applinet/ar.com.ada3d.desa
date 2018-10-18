@@ -448,6 +448,7 @@ public class EdificioBean implements Serializable {
 	 * @return objeto Edificio
 	 */
 	
+	@SuppressWarnings("static-access")
 	public static Edificio actualizoUnEdificioAs400(Edificio myEdificio, String strLinea) {
 		String controlador;
 		DocLock lockeos = (DocLock) JSFUtil.resolveVariable("DocLock");
