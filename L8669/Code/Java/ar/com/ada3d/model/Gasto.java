@@ -42,6 +42,8 @@ public class Gasto {
 	private String gastoRepetitivo;
 	private String gastoRepetitivoTexto;
 	private String aplicarMes;
+	private TextoPregrabadoEdificio pregrabado;
+	private String idPregrabado;
 	
 	
 	public Gasto() {
@@ -345,6 +347,26 @@ public class Gasto {
 
 	public void setAplicarMes(String aplicarMes) {
 		this.aplicarMes = aplicarMes;
+	}
+
+
+	public TextoPregrabadoEdificio getPregrabado() {
+		return pregrabado;
+	}
+
+
+	public void setPregrabado(TextoPregrabadoEdificio pregrabado) {
+		this.pregrabado = pregrabado;
+	}
+
+
+	public String getIdPregrabado() {
+		return idPregrabado;
+	}
+
+
+	public void setIdPregrabado(String idPregrabado) {
+		this.idPregrabado = idPregrabado;
 	}
 	
 }
