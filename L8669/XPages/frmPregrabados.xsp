@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
-	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	xmlns:xe="http://www.ibm.com/xsp/coreex" enableModifiedFlag="true">
 	<xp:this.resources>
 		<xp:styleSheet href="/wizard Pregrabados.css"></xp:styleSheet>
 		<xp:script
@@ -266,7 +266,7 @@ view.postScript("$('[href=\"#tabPersonalizacion\"]').tab('show');");}]]></xp:thi
 												<xp:this.facets>
 													<xp:text
 														disableTheme="true" xp:key="header" escape="false">
-														<xp:this.value><![CDATA[<table class="table table-responsive"><th>Edificio</th><th>Mes</th><th>Agrupamiento</th><th>Código Especial</th><th>Proveedor</th>]]></xp:this.value>
+														<xp:this.value><![CDATA[<table class="table table-responsive"><th>Edificio</th><th>Mes</th><th>Agrupamiento</th><th>Código Especial</th><th>Proveedor</th><th>Tipo</th>]]></xp:this.value>
 													</xp:text>
 													<xp:text
 														disableTheme="true" xp:key="footer" escape="false">
@@ -351,6 +351,20 @@ view.postScript("$('[href=\"#tabPersonalizacion\"]').tab('show');");}]]></xp:thi
 															refreshId="djComboProveedor" disableValidators="true" />
 														</xe:djFilteringSelect>
 													</xp:td>
+													<xp:td>
+														<xe:djFilteringSelect id="djComboTipo"
+															queryExpr="#{javascript:return '*\$\{0\}*';}"
+															autoComplete="false" 
+															value="#{rptEdificiosPersonalizacion.tipoGasto}">
+															<xp:selectItems>
+																<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxGasto("gastoTipo");}]]></xp:this.value>
+															</xp:selectItems>
+															<xe:this.dojoAttributes>
+																<xp:dojoAttribute
+																	name="required" value="false" />
+															</xe:this.dojoAttributes>
+														</xe:djFilteringSelect>
+													</xp:td>
 												</xp:tr>
 											</xp:repeat>
 										</xp:div>
@@ -413,6 +427,7 @@ if(!msgValidacion.isEmpty()){
 	context.redirectToPage("viewPregrabados")
 }
 }]]></xp:this.action>
+												<xp:this.script><![CDATA[XSP._setDirty(false,"");]]></xp:this.script>
 											</xp:eventHandler>
 										</xp:button>
 									</p>
