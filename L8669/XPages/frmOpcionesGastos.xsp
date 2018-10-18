@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xc="http://www.ibm.com/xsp/custom"
-	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	xmlns:xe="http://www.ibm.com/xsp/coreex" enableModifiedFlag="true">
 	<xp:this.resources>
 		<xp:script src="\jQuery-Mask-Plugin-master\src\jquery.mask.js" clientSide="true" />
 		<xp:styleSheet href="/dragAndDrop.css"></xp:styleSheet>
@@ -399,7 +399,8 @@ return true;							      }]]></xp:this.expression>
 		tituloMensaje="Se ha grabado su configuración" textoBotonCancelar="No"
 		btnTextoOpcionesGastos="Si, actualizar todos"
 		btnRefreshTypeOpcionesGastos="complete"
-		dialogId="dialogMensajeConfirmacion">
+		dialogId="dialogMensajeConfirmacion"
+		btnVisualizar="btnTextoOpcionesGastos">
 
 
 	</xc:ccModalMensajeConfirmacion>

@@ -4,7 +4,7 @@
 		f.CfgUserMenu
 	-->
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom"
-	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	xmlns:xe="http://www.ibm.com/xsp/coreex" enableModifiedFlag="true">
 
 	<xp:this.data>
 		<xp:dominoDocument var="docUsuario" formName="f.CfgUserMenu"
