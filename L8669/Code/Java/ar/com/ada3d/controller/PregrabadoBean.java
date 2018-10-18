@@ -70,7 +70,6 @@ public class PregrabadoBean implements Serializable {
 
 	 */
 	public ArrayList<String> savePregrabado() {
-		
 		ArrayList<String> listAcumulaErroresAS400 = new ArrayList<String>();
 		//TODO: Agregar control de errores --> listAcumulaErroresAS400.add("btnSave~Por favor comuniquese con Sistemas Administrativos e informe el código de error: " + errCode);
 		Session session = ExtLibUtil.getCurrentSessionAsSignerWithFullAccess();
@@ -137,7 +136,7 @@ public class PregrabadoBean implements Serializable {
 		myGasto = prm_gasto;
 		if(textoPregrabado == null)
 			setTextoPregrabado(new TextoPregrabado());
-		textoPregrabado.setListaEdificios(prm_edificios);
+		//textoPregrabado.setListaEdificios(prm_edificios);
 		textoPregrabado.setTextoDetalle(prm_gasto.getTextoDetalleFactura());
 		textoPregrabado.setEdificios(fillListaJsonEdificios(prm_edificios));
 		
@@ -151,6 +150,7 @@ public class PregrabadoBean implements Serializable {
 	 */
 	private List<TextoPregrabadoEdificio> fillListaJsonEdificios(List<String> prm_edificios){
 		Edificio myEdificio = null;
+		List<String> temp_edificios = new ArrayList<String>();
 		List<String> tempList = new ArrayList<String>(prm_edificios);
 		List<TextoPregrabadoEdificio> ret = new ArrayList<TextoPregrabadoEdificio>();
 		if(textoPregrabado.getEdificios() != null){
@@ -158,6 +158,7 @@ public class PregrabadoBean implements Serializable {
 			for (Iterator<TextoPregrabadoEdificio> i = listaActual.iterator(); i.hasNext();) {
 				TextoPregrabadoEdificio edificio = i.next();
 				if(tempList.contains(edificio.getEdif())){
+					temp_edificios.add(edificio.getEdif());
 					ret.add(edificio);
 					tempList.remove(tempList.indexOf(edificio.getEdif()));
 				}
@@ -167,9 +168,11 @@ public class PregrabadoBean implements Serializable {
 		
 		for (String edif : tempList){
 			myEdificio = ar.com.ada3d.utilidades.JSFUtil.getCacheApp().getHmEdificios().get(edif);
+			temp_edificios.add(myEdificio.getEdf_codigo());
 			ret.add(fillJsonEdificio(myEdificio));
 			myEdificio = null;
 		}
+		textoPregrabado.setListaEdificios(temp_edificios); //reordeno la lista de edificios
 		return ret;
 	}
 	
@@ -224,7 +227,7 @@ public class PregrabadoBean implements Serializable {
 	/** Setea tomando el Json de un doc Notes
 	 * @param universalId el documento a buscar
 	 */
-	private void setTextoPregrabado(String universalId){
+	public void setTextoPregrabado(String universalId){
 		Session session = ExtLibUtil.getCurrentSessionAsSignerWithFullAccess();
 		Database thisdb = null;
 		Document doc = null;
