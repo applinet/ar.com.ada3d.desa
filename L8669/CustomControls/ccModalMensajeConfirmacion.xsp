@@ -34,7 +34,8 @@
 
 
 			<xp:button value="#{compositeData.btnTextoOpcionesGastos}"
-				id="btnTextoOpcionesGastos" styleClass="btn-primary">
+				id="btnTextoOpcionesGastos" styleClass="btn-primary"
+				rendered="#{compositeData.btnVisualizar eq 'btnTextoOpcionesGastos'}">
 				<i class="glyphicon glyphicon-download-alt"></i>
 				<xp:eventHandler event="onclick" submit="true"
 					refreshMode="partial" refreshId="divHiddenAplicar">
@@ -73,6 +74,26 @@ getComponent("dialogMensajeConfirmacion").hide()
 
 			</xp:button>
 
+			<xp:button value="#{compositeData.btnTextoOpcionesGastos}"
+				id="btnPregrabado" styleClass="btn-primary"
+				rendered="#{compositeData.btnVisualizar eq 'btnActualizarPregrabado'}">
+				<i class="glyphicon glyphicon-download-alt"></i>
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" refreshId="divHiddenAplicar">
+					<xp:this.action><![CDATA[#{javascript:gastoBean.updatePregrabado(gastoBean.gasto);
+if(sessionScope.navRule == null){
+	context.redirectToPage("viewGastos");
+}else{
+	var proxPage:String = sessionScope.navRule;
+	sessionScope.remove("navRule");
+	context.redirectToPage(proxPage);
+}
+getComponent("dialogMensajeConfirmacion").hide()}]]></xp:this.action>
+
+				</xp:eventHandler>
+
+			</xp:button>
+			
 
 		</xe:dialogButtonBar>
 	</xe:dialog>

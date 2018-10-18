@@ -58,5 +58,12 @@ partial</editor-parameter>
       <property-name>dialogId</property-name>
       <property-class>string</property-class>
     </property>
+    <property>
+      <property-name>btnVisualizar</property-name>
+      <property-class>string</property-class>
+      <property-extension>
+        <required>true</required>
+      </property-extension>
+    </property>
   </composite-component>
 </faces-config>
