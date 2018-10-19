@@ -886,22 +886,32 @@ public class GastoBean implements Serializable {
 	
 	/** Chequea si hicieron cambios en el gasto que involucran el pregrabado 
 	 * @param prm_gasto
-	 * @return Si modificiaron ciertos campos true
+	 * @return un arregle de textos con las modificaciones que se van a aplicar
 	 */
-	public boolean isModificacionesDelGastoAfectanPregrabado(Gasto prm_gasto){
-		if(!prm_gasto.getCodigoEdificio().equals(prm_gasto.getPregrabado().getEdif())) 
-			return false; //Cambiaron el edificio
+	public ArrayList<String> modificacionesEnGastoAfectanPregrabado(Gasto prm_gasto){
+		ArrayList<String> ret = new ArrayList<String>();
 		
-		if(!prm_gasto.getPregrabado().getPrv_cuit().equals(""))
-			if(!prm_gasto.getCuitProveedor().equals(prm_gasto.getPregrabado().getPrv_cuit())) return true;
-		if(!prm_gasto.getPregrabado().getAgrupamiento().equals(""))	
-			if(!prm_gasto.getAgrupamiento().equals(prm_gasto.getPregrabado().getAgrupamiento())) return true;
+		if(prm_gasto.getCodigoEdificio().equals(prm_gasto.getPregrabado().getEdif())){ //Solo si no cambió el edificio
+			System.out.println("3");
+			if(!prm_gasto.getPregrabado().getPrv_cuit().equals(""))
+				if(!prm_gasto.getCuitProveedor().equals(prm_gasto.getPregrabado().getPrv_cuit())) 
+					ret.add("El proveedor seleccionado no corresponde con el del pregrabado, se actualizará con los datos del proveedor del gasto.");
+			System.out.println("4");
+			if(!prm_gasto.getPregrabado().getAgrupamiento().equals(""))	
+				if(!prm_gasto.getAgrupamiento().equals(prm_gasto.getPregrabado().getAgrupamiento())) 
+					ret.add("El código de agrupamiento del pregrabado es: " + prm_gasto.getPregrabado().getAgrupamiento()  + ", se actualizará por: " + prm_gasto.getAgrupamiento() + ".");
 			
-		if(!prm_gasto.getCodigoEspecial().equals(prm_gasto.getPregrabado().getCodigoEspecial())) return true;
-		if(!prm_gasto.getTipoGasto().equals(prm_gasto.getPregrabado().getTipoGasto())) return true;
-		if(!prm_gasto.getAplicarMes().equals(prm_gasto.getPregrabado().getMes())) return true;
+			System.out.println("5");
+			if(!prm_gasto.getCodigoEspecial().equals(prm_gasto.getPregrabado().getCodigoEspecial())) 
+				ret.add("El código especial del pregrabado es: " + prm_gasto.getPregrabado().getCodigoEspecial() + ", se actualizará por: " + prm_gasto.getCodigoEspecial() + ".");
+			if(!prm_gasto.getTipoGasto().equals(prm_gasto.getPregrabado().getTipoGasto())) 
+				ret.add("El tipo de gasto del pregrabado es: " + prm_gasto.getPregrabado().getTipoGasto()  + ", se actualizará por: " + prm_gasto.getTipoGasto() + ".");
+			if(!prm_gasto.getAplicarMes().equals(prm_gasto.getPregrabado().getMes())) 
+				ret.add("Agregar mes en texto del pregrabado es: " + prm_gasto.getPregrabado().getMes()  + ", se actualizará por: " + prm_gasto.getAplicarMes() + ".");
+			
+		}
 		
-		return false;
+		return ret;
 	}
 	
 	

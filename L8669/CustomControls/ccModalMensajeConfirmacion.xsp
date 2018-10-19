@@ -6,9 +6,13 @@
 		styleClass="modal" style="margin-left: inherit;">
 		<xe:this.onHide><![CDATA[XSP._setDirty(false,"");]]></xe:this.onHide>
 		<xe:dialogContent id="dialogContent1" styleClass="modal-body">
-			<xp:label value="#{compositeData.textoMensaje}"
-				id="labelTextoMensaje">
-			</xp:label>
+			<xp:repeat id="repeatDetalleReadMode" rows="30" var="row"
+				value="#{compositeData.textoMensaje}">
+				<xp:label id="labelTextoMensaje">
+					<xp:this.value><![CDATA[#{javascript:row.toString()}]]></xp:this.value>
+				</xp:label>
+				<br />
+			</xp:repeat>
 		</xe:dialogContent>
 
 		<xe:dialogButtonBar id="dialogButtonBar1">

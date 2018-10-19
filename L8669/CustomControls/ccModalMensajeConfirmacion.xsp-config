@@ -24,7 +24,7 @@
     </property>
     <property>
       <property-name>textoMensaje</property-name>
-      <property-class>string</property-class>
+      <property-class>object</property-class>
     </property>
     <property>
       <property-name>tituloMensaje</property-name>

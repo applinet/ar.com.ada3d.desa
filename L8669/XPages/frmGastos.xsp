@@ -184,9 +184,10 @@ if(!msgValidacion.isEmpty()){
 
 if (gastoBean.gasto.idPregrabado != null){ //Es un pregrabado
 	sessionScope.navRule = "viewGastos";
-	if(gastoBean.isModificacionesDelGastoAfectanPregrabado(gastoBean.gasto))
+	viewScope.labelTextoMensaje = true;
+	if(!gastoBean.modificacionesEnGastoAfectanPregrabado(gastoBean.gasto).isEmpty()){
 		getComponent("dialogMensajeConfirmacion").show();
-	else
+	}else
 		context.redirectToPage("viewGastos");
 }else{
 	context.redirectToPage("viewGastos");
@@ -259,13 +260,15 @@ context.redirectToPage("frmGastos.xsp")}]]></xp:this.action>
 		</xp:this.facets>
 	</xc:ccLayoutBootstrap>
 	<xc:ccModalPregrabados refreshIdOnSave="formTableGastos"></xc:ccModalPregrabados>
-	<xc:ccModalMensajeConfirmacion tituloMensaje="Confirmar pregrabado"
+	<xc:ccModalMensajeConfirmacion
+		tituloMensaje="Desea actualizar el pregrabado del edificio?"
 		textoBotonCancelar="No"
 		btnTextoOpcionesGastos="Si, actualizar el pregrabado"
 		btnRefreshTypeOpcionesGastos="complete"
 		dialogId="dialogMensajeConfirmacion"
-		btnVisualizar="btnActualizarPregrabado"
-		textoMensaje="Desea actualizar el pregrabado con los datos ingresados?">
+		btnVisualizar="btnActualizarPregrabado">
+		<xc:this.textoMensaje><![CDATA[#{javascript:if(viewScope.labelTextoMensaje != null)
+	return gastoBean.modificacionesEnGastoAfectanPregrabado(gastoBean.gasto);}]]></xc:this.textoMensaje>
 	</xc:ccModalMensajeConfirmacion>
 
 	<div id="divHiddenAplicar" style="display: none;">
