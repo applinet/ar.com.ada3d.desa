@@ -19,6 +19,7 @@ import ar.com.ada3d.connect.QueryAS400;
 import ar.com.ada3d.model.Edificio;
 import ar.com.ada3d.model.Gasto;
 import ar.com.ada3d.model.GastoOpciones;
+import ar.com.ada3d.model.Porcentual;
 import ar.com.ada3d.model.Prorrateo;
 import ar.com.ada3d.model.TextoPregrabado;
 import ar.com.ada3d.utilidades.DocLock;
@@ -890,18 +891,14 @@ public class GastoBean implements Serializable {
 	 */
 	public ArrayList<String> modificacionesEnGastoAfectanPregrabado(Gasto prm_gasto){
 		ArrayList<String> ret = new ArrayList<String>();
-		
 		if(prm_gasto.getCodigoEdificio().equals(prm_gasto.getPregrabado().getEdif())){ //Solo si no cambió el edificio
-			System.out.println("3");
 			if(!prm_gasto.getPregrabado().getPrv_cuit().equals(""))
 				if(!prm_gasto.getCuitProveedor().equals(prm_gasto.getPregrabado().getPrv_cuit())) 
 					ret.add("El proveedor seleccionado no corresponde con el del pregrabado, se actualizará con los datos del proveedor del gasto.");
-			System.out.println("4");
 			if(!prm_gasto.getPregrabado().getAgrupamiento().equals(""))	
 				if(!prm_gasto.getAgrupamiento().equals(prm_gasto.getPregrabado().getAgrupamiento())) 
 					ret.add("El código de agrupamiento del pregrabado es: " + prm_gasto.getPregrabado().getAgrupamiento()  + ", se actualizará por: " + prm_gasto.getAgrupamiento() + ".");
 			
-			System.out.println("5");
 			if(!prm_gasto.getCodigoEspecial().equals(prm_gasto.getPregrabado().getCodigoEspecial())) 
 				ret.add("El código especial del pregrabado es: " + prm_gasto.getPregrabado().getCodigoEspecial() + ", se actualizará por: " + prm_gasto.getCodigoEspecial() + ".");
 			if(!prm_gasto.getTipoGasto().equals(prm_gasto.getPregrabado().getTipoGasto())) 
@@ -909,8 +906,19 @@ public class GastoBean implements Serializable {
 			if(!prm_gasto.getAplicarMes().equals(prm_gasto.getPregrabado().getMes())) 
 				ret.add("Agregar mes en texto del pregrabado es: " + prm_gasto.getPregrabado().getMes()  + ", se actualizará por: " + prm_gasto.getAplicarMes() + ".");
 			
+			for (Iterator<Porcentual> i = prm_gasto.getPregrabado().getPorcentuales().iterator() ; i.hasNext();) {
+				Porcentual item = i.next();
+				
+				if (item.getPorc_importeJson() > BigDecimal.ZERO.doubleValue()){
+					for (Iterator<Prorrateo> p = prm_gasto.getListaProrrateos().iterator() ; p.hasNext();) {
+						Prorrateo prt = p.next();
+						if(prt.getPrt_posicion() == item.getPorc_posicion())
+							if(prt.getPrt_importe().compareTo(BigDecimal.valueOf(item.getPorc_importeJson())) != 0)
+								ret.add("El Porcentual # " + item.getPorc_posicion() + " del pregrabado es: " + BigDecimal.valueOf(item.getPorc_importeJson()).setScale(2, BigDecimal.ROUND_HALF_UP) + ", se actualizará por: " + prt.getPrt_importe().setScale(2, BigDecimal.ROUND_HALF_UP) + ".");
+					}
+				}
+			}
 		}
-		
 		return ret;
 	}
 	
@@ -935,6 +943,19 @@ public class GastoBean implements Serializable {
 				textoPregrabado.getEdificios().get(posicionEdificio).setCodigoEspecial(prm_gasto.getCodigoEspecial());
 				textoPregrabado.getEdificios().get(posicionEdificio).setTipoGasto(prm_gasto.getTipoGasto());
 				textoPregrabado.getEdificios().get(posicionEdificio).setMes(prm_gasto.getAplicarMes());
+				
+				for (Iterator<Porcentual> i = textoPregrabado.getEdificios().get(posicionEdificio).getPorcentuales().iterator() ; i.hasNext();) {
+					Porcentual item = i.next();
+					if (item.getPorc_importeJson() > BigDecimal.ZERO.doubleValue()){
+						for (Iterator<Prorrateo> p = prm_gasto.getListaProrrateos().iterator() ; p.hasNext();) {
+							Prorrateo prt = p.next();
+							if(prt.getPrt_posicion() == item.getPorc_posicion())
+								if(prt.getPrt_importe().compareTo(BigDecimal.valueOf(item.getPorc_importeJson())) != 0)
+									item.setPorc_importeJson(prt.getPrt_importe().doubleValue());
+						}
+					}
+				}
+				
 			}
 			
 			final String json = J2BConverter.beanToJson(textoPregrabado);
