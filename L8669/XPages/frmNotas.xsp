@@ -165,7 +165,7 @@ if(!msgValidacion.isEmpty()){
 									autoComplete="false" disabled="#{gastoBean.gasto.isReadMode}"
 									value="#{gastoBean.gasto.fechaLiquidacion}">
 									<xp:selectItems>
-										<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxFechaLiquidacion(sessionScope.edfObj)}]]></xp:this.value>
+										<xp:this.value><![CDATA[#{javascript:gastoBean.getComboboxFechaLiquidacion(sessionScope.edfObj, new java.lang.Integer(13))}]]></xp:this.value>
 									</xp:selectItems>
 									<xe:this.dojoAttributes>
 										<xp:dojoAttribute name="required"
