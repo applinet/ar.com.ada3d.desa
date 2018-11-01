@@ -18,6 +18,8 @@ import lotus.domino.NotesException;
 import ar.com.ada3d.connect.QueryAS400;
 import ar.com.ada3d.model.Edificio;
 import ar.com.ada3d.model.Gasto;
+import ar.com.ada3d.model.GastoDesdoblado;
+import ar.com.ada3d.model.GastoDesdobladoCuota;
 import ar.com.ada3d.model.GastoOpciones;
 import ar.com.ada3d.model.Porcentual;
 import ar.com.ada3d.model.Prorrateo;
@@ -57,6 +59,21 @@ public class GastoBean implements Serializable {
 		Edificio prm_edificio = (Edificio) JSFUtil.resolveVariable("edfObj");
 		this.gasto.setListaProrrateos(cargaProrrateo("", prm_edificio));
 		this.gasto.setGastoRepetitivo("0");
+	}
+	
+	
+	/**Cuando presiona btnNewGastoDesdoblado
+	 * Creo un objeto vacio
+	 */
+	public void createNewDesdoblado() {
+		setGasto(new Gasto());
+		this.gasto.setDesdoblado(new GastoDesdoblado());
+		Edificio myEdificio = (Edificio) JSFUtil.resolveVariable("edfObj");
+		this.gasto.getDesdoblado().setPrimerMes(ar.com.ada3d.utilidades.Conversores.DateToString(myEdificio.getEdf_fechaProximaLiquidacion(), "MMyyyy"));
+		this.gasto.getDesdoblado().setNumeroCuotaInicial(1);
+		this.gasto.getDesdoblado().setCantidadCuotas(6);
+		this.gasto.getDesdoblado().setFrecuencia(1);
+		
 	}
 	
 	
@@ -1059,17 +1076,18 @@ public class GastoBean implements Serializable {
 	/**
 	 * En frmGastos el combo de Liquidacion son 12 meses y default proxima liquidación
 	 * @param prm_edificio: necesito la frecuencia de liquidacion del edificio actual
-	 * @return Myyyy de liquidacion
+	 * @param prm_mesesParaAdelante cantidad de meses a mostrar 
+	 * @return texto MMyyyy de liquidacion
 	 */
-	public List<SelectItem> getComboboxFechaLiquidacion(Edificio prm_edificio) {
+	public List<SelectItem> getComboboxFechaLiquidacion(Edificio prm_edificio, int prm_mesesParaAdelante) {
 		List<SelectItem> options = new ArrayList<SelectItem>();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(prm_edificio.getEdf_fechaUltimaLiquidacion());
-		for (int i=0; i < 13; i++) {
+		for (int i=0; i < prm_mesesParaAdelante; i++) {
 			cal.add(Calendar.MONTH, prm_edificio.getEdf_frecuenciaLiquidacion());
 			SelectItem option = new SelectItem();
 			option.setLabel(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "MMMM yyyy"));
-			option.setValue(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "MMyyyy"));
+            option.setValue(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "MMyyyy"));
 			options.add(option);
 		}
 		return options;
@@ -1314,6 +1332,32 @@ public class GastoBean implements Serializable {
 		}
 		return myGastoOpciones;
 	}
+	
+	
+	/**
+	 * Genera las cuotas de un gasto desdoblado
+	 * @usedIn: frmGastoDesdoblado boton generar cuotas
+	 * 
+	 */
+	public void generarCuotasDesdoblado(){
+		List<GastoDesdobladoCuota> arrCuotas = new ArrayList<GastoDesdobladoCuota>();
+		int nroCuota = this.gasto.getDesdoblado().getNumeroCuotaInicial();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(ar.com.ada3d.utilidades.Conversores.StringToDate("MMyyyy", this.gasto.getDesdoblado().getPrimerMes()));
+		
+		for (int i=this.gasto.getDesdoblado().getNumeroCuotaInicial(); i <= this.gasto.getDesdoblado().getCantidadCuotas(); i++){
+			GastoDesdobladoCuota cuota = new GastoDesdobladoCuota();
+			cuota.setNumeroCuota(nroCuota);
+			cuota.setMesLiquidaCuota(ar.com.ada3d.utilidades.Conversores.DateToString(cal.getTime(), "MMyyyy"));
+			cuota.setImporteCuota(this.gasto.getDesdoblado().getImporteCuota());
+			cuota.setCodigoEspecialCuota(this.gasto.getCodigoEspecial());
+			arrCuotas.add(cuota);
+			nroCuota += 1;
+			cal.add(Calendar.MONTH, this.gasto.getDesdoblado().getFrecuencia());
+		}
+		this.gasto.getDesdoblado().setListaCuotas(arrCuotas);
+	}
+	
 	
 	//Getters & Setters
 	

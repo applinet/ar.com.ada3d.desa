@@ -44,6 +44,8 @@ public class Gasto {
 	private String aplicarMes;
 	private TextoPregrabadoEdificio pregrabado;
 	private String idPregrabado;
+	private GastoDesdoblado desdoblado;
+	
 	
 	
 	public Gasto() {
@@ -367,6 +369,16 @@ public class Gasto {
 
 	public void setIdPregrabado(String idPregrabado) {
 		this.idPregrabado = idPregrabado;
+	}
+
+	
+	public GastoDesdoblado getDesdoblado() {
+		return desdoblado;
+	}
+
+
+	public void setDesdoblado(GastoDesdoblado desdoblado) {
+		this.desdoblado = desdoblado;
 	}
 	
 }

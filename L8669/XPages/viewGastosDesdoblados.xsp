@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	
+	
+	<xp:this.beforePageLoad><![CDATA[#{javascript:if(viewScope.scopeAgrupamientosMap == null){
+	gastoBean.fillAgrupamientosGastosMap();
+	viewScope.put("scopeAgrupamientosMap", gastoBean.agrupamientosGastosMap)
+}
+}]]></xp:this.beforePageLoad>
+	<xp:this.beforeRenderResponse><![CDATA[#{javascript:gastoBean.fillTextosPregrabados(sessionScope.edfObj);}]]></xp:this.beforeRenderResponse>
+	<xc:ccLayoutBootstrap property_hasTitleBar="true"
+		property_ShowComboEdificio="true"
+		property_TitleBarActions="ar.com.ada3d.frontend.TitleBarActionsViewPregrabados"
+		property_ShowAffixToolBar="true">
+
+		<xp:this.facets>
+			<xp:panel id="PNL_container" xp:key="facetMiddle">
+				<xp:dataTable id="PregrabadosTable" var="pregrabado"
+					value="#{gastoBean.listaTextosPregrabados}" rows="15">
+					<xp:this.facets>
+						<xp:panel xp:key="header">
+							<xp:pager layout="Previous Group Next"
+								id="pagerHeader">
+							</xp:pager>
+						</xp:panel>
+						<xp:pager layout="Previous Group Next"
+							xp:key="footer" id="pagerFooter">
+						</xp:pager>
+					</xp:this.facets>
+
+					<xp:column id="pregrabadoCUITcolumn">
+						<xp:this.facets>
+							<xp:label value="Proveedor" id="label3"
+								xp:key="header" style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:repeat id="rptEdificiosPersonalizacion2"
+						var="rptEdificiosPersonalizacion" rows="30"
+						value="#{pregrabado.edificios}"
+						repeatControls="false">
+							<xp:link escape="true" id="link1"
+								rendered="#{javascript:rptEdificiosPersonalizacion.edif == sessionScope.edfObj.edf_codigo}">
+								<xp:this.text><![CDATA[#{javascript:proveedorBean.getDatoPorCuit(rptEdificiosPersonalizacion.prv_cuit, "razonSocial" )}]]></xp:this.text>
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete">
+									<xp:this.action><![CDATA[#{javascript:context.redirectToPage("frmPregrabados")}]]></xp:this.action>
+								</xp:eventHandler>
+							</xp:link>
+						</xp:repeat>
+					</xp:column>
+
+					<xp:column
+						id="pregrabadoTextoDetalleFacturaColumn">
+						<xp:this.facets>
+							<xp:label value="Detalle" id="label2"
+								xp:key="header" style="font-weight:bold">
+							</xp:label>
+						</xp:this.facets>
+						<xp:repeat id="repeatTextoDetalle" rows="30"
+							var="rptTextoDetalle" value="#{pregrabado.textoDetalle}">
+							<xp:link escape="true"
+								text="#{javascript:rptTextoDetalle.toString()}"
+								id="pregrabadoTextoDetalleFactura">
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete">
+									<xp:this.action><![CDATA[#{javascript:context.redirectToPage("frmPregrabados?pg=" + pregrabado.id)}]]></xp:this.action>
+								</xp:eventHandler>
+							</xp:link>
+							<br />
+						</xp:repeat>
+					</xp:column>
+				</xp:dataTable>
+			</xp:panel>
+		</xp:this.facets>
+	</xc:ccLayoutBootstrap>
+	<div id="divHiddenAplicar" style="display: none;">
+		<xp:button value="Nuevo Pregrabado" id="btnNuevoPregrabado">
+
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="complete">
+				<xp:this.action><![CDATA[#{javascript:gastoBean.createNewDesdoblado();
+context.redirectToPage("frmGastosDesdoblados.xsp");}]]></xp:this.action>
+			</xp:eventHandler>
+		</xp:button>
+		
+	</div>
+</xp:view>
